@@ -1,20 +1,38 @@
-//
-//  CustomSettingController.swift
-//  Focus
-//
-//  Created by Bhavi on 23/06/21.
-//
+/*
+ Copyright 2020 Raising the Floor - International
+
+ Licensed under the New BSD license. You may not use this file except in
+ compliance with this License.
+
+ You may obtain a copy of the License at
+ https://github.com/GPII/universal/blob/master/LICENSE.txt
+
+ The R&D leading to these results received funding from the:
+ * Rehabilitation Services Administration, US Dept. of Education under
+   grant H421A150006 (APCP)
+ * National Institute on Disability, Independent Living, and
+   Rehabilitation Research (NIDILRR)
+ * Administration for Independent Living & Dept. of Education under grants
+   H133E080022 (RERC-IT) and H133E130028/90RE5003-01-00 (UIITA-RERC)
+ * European Union's Seventh Framework Programme (FP7/2007-2013) grant
+   agreement nos. 289016 (Cloud4all) and 610510 (Prosperity4All)
+ * William and Flora Hewlett Foundation
+ * Ontario Ministry of Research and Innovation
+ * Canadian Foundation for Innovation
+ * Adobe Foundation
+ * Consumer Electronics Association Foundation
+ */
 
 import Cocoa
 import RxCocoa
 import RxSwift
 
-class CustomSettingController: BaseViewController, StackItemHost {
+class CustomSettingController: BaseViewController, ItemHostSV {
     @IBOutlet var topView: NSView!
     @IBOutlet var btnClose: NSButton!
     @IBOutlet var btnTitle: NSButton!
-    @IBOutlet weak var scrollView: NSScrollView!
-    
+    @IBOutlet var scrollView: NSScrollView!
+
     @IBOutlet var containerView: NSView!
 
     @IBOutlet var stackView: CustomStackView!
@@ -32,10 +50,10 @@ extension CustomSettingController: BasicSetupType {
         btnTitle.title = "  Cutomize Settings".l10n()
     }
 
-    func setUpViews() {        
-        addViewController(withIdentifier: "GeneralSettingView")
-        addViewController(withIdentifier: "BlockListView")
-        addViewController(withIdentifier: "SchedulerView")
+    func setUpViews() {
+        setupCollapseExpandViewC("GeneralSettingView") //set controller's identifier which is set in storyboard
+        setupCollapseExpandViewC("BlockListView")
+        setupCollapseExpandViewC("SchedulerView")
     }
 
     func bindData() {
@@ -51,26 +69,17 @@ extension CustomSettingController: BasicSetupType {
 }
 
 extension CustomSettingController {
-    /// - Tag: Configure
-    /// Used to add a particular view controller as an item to the stack view.
-    private func addViewController(withIdentifier identifier: String) {
+    private func setupCollapseExpandViewC(_ identifier: String) {
         let storyboard = NSStoryboard(name: "CustomSetting", bundle: nil)
         guard let viewController = storyboard.instantiateController(withIdentifier: identifier) as? BaseViewController else { return }
 
-        // Set up the view controller's item container.
-        let stackItemContainer = viewController.stackItemContainer!
+        let containerView = viewController.headerContinerV!
 
-        // Set the appropriate action function for toggling the disclosure state of each header.
-        stackItemContainer.header.disclose = {
-            self.disclose(viewController.stackItemContainer!)
+        containerView.header.disclose = {
+            self.disclose(viewController.headerContinerV!)
         }
-
-        // Add the header view.
-        stackView.addArrangedSubview(stackItemContainer.header.viewController.view)
-        // Add the main body content view.
-        stackView.addArrangedSubview(stackItemContainer.body.viewController.view)
-
-        // Set the default disclosure states (state restoration may restore them to their requested value).
-        hide(stackItemContainer, animated: false)
+        stackView.addArrangedSubview(containerView.header.viewController.view)
+        stackView.addArrangedSubview(containerView.body.viewController.view)
+        hide(containerView, animated: false)
     }
 }

@@ -1,24 +1,40 @@
-//
-//  HeaderViewC.swift
-//  Focus
-//
-//  Created by Bhavi on 29/06/21.
-//
+/*
+ Copyright 2020 Raising the Floor - International
+
+ Licensed under the New BSD license. You may not use this file except in
+ compliance with this License.
+
+ You may obtain a copy of the License at
+ https://github.com/GPII/universal/blob/master/LICENSE.txt
+
+ The R&D leading to these results received funding from the:
+ * Rehabilitation Services Administration, US Dept. of Education under
+   grant H421A150006 (APCP)
+ * National Institute on Disability, Independent Living, and
+   Rehabilitation Research (NIDILRR)
+ * Administration for Independent Living & Dept. of Education under grants
+   H133E080022 (RERC-IT) and H133E130028/90RE5003-01-00 (UIITA-RERC)
+ * European Union's Seventh Framework Programme (FP7/2007-2013) grant
+   agreement nos. 289016 (Cloud4all) and 610510 (Prosperity4All)
+ * William and Flora Hewlett Foundation
+ * Ontario Ministry of Research and Innovation
+ * Canadian Foundation for Innovation
+ * Adobe Foundation
+ * Consumer Electronics Association Foundation
+ */
 
 import Cocoa
 import RxCocoa
 import RxSwift
 
-
 class HeaderViewC: NSViewController {
-    
     @IBOutlet var headerView: NSView!
-    @IBOutlet weak var stackView: NSStackView!
-    @IBOutlet var headerTextField: NSTextField!
-    @IBOutlet var showHideButton: NSButton!
-    
+    @IBOutlet var stackView: NSStackView!
+    @IBOutlet var lblTitle: NSTextField!
+    @IBOutlet var btnArrow: NSButton!
+
     var disposeBag = DisposeBag()
-    var disclose: (() -> Swift.Void)? // This state will be set by the stack item host.
+    var disclose: (() -> Swift.Void)?
 
     // MARK: - View Controller Lifecycle
 
@@ -30,24 +46,25 @@ class HeaderViewC: NSViewController {
     }
 }
 
-extension HeaderViewC: BasicSetupType, StackItemHeader {
+extension HeaderViewC: BasicSetupType, ItemHeader {
     func setUpText() {
-        headerTextField.stringValue = title!
+        lblTitle.stringValue = title!
     }
 
     func setUpViews() {
-        headerView.layer?.backgroundColor = .black        
+        headerView.layer?.backgroundColor = .black
     }
 
     func bindData() {
-        showHideButton.rx.tap.subscribe(onNext: { [weak self] _ in
+        btnArrow.rx.tap.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             self.disclose?()
         }).disposed(by: disposeBag)
     }
 
-    // MARK: - StackItemHeader Procotol
+    // MARK: - ItemHeader Procotol
+
     func update(toDisclosureState: NSControl.StateValue) {
-        showHideButton.state = toDisclosureState
+        btnArrow.state = toDisclosureState
     }
 }

@@ -1,3 +1,6 @@
+//
+//  LabelCell.swift
+//  Focus
 /*
  Copyright 2020 Raising the Floor - International
 
@@ -28,9 +31,8 @@ import RxCocoa
 import RxGesture
 import RxSwift
 
-class CheckBoxCell: NSTableCellView {
-    @IBOutlet var checkBox: NSButton!
-    @IBOutlet var btnDelete: NSButton!
+class LabelCell: NSTableCellView {
+    @IBOutlet var lblTitle: NSTextField!
 
     var disposeBag = DisposeBag()
 
@@ -41,5 +43,16 @@ class CheckBoxCell: NSTableCellView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        setUpText()
+        setUpViews()
+    }
+}
+
+extension LabelCell: BasicSetupType {
+    func setUpText() {
+    }
+
+    func setUpViews() {
+        lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .regular)
     }
 }

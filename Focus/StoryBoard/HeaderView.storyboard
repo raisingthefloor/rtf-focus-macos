@@ -51,15 +51,15 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="headerTextField" destination="dTr-B8-2lh" id="EUc-YH-iBK"/>
+                        <outlet property="btnArrow" destination="qsB-TZ-FPG" id="n3x-n6-zt3"/>
                         <outlet property="headerView" destination="GEt-LC-Qhe" id="UTC-lo-AQP"/>
-                        <outlet property="showHideButton" destination="qsB-TZ-FPG" id="4hu-Kh-gPJ"/>
+                        <outlet property="lblTitle" destination="dTr-B8-2lh" id="I9v-hc-y0N"/>
                         <outlet property="stackView" destination="p9K-HM-t5W" id="Dwp-KT-ba2"/>
                     </connections>
                 </viewController>
                 <customObject id="4I8-4W-oAh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-413" y="-195"/>
+            <point key="canvasLocation" x="-642" y="-338"/>
         </scene>
     </scenes>
 </document>

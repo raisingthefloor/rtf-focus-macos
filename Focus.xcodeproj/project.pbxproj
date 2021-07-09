@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F1F265226845B3B007D9878 /* CustomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F265126845B3B007D9878 /* CustomAnimator.swift */; };
+		3F1F265226845B3B007D9878 /* ViewShowAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F265126845B3B007D9878 /* ViewShowAnimator.swift */; };
 		3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44CFD12679FAAA00122B1B /* AppDelegate.swift */; };
 		3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F44CFD52679FAAD00122B1B /* Assets.xcassets */; };
 		3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4DFA3B26835EB30013BA0C /* CustomSetting.storyboard */; };
@@ -15,6 +15,7 @@
 		3F4DFA412683776C0013BA0C /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 3F4DFA402683776C0013BA0C /* RxGesture */; };
 		3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B62689F8F4008C54A4 /* DBManager.swift */; };
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
+		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EA268D985900706B51 /* BlockListViewModel.swift */; };
@@ -23,7 +24,7 @@
 		3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F0268DBD0D00706B51 /* HKNibView.swift */; };
 		3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F2268DD78500706B51 /* ButtonCell.swift */; };
 		3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC498268B0CB100AC3026 /* CustomSettingModel.swift */; };
-		3F9CC49B268B296400AC3026 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC49A268B296400AC3026 /* StackView.swift */; };
+		3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */; };
 		3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC49C268B2BE800AC3026 /* HeaderView.storyboard */; };
 		3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC49F268B2C9B00AC3026 /* HeaderViewC.swift */; };
 		3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC4A2268B3C8F00AC3026 /* GeneralSettingViewC.swift */; };
@@ -35,6 +36,7 @@
 		3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */; };
 		3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */; };
 		3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA602682083200C9D82D /* BaseViewController.swift */; };
+		3FF18B9E2694676100CD1DA1 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3FF18B9D2694676100CD1DA1 /* SnapKit */; };
 		3FFC1E412680AE3A0014216C /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3FFC1E402680AE3A0014216C /* RxSwift */; };
 		3FFC1E432680AE3A0014216C /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3FFC1E422680AE3A0014216C /* RxCocoa */; };
 		3FFC1E462680BA920014216C /* L10n-swift in Frameworks */ = {isa = PBXBuildFile; productRef = 3FFC1E452680BA920014216C /* L10n-swift */; };
@@ -46,11 +48,11 @@
 		3FFC1E6B2680C13D0014216C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E582680C13D0014216C /* Config.swift */; };
 		3FFC1E6D2680C13D0014216C /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E5A2680C13D0014216C /* Operators.swift */; };
 		3FFC1E6E2680C13D0014216C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E5B2680C13D0014216C /* Protocols.swift */; };
-		3FFC1E712680C13D0014216C /* FlatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E5F2680C13D0014216C /* FlatButton.swift */; };
+		3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E5F2680C13D0014216C /* CustomButtom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3F1F265126845B3B007D9878 /* CustomAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimator.swift; sourceTree = "<group>"; };
+		3F1F265126845B3B007D9878 /* ViewShowAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewShowAnimator.swift; sourceTree = "<group>"; };
 		3F44CFCE2679FAAA00122B1B /* Focus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F44CFD12679FAAA00122B1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F44CFD52679FAAD00122B1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 		3F4DFA3D26835EDF0013BA0C /* CustomSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSettingController.swift; sourceTree = "<group>"; };
 		3F5944B62689F8F4008C54A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
+		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
@@ -68,7 +71,7 @@
 		3F9111F0268DBD0D00706B51 /* HKNibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKNibView.swift; sourceTree = "<group>"; };
 		3F9111F2268DD78500706B51 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		3F9CC498268B0CB100AC3026 /* CustomSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSettingModel.swift; sourceTree = "<group>"; };
-		3F9CC49A268B296400AC3026 /* StackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
+		3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapseExpandView.swift; sourceTree = "<group>"; };
 		3F9CC49C268B2BE800AC3026 /* HeaderView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HeaderView.storyboard; sourceTree = "<group>"; };
 		3F9CC49F268B2C9B00AC3026 /* HeaderViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewC.swift; sourceTree = "<group>"; };
 		3F9CC4A2268B3C8F00AC3026 /* GeneralSettingViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingViewC.swift; sourceTree = "<group>"; };
@@ -87,7 +90,7 @@
 		3FFC1E582680C13D0014216C /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		3FFC1E5A2680C13D0014216C /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		3FFC1E5B2680C13D0014216C /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
-		3FFC1E5F2680C13D0014216C /* FlatButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlatButton.swift; sourceTree = "<group>"; };
+		3FFC1E5F2680C13D0014216C /* CustomButtom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,7 @@
 				3FFC1E432680AE3A0014216C /* RxCocoa in Frameworks */,
 				3FFC1E462680BA920014216C /* L10n-swift in Frameworks */,
 				3F4DFA412683776C0013BA0C /* RxGesture in Frameworks */,
+				3FF18B9E2694676100CD1DA1 /* SnapKit in Frameworks */,
 				3FFC1E412680AE3A0014216C /* RxSwift in Frameworks */,
 				3FFC1E492680BAA90014216C /* CoreStore in Frameworks */,
 			);
@@ -109,7 +113,7 @@
 		3F1F265026845B06007D9878 /* ControllerAnimation */ = {
 			isa = PBXGroup;
 			children = (
-				3F1F265126845B3B007D9878 /* CustomAnimator.swift */,
+				3F1F265126845B3B007D9878 /* ViewShowAnimator.swift */,
 			);
 			path = ControllerAnimation;
 			sourceTree = "<group>";
@@ -192,6 +196,7 @@
 				3F9111EC268DB38300706B51 /* TableHeaderView.swift */,
 				3F9111EE268DB68700706B51 /* TableHeaderView.xib */,
 				3F9111F2268DD78500706B51 /* ButtonCell.swift */,
+				3F6D0BD5269818F9002E6711 /* LabelCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -311,8 +316,8 @@
 		3FFC1E5E2680C13D0014216C /* Customize */ = {
 			isa = PBXGroup;
 			children = (
-				3F9CC49A268B296400AC3026 /* StackView.swift */,
-				3FFC1E5F2680C13D0014216C /* FlatButton.swift */,
+				3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */,
+				3FFC1E5F2680C13D0014216C /* CustomButtom.swift */,
 				3F9111F0268DBD0D00706B51 /* HKNibView.swift */,
 			);
 			path = Customize;
@@ -340,6 +345,7 @@
 				3FFC1E452680BA920014216C /* L10n-swift */,
 				3FFC1E482680BAA90014216C /* CoreStore */,
 				3F4DFA402683776C0013BA0C /* RxGesture */,
+				3FF18B9D2694676100CD1DA1 /* SnapKit */,
 			);
 			productName = Focus;
 			productReference = 3F44CFCE2679FAAA00122B1B /* Focus.app */;
@@ -353,6 +359,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
+				ORGANIZATIONNAME = "Raising the Floor";
 				TargetAttributes = {
 					3F44CFCD2679FAAA00122B1B = {
 						CreatedOnToolsVersion = 12.5;
@@ -373,6 +380,7 @@
 				3FFC1E442680BA910014216C /* XCRemoteSwiftPackageReference "L10n-swift" */,
 				3FFC1E472680BAA90014216C /* XCRemoteSwiftPackageReference "CoreStore" */,
 				3F4DFA3F2683776C0013BA0C /* XCRemoteSwiftPackageReference "RxGesture" */,
+				3FF18B9C2694676100CD1DA1 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 3F44CFCF2679FAAA00122B1B /* Products */;
 			projectDirPath = "";
@@ -407,7 +415,7 @@
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
 				3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
-				3FFC1E712680C13D0014216C /* FlatButton.swift in Sources */,
+				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */,
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
@@ -417,7 +425,7 @@
 				3FFC1E6B2680C13D0014216C /* Config.swift in Sources */,
 				3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */,
 				3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */,
-				3F9CC49B268B296400AC3026 /* StackView.swift in Sources */,
+				3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */,
 				3FFC1E692680C13D0014216C /* Validator.swift in Sources */,
 				3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */,
 				3F9CC4A6268B3D5800AC3026 /* BlockListViewC.swift in Sources */,
@@ -432,7 +440,8 @@
 				3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */,
 				3FFC1E6E2680C13D0014216C /* Protocols.swift in Sources */,
 				3FFC1E682680C13D0014216C /* Enums.swift in Sources */,
-				3F1F265226845B3B007D9878 /* CustomAnimator.swift in Sources */,
+				3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */,
+				3F1F265226845B3B007D9878 /* ViewShowAnimator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +654,14 @@
 				minimumVersion = 4.0.2;
 			};
 		};
+		3FF18B9C2694676100CD1DA1 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		3FFC1E3F2680AE3A0014216C /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -676,6 +693,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F4DFA3F2683776C0013BA0C /* XCRemoteSwiftPackageReference "RxGesture" */;
 			productName = RxGesture;
+		};
+		3FF18B9D2694676100CD1DA1 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3FF18B9C2694676100CD1DA1 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 		3FFC1E402680AE3A0014216C /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
