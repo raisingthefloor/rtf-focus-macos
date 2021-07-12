@@ -1,4 +1,8 @@
-/* Copyright 2020 Raising the Floor - International
+//
+//  LabelCell.swift
+//  Focus
+/*
+ Copyright 2020 Raising the Floor - International
 
  Licensed under the New BSD license. You may not use this file except in
  compliance with this License.
@@ -23,15 +27,34 @@
  */
 
 import Cocoa
-import CoreData
-import Foundation
 import RxCocoa
+import RxGesture
 import RxSwift
 
-let colors: [NSColor] = [.blue, .red, .orange, .yellow, .brown, .black, .green, .purple, .gray, .cyan]
-class Config {
-    static var db = ""
-    static var db_context: NSManagedObjectContext!
-    static var db_memory_context: NSManagedObjectContext!
-    static var delegate = NSApplication.shared.delegate as! AppDelegate
+class ComboBoxCell: NSTableCellView {
+    @IBOutlet var popBreakTime: NSPopUpButton!
+
+
+    var disposeBag = DisposeBag()
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        setUpText()
+        setUpViews()
+    }
 }
+
+extension ComboBoxCell: BasicSetupType {
+    func setUpText() {
+    }
+
+    func setUpViews() {
+        popBreakTime.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+    }
+}
+ 

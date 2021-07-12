@@ -146,9 +146,14 @@ class ItemContainerS {
 // MARK: -
 
 class CustomStackView: NSStackView {
+    var continerViews: [ItemContainerS?] = []
     override var isFlipped: Bool { return true }
 }
 
 class FlippedClipView: NSClipView {
+    override var isFlipped: Bool { return true }
+}
+
+class FlippedNSView: NSView {
     override var isFlipped: Bool { return true }
 }

@@ -30,7 +30,7 @@ import RxSwift
 
 class ButtonCell: NSTableCellView {
     @IBOutlet var btnAddApp: NSButton!
-    @IBOutlet var BtnAddWeb: NSButton!
+    @IBOutlet var btnAddWeb: NSButton!
 
     var disposeBag = DisposeBag()
 
@@ -48,10 +48,17 @@ class ButtonCell: NSTableCellView {
 
 extension ButtonCell: BasicSetupType {
     func setUpText() {
-        btnAddApp.title = "Add App".l10n()
-        BtnAddWeb.title = "Add Website".l10n()
     }
 
     func setUpViews() {
+    }
+
+    func configBlockCell() {
+        btnAddApp.title = "Add App".l10n()
+        btnAddWeb.title = "Add Website".l10n()
+    }
+
+    func configScheduleActionCell(isPause: Bool) {
+        btnAddApp.title = isPause ? "🚫" : "⏸"
     }
 }

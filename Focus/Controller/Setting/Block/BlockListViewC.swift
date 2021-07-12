@@ -116,11 +116,13 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else if tableView == tblBlock {
             if row == 0 {
                 if let buttonCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? ButtonCell {
+                    
+                    buttonCell.configBlockCell()
                     buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
                         print("btnAddApp")
                     }).disposed(by: buttonCell.disposeBag)
 
-                    buttonCell.BtnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
+                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
                         self?.openPopup()
                     }).disposed(by: buttonCell.disposeBag)
 
@@ -143,11 +145,13 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else if tableView == tblNotBlock {
             if row == 0 {
                 if let buttonCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? ButtonCell {
+                    
+                    buttonCell.configBlockCell()
                     buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
                         print("btnAddApp")
                     }).disposed(by: buttonCell.disposeBag)
 
-                    buttonCell.BtnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
+                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
                         self?.openPopup()
                     }).disposed(by: buttonCell.disposeBag)
 

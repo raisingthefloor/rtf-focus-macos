@@ -26,10 +26,71 @@
 import Cocoa
 
 class SchedulerViewC: BaseViewController {
+    @IBOutlet var tblSchedule: NSTableView!
+
     override func setTitle() -> String { return SettingOptions.schedule_setting.title }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        setUpText()
+        setUpViews()
+        bindData()
+        tableViewSetup()
     }
+}
+
+extension SchedulerViewC: BasicSetupType {
+    func setUpText() {
+    }
+
+    func setUpViews() {
+    }
+
+    func bindData() {
+    }
+}
+
+extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
+    func tableViewSetup() {
+        tblSchedule.delegate = self
+        tblSchedule.dataSource = self
+        tblSchedule.usesAutomaticRowHeights = true
+    }
+
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        return setupCell(tableView: tableView, tableColumn: tableColumn, row: row)
+    }
+
+    func setupCell(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionIdentifier") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "buttonId"), owner: nil) as? ButtonCell {
+                cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                return cell
+            }
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "statusIdentifier") {
+            if let cellStatus = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "statusId"), owner: nil) as? NSTableCellView {
+                cellStatus.textField?.backgroundColor = NSColor.random
+                return cellStatus
+            }
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+            if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "comboId"), owner: nil) as? ComboBoxCell {
+                return cellCombo
+            }
+        } else {
+            if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "cellId"), owner: nil) as? NSTableCellView {
+                cellText.textField?.stringValue = "-"
+                return cellText
+            }
+        }
+        return nil
+    }
+}
+
+private extension NSColor {
+    class var random: NSColor { return colors[Int(arc4random_uniform(UInt32(colors.count)))] }
 }

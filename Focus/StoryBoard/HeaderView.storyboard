@@ -11,14 +11,17 @@
             <objects>
                 <viewController storyboardIdentifier="HeaderViewC" id="srX-rE-y5Z" userLabel="HeaderController" customClass="HeaderViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GEt-LC-Qhe">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="FeH-Ov-15g">
+                                <rect key="frame" x="0.0" y="46" width="450" height="5"/>
+                            </box>
                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p9K-HM-t5W">
-                                <rect key="frame" x="10" y="5" width="430" height="40"/>
+                                <rect key="frame" x="5" y="17" width="440" height="20"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dTr-B8-2lh">
-                                        <rect key="frame" x="-2" y="12" width="406" height="16"/>
+                                        <rect key="frame" x="-2" y="2" width="416" height="16"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="Heading Title" id="WcO-WN-5ov">
                                             <font key="font" size="13" name="HelveticaNeue-Bold"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -26,7 +29,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qsB-TZ-FPG">
-                                        <rect key="frame" x="406" y="7" width="28" height="26"/>
+                                        <rect key="frame" x="416" y="-3" width="28" height="26"/>
                                         <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6YA-Er-Ofn">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -42,12 +45,21 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="pzc-ya-MG0">
+                                <rect key="frame" x="0.0" y="3" width="450" height="5"/>
+                            </box>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="p9K-HM-t5W" secondAttribute="trailing" constant="10" id="7HS-S3-dpL"/>
-                            <constraint firstAttribute="bottom" secondItem="p9K-HM-t5W" secondAttribute="bottom" constant="5" id="COV-xg-o9X"/>
-                            <constraint firstItem="p9K-HM-t5W" firstAttribute="top" secondItem="GEt-LC-Qhe" secondAttribute="top" constant="5" id="Esq-Rz-6Nf"/>
-                            <constraint firstItem="p9K-HM-t5W" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" constant="10" id="XeL-Iz-Wc3"/>
+                            <constraint firstItem="FeH-Ov-15g" firstAttribute="top" secondItem="GEt-LC-Qhe" secondAttribute="top" constant="5" id="Egn-eZ-AFo"/>
+                            <constraint firstItem="pzc-ya-MG0" firstAttribute="top" secondItem="p9K-HM-t5W" secondAttribute="bottom" constant="11" id="F7I-ar-XWa"/>
+                            <constraint firstAttribute="trailing" secondItem="pzc-ya-MG0" secondAttribute="trailing" id="LWv-RW-aSa"/>
+                            <constraint firstItem="FeH-Ov-15g" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" id="NmI-92-b1P"/>
+                            <constraint firstItem="p9K-HM-t5W" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" constant="5" id="XU7-Uz-8T0"/>
+                            <constraint firstItem="p9K-HM-t5W" firstAttribute="top" secondItem="FeH-Ov-15g" secondAttribute="bottom" constant="11" id="cAS-wN-NmF"/>
+                            <constraint firstAttribute="trailing" secondItem="FeH-Ov-15g" secondAttribute="trailing" id="dKr-O9-pWU"/>
+                            <constraint firstAttribute="bottom" secondItem="pzc-ya-MG0" secondAttribute="bottom" constant="5" id="gTa-Q2-4H8"/>
+                            <constraint firstItem="pzc-ya-MG0" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" id="oYN-4o-mPt"/>
+                            <constraint firstAttribute="trailing" secondItem="p9K-HM-t5W" secondAttribute="trailing" constant="5" id="uXs-a7-T4A"/>
                         </constraints>
                     </view>
                     <connections>

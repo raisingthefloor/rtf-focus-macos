@@ -16,6 +16,7 @@
 		3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B62689F8F4008C54A4 /* DBManager.swift */; };
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
 		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
+		3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EA268D985900706B51 /* BlockListViewModel.swift */; };
@@ -63,6 +64,7 @@
 		3F5944B62689F8F4008C54A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
+		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				3F9111EE268DB68700706B51 /* TableHeaderView.xib */,
 				3F9111F2268DD78500706B51 /* ButtonCell.swift */,
 				3F6D0BD5269818F9002E6711 /* LabelCell.swift */,
+				3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				3FFC1E692680C13D0014216C /* Validator.swift in Sources */,
 				3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */,
 				3F9CC4A6268B3D5800AC3026 /* BlockListViewC.swift in Sources */,
+				3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */,
 				3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */,
 				3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */,
 				3FFC1E6D2680C13D0014216C /* Operators.swift in Sources */,

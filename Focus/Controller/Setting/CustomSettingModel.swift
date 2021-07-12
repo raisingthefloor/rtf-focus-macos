@@ -40,4 +40,15 @@ enum SettingOptions: Int, CaseIterable {
             return "Scheduler".uppercased().l10n() + " (view, edit & activate)".l10n()
         }
     }
+
+    var identifier: String {
+        switch self {
+        case .general_setting:
+            return "GeneralSettingView"
+        case .block_setting:
+            return "BlockListView"
+        case .schedule_setting:
+            return "SchedulerView"
+        }
+    }
 }

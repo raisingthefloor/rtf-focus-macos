@@ -26,22 +26,32 @@
 import Cocoa
 import RxCocoa
 import RxSwift
+import SnapKit
 
-class CustomSettingController: BaseViewController, ItemHostSV {
+class CustomSettingController: NSViewController, ItemHostSV {
     @IBOutlet var topView: NSView!
     @IBOutlet var btnClose: NSButton!
     @IBOutlet var btnTitle: NSButton!
     @IBOutlet var scrollView: NSScrollView!
 
     @IBOutlet var containerView: NSView!
+    var disposeBag = DisposeBag()
 
     @IBOutlet var stackView: CustomStackView!
+
+    var customSV: CustomStackView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()
         setUpViews()
         bindData()
+    }
+
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        scrollView.needsLayout = true
+        scrollView.needsDisplay = true
     }
 }
 
@@ -51,9 +61,9 @@ extension CustomSettingController: BasicSetupType {
     }
 
     func setUpViews() {
-        setupCollapseExpandViewC("GeneralSettingView") //set controller's identifier which is set in storyboard
-        setupCollapseExpandViewC("BlockListView")
-        setupCollapseExpandViewC("SchedulerView")
+        setupCollapseExpandViewC(SettingOptions.general_setting) // set controller's identifier which is set in storyboard
+        setupCollapseExpandViewC(SettingOptions.block_setting)
+        setupCollapseExpandViewC(SettingOptions.schedule_setting)
     }
 
     func bindData() {
@@ -69,17 +79,29 @@ extension CustomSettingController: BasicSetupType {
 }
 
 extension CustomSettingController {
-    private func setupCollapseExpandViewC(_ identifier: String) {
+    private func setupCollapseExpandViewC(_ settingOption: SettingOptions) {
         let storyboard = NSStoryboard(name: "CustomSetting", bundle: nil)
-        guard let viewController = storyboard.instantiateController(withIdentifier: identifier) as? BaseViewController else { return }
+        guard let viewController = storyboard.instantiateController(withIdentifier: settingOption.identifier) as? BaseViewController else { return }
 
         let containerView = viewController.headerContinerV!
 
         containerView.header.disclose = {
-            self.disclose(viewController.headerContinerV!)
+            self.disclose(containerView)
+            // self.closeOtherController(containerView)
         }
         stackView.addArrangedSubview(containerView.header.viewController.view)
         stackView.addArrangedSubview(containerView.body.viewController.view)
+        stackView.continerViews.append(containerView)
         hide(containerView, animated: false)
+    }
+
+    func closeOtherController(_ containerView: ItemContainerS) {
+        // One issue when tap on same button then it should be off not on
+        for view in stackView.continerViews {
+            guard let containerViewC = view else { return }
+            containerViewC.state = .on
+            disclose(containerViewC)
+        }
+        disclose(containerView)
     }
 }
