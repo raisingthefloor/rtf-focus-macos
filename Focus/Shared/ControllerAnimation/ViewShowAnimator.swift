@@ -36,8 +36,12 @@ class ViewShowAnimator: NSObject, NSViewControllerPresentationAnimator {
         var frame: CGRect = NSRectToCGRect(parentViewC.view.frame)
         frame = frame.insetBy(dx: 0, dy: 0)
         childViewC.view.frame = NSRectFromCGRect(frame)
-        let color: CGColor = NSColor.darkGray.cgColor
-        childViewC.view.layer?.backgroundColor = color
+       // childViewC.view.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua])
+
+        if let aColor = NSColor(named: NSColor.Name("controller_bg"))?.cgColor {
+            let color: CGColor = aColor
+            childViewC.view.layer?.backgroundColor = color
+        }
         NSAnimationContext.runAnimationGroup({ (context) -> Void in
             context.duration = 0.5
             childViewC.view.animator().alphaValue = 1

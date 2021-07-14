@@ -24,18 +24,14 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxSwift
-import SnapKit
 
 class CustomSettingController: NSViewController, ItemHostSV {
     @IBOutlet var topView: NSView!
     @IBOutlet var btnClose: NSButton!
-    @IBOutlet var btnTitle: NSButton!
+    @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var scrollView: NSScrollView!
 
     @IBOutlet var containerView: NSView!
-    var disposeBag = DisposeBag()
 
     @IBOutlet var stackView: CustomStackView!
 
@@ -57,7 +53,7 @@ class CustomSettingController: NSViewController, ItemHostSV {
 
 extension CustomSettingController: BasicSetupType {
     func setUpText() {
-        btnTitle.title = "  Cutomize Settings".l10n()
+        lblTitle.stringValue = "Cutomize Settings"
     }
 
     func setUpViews() {
@@ -67,14 +63,16 @@ extension CustomSettingController: BasicSetupType {
     }
 
     func bindData() {
-        btnClose.rx.tap.subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            if self.presentingViewController != nil {
-                self.presentingViewController?.dismiss(self)
-            } else {
-                self.view.window?.close()
-            }
-        }).disposed(by: disposeBag)
+        btnClose.target = self
+        btnClose.action = #selector(closeWindow)
+    }
+
+    @objc func closeWindow() {
+        if presentingViewController != nil {
+            presentingViewController?.dismiss(self)
+        } else {
+            view.window?.close()
+        }
     }
 }
 

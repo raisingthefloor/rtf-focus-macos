@@ -24,9 +24,6 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxGesture
-import RxSwift
 
 class TableHeaderView: NSView, NibView {
     var mainView: NSView?
@@ -34,8 +31,6 @@ class TableHeaderView: NSView, NibView {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var btnAddApp: NSButton!
     @IBOutlet var btnAddWebSite: NSButton!
-
-    var disposeBag = DisposeBag()
 
     init() {
         super.init(frame: NSRect.zero)
@@ -61,9 +56,9 @@ class TableHeaderView: NSView, NibView {
 
 extension TableHeaderView: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = "Also Block These".l10n()
-        btnAddApp.title = "Add App".l10n()
-        btnAddWebSite.title = "Add Website".l10n()
+        lblTitle.stringValue = "Also Block These"
+        btnAddApp.title = "Add App"
+        btnAddWebSite.title = "Add Website"
     }
 
     func setUpViews() {

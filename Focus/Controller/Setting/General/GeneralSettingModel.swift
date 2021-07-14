@@ -24,36 +24,28 @@
  */
 
 import Cocoa
+import Foundation
+import L10n_swift
+import RxRelay
+import RxSwift
 
-class ButtonCell: NSTableCellView {
-    @IBOutlet var btnAddApp: NSButton!
-    @IBOutlet var btnAddWeb: NSButton!
-
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
-
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        setUpText()
-        setUpViews()
-    }
+protocol GeneralSettingModelIntput {
 }
 
-extension ButtonCell: BasicSetupType {
-    func setUpText() {
-    }
+protocol GeneralSettingModelOutput {
+}
 
-    func setUpViews() {
-    }
+protocol GeneralSettingModelType {
+    var input: GeneralSettingModelIntput { get }
+    var output: GeneralSettingModelOutput { get }
+}
 
-    func configBlockCell() {
-        btnAddApp.title = "Add App"
-        btnAddWeb.title = "Add Website"
-    }
+class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput, GeneralSettingModelType {
+    var input: GeneralSettingModelIntput { return self }
+    var output: GeneralSettingModelOutput { return self }
+}
 
-    func configScheduleActionCell(isPause: Bool) {
-        btnAddApp.title = isPause ? "🚫" : "⏸"
-    }
+enum General_Setting {
+    case behavior_foucs
+    case allow_unblocking
 }

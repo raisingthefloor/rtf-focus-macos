@@ -24,8 +24,6 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxSwift
 
 class HeaderViewC: NSViewController {
     @IBOutlet var headerView: NSView!
@@ -33,7 +31,6 @@ class HeaderViewC: NSViewController {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var btnArrow: NSButton!
 
-    var disposeBag = DisposeBag()
     var disclose: (() -> Swift.Void)?
 
     // MARK: - View Controller Lifecycle
@@ -52,14 +49,16 @@ extension HeaderViewC: BasicSetupType, ItemHeader {
     }
 
     func setUpViews() {
-        headerView.layer?.backgroundColor = .black
+       // headerView.layer?.backgroundColor = .black
     }
 
     func bindData() {
-        btnArrow.rx.tap.subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            self.disclose?()
-        }).disposed(by: disposeBag)
+        btnArrow.target = self
+        btnArrow.action = #selector(showHideBody)
+    }
+
+    @objc func showHideBody() {
+        disclose?()
     }
 
     // MARK: - ItemHeader Procotol

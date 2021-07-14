@@ -24,13 +24,8 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxGesture
-import RxSwift
 
 class MenuController: BaseViewController {
-    @IBOutlet var btnClose: NSButton!
-
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var btnInfo: NSButton!
 
@@ -80,85 +75,73 @@ class MenuController: BaseViewController {
 
 extension MenuController: BasicSetupType {
     func setUpText() {
-        btnCostomizeSetting.title = "  Customize Setting".l10n()
-        btnStop.title = FocusStopTime.stop_focus.title
-        btn1Hr.title = FocusStopTime.one_hr.title
-        btn2Hr.title = FocusStopTime.two_hr.title
-        btn30m.title = FocusStopTime.half_past.title
-        btnUntillI.title = FocusStopTime.untill_press_stop.title
+        btnCostomizeSetting.title = "  Customize Setting"
 
-        checkBoxDND.title = FocusOptions.dnd.title
-        lblDnDInfo.stringValue = FocusOptions.dnd.information
-        checkBoxFocusTime.title = FocusOptions.focus_break.title
-        lblBrekInfo.stringValue = FocusOptions.focus_break_1.title
-        lblFocusInfo.stringValue = FocusOptions.focus_break_2.title
-        lblFocusTInfo.stringValue = FocusOptions.focus_break.information
+        checkBoxDND.title = Focus.Options.dnd.title
+        lblDnDInfo.stringValue = Focus.Options.dnd.information
+        checkBoxFocusTime.title = Focus.Options.focus_break.title
+        lblBrekInfo.stringValue = Focus.Options.focus_break_1.title
+        lblFocusInfo.stringValue = Focus.Options.focus_break_2.title
+        lblFocusTInfo.stringValue = Focus.Options.focus_break.information
 
-        checkBoxBlock.title = FocusOptions.block_program_website.title
-        lblBlockList.stringValue = FocusOptions.block_list.title
+        checkBoxBlock.title = Focus.Options.block_program_website.title
+        lblBlockList.stringValue = Focus.Options.block_list.title
+        lblFocusLength.stringValue = Focus.Options.block_program_website.information
 
-        lblFocusLength.stringValue = FocusOptions.block_program_website.information
+        btnStop.title = Focus.StopTime.stop_focus.title
+        btn1Hr.title = Focus.StopTime.one_hr.title
+        btn2Hr.title = Focus.StopTime.two_hr.title
+        btn30m.title = Focus.StopTime.half_past.title
+        btnUntillI.title = Focus.StopTime.untill_press_stop.title
     }
 
     func setUpViews() {
     }
 
     func bindData() {
-//        viewModel.output.onResult.bind(onNext: { [weak self] result in
-//            switch result {
-//            case .success: break
-//            case .failure: break
-//            }
-//        }).disposed(by: disposeBag)
-
-        btnClose.rx.tap.subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            NSApp.terminate(self)
-        }).disposed(by: disposeBag)
-
         popBlock.menu = viewModel.input.getBlockList().0
-        popFocusTime.menu = FocusTime.focustimes
-        popBreakTime.menu = BreakTime.breaktimes
+        popFocusTime.menu = Focus.FocusTime.focustimes
+        popBreakTime.menu = Focus.BreakTime.breaktimes
 
-        checkBoxDND.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("DND")
-            print(self?.checkBoxDND.state)
-        }).disposed(by: disposeBag)
+        btnCostomizeSetting.target = self
+        btnCostomizeSetting.action = #selector(openCustomSetting)
 
-        checkBoxBlock.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("Block")
-            print(self?.checkBoxBlock.state)
-        }).disposed(by: disposeBag)
+        setupFocusStopAction(arrButtons: [btn30m, btn1Hr, btn2Hr, btnUntillI, btnStop])
+        setupFocusOptionAction(arrButtons: [checkBoxDND, checkBoxFocusTime, checkBoxBlock])
+    }
 
-        checkBoxFocusTime.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("Focus time")
-            print(self?.checkBoxFocusTime.state)
-        }).disposed(by: disposeBag)
+    func setupFocusStopAction(arrButtons: [NSButton]) {
+        for (i, btn) in arrButtons.enumerated() {
+            btn.target = self
+            btn.tag = i
+            btn.action = #selector(buttonEventHandler(_:))
+        }
+    }
 
-        btnCostomizeSetting.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("btnCostomizeSetting")
-            self?.openCustomSetting()
-        }).disposed(by: disposeBag)
+    func setupFocusOptionAction(arrButtons: [NSButton]) {
+        for (i, btn) in arrButtons.enumerated() {
+            guard let option = Focus.Options(rawValue: i) else { return }
+            btn.target = self
+            btn.tag = option.rawValue
+            btn.state = option.isOn
+            btn.action = #selector(checkBoxEventHandler(_:))
+        }
+    }
 
-        btn30m.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("30")
-        }).disposed(by: disposeBag)
+    @objc func closeWindow() {
+        NSApp.terminate(self)
+    }
 
-        btn1Hr.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("1 hr")
-        }).disposed(by: disposeBag)
+    @objc func buttonEventHandler(_ sender: NSButton) {
+        guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
+        viewModel.input.updateFocusStop(time: focusTime) { _, _ in
+        }
+    }
 
-        btn2Hr.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("2 hr")
-        }).disposed(by: disposeBag)
-
-        btnUntillI.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("Untill")
-        }).disposed(by: disposeBag)
-
-        btnStop.rx.tap.subscribe(onNext: { [weak self] _ in
-            print("Stop")
-        }).disposed(by: disposeBag)
+    @objc func checkBoxEventHandler(_ sender: NSButton) {
+        guard let focusOption = Focus.Options(rawValue: sender.tag) else { return }
+        viewModel.input.updateFocusOption(option: focusOption, state: sender.state) { _, _ in
+        }
     }
 
     @IBAction func handleBlockSelection(_ sender: Any) {
@@ -179,11 +162,11 @@ extension MenuController: BasicSetupType {
         print("Selected Break Time:", popup.titleOfSelectedItem ?? "")
     }
 
-    func openCustomSetting() {
+    @objc func openCustomSetting() {
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
+//            self.view.window?.contentViewController = vc
             let animator = ViewShowAnimator()
             present(vc, animator: animator)
-//            appDelegate?.customSetting?.showWindow(self)
         }
     }
 }

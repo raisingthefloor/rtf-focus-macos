@@ -18,10 +18,10 @@
                                 <rect key="frame" x="0.0" y="46" width="450" height="5"/>
                             </box>
                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p9K-HM-t5W">
-                                <rect key="frame" x="5" y="17" width="440" height="20"/>
+                                <rect key="frame" x="10" y="17" width="435" height="20"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dTr-B8-2lh">
-                                        <rect key="frame" x="-2" y="2" width="416" height="16"/>
+                                        <rect key="frame" x="-2" y="2" width="411" height="16"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="Heading Title" id="WcO-WN-5ov">
                                             <font key="font" size="13" name="HelveticaNeue-Bold"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -29,7 +29,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qsB-TZ-FPG">
-                                        <rect key="frame" x="416" y="-3" width="28" height="26"/>
+                                        <rect key="frame" x="411" y="-3" width="28" height="26"/>
                                         <buttonCell key="cell" type="disclosure" bezelStyle="roundedDisclosure" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6YA-Er-Ofn">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -54,7 +54,7 @@
                             <constraint firstItem="pzc-ya-MG0" firstAttribute="top" secondItem="p9K-HM-t5W" secondAttribute="bottom" constant="11" id="F7I-ar-XWa"/>
                             <constraint firstAttribute="trailing" secondItem="pzc-ya-MG0" secondAttribute="trailing" id="LWv-RW-aSa"/>
                             <constraint firstItem="FeH-Ov-15g" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" id="NmI-92-b1P"/>
-                            <constraint firstItem="p9K-HM-t5W" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" constant="5" id="XU7-Uz-8T0"/>
+                            <constraint firstItem="p9K-HM-t5W" firstAttribute="leading" secondItem="GEt-LC-Qhe" secondAttribute="leading" constant="10" id="XU7-Uz-8T0"/>
                             <constraint firstItem="p9K-HM-t5W" firstAttribute="top" secondItem="FeH-Ov-15g" secondAttribute="bottom" constant="11" id="cAS-wN-NmF"/>
                             <constraint firstAttribute="trailing" secondItem="FeH-Ov-15g" secondAttribute="trailing" id="dKr-O9-pWU"/>
                             <constraint firstAttribute="bottom" secondItem="pzc-ya-MG0" secondAttribute="bottom" constant="5" id="gTa-Q2-4H8"/>

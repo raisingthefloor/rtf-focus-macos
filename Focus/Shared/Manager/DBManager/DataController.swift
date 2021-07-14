@@ -1,5 +1,4 @@
-/*
- Copyright 2020 Raising the Floor - International
+/* Copyright 2020 Raising the Floor - International
 
  Licensed under the New BSD license. You may not use this file except in
  compliance with this License.
@@ -24,36 +23,22 @@
  */
 
 import Cocoa
+import CoreData
+import Foundation
 
-class ButtonCell: NSTableCellView {
-    @IBOutlet var btnAddApp: NSButton!
-    @IBOutlet var btnAddWeb: NSButton!
+class DataController: NSObject {
+    var managedObjContext: NSManagedObjectContext?
 
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
+    override init() {
     }
 
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        setUpText()
-        setUpViews()
-    }
-}
-
-extension ButtonCell: BasicSetupType {
-    func setUpText() {
-    }
-
-    func setUpViews() {
-    }
-
-    func configBlockCell() {
-        btnAddApp.title = "Add App"
-        btnAddWeb.title = "Add Website"
-    }
-
-    func configScheduleActionCell(isPause: Bool) {
-        btnAddApp.title = isPause ? "🚫" : "⏸"
-    }
+//    init(completionClosure: @escaping () -> ()) {
+//        persistentContainer = NSPersistentContainer(name: "DataModel")
+//        persistentContainer.loadPersistentStores() { (description, error) in
+//            if let error = error {
+//                fatalError("Failed to load Core Data stack: \(error)")
+//            }
+//            completionClosure()
+//        }
+//    }
 }

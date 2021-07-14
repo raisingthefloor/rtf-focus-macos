@@ -27,19 +27,12 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxGesture
-import RxSwift
 
 class ComboBoxCell: NSTableCellView {
     @IBOutlet var popBreakTime: NSPopUpButton!
 
-
-    var disposeBag = DisposeBag()
-
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag()
     }
 
     override func draw(_ dirtyRect: NSRect) {

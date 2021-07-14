@@ -105,10 +105,10 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? CheckBoxCell {
                 cell.checkBox.title = item.name ?? "-"
 
-                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
-                    print("Block")
-                    print(cell.checkBox.state)
-                }).disposed(by: cell.disposeBag)
+//                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
+//                    print("Block")
+//                    print(cell.checkBox.state)
+//                }).disposed(by: cell.disposeBag)
 
                 return cell
             }
@@ -118,13 +118,13 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 if let buttonCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? ButtonCell {
                     
                     buttonCell.configBlockCell()
-                    buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
-                        print("btnAddApp")
-                    }).disposed(by: buttonCell.disposeBag)
-
-                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
-                        self?.openPopup()
-                    }).disposed(by: buttonCell.disposeBag)
+//                    buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
+//                        print("btnAddApp")
+//                    }).disposed(by: buttonCell.disposeBag)
+//
+//                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
+//                        self?.openPopup()
+//                    }).disposed(by: buttonCell.disposeBag)
 
                     return buttonCell
                 }
@@ -134,10 +134,10 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? CheckBoxCell {
                 cell.checkBox.title = item
 
-                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
-                    print("Block")
-                    print(cell.checkBox.state)
-                }).disposed(by: cell.disposeBag)
+//                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
+//                    print("Block")
+//                    print(cell.checkBox.state)
+//                }).disposed(by: cell.disposeBag)
 
                 return cell
             }
@@ -147,13 +147,13 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 if let buttonCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? ButtonCell {
                     
                     buttonCell.configBlockCell()
-                    buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
-                        print("btnAddApp")
-                    }).disposed(by: buttonCell.disposeBag)
-
-                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
-                        self?.openPopup()
-                    }).disposed(by: buttonCell.disposeBag)
+//                    buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
+//                        print("btnAddApp")
+//                    }).disposed(by: buttonCell.disposeBag)
+//
+//                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
+//                        self?.openPopup()
+//                    }).disposed(by: buttonCell.disposeBag)
 
                     return buttonCell
                 }
@@ -164,10 +164,10 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? CheckBoxCell {
                 cell.checkBox.title = item
 
-                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
-                    print("Block")
-                    print(cell.checkBox.state)
-                }).disposed(by: cell.disposeBag)
+//                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
+//                    print("Block")
+//                    print(cell.checkBox.state)
+//                }).disposed(by: cell.disposeBag)
 
                 return cell
             }

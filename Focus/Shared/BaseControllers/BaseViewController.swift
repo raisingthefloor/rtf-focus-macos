@@ -24,11 +24,8 @@
 
 import Cocoa
 import Foundation
-import RxCocoa
-import RxSwift
 
 class BaseViewController: NSViewController, ItemBody {
-    var disposeBag = DisposeBag()
 
     typealias alertActionClosure = (_ value: String, _ action: Bool) -> Void
 
@@ -85,14 +82,14 @@ extension BaseViewController {
     func promptToForInput(_ msg: String, _ information: String, completion: alertActionClosure) {
         let alert: NSAlert = NSAlert()
 
-        alert.addButton(withTitle: "OK".l10n())
-        alert.addButton(withTitle: "Cancel".l10n())
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
         alert.messageText = msg
         alert.informativeText = information
 
         let txtField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
         txtField.stringValue = ""
-        txtField.placeholderString = "Enter Url".l10n()
+        txtField.placeholderString = "Enter Url"
         alert.accessoryView = txtField
         let response: NSApplication.ModalResponse = alert.runModal()
 

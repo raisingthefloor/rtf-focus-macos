@@ -25,8 +25,6 @@
 import Cocoa
 import CoreData
 import Foundation
-import RxCocoa
-import RxSwift
 
 protocol BasicEnumType {
     var title: String { get }
@@ -49,22 +47,6 @@ extension BasicEnumType {
     var image: NSImage? {
         return nil
     }
-}
-
-protocol ActivityIndicatorProtocol {
-    var is_animating: BehaviorRelay<Bool> { get set }
-}
-
-protocol ActivityIndicatorUpdateProtocol {
-    var is_animating_Update: BehaviorRelay<Bool> { get set }
-}
-
-protocol ActivityIndicatorRemoveProtocol {
-    var is_animating_delete: BehaviorRelay<Bool> { get set }
-}
-
-protocol ActivityIndicatorFetchProtocol {
-    var is_animating_fetch: BehaviorRelay<Bool> { get set }
 }
 
 protocol RequestType {

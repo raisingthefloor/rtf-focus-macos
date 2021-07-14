@@ -25,8 +25,6 @@
 import Cocoa
 import CoreData
 import Foundation
-import RxCocoa
-import RxSwift
 
 let colors: [NSColor] = [.blue, .red, .orange, .yellow, .brown, .black, .green, .purple, .gray, .cyan]
 class Config {

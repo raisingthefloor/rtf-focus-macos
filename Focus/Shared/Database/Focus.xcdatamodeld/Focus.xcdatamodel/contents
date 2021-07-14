@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Allowed_Blocked_GS" representedClassName="Allowed_Blocked_GS" parentEntity="Block_Interface" syncable="YES">
+        <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="General_Settings" inverseName="allowed_override" inverseEntity="General_Settings"/>
+    </entity>
     <entity name="Block_Interface" representedClassName="Block_Interface" syncable="YES">
         <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -18,10 +21,19 @@
         <attribute name="schedule_focus_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="Focus" representedClassName="Focus" parentEntity="Focuc_Interface" syncable="YES"/>
+    <entity name="General_Settings" representedClassName="General_Settings" syncable="YES">
+        <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="is_checked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="sub_title" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="allowed_override" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Allowed_Blocked_GS" inverseName="general_setting" inverseEntity="Allowed_Blocked_GS"/>
+    </entity>
     <elements>
-        <element name="Focuc_Interface" positionX="-63" positionY="-18" width="128" height="149"/>
-        <element name="Focus" positionX="-54" positionY="-9" width="128" height="29"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="89"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="29"/>
+        <element name="Focuc_Interface" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="Focus" positionX="-54" positionY="-9" width="128" height="29"/>
+        <element name="General_Settings" positionX="-36" positionY="54" width="128" height="104"/>
+        <element name="Allowed_Blocked_GS" positionX="-27" positionY="63" width="128" height="44"/>
     </elements>
 </model>

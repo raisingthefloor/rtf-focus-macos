@@ -46,20 +46,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate {
     func setupStautsBarMenu() {
         guard let statusButton = statusBarItem.button else { return }
-        statusButton.title = "Focus".l10n()
+        statusButton.title = "Focus"
 
         let statusMenu: NSMenu = {
             let menu = NSMenu()
 
             let openFocusItem: NSMenuItem = {
-                let item = NSMenuItem(title: "Open Focus".l10n(), action: #selector(openFocus), keyEquivalent: "")
+                let item = NSMenuItem(title: "Open Focus", action: #selector(openFocus), keyEquivalent: "")
                 item.tag = 1
                 item.target = self
                 return item
             }()
 
             let quitApplicationItem: NSMenuItem = {
-                let item = NSMenuItem(title: "Quit".l10n(), action: #selector(terminate), keyEquivalent: "q")
+                let item = NSMenuItem(title: "Quit", action: #selector(terminate), keyEquivalent: "q")
                 item.target = self
                 item.tag = 2
 

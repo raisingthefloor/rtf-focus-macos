@@ -24,6 +24,9 @@
  */
 
 import Foundation
+import L10n_swift
+import RxRelay
+import RxSwift
 
 enum SettingOptions: Int, CaseIterable {
     case general_setting
@@ -33,11 +36,11 @@ enum SettingOptions: Int, CaseIterable {
     var title: String {
         switch self {
         case .general_setting:
-            return "General Settings".uppercased().l10n()
+            return "General Settings".uppercased()
         case .block_setting:
-            return "Blocklists".uppercased().l10n() + " (view & edit)".l10n()
+            return "Blocklists".uppercased() + " (view & edit)"
         case .schedule_setting:
-            return "Scheduler".uppercased().l10n() + " (view, edit & activate)".l10n()
+            return "Scheduler".uppercased() + " (view, edit & activate)"
         }
     }
 

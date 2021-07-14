@@ -25,16 +25,12 @@
 
 import Cocoa
 import Foundation
-import L10n_swift
-import RxRelay
-import RxSwift
 
 protocol BlockListViewModelIntput {
     func getBlockList() -> [BlockCategory]
 }
 
-protocol BlockListViewModelOutput: ActivityIndicatorProtocol {
-    var onResult: PublishSubject<Result<Void, ErrorHandler>> { get set }
+protocol BlockListViewModelOutput {
 }
 
 protocol BlockListViewModelType {
@@ -43,13 +39,8 @@ protocol BlockListViewModelType {
 }
 
 class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, BlockListViewModelType {
-    var onResult: PublishSubject<Result<Void, ErrorHandler>> = PublishSubject()
-
     var input: BlockListViewModelIntput { return self }
     var output: BlockListViewModelOutput { return self }
-    var is_animating: BehaviorRelay<Bool> = BehaviorRelay(value: false)
-
-    var bag = DisposeBag()
 
     let blockNames: [String] = ["Calls", "Notification (Turn DND on)", "Social Media", "Games", "News", "Shopping", "Projects", "Medical"]
     let childeren: [String] = ["Facebook", "Intagram", "LinkedIn"]

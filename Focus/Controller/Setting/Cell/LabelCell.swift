@@ -27,18 +27,13 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxGesture
-import RxSwift
 
 class LabelCell: NSTableCellView {
     @IBOutlet var lblTitle: NSTextField!
 
-    var disposeBag = DisposeBag()
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag()
     }
 
     override func draw(_ dirtyRect: NSRect) {

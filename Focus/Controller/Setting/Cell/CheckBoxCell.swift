@@ -24,19 +24,13 @@
  */
 
 import Cocoa
-import RxCocoa
-import RxGesture
-import RxSwift
 
 class CheckBoxCell: NSTableCellView {
     @IBOutlet var checkBox: NSButton!
     @IBOutlet var btnDelete: NSButton!
 
-    var disposeBag = DisposeBag()
-
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag()
     }
 
     override func draw(_ dirtyRect: NSRect) {
