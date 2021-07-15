@@ -75,7 +75,7 @@ class MenuController: BaseViewController {
 
 extension MenuController: BasicSetupType {
     func setUpText() {
-        btnCostomizeSetting.title = "  Customize Setting"
+        btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
 
         checkBoxDND.title = Focus.Options.dnd.title
         lblDnDInfo.stringValue = Focus.Options.dnd.information
@@ -164,9 +164,9 @@ extension MenuController: BasicSetupType {
 
     @objc func openCustomSetting() {
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
-//            self.view.window?.contentViewController = vc
-            let animator = ViewShowAnimator()
-            present(vc, animator: animator)
+            present(vc, animator: ViewShowAnimator())
+//            let animator = ViewShowAnimator()
+//            present(vc, animator: animator)
         }
     }
 }

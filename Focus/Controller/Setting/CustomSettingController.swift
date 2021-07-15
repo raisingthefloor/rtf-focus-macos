@@ -53,10 +53,12 @@ class CustomSettingController: NSViewController, ItemHostSV {
 
 extension CustomSettingController: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = "Cutomize Settings"
+        lblTitle.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
     }
 
     func setUpViews() {
+        self.view.bgColor = .black
+
         setupCollapseExpandViewC(SettingOptions.general_setting) // set controller's identifier which is set in storyboard
         setupCollapseExpandViewC(SettingOptions.block_setting)
         setupCollapseExpandViewC(SettingOptions.schedule_setting)

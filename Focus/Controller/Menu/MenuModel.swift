@@ -40,15 +40,15 @@ extension Focus {
         var title: String {
             switch self {
             case .half_past:
-                return "30 Min"
+                return NSLocalizedString("Home.half_last", comment: "30 Min1")
             case .one_hr:
-                return "1 Hr"
+                return NSLocalizedString("Home.one_hr", comment: "1 Hr1")
             case .two_hr:
-                return "2 Hr"
+                return NSLocalizedString("Home.two_hr", comment: "2 Hr")
             case .untill_press_stop:
-                return "Focus untill I press stop"
+                return NSLocalizedString("Home.untill_press_stop", comment: "Focus untill I press stop")
             case .stop_focus:
-                return "STOP FOCUS"
+                return NSLocalizedString("Home.stop_focus", comment: "STOP FOCUS")
             }
         }
     }
@@ -130,28 +130,28 @@ extension Focus {
         var title: String {
             switch self {
             case .dnd:
-                return "Turn on “Do Not Disturb” while focusing"
+                return NSLocalizedString("Home.turn_on_dnd", comment: "Turn on “Do Not Disturb” while focusing")
             case .focus_break:
-                return "Provide short"
+                return NSLocalizedString("Home.provide_short_1", comment: "Provide short")
             case .focus_break_1:
-                return "min Breaks for every"
+                return NSLocalizedString("Home.provide_short_2", comment: "min Breaks for every")
             case .focus_break_2:
-                return "min of Focus"
+                return NSLocalizedString("Home.provide_short_3", comment: "min of Focus")
             case .block_program_website:
-                return "Block select programs & websites while focusing"
+                return NSLocalizedString("Home.block_select_prog_web", comment: "Block select programs & websites while focusing")
             case .block_list:
-                return "Use this blocklist: "
+                return NSLocalizedString("Home.use_this_block_list", comment: "Use this blocklist: ")
             }
         }
 
         var information: String {
             switch self {
             case .dnd:
-                return "(turns off notifications and calls)"
+                return NSLocalizedString("Home.turn_on_dnd_info", comment: "(turns off notifications and calls)")
             case .focus_break, .focus_break_1, .focus_break_2:
-                return "(click number to change)"
+                return NSLocalizedString("Home.provide_short_info", comment: "(click number to change)")
             case .block_program_website:
-                return "Turn on FOCUS for the following length of the time."
+                return NSLocalizedString("Home.focus_lenght_title", comment: "Turn on FOCUS for the following length of the time.")
             case .block_list:
                 return ""
             }

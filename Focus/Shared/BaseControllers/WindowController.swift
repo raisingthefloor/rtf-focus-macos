@@ -32,8 +32,8 @@ class WindowController: NSWindowController, NSWindowRestoration {
              In order for all the view controllers to be restored, this window must be restorable too.
               This can also be done in the storyboard.
          */
-        window?.isRestorable = true
-        window?.identifier = NSUserInterfaceItemIdentifier("StackWindow")
+        window?.isRestorable = false
+        window?.identifier = NSUserInterfaceItemIdentifier("WindowController")
 
         // This will ensure restoreWindow will be called.
         window?.restorationClass = WindowController.self
@@ -48,7 +48,7 @@ class WindowController: NSWindowController, NSWindowRestoration {
         let identifier = identifier.rawValue
 
         var restoreWindow: NSWindow?
-        if identifier == "StackWindow" { // This is the identifier for the NSWindow.
+        if identifier == "WindowController" { // This is the identifier for the NSWindow.
             // We didn't create the window, it was created from the storyboard.
             if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
                 restoreWindow = appDelegate.customSetting?.window

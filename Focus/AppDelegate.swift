@@ -95,7 +95,6 @@ extension AppDelegate {
             if windowController.window == nil {
                 windowController.window = window
             }
-
             windowController.showWindow(self)
         }
     }

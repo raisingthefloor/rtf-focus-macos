@@ -26,6 +26,17 @@
 import Cocoa
 
 class SchedulerViewC: BaseViewController {
+    @IBOutlet var lblScheduleInfo: NSTextField!
+    @IBOutlet var lblScheduleInfo1: NSTextField!
+    @IBOutlet var lblScheduleInfo2: NSTextField!
+
+    @IBOutlet var lblOption1: NSTextField!
+    @IBOutlet var lblOption2: NSTextField!
+    @IBOutlet var lblOption3: NSTextField!
+
+    @IBOutlet var lblPauseInfo: NSTextField!
+    @IBOutlet var lblClmnInfo: NSTextField!
+
     @IBOutlet var tblSchedule: NSTableView!
 
     override func setTitle() -> String { return SettingOptions.schedule_setting.title }
@@ -42,6 +53,15 @@ class SchedulerViewC: BaseViewController {
 
 extension SchedulerViewC: BasicSetupType {
     func setUpText() {
+        lblScheduleInfo.stringValue = NSLocalizedString("SS.scheduleinfo", comment: "Schedule when you would like the FOCUS feature to turn on.")
+        lblScheduleInfo1.stringValue = NSLocalizedString("SS.scheduleinfo1", comment: "(You can also choose to just get reminders without blocking)")
+        lblScheduleInfo2.stringValue = NSLocalizedString("SS.scheduleinfo2", comment: "(STOP buttons will stop focus sessions at any time)")
+
+        lblOption1.stringValue = NSLocalizedString("SS.option1", comment: "1) Choose a BlockList to schedule in column 1 using the pull down")
+        lblOption2.stringValue = NSLocalizedString("SS.option2", comment: "2) Type or select the time you want to start and stop. (Any hour and minute)")
+        lblOption3.stringValue = NSLocalizedString("SS.option3", comment: "3) Click on the days you want it to be active")
+        lblPauseInfo.stringValue = NSLocalizedString("SS.pauseinfo", comment: "To pause (disable) any line in the table, click on the “Pause” button ⏸  in the 1st column")
+        lblClmnInfo.stringValue = NSLocalizedString("SS.clmninfo", comment: "(Click on the top of the 🚫 column to pause (disable) all)")
     }
 
     func setUpViews() {

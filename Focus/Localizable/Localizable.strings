@@ -1,13 +1,13 @@
 /*
- Copyright 2020 Raising the Floor - International
+   Copyright 2020 Raising the Floor - International
 
- Licensed under the New BSD license. You may not use this file except in
- compliance with this License.
+   Licensed under the New BSD license. You may not use this file except in
+   compliance with this License.
 
- You may obtain a copy of the License at
- https://github.com/GPII/universal/blob/master/LICENSE.txt
+   You may obtain a copy of the License at
+   https://github.com/GPII/universal/blob/master/LICENSE.txt
 
- The R&D leading to these results received funding from the:
+   The R&D leading to these results received funding from the:
  * Rehabilitation Services Administration, US Dept. of Education under
    grant H421A150006 (APCP)
  * National Institute on Disability, Independent Living, and
@@ -48,7 +48,43 @@
 "Home.block_select_prog_web" = "Block select programs & websites which focusing";
 "Home.use_this_block_list" = "Use this blocklist: ";
 "Home.focus_lenght_title" = "Turn on FOCUS for the following length of the time.";
-"Home.customize_focue" = "Customize Focus";
+"Home.customize_setting" = "Customize Setting";
 "Home.show_edit_blocklist" = "Show or Edit Blocklist";
-
+"Customize.general_settings" = "General Settings";
+"Customize.blocklists" = "Blocklists";
+"Customize.edit_view" = "(view & edit)";
+"Customize.scheduler" = "Scheduler";
+"Customize.edit_view_active" = "(view, edit & activate)";
+"GS.behaviorTitle" = "Behavior During Focus Period";
+"GS.lock_computer" = "Lock my computer screen for first minute during  Break";
+"GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.)";
+"GS.countdown_timer" = "Show countdown timer for focus and breaks";
+"GS.countup_timer" = "Show countUP timer for 'Focus until I Stop'";
+"GS.unblockingtitle" = "Allow unblocking of key programs";
+"GS.unblockinginfo" = "(Sometimes you may need to unblock a program or website temporarily during a focus session in order to complete work, but the program or website is part of an active BlockList.)";
+"GS.allowinfo" = "This feature  allows user to override a block for the rest of the day.";
+"GS.overridetitle" = "List of allowable overrides.";
+"GS.overrideinfo" = "Check item to override blocking until next day";
+"GS.edit_list" = "Edit List";
+"BS.blocksetting_info" = "You can choose the apps and website you want  to have blocked when you are focusing.  You can select categories (on the left) or you can just list individual apps and websites (on the right).  You can use a premade set – or you can make your own sets.  If you try to use an application or website you have blocked during a focus session it will not launch or will immediately shut down with a message ”You selected this to be blocked during your focus session”.";
+"BS.rename_edit" = "Show/edit/rename BlockList Named";
+"BS.additional_options" = "Additional Options for this BlockList (only)";
+"BS.make_hard" = "Make it hard for me to STOP a FOCUS Session early (Lock it)";
+"BS.leave_it" = "No - Leave it so I can unlock focus any time with the click of one of the STOP buttons.";
+"BS.random_character" = "🔒 - Make me type a string of random characters you give me to type  [30] characters";
+"BS.sign_out" = "🔒 - Make me Sign out and back in to stop focus session";
+"BS.schedule_title" = "Scheduling Options (FOR THIS BLOCKLIST ONLY)";
+"BS.short_long" = "Unblock this list during short and long breaks during scheduled focus periods";
+"BS.only_long" = "Unblock this list ONLY for long breaks  (at 2-hour points) in scheduled focus periods";
+"BS.continues"= "Continuously block this list for entire scheduled focus period (including breaks)";
+"BS.eg" = "(e.g. if you might create a BlockList for  just games – and want to make sure they are blocked all day – and not be available even during breaks)";
+"BS.make_new_list" = "Make a new BlockList";
+"SS.scheduleinfo" = "Schedule when you would like the FOCUS feature to turn on.";
+"SS.scheduleinfo1" = "(You can also choose to just get reminders without blocking)";
+"SS.scheduleinfo2" = "(STOP buttons will stop focus sessions at any time)";
+"SS.option1" = "1) Choose a BlockList to schedule in column 1 using the pull down";
+"SS.option2" = "2) Type or select the time you want to start and stop. (Any hour and minute)";
+"SS.option3" = "3) Click on the days you want it to be active";
+"SS.pauseinfo" = "To pause (disable) any line in the table, click on the “Pause” button ⏸ in the 1st column";
+"SS.clmninfo" = "(Click on the top of the 🚫 column to pause (disable) all)";
 

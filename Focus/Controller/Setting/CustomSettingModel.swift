@@ -36,11 +36,11 @@ enum SettingOptions: Int, CaseIterable {
     var title: String {
         switch self {
         case .general_setting:
-            return "General Settings".uppercased()
+            return NSLocalizedString("Customize.general_settings", comment: "General Settings").uppercased()
         case .block_setting:
-            return "Blocklists".uppercased() + " (view & edit)"
+            return NSLocalizedString("Customize.blocklists", comment: "Blocklists").uppercased() + " " + NSLocalizedString("Customize.edit_view", comment: "(view & edit)")
         case .schedule_setting:
-            return "Scheduler".uppercased() + " (view, edit & activate)"
+            return NSLocalizedString("Customize.scheduler", comment: "Scheduler").uppercased() + " " + NSLocalizedString("Customize.edit_view_active", comment: "(view, edit & activate)")
         }
     }
 

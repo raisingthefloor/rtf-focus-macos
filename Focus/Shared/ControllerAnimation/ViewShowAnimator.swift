@@ -29,10 +29,12 @@ class ViewShowAnimator: NSObject, NSViewControllerPresentationAnimator {
     func animatePresentation(of viewController: NSViewController, from fromViewController: NSViewController) {
         let parentViewC = fromViewController
         let childViewC = viewController
+
         childViewC.view.wantsLayer = true
         childViewC.view.layerContentsRedrawPolicy = .onSetNeedsDisplay
-        childViewC.view.alphaValue = 0
+        childViewC.view.alphaValue = 1
         parentViewC.view.addSubview(childViewC.view)
+
         var frame: CGRect = NSRectToCGRect(parentViewC.view.frame)
         frame = frame.insetBy(dx: 0, dy: 0)
         childViewC.view.frame = NSRectFromCGRect(frame)
@@ -60,6 +62,42 @@ class ViewShowAnimator: NSObject, NSViewControllerPresentationAnimator {
             childViewC.view.removeFromSuperview()
         })
     }
+
+//    func animatePresentation(of viewController: NSViewController, from fromViewController: NSViewController) {
+//        if let window = fromViewController.view.window {
+//
+//            fromViewController.view.addSubview(viewController.view)
+//
+//            var frame: CGRect = NSRectToCGRect(window.frame)
+//            frame = frame.insetBy(dx: 0, dy: 0)
+//
+//            viewController.view.wantsLayer = true
+//            viewController.view.layerContentsRedrawPolicy = .onSetNeedsDisplay
+//            viewController.view.alphaValue = 0
+//            viewController.view.frame = NSRectFromCGRect(frame)
+//
+//            NSAnimationContext.runAnimationGroup({ (_) -> Void in
+//                fromViewController.view.animator().alphaValue = 0
+//            }, completionHandler: { () -> Void in
+//               // viewController.view.alphaValue = 0
+////                window.contentViewController = viewController
+////                window.contentView = viewController.view
+//                viewController.view.animator().alphaValue = 1.0
+//            })
+//        }
+//    }
+//
+//    func animateDismissal(of viewController: NSViewController, from fromViewController: NSViewController) {
+//        if let window = viewController.view.window {
+//            NSAnimationContext.runAnimationGroup({ (_) -> Void in
+//                viewController.view.animator().alphaValue = 0
+//            }, completionHandler: { () -> Void in
+//                fromViewController.view.alphaValue = 0
+//                window.contentViewController = fromViewController
+//                fromViewController.view.animator().alphaValue = 1.0
+//            })
+//        }
+//    }
 }
 
 class CustomSegue: NSStoryboardSegue {

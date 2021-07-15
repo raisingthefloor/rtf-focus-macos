@@ -53,7 +53,7 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
             menus.addItem(menuItem)
         }
         menus.addItem(.separator())
-        let showOption = NSMenuItem(title: "Show or Edit Blocklist", action: nil, keyEquivalent: "o")
+        let showOption = NSMenuItem(title: NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist"), action: nil, keyEquivalent: "o")
         showOption.tag = -1
         menus.addItem(showOption)
         return (menus, blockList)
@@ -93,7 +93,6 @@ extension MenuViewModel {
             callback(state, nil)
         default:
             print("default ::: \(state)")
-
             callback(state, nil)
         }
     }
