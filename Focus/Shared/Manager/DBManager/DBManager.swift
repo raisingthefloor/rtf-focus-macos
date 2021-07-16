@@ -32,7 +32,7 @@ class DBManager {
 
 extension DBManager: DBMangerLogic {
     func saveBlock(data: [String: Any]) {
-        let entity = NSEntityDescription.entity(forEntityName: "Block", in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: "Override_Block", in: managedContext)!
         let block = NSManagedObject(entity: entity, insertInto: managedContext)
 
         for (key, value) in data {
@@ -47,7 +47,7 @@ extension DBManager: DBMangerLogic {
     }
 
     func getBlockList() -> [Override_Block] {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Override_Block")
         do {
             let block = try managedContext.fetch(fetchRequest)
             guard let overriedBlocks = block as? [Override_Block] else { return [] }

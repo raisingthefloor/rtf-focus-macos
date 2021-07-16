@@ -46,7 +46,7 @@ class BlockListViewC: BaseViewController {
     @IBOutlet var lblExample: NSTextField!
 
     let viewModel: BlockListViewModelType = BlockListViewModel()
-    var webSites: [String] = []
+    var webSites: [Override_Block] = []
 
     let cellIdentifier: String = "checkboxCellID"
     let addCellIdentifier: String = "addCellID"
@@ -128,7 +128,7 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func setupCellAsperTable(tableView: NSTableView, row: Int) -> NSView? {
         if tableView == tblCategory {
-            let blocks = viewModel.input.getBlockList()
+            let blocks = viewModel.input.getBlockList().0
             let item = blocks[row]
 
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? CheckBoxCell {
@@ -150,10 +150,11 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                     return buttonCell
                 }
             }
-            let item = webSites[row - 1]
+            let blocks = viewModel.input.getBlockList().1
+            let item = blocks[row - 1]
 
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? CheckBoxCell {
-                cell.checkBox.title = item
+                cell.checkBox.title = item.name ?? "-"
                 cell.checkBox.target = self
                 cell.checkBox.action = #selector(blockTap(_:))
                 return cell
@@ -171,10 +172,11 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             }
 
-            let item = webSites[row - 1]
+            let blocks = viewModel.input.getBlockList().1
+            let item = blocks[row - 1]
 
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? CheckBoxCell {
-                cell.checkBox.title = item
+                cell.checkBox.title = item.name ?? "-"
                 cell.checkBox.target = self
                 cell.checkBox.action = #selector(notBlockTap(_:))
 
@@ -187,11 +189,11 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func getCount(tableView: NSTableView) -> Int {
         if tableView == tblCategory {
-            return viewModel.input.getBlockList().count
+            return viewModel.input.getBlockList().0.count
         } else if tableView == tblBlock {
-            return webSites.count + 1
+            return viewModel.input.getBlockList().1.count + 1
         } else if tableView == tblNotBlock {
-            return webSites.count + 1
+            return viewModel.input.getBlockList().2.count + 1
         }
 
         return 0
@@ -204,13 +206,15 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func openPopup() {
+        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+        print(paths[0])
+
         promptToForInput("Enter Web Url", "Copy Url from Webrowser and paste it below.", completion: { (value: String, action: Bool) in
             if action {
                 print(value)
 
-                let data: [String: Any] = ["name": value]
-                viewModel.input.storeOverridesBlock(data: data) { _ in
-                    self.webSites.append(value)
+                let data: [String: Any] = ["name": value, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
+                viewModel.input.storeOverridesBlock(data: data) { overriedBlocks in
                     self.tblBlock.reloadData()
                     self.tblNotBlock.reloadData()
                 }

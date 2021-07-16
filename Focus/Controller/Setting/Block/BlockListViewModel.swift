@@ -27,7 +27,7 @@ import Cocoa
 import Foundation
 
 protocol BlockListViewModelIntput {
-    func getBlockList() -> [BlockCategory]
+    func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block])
     func storeOverridesBlock(data: [String: Any], callback: @escaping (([Override_Block]) -> Void))
 }
 
@@ -46,7 +46,7 @@ class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, Bl
     let blockNames: [String] = ["Calls", "Notification (Turn DND on)", "Social Media", "Games", "News", "Shopping", "Projects", "Medical"]
     let childeren: [String] = ["Facebook", "Intagram", "LinkedIn"]
 
-    func getBlockList() -> [BlockCategory] {
+    func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block]) {
         var blockCategories: [BlockCategory] = []
 
         for i in 0 ..< blockNames.count {
@@ -61,12 +61,14 @@ class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, Bl
             let block = BlockCategory(id: i, name: blockNames[i], childeren: childrenBlock)
             blockCategories.append(block)
         }
-        return blockCategories
+        let override_bloks = DBManager.shared.getBlockList()
+        return (blockCategories, override_bloks, override_bloks)
     }
 
     func storeOverridesBlock(data: [String: Any], callback: @escaping (([Override_Block]) -> Void)) {
         DBManager.shared.saveBlock(data: data)
         let override_bloks = DBManager.shared.getBlockList()
+        callback(override_bloks)
     }
 }
 

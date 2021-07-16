@@ -31,8 +31,8 @@
     <entity name="Override_Block" representedClassName="Override_Block" syncable="YES" codeGenerationType="class">
         <attribute name="block_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="is_deleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="is_selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="is_deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <elements>
