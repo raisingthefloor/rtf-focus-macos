@@ -22,4 +22,40 @@
  * Consumer Electronics Association Foundation
  */
 
+import CoreData
 import Foundation
+
+class DBManager {
+    static var shared: DBMangerLogic = DBManager()
+    let managedContext = DataController.shared.persistentContainer.viewContext
+}
+
+extension DBManager: DBMangerLogic {
+    func saveBlock(data: [String: Any]) {
+        let entity = NSEntityDescription.entity(forEntityName: "Block", in: managedContext)!
+        let block = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        for (key, value) in data {
+            block.setValue(value, forKeyPath: key)
+        }
+
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+
+    func getBlockList() -> [Override_Block] {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block")
+        do {
+            let block = try managedContext.fetch(fetchRequest)
+            guard let overriedBlocks = block as? [Override_Block] else { return [] }
+            return overriedBlocks
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+
+        return []
+    }
+}

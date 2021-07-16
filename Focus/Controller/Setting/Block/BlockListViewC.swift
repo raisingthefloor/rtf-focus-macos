@@ -26,25 +26,25 @@
 import Cocoa
 
 class BlockListViewC: BaseViewController {
-    @IBOutlet weak var lblSettingInfo: NSTextField!
-    @IBOutlet weak var lblRename: NSTextField!
-    
+    @IBOutlet var lblSettingInfo: NSTextField!
+    @IBOutlet var lblRename: NSTextField!
+
     @IBOutlet var tblCategory: NSTableView!
     @IBOutlet var tblBlock: NSTableView!
     @IBOutlet var tblNotBlock: NSTableView!
-    @IBOutlet weak var comboBlock: NSPopUpButton!
-    @IBOutlet weak var lblAdditionalTitle: NSTextField!
-    @IBOutlet weak var lblHard: NSTextField!
-    @IBOutlet weak var radioLeave: NSButton!
-    @IBOutlet weak var radioRandom: NSButton!
-    @IBOutlet weak var radioSignout: NSButton!
-    @IBOutlet weak var lblScheduleTitle: NSTextField!
-    @IBOutlet weak var checkboxLongBreak: NSButton!
-    @IBOutlet weak var checkboxOnlyLong: NSButton!
-    @IBOutlet weak var checkboxContinues: NSButton!
+    @IBOutlet var comboBlock: NSPopUpButton!
+    @IBOutlet var lblAdditionalTitle: NSTextField!
+    @IBOutlet var lblHard: NSTextField!
+    @IBOutlet var radioLeave: NSButton!
+    @IBOutlet var radioRandom: NSButton!
+    @IBOutlet var radioSignout: NSButton!
+    @IBOutlet var lblScheduleTitle: NSTextField!
+    @IBOutlet var checkboxLongBreak: NSButton!
+    @IBOutlet var checkboxOnlyLong: NSButton!
+    @IBOutlet var checkboxContinues: NSButton!
 
-    @IBOutlet weak var lblExample: NSTextField!
-    
+    @IBOutlet var lblExample: NSTextField!
+
     let viewModel: BlockListViewModelType = BlockListViewModel()
     var webSites: [String] = []
 
@@ -66,21 +66,19 @@ class BlockListViewC: BaseViewController {
 extension BlockListViewC: BasicSetupType {
     func setUpText() {
         lblSettingInfo.stringValue = NSLocalizedString("BS.blocksetting_info", comment: "You can choose the apps and website you want  to have blocked when you are focusing.  You can select categories (on the left) or you can just list individual apps and websites (on the right).  You can use a premade set – or you can make your own sets.  If you try to use an application or website you have blocked during a focus session it will not launch or will immediately shut down with a message ”You selected this to be blocked during your focus session”.")
-        
+
         lblRename.stringValue = NSLocalizedString("BS.rename_edit", comment: "Show/edit/rename BlockList Named")
         lblAdditionalTitle.stringValue = NSLocalizedString("BS.additional_options", comment: "Additional Options for this BlockList (only)")
         lblHard.stringValue = NSLocalizedString("BS.make_hard", comment: "Make it hard for me to STOP a FOCUS Session early (Lock it)")
         radioLeave.title = NSLocalizedString("BS.leave_it", comment: "No - Leave it so I can unlock focus any time with the click of one of the STOP buttons.")
         radioRandom.title = NSLocalizedString("BS.random_character", comment: "🔒 - Make me type a string of random characters you give me to type  [30] characters")
         radioSignout.title = NSLocalizedString("BS.sign_out", comment: "🔒 - Make me Sign out and back in to stop focus session")
-        
+
         lblScheduleTitle.stringValue = NSLocalizedString("BS.schedule_title", comment: "Scheduling Options (FOR THIS BLOCKLIST ONLY)")
         checkboxLongBreak.title = NSLocalizedString("BS.short_long", comment: "Unblock this list during short and long breaks during scheduled focus periods")
         checkboxOnlyLong.title = NSLocalizedString("BS.only_long", comment: "Unblock this list ONLY for long breaks  (at 2-hour points) in scheduled focus periods")
         checkboxContinues.title = NSLocalizedString("BS.continues", comment: "Continuously block this list for entire scheduled focus period (including breaks)")
         lblExample.stringValue = NSLocalizedString("BS.eg", comment: "(e.g. if you might create a BlockList for  just games – and want to make sure they are blocked all day – and not be available even during breaks)")
-
-
     }
 
     func setUpViews() {
@@ -135,11 +133,8 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? CheckBoxCell {
                 cell.checkBox.title = item.name ?? "-"
-
-//                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
-//                    print("Block")
-//                    print(cell.checkBox.state)
-//                }).disposed(by: cell.disposeBag)
+                cell.checkBox.target = self
+                cell.checkBox.action = #selector(categoryTap(_:))
 
                 return cell
             }
@@ -147,15 +142,10 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else if tableView == tblBlock {
             if row == 0 {
                 if let buttonCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? ButtonCell {
-                    
                     buttonCell.configBlockCell()
-//                    buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
-//                        print("btnAddApp")
-//                    }).disposed(by: buttonCell.disposeBag)
-//
-//                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
-//                        self?.openPopup()
-//                    }).disposed(by: buttonCell.disposeBag)
+                    buttonCell.bindTarget(target: self)
+                    buttonCell.btnAddApp.action = #selector(openAppSelection(_:))
+                    buttonCell.btnAddWeb.action = #selector(addWebUrl(_:))
 
                     return buttonCell
                 }
@@ -164,27 +154,18 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? CheckBoxCell {
                 cell.checkBox.title = item
-
-//                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
-//                    print("Block")
-//                    print(cell.checkBox.state)
-//                }).disposed(by: cell.disposeBag)
-
+                cell.checkBox.target = self
+                cell.checkBox.action = #selector(blockTap(_:))
                 return cell
             }
 
         } else if tableView == tblNotBlock {
             if row == 0 {
                 if let buttonCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? ButtonCell {
-                    
                     buttonCell.configBlockCell()
-//                    buttonCell.btnAddApp.rx.tap.subscribe(onNext: { [weak self] _ in
-//                        print("btnAddApp")
-//                    }).disposed(by: buttonCell.disposeBag)
-//
-//                    buttonCell.btnAddWeb.rx.tap.subscribe(onNext: { [weak self] _ in
-//                        self?.openPopup()
-//                    }).disposed(by: buttonCell.disposeBag)
+                    buttonCell.bindTarget(target: self)
+                    buttonCell.btnAddApp.action = #selector(openAppSelection(_:))
+                    buttonCell.btnAddWeb.action = #selector(addWebUrl(_:))
 
                     return buttonCell
                 }
@@ -194,11 +175,8 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: addCellIdentifier), owner: nil) as? CheckBoxCell {
                 cell.checkBox.title = item
-
-//                cell.checkBox.rx.tap.subscribe(onNext: { [weak self] _ in
-//                    print("Block")
-//                    print(cell.checkBox.state)
-//                }).disposed(by: cell.disposeBag)
+                cell.checkBox.target = self
+                cell.checkBox.action = #selector(notBlockTap(_:))
 
                 return cell
             }
@@ -229,10 +207,41 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         promptToForInput("Enter Web Url", "Copy Url from Webrowser and paste it below.", completion: { (value: String, action: Bool) in
             if action {
                 print(value)
-                webSites.append(value)
-                tblBlock.reloadData()
-                tblNotBlock.reloadData()
+
+                let data: [String: Any] = ["name": value]
+                viewModel.input.storeOverridesBlock(data: data) { _ in
+                    self.webSites.append(value)
+                    self.tblBlock.reloadData()
+                    self.tblNotBlock.reloadData()
+                }
             }
         })
+    }
+}
+
+// Button Action
+extension BlockListViewC {
+    @objc func categoryTap(_ sender: NSButton) {
+        print("Category")
+        print(sender.state)
+    }
+
+    @objc func blockTap(_ sender: NSButton) {
+        print("Block")
+        print(sender.state)
+    }
+
+    @objc func notBlockTap(_ sender: NSButton) {
+        print("notBlockTap")
+        print(sender.state)
+    }
+
+    @objc func openAppSelection(_ sender: NSButton) {
+        print("openAppSelection")
+    }
+
+    @objc func addWebUrl(_ sender: NSButton) {
+        print("addWebUrl")
+        openPopup()
     }
 }

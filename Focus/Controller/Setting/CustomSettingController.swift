@@ -35,7 +35,7 @@ class CustomSettingController: NSViewController, ItemHostSV {
 
     @IBOutlet var stackView: CustomStackView!
     
-    var customSV: CustomStackView?
+    var selectedSettig: SettingOptions = .none
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +97,11 @@ extension CustomSettingController {
         stackView.addArrangedSubview(containerView.header.viewController.view)
         stackView.addArrangedSubview(containerView.body.viewController.view)
         stackView.continerViews.append(containerView)
-        hide(containerView, animated: false)
+        if selectedSettig == settingOption {
+            show(containerView, animated: true)
+        }else{
+            hide(containerView, animated: false)
+        }
     }
 
     func closeOtherController(_ containerView: ItemContainerS) {

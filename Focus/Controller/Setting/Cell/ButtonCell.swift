@@ -29,7 +29,6 @@ class ButtonCell: NSTableCellView {
     @IBOutlet var btnAddApp: NSButton!
     @IBOutlet var btnAddWeb: NSButton!
 
-
     override func prepareForReuse() {
         super.prepareForReuse()
     }
@@ -49,8 +48,15 @@ extension ButtonCell: BasicSetupType {
     }
 
     func configBlockCell() {
-        btnAddApp.title = "Add App"
-        btnAddWeb.title = "Add Website"
+        btnAddApp.title = BlockType.application.title
+        btnAddWeb.title = BlockType.web.title
+    }
+
+    func bindTarget(target: AnyObject?) {
+        btnAddApp.target = target
+        btnAddWeb.target = target
+        btnAddApp.tag = BlockType.application.rawValue
+        btnAddWeb.tag = BlockType.web.rawValue
     }
 
     func configScheduleActionCell(isPause: Bool) {

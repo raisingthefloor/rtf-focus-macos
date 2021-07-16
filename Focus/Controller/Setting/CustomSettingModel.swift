@@ -32,6 +32,7 @@ enum SettingOptions: Int, CaseIterable {
     case general_setting
     case block_setting
     case schedule_setting
+    case none
 
     var title: String {
         switch self {
@@ -41,6 +42,8 @@ enum SettingOptions: Int, CaseIterable {
             return NSLocalizedString("Customize.blocklists", comment: "Blocklists").uppercased() + " " + NSLocalizedString("Customize.edit_view", comment: "(view & edit)")
         case .schedule_setting:
             return NSLocalizedString("Customize.scheduler", comment: "Scheduler").uppercased() + " " + NSLocalizedString("Customize.edit_view_active", comment: "(view, edit & activate)")
+        default:
+            return ""
         }
     }
 
@@ -52,6 +55,8 @@ enum SettingOptions: Int, CaseIterable {
             return "BlockListView"
         case .schedule_setting:
             return "SchedulerView"
+        default:
+            return ""
         }
     }
 }

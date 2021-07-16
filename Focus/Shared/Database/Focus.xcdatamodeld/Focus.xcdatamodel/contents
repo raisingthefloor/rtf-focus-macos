@@ -28,12 +28,20 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="allowed_override" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Allowed_Blocked_GS" inverseName="general_setting" inverseEntity="Allowed_Blocked_GS"/>
     </entity>
+    <entity name="Override_Block" representedClassName="Override_Block" syncable="YES" codeGenerationType="class">
+        <attribute name="block_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="is_deleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
+        <element name="Allowed_Blocked_GS" positionX="-27" positionY="63" width="128" height="44"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="89"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="29"/>
         <element name="Focuc_Interface" positionX="-63" positionY="-18" width="128" height="149"/>
         <element name="Focus" positionX="-54" positionY="-9" width="128" height="29"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="104"/>
-        <element name="Allowed_Blocked_GS" positionX="-27" positionY="63" width="128" height="44"/>
+        <element name="Override_Block" positionX="-36" positionY="63" width="128" height="104"/>
     </elements>
 </model>

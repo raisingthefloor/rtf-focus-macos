@@ -146,8 +146,8 @@ extension MenuController: BasicSetupType {
 
     @IBAction func handleBlockSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
-        if popup.tag == -1 {
-            print("Open Add Update View")
+        if popBlock.selectedTag() == -1 {
+            openCustomSetting()
         }
         print("Selected block:", popBlock.titleOfSelectedItem ?? "")
     }
