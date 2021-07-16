@@ -36,14 +36,14 @@
             <objects>
                 <viewController storyboardIdentifier="sidCustomSetting" id="bU7-R8-ocO" customClass="CustomSettingController" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="tOy-S4-hL0">
-                        <rect key="frame" x="0.0" y="0.0" width="580" height="644"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="644"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dgU-lB-4Mh">
-                                <rect key="frame" x="0.0" y="0.0" width="580" height="644"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="644"/>
                                 <subviews>
                                     <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dbG-o7-QQb">
-                                        <rect key="frame" x="0.0" y="600" width="580" height="44"/>
+                                        <rect key="frame" x="0.0" y="600" width="600" height="44"/>
                                         <subviews>
                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1jp-6X-yBN">
                                                 <rect key="frame" x="10" y="2" width="40" height="40"/>
@@ -54,7 +54,7 @@
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ic_setting" id="Cl1-5b-iyO"/>
                                             </imageView>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tj7-1k-5fJ">
-                                                <rect key="frame" x="532" y="3" width="36" height="37"/>
+                                                <rect key="frame" x="552" y="3" width="36" height="37"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="Lse-lc-U5s"/>
                                                     <constraint firstAttribute="height" constant="30" id="Y8Y-xD-qE0"/>
@@ -65,7 +65,7 @@
                                                 </buttonCell>
                                             </button>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cag-AL-hQE">
-                                                <rect key="frame" x="56" y="12" width="473" height="20"/>
+                                                <rect key="frame" x="56" y="12" width="493" height="20"/>
                                                 <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="left" title="Cust" id="25b-Ka-OEW">
                                                     <font key="font" metaFont="systemMedium" size="17"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -86,16 +86,16 @@
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="J9G-Wp-CJ6">
-                                        <rect key="frame" x="0.0" y="0.0" width="580" height="600"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cu-ag-gKj">
-                                                <rect key="frame" x="0.0" y="0.0" width="580" height="600"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                                 <clipView key="contentView" id="qt0-k8-7Pn" customClass="FlippedClipView" customModule="Focus" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="565" height="600"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="585" height="600"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="1" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lNe-EB-jqD" customClass="CustomStackView" customModule="Focus" customModuleProvider="target">
-                                                            <rect key="frame" x="20" y="590" width="545" height="0.0"/>
+                                                            <rect key="frame" x="20" y="590" width="565" height="0.0"/>
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
@@ -109,7 +109,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ju8-AH-Q8O">
-                                                    <rect key="frame" x="565" y="0.0" width="15" height="600"/>
+                                                    <rect key="frame" x="585" y="0.0" width="15" height="600"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -124,6 +124,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="dbG-o7-QQb" firstAttribute="width" secondItem="J9G-Wp-CJ6" secondAttribute="width" id="Ai1-lC-TE6"/>
+                                    <constraint firstAttribute="width" constant="600" id="Ozk-Ou-Ge0"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>

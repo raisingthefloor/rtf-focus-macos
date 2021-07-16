@@ -163,10 +163,10 @@ extension MenuController: BasicSetupType {
     }
 
     @objc func openCustomSetting() {
+//        performSegue(withIdentifier: "segueSetting", sender: self)
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
             present(vc, animator: ViewShowAnimator())
-//            let animator = ViewShowAnimator()
-//            present(vc, animator: animator)
         }
     }
 }
+

@@ -25,6 +25,10 @@
 import Cocoa
 import Foundation
 
+protocol DismissViewCDelegate: AnyObject {
+    func dismissViewC()
+}
+
 class BaseViewController: NSViewController, ItemBody {
 
     typealias alertActionClosure = (_ value: String, _ action: Bool) -> Void

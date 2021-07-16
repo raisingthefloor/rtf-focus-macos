@@ -34,7 +34,7 @@ class CustomSettingController: NSViewController, ItemHostSV {
     @IBOutlet var containerView: NSView!
 
     @IBOutlet var stackView: CustomStackView!
-
+    
     var customSV: CustomStackView?
 
     override func viewDidLoad() {
@@ -66,15 +66,20 @@ extension CustomSettingController: BasicSetupType {
 
     func bindData() {
         btnClose.target = self
-        btnClose.action = #selector(closeWindow)
+        btnClose.action = #selector(closeWindow(_:))
     }
 
-    @objc func closeWindow() {
-        if presentingViewController != nil {
-            presentingViewController?.dismiss(self)
-        } else {
-            view.window?.close()
+    @objc func closeWindow(_ sender: Any) {
+                        
+        if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+            present(vc, animator: ViewShowAnimator())
         }
+            
+//        if presentingViewController != nil {
+//            presentingViewController?.dismiss(self)
+//        } else {
+//            view.window?.close()
+//        }
     }
 }
 
