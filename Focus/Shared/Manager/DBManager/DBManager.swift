@@ -59,3 +59,20 @@ extension DBManager: DBMangerLogic {
         return []
     }
 }
+
+extension DBManager {
+    func createFocus(data: [String: Any]) {
+        let entity = NSEntityDescription.entity(forEntityName: Focus.entity_name, in: managedContext)!
+        let block = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        for (key, value) in data {
+            block.setValue(value, forKeyPath: key)
+        }
+
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save focus. \(error), \(error.userInfo)")
+        }
+    }
+}

@@ -26,6 +26,7 @@ import CoreData
 import Foundation
 
 protocol DBMangerLogic {
+    func createFocus(data: [String: Any])
     func saveBlock(data: [String: Any])
     func getBlockList() -> [Override_Block]
 }

@@ -27,6 +27,23 @@ import Cocoa
 import Foundation
 
 enum Focus {
+    static var entity_name: String {
+        return "Focus"
+    }
+
+    enum Relationship {
+        case block_data
+        case override_data
+
+        var key_name: String {
+            switch self {
+            case .block_data:
+                return "block_data"
+            case .override_data:
+                return "override_block_data"
+            }
+        }
+    }
 }
 
 extension Focus {
@@ -50,6 +67,10 @@ extension Focus {
             case .stop_focus:
                 return NSLocalizedString("Home.stop_focus", comment: "STOP FOCUS")
             }
+        }
+
+        static var key_name: String {
+            return "focus_length_time"
         }
     }
 
@@ -80,6 +101,10 @@ extension Focus {
                 menus.addItem(menuItem)
             }
             return menus
+        }
+
+        static var key_name: String {
+            return "short_break_time"
         }
     }
 
@@ -116,6 +141,10 @@ extension Focus {
                 menus.addItem(menuItem)
             }
             return menus
+        }
+
+        static var key_name: String {
+            return "stop_focus_after_time"
         }
     }
 
@@ -167,6 +196,19 @@ extension Focus {
                 return .on
             default:
                 return .off
+            }
+        }
+
+        var key_name: String {
+            switch self {
+            case .dnd:
+                return "is_dnd_mode"
+            case .focus_break_1:
+                return "short_break_time"
+            case .focus_break_2:
+                return "stop_focus_after_time"
+            default:
+                return ""
             }
         }
     }
