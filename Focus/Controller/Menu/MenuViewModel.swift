@@ -30,6 +30,7 @@ protocol MenuViewModelIntput {
     func getBlockList() -> (NSMenu, [String])
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void))
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void))
+    var focusObj: Focuses? { get set }
 }
 
 protocol MenuViewModelOutput {
@@ -41,6 +42,10 @@ protocol MenuViewModelType {
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
+    var focusObj: Focuses? = {
+        DBManager.shared.getFoucsObject()
+    }()
+
     var input: MenuViewModelIntput { return self }
     var output: MenuViewModelOutput { return self }
 
@@ -75,7 +80,9 @@ extension MenuViewModel {
         case .stop_focus:
             print("stop_focus")
         }
-
+        focusObj?.focus_length_time = time.value
+        focusObj?.is_focusing = true
+        DBManager.shared.saveContext()
         callback(true, nil)
     }
 
@@ -84,12 +91,15 @@ extension MenuViewModel {
         switch option {
         case .dnd:
             print("dnd ::: \(state)")
+            focusObj?.is_dnd_mode = (state == .on) ? true : false
             callback(state, nil)
         case .focus_break:
             print("focus_break ::: \(state)")
+            focusObj?.is_provided_short_break = (state == .on) ? true : false
             callback(state, nil)
         case .block_program_website:
             print("block_program_website ::: \(state)")
+            focusObj?.is_block_programe_select = (state == .on) ? true : false
             callback(state, nil)
         default:
             print("default ::: \(state)")

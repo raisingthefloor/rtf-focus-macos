@@ -24,9 +24,6 @@
  */
 
 import Foundation
-import L10n_swift
-import RxRelay
-import RxSwift
 
 enum SettingOptions: Int, CaseIterable {
     case general_setting

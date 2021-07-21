@@ -28,7 +28,7 @@ import Foundation
 
 enum Focus {
     static var entity_name: String {
-        return "Focus"
+        return "Focuses"
     }
 
     enum Relationship {
@@ -66,6 +66,21 @@ extension Focus {
                 return NSLocalizedString("Home.untill_press_stop", comment: "Focus untill I press stop")
             case .stop_focus:
                 return NSLocalizedString("Home.stop_focus", comment: "STOP FOCUS")
+            }
+        }
+
+        var value: Double {
+            switch self {
+            case .half_past:
+                return 30
+            case .one_hr:
+                return 60
+            case .two_hr:
+                return 120
+            case .untill_press_stop:
+                return 8 * 60
+            case .stop_focus:
+                return 0
             }
         }
 
@@ -187,13 +202,14 @@ extension Focus {
         }
 
         var isOn: NSControl.StateValue {
+            let obj = DBManager.shared.getFoucsObject()
             switch self {
             case .dnd:
-                return .on // set as per the prefrence or as per the DB
+                return (obj?.is_dnd_mode == true) ? .on : .off
             case .focus_break:
-                return .off
+                return (obj?.is_provided_short_break == true) ? .on : .off
             case .block_program_website:
-                return .on
+                return (obj?.is_block_programe_select == true) ? .on : .off
             default:
                 return .off
             }

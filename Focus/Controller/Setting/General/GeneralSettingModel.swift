@@ -25,9 +25,6 @@
 
 import Cocoa
 import Foundation
-import L10n_swift
-import RxRelay
-import RxSwift
 
 protocol GeneralSettingModelIntput {
 }

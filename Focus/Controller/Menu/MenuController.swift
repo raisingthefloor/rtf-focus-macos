@@ -135,6 +135,7 @@ extension MenuController: BasicSetupType {
     @objc func buttonEventHandler(_ sender: NSButton) {
         guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
         viewModel.input.updateFocusStop(time: focusTime) { _, _ in
+            self.dismiss(nil)
         }
     }
 
@@ -150,16 +151,21 @@ extension MenuController: BasicSetupType {
             openCustomSetting()
         }
         print("Selected block:", popBlock.titleOfSelectedItem ?? "")
+
+        // Here set the Block object in focus object
     }
 
     @IBAction func foucsTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         print("Selected Focus Time:", popup.titleOfSelectedItem ?? "")
+        viewModel.input.focusObj?.stop_focus_after_time = Double(popup.titleOfSelectedItem ?? "15") ?? Double(Focus.FocusTime.fifteen.value)
     }
 
     @IBAction func breakTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         print("Selected Break Time:", popup.titleOfSelectedItem ?? "")
+
+        viewModel.input.focusObj?.short_break_time = Double(popup.titleOfSelectedItem ?? "5") ?? Double(Focus.BreakTime.five.value)
     }
 
     @objc func openCustomSetting() {
@@ -170,3 +176,14 @@ extension MenuController: BasicSetupType {
     }
 }
 
+extension MenuController {
+    func setupData() {
+        guard let obj = viewModel.input.focusObj else { return }
+        popBreakTime.title = String(format: "%@", obj.short_break_time)
+        popFocusTime.title = String(format: "%@", obj.stop_focus_after_time)
+
+        for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI, btnStop] {
+            btn?.isEnabled = !obj.is_focusing
+        }
+    }
+}

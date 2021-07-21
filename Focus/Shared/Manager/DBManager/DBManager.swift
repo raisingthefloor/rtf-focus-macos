@@ -75,4 +75,32 @@ extension DBManager {
             print("Could not save focus. \(error), \(error.userInfo)")
         }
     }
+
+    func getFoucsObject() -> Focuses? {
+        var focusObj: Focuses?
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Focus.entity_name)
+        fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
+
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                focusObj = results.first as? Focuses
+            } else {
+                focusObj = Focuses(context: managedContext)
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        return focusObj
+    }
+}
+
+extension DBManager {
+    func saveContext() {
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Update the context \(error), \(error.userInfo)")
+        }
+    }
 }
