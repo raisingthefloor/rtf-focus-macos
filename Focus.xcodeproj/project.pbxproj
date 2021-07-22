@@ -39,6 +39,10 @@
 		3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D47267CA9F0007826F3 /* Localizable.strings */; };
 		3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D4B267CB720007826F3 /* Main.storyboard */; };
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
+		3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */; };
+		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
+		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
+		3FC8108526A939780058D1CF /* FocusDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */; };
 		3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */; };
 		3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */; };
 		3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA602682083200C9D82D /* BaseViewController.swift */; };
@@ -92,6 +96,10 @@
 		3FA51D47267CA9F0007826F3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		3FA51D4C267CB720007826F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewC.swift; sourceTree = "<group>"; };
+		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
+		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
+		3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewModel.swift; sourceTree = "<group>"; };
 		3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3FD0CA602682083200C9D82D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -272,6 +280,7 @@
 		3FA51D49267CB6CE007826F3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3FC8107D26A9388E0058D1CF /* Dialogue */,
 				3F4DFA3526835D6F0013BA0C /* Setting */,
 				3FA51D4A267CB6D8007826F3 /* Menu */,
 			);
@@ -286,6 +295,17 @@
 				3FDC9131269EC5700021D3E3 /* MenuModel.swift */,
 			);
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
+			isa = PBXGroup;
+			children = (
+				3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */,
+				3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */,
+				3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */,
+				3FC8108226A939520058D1CF /* FocusDialogueModel .swift */,
+			);
+			path = Dialogue;
 			sourceTree = "<group>";
 		};
 		3FD0CA5C2681FB4A00C9D82D /* Handler */ = {
@@ -416,6 +436,7 @@
 			files = (
 				3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
+				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
@@ -432,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */,
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,
 				3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */,
@@ -441,6 +463,7 @@
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */,
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
+				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,
 				3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */,
@@ -469,6 +492,7 @@
 				3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */,
 				3FFC1E6E2680C13D0014216C /* Protocols.swift in Sources */,
 				3FFC1E682680C13D0014216C /* Enums.swift in Sources */,
+				3FC8108526A939780058D1CF /* FocusDialogueViewModel.swift in Sources */,
 				3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */,
 				3F1F265226845B3B007D9878 /* ViewShowAnimator.swift in Sources */,
 			);
