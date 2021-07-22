@@ -34,7 +34,14 @@
 "Button.send" = "Send";
 "Button.remove" = "Remove";
 "Button.ok" = "Ok";
-"Button.stop_focusing" = "I want to Stop Focusing";
+"Button.want_stop_focusing" = "I want to Stop Focusing";
+"Button.stop_focusing" = "Stop Focusing";
+"Button.continue_focusing" = "Continue Focusing";
+"Button.ready_to_focus" = "OK - Ready to focus";
+"Button.dont_remind" = "Don't Remind me until NEXT scheduled session";
+"Button.cancel_session" = "Cancel Focus Session";
+"Button.never_mind" = "Never Mind – take me back to focus program";
+"Button.take_me_signout" = "Take me to SIGN OUT";
 
 "Home.half_last" = "30 Min";
 "Home.one_hr" = "1 Hr";
@@ -52,11 +59,13 @@
 "Home.focus_lenght_title" = "Turn on FOCUS for the following length of the time.";
 "Home.customize_setting" = "Customize Setting";
 "Home.show_edit_blocklist" = "Show or Edit Blocklist";
+
 "Customize.general_settings" = "General Settings";
 "Customize.blocklists" = "Blocklists";
 "Customize.edit_view" = "(view & edit)";
 "Customize.scheduler" = "Scheduler";
 "Customize.edit_view_active" = "(view, edit & activate)";
+
 "GS.behaviorTitle" = "Behavior During Focus Period";
 "GS.lock_computer" = "Lock my computer screen for first minute during  Break";
 "GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.)";
@@ -68,6 +77,7 @@
 "GS.overridetitle" = "List of allowable overrides.";
 "GS.overrideinfo" = "Check item to override blocking until next day";
 "GS.edit_list" = "Edit List";
+
 "BS.blocksetting_info" = "You can choose the apps and website you want  to have blocked when you are focusing.  You can select categories (on the left) or you can just list individual apps and websites (on the right).  You can use a premade set – or you can make your own sets.  If you try to use an application or website you have blocked during a focus session it will not launch or will immediately shut down with a message ”You selected this to be blocked during your focus session”.";
 "BS.rename_edit" = "Show/edit/rename BlockList Named";
 "BS.additional_options" = "Additional Options for this BlockList (only)";
@@ -81,6 +91,7 @@
 "BS.continues"= "Continuously block this list for entire scheduled focus period (including breaks)";
 "BS.eg" = "(e.g. if you might create a BlockList for  just games – and want to make sure they are blocked all day – and not be available even during breaks)";
 "BS.make_new_list" = "Make a new BlockList";
+
 "SS.scheduleinfo" = "Schedule when you would like the FOCUS feature to turn on.";
 "SS.scheduleinfo1" = "(You can also choose to just get reminders without blocking)";
 "SS.scheduleinfo2" = "(STOP buttons will stop focus sessions at any time)";
@@ -89,11 +100,32 @@
 "SS.option3" = "3) Click on the days you want it to be active";
 "SS.pauseinfo" = "To pause (disable) any line in the table, click on the “Pause” button ⏸ in the 1st column";
 "SS.clmninfo" = "(Click on the top of the 🚫 column to pause (disable) all)";
+
 "Alert.break_time" = "Break Time";
 "Alert.break_time_extented_title" = "I want to finish something remind me to break again in";
 "Alert.five_min" = "5 min";
 "Alert.fifteen_min" = "15 min";
 "Alert.thirty_min" = "30 min";
+"Alert.block_message" = "You selected this to be blocked during your focus session.";
+"Alert.session_completed" = "Focus Session Completed.";
+"Alert.session_completed_desc" = "You have been focusing for %d hrs and %d min";
+"Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
+"Alert.warning_forced_pause_desc" = "You have been focusing for %d hours or more.";
+"Alert.warning_forced_pause_extend_title" = "Take a longer break ?";
+"Alert.one_hr" = "1 hr";
+"Alert.continue_with" = "Continue with";
+"Alert.breaks" = "min Breaks";
+"Alert.end_break" = "End of Break";
+"Alert.extend_break_title" = "Please Extend my break by";
+"Alert.one_min" = "1 min";
+"Alert.sixty_min" = "60 min";
+"Alert.schedule_reminded_with_blocklist_alert_desc" = "You Scheduled and AUTO-FOCUS session with BLOCKING for right now";
+"Alert.schedule_reminded_with_blocklist_alert_title" = "Give me a few minutes First";
+"Alert.disincentive_xx_character_sub_desc" = "Type the following letters into the space below.";
+"Alert.disincentive_signout_signin_alert_sub_desc" = "This will cause you to sign out of all your open programs. Be sure to save your work before signing out.";
+"Alert.disincentive_signout_signin_alert_desc" = "This BlockList requires that you sign out of Windows (macOS) and back in – in order to turn this particular BlockList off.";
+"Alert.disincentive_xx_character_alert_desc" = "This BlockList requires that you complete the following task before you can turn it off.";
+
 
 
 

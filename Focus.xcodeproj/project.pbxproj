@@ -43,6 +43,8 @@
 		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
 		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
 		3FC8108526A939780058D1CF /* FocusDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */; };
+		3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */; };
+		3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */; };
 		3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */; };
 		3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */; };
 		3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA602682083200C9D82D /* BaseViewController.swift */; };
@@ -100,6 +102,8 @@
 		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
 		3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewModel.swift; sourceTree = "<group>"; };
+		3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisincentiveViewC.swift; sourceTree = "<group>"; };
+		3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisincentiveViewC.xib; sourceTree = "<group>"; };
 		3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3FD0CA602682083200C9D82D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -300,12 +304,22 @@
 		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
 			isa = PBXGroup;
 			children = (
+				3FC8108626A9776A0058D1CF /* Disincentive */,
 				3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */,
 				3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */,
 				3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */,
 				3FC8108226A939520058D1CF /* FocusDialogueModel .swift */,
 			);
 			path = Dialogue;
+			sourceTree = "<group>";
+		};
+		3FC8108626A9776A0058D1CF /* Disincentive */ = {
+			isa = PBXGroup;
+			children = (
+				3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */,
+				3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */,
+			);
+			path = Disincentive;
 			sourceTree = "<group>";
 		};
 		3FD0CA5C2681FB4A00C9D82D /* Handler */ = {
@@ -439,6 +453,7 @@
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
+				3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */,
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
 				3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */,
 				3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */,
@@ -460,6 +475,7 @@
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */,
+				3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */,
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */,
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
