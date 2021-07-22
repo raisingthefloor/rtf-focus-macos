@@ -25,3 +25,10 @@ extension NSView {
         }
     }
 }
+
+extension String {
+    static func randomString(length: Int = 5) -> String {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return String((0 ..< length).map { _ in letters.randomElement()! })
+    }
+}

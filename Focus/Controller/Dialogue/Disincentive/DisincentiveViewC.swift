@@ -26,10 +26,57 @@
 import Cocoa
 
 class DisincentiveViewC: NSViewController {
+    @IBOutlet var lblDesc: NSTextField!
+    @IBOutlet var lblSubDesc: NSTextField!
+    @IBOutlet var lblCharacter: NSTextField!
+    @IBOutlet var txtCharacter: NSTextField!
+    @IBOutlet var btnNever: NSButton!
+    @IBOutlet var btnDone: NSButton!
+
+    var dialogueType: FocusDialogue = .disincentive_xx_character_alert
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setUpText()
+        setUpViews()
     }
-    
+}
+
+extension DisincentiveViewC: BasicSetupType {
+    func setUpText() {
+        lblDesc.stringValue = dialogueType.description
+        lblSubDesc.stringValue = dialogueType.sub_description
+        lblCharacter.stringValue = String.randomString(length: 30)
+        btnDone.title = dialogueType.option_buttons.last ?? ""
+        btnNever.title = dialogueType.option_buttons.first ?? ""
+    }
+
+    func setUpViews() {
+        lblCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
+        txtCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
+    }
+
+    func bindData() {
+        btnDone.target = self
+        btnDone.action = #selector(doneClick(_:))
+        btnNever.target = self
+        btnNever.action = #selector(neverClick(_:))
+    }
+}
+
+extension DisincentiveViewC {
+    @objc func doneClick(_ sender: NSButton) {
+        if dialogueType == .disincentive_signout_signin_alert {
+        } else {
+            // Match the random value and complete the session
+            if lblCharacter.stringValue == txtCharacter.stringValue {
+                // complete the session
+            } else {
+            }
+        }
+    }
+
+    @objc func neverClick(_ sender: NSButton) {
+        // Take back to previous window from where it opens
+    }
 }

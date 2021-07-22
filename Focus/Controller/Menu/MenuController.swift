@@ -135,7 +135,8 @@ extension MenuController: BasicSetupType {
     @objc func buttonEventHandler(_ sender: NSButton) {
         guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
         viewModel.input.updateFocusStop(time: focusTime) { _, _ in
-            self.dismiss(nil)
+            let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
+            
         }
     }
 

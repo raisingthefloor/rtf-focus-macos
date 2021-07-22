@@ -14,5 +14,4 @@ class OverrideBlockListVC: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
     }
-    
 }
