@@ -135,8 +135,9 @@ extension MenuController: BasicSetupType {
     @objc func buttonEventHandler(_ sender: NSButton) {
         guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
         viewModel.input.updateFocusStop(time: focusTime) { _, _ in
-            let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-            
+            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+            controller.dialogueType = .schedule_reminded_without_blocklist_alert
+            self.presentAsModalWindow(controller)
         }
     }
 

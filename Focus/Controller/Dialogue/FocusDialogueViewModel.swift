@@ -77,6 +77,8 @@ extension FocusDialogue {
             return NSLocalizedString("Alert.warning_forced_pause_extend_title", comment: "Take a longer break ?")
         case .end_break_alert:
             return NSLocalizedString("Alert.extend_break_title", comment: "Please Extend my break by")
+        case .schedule_reminded_without_blocklist_alert:
+            return NSLocalizedString("Alert.schedule_reminded_without_blocklist_alert", comment: "Remind me again in")
         case .schedule_reminded_with_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminded_with_blocklist_alert_title", comment: "Give me a few minutes First")
         default:
@@ -99,28 +101,33 @@ extension FocusDialogue {
         }
     }
 
-    var option_buttons: [String] {
+    var option_buttons: (titles: [String], position: ButtonPosition) {
         switch self {
         case .break_sequence_alert, .launch_app_alert:
-            return [NSLocalizedString("Button.ok", comment: "Ok"), NSLocalizedString("Button.stop_focusing", comment: "I want to Stop Focusing")]
+            return ([NSLocalizedString("Button.ok", comment: "Ok"), NSLocalizedString("Button.stop_focusing", comment: "I want to Stop Focusing")], .bottom)
         case .seession_completed_alert:
             let btnString = NSLocalizedString("Button.ok", comment: "Ok") + " - " + NSLocalizedString("Button.done", comment: "Done")
-            return [btnString]
+            return ([btnString], .bottom)
         case .warning_forced_pause_alert:
             let btnString = NSLocalizedString("Alert.continue_with", comment: "Continue with") + " %@ " + NSLocalizedString("Alert.breaks", comment: "min Breaks")
-            return [btnString]
+            return ([btnString], .bottom)
         case .till_stop_alert:
-            return [NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")]
+            return ([NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")], .bottom)
         case .end_break_alert: // Option  top n bottom
-            return [NSLocalizedString("Button.back_to_focus", comment: "Back To Focus"), NSLocalizedString("Button.want_stop_focusing", comment: "I want to Stop Focusing")]
+            return ([NSLocalizedString("Button.back_to_focus", comment: "Back To Focus"), NSLocalizedString("Button.want_stop_focusing", comment: "I want to Stop Focusing")], .up_down)
         case .schedule_reminded_without_blocklist_alert:
-            return [NSLocalizedString("Button.ready_to_focus", comment: "OK - Ready to focus"), NSLocalizedString("Button.dont_remind", comment: "Don't Remind me until NEXT scheduled session")]
+            return ([NSLocalizedString("Button.ready_to_focus", comment: "OK - Ready to focus"), NSLocalizedString("Button.dont_remind", comment: "Don't Remind me until NEXT scheduled session")], .up_down)
         case .schedule_reminded_with_blocklist_alert:
-            return [NSLocalizedString("Button.ready_to_focus", comment: "OK - Ready to focus"), NSLocalizedString("Button.cancel_session", comment: "Cancel Focus Session")]
+            return ([NSLocalizedString("Button.ready_to_focus", comment: "OK - Ready to focus"), NSLocalizedString("Button.cancel_session", comment: "Cancel Focus Session")], .up_down)
         case .disincentive_xx_character_alert:
-            return [NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.done", comment: "Done")]
+            return ([NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.done", comment: "Done")], .bottom)
         case .disincentive_signout_signin_alert:
-            return [NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.take_me_signout", comment: "Take me to SIGN OUT")]
+            return ([NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.take_me_signout", comment: "Take me to SIGN OUT")], .bottom)
         }
     }
+}
+
+enum ButtonPosition {
+    case up_down
+    case bottom
 }

@@ -47,8 +47,9 @@ extension DisincentiveViewC: BasicSetupType {
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
         lblCharacter.stringValue = String.randomString(length: 30)
-        btnDone.title = dialogueType.option_buttons.last ?? ""
-        btnNever.title = dialogueType.option_buttons.first ?? ""
+        let buttonsV = dialogueType.option_buttons.titles
+        btnDone.title = buttonsV.last ?? ""
+        btnNever.title = buttonsV.first ?? ""
     }
 
     func setUpViews() {

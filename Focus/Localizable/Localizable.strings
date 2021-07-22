@@ -121,6 +121,8 @@
 "Alert.sixty_min" = "60 min";
 "Alert.schedule_reminded_with_blocklist_alert_desc" = "You Scheduled and AUTO-FOCUS session with BLOCKING for right now";
 "Alert.schedule_reminded_with_blocklist_alert_title" = "Give me a few minutes First";
+"Alert.schedule_reminded_without_blocklist_alert_desc" = "You asked to be reminded that you wanted to focus at this time";
+"Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in";
 "Alert.disincentive_xx_character_sub_desc" = "Type the following letters into the space below.";
 "Alert.disincentive_signout_signin_alert_sub_desc" = "This will cause you to sign out of all your open programs. Be sure to save your work before signing out.";
 "Alert.disincentive_signout_signin_alert_desc" = "This BlockList requires that you sign out of Windows (macOS) and back in – in order to turn this particular BlockList off.";
