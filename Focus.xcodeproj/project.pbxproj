@@ -22,6 +22,7 @@
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
 		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
 		3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */; };
+		3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78DA0826AADAFA000BA6FC /* Color.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EA268D985900706B51 /* BlockListViewModel.swift */; };
@@ -81,6 +82,7 @@
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
 		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
+		3F78DA0826AADAFA000BA6FC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				3FFC1E5A2680C13D0014216C /* Operators.swift */,
 				3FFC1E5B2680C13D0014216C /* Protocols.swift */,
 				3FDC9133269F1C330021D3E3 /* Extension.swift */,
+				3F78DA0826AADAFA000BA6FC /* Color.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
+				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,
 				3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */,
 				3F9111ED268DB38300706B51 /* TableHeaderView.swift in Sources */,

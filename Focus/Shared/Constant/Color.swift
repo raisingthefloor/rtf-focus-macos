@@ -21,29 +21,10 @@
  * Adobe Foundation
  * Consumer Electronics Association Foundation
  */
+
 import Cocoa
 import Foundation
 
-extension NSView {
-    var bgColor: NSColor? {
-        get {
-            if let colorRef = layer?.backgroundColor {
-                return NSColor(cgColor: colorRef)
-            } else {
-                return nil
-            }
-        }
-
-        set {
-            wantsLayer = true
-            layer?.backgroundColor = newValue?.cgColor
-        }
-    }
-}
-
-extension String {
-    static func randomString(length: Int = 5) -> String {
-        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        return String((0 ..< length).map { _ in letters.randomElement()! })
-    }
+struct Color {    
+    static let light_blue_color = NSColor(deviceRed: 132, green: 195, blue: 225, alpha: 1)
 }

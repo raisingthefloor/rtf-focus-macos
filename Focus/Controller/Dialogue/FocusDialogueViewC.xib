@@ -10,30 +10,30 @@
             <connections>
                 <outlet property="btnGreen" destination="xMy-61-ugE" id="PvK-eS-NJL"/>
                 <outlet property="btnRed" destination="gHn-uD-Qrl" id="hxN-aC-c8m"/>
+                <outlet property="btnStackV" destination="EZH-gZ-8D1" id="ffL-RB-i6u"/>
                 <outlet property="btnTop" destination="Iye-SY-atS" id="oaL-0p-Lag"/>
                 <outlet property="containerView" destination="hMB-SD-YiX" id="sH2-Du-9aS"/>
                 <outlet property="lblDesc" destination="RUC-Jp-jYn" id="q5d-G5-Bxb"/>
                 <outlet property="lblSubDesc" destination="4ro-GH-Xx7" id="e5j-Ra-d8g"/>
                 <outlet property="lblSubTitle" destination="ROp-25-dYR" id="eEo-U6-GCO"/>
                 <outlet property="lblTitle" destination="6gP-Nm-AK6" id="FRo-jS-Xdb"/>
-                <outlet property="tbnStackV" destination="EZH-gZ-8D1" id="of4-s8-sZe"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView misplaced="YES" id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="656" height="362"/>
+            <rect key="frame" x="0.0" y="0.0" width="490" height="411"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XxM-01-cFg">
-                    <rect key="frame" x="20" y="20" width="616" height="322"/>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="XxM-01-cFg">
+                    <rect key="frame" x="20" y="20" width="450" height="369"/>
                     <subviews>
                         <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uf6-8W-7bV">
-                            <rect key="frame" x="0.0" y="0.0" width="616" height="268"/>
+                            <rect key="frame" x="0.0" y="10" width="450" height="349"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6gP-Nm-AK6">
-                                    <rect key="frame" x="224" y="252" width="169" height="16"/>
+                                    <rect key="frame" x="141" y="333" width="169" height="16"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Focus Session Completed." id="l4w-9v-2KS">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -41,54 +41,58 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RUC-Jp-jYn">
-                                    <rect key="frame" x="169" y="216" width="279" height="16"/>
+                                    <rect key="frame" x="86" y="297" width="279" height="16"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="You have been focusing for  2 hrs and 15 min" id="phy-pO-mkF">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ro-GH-Xx7">
-                                    <rect key="frame" x="-2" y="252" width="75" height="16"/>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ro-GH-Xx7">
+                                    <rect key="frame" x="188" y="261" width="75" height="16"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="&lt;blocklist&gt;" id="uc9-6N-EsI">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iye-SY-atS">
-                                    <rect key="frame" x="-7" y="241" width="30" height="32"/>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iye-SY-atS" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                    <rect key="frame" x="210" y="214" width="30" height="32"/>
                                     <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Is4-mf-pDE">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                            <color key="value" red="0.10474658613445381" green="0.44329137905162064" blue="0.11658257052821128" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="6"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </button>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="hMB-SD-YiX">
-                                    <rect key="frame" x="134" y="68" width="349" height="128"/>
+                                    <rect key="frame" x="51" y="80" width="349" height="121"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ap-UH-4AV">
-                                            <rect key="frame" x="15" y="15" width="319" height="98"/>
+                                        <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ap-UH-4AV">
+                                            <rect key="frame" x="15" y="15" width="319" height="91"/>
                                             <subviews>
-                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ROp-25-dYR">
-                                                    <rect key="frame" x="-2" y="82" width="323" height="16"/>
+                                                <textField verticalHuggingPriority="749" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ROp-25-dYR">
+                                                    <rect key="frame" x="-2" y="50" width="323" height="41"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="I want to finish something Extend focus session for  " id="CuI-fk-qbr">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EZH-gZ-8D1">
-                                                    <rect key="frame" x="10" y="0.0" width="299" height="50"/>
+                                                <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EZH-gZ-8D1">
+                                                    <rect key="frame" x="10" y="0.0" width="299" height="40"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="OvY-mC-Rsa"/>
+                                                        <constraint firstAttribute="height" constant="40" id="Wxd-V0-p71"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="EZH-gZ-8D1" firstAttribute="leading" secondItem="1ap-UH-4AV" secondAttribute="leading" constant="10" id="ApD-T9-jD9"/>
-                                                <constraint firstItem="EZH-gZ-8D1" firstAttribute="centerX" secondItem="1ap-UH-4AV" secondAttribute="centerX" id="HBV-6L-LeH"/>
-                                                <constraint firstItem="EZH-gZ-8D1" firstAttribute="centerY" secondItem="1ap-UH-4AV" secondAttribute="centerY" id="s0F-Hr-f25"/>
-                                            </constraints>
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
@@ -102,26 +106,57 @@
                                     <constraints>
                                         <constraint firstItem="1ap-UH-4AV" firstAttribute="leading" secondItem="hMB-SD-YiX" secondAttribute="leading" constant="15" id="5Ca-OU-AK7"/>
                                         <constraint firstItem="1ap-UH-4AV" firstAttribute="top" secondItem="hMB-SD-YiX" secondAttribute="top" constant="15" id="XPj-Bn-Tpk"/>
+                                        <constraint firstItem="1ap-UH-4AV" firstAttribute="centerY" secondItem="hMB-SD-YiX" secondAttribute="centerY" id="gPn-BM-4Ib"/>
+                                        <constraint firstItem="1ap-UH-4AV" firstAttribute="centerX" secondItem="hMB-SD-YiX" secondAttribute="centerX" id="hNA-CD-NEf"/>
                                         <constraint firstAttribute="trailing" secondItem="1ap-UH-4AV" secondAttribute="trailing" constant="15" id="tLb-Bq-gQc"/>
                                         <constraint firstAttribute="bottom" secondItem="1ap-UH-4AV" secondAttribute="bottom" constant="15" id="tyE-JL-tQs"/>
                                     </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="wantsLayer" value="YES"/>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="6"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                            <color key="value" red="0.78039215689999997" green="0.8862745098" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </customView>
-                                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUT-ga-7rA">
-                                    <rect key="frame" x="277" y="0.0" width="62" height="48"/>
+                                <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUT-ga-7rA">
+                                    <rect key="frame" x="194" y="0.0" width="62" height="60"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xMy-61-ugE">
-                                            <rect key="frame" x="-7" y="21" width="76" height="32"/>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xMy-61-ugE" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                            <rect key="frame" x="-7" y="33" width="76" height="32"/>
                                             <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hnD-z8-cGk">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                                    <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="6"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                    <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gHn-uD-Qrl">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gHn-uD-Qrl" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
                                             <rect key="frame" x="-7" y="-7" width="76" height="32"/>
                                             <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Iah-Rz-tIU">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                                    <color key="value" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                    <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </button>
                                     </subviews>
                                     <visibilityPriorities>
@@ -134,9 +169,6 @@
                                     </customSpacing>
                                 </stackView>
                             </subviews>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="616" id="yKM-YF-8i9"/>
-                            </constraints>
                             <visibilityPriorities>
                                 <integer value="1000"/>
                                 <integer value="1000"/>
@@ -156,11 +188,11 @@
                         </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="uf6-8W-7bV" firstAttribute="leading" secondItem="XxM-01-cFg" secondAttribute="leading" id="5AJ-FP-GQW"/>
-                        <constraint firstAttribute="bottom" secondItem="uf6-8W-7bV" secondAttribute="bottom" id="Ajg-gP-5Ji"/>
-                        <constraint firstAttribute="trailing" secondItem="uf6-8W-7bV" secondAttribute="trailing" id="COj-Xc-nsX"/>
-                        <constraint firstItem="uf6-8W-7bV" firstAttribute="width" secondItem="XxM-01-cFg" secondAttribute="width" id="UJQ-em-4Cc"/>
-                        <constraint firstItem="uf6-8W-7bV" firstAttribute="top" secondItem="XxM-01-cFg" secondAttribute="top" id="oau-M7-6o2"/>
+                        <constraint firstItem="uf6-8W-7bV" firstAttribute="leading" secondItem="XxM-01-cFg" secondAttribute="leading" id="O3y-98-0lS"/>
+                        <constraint firstAttribute="width" constant="450" id="Wtm-mq-a4B"/>
+                        <constraint firstAttribute="trailing" secondItem="uf6-8W-7bV" secondAttribute="trailing" id="d6h-2e-OIp"/>
+                        <constraint firstItem="uf6-8W-7bV" firstAttribute="top" secondItem="XxM-01-cFg" secondAttribute="top" constant="10" id="eMc-0A-f5a"/>
+                        <constraint firstAttribute="bottom" secondItem="uf6-8W-7bV" secondAttribute="bottom" constant="10" id="ig3-KN-8zY"/>
                     </constraints>
                 </customView>
             </subviews>
@@ -170,7 +202,7 @@
                 <constraint firstAttribute="bottom" secondItem="XxM-01-cFg" secondAttribute="bottom" constant="20" symbolic="YES" id="Sxq-Le-aul"/>
                 <constraint firstAttribute="trailing" secondItem="XxM-01-cFg" secondAttribute="trailing" constant="20" symbolic="YES" id="qbe-vX-53M"/>
             </constraints>
-            <point key="canvasLocation" x="12" y="143"/>
+            <point key="canvasLocation" x="-71" y="184.5"/>
         </customView>
     </objects>
 </document>

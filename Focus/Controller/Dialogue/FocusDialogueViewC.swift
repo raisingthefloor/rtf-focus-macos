@@ -41,19 +41,22 @@ class FocusDialogueViewC: NSViewController {
         super.viewDidLoad()
         setUpText()
         setUpViews()
+        themeSetUp()
     }
 }
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
+        title = NSLocalizedString("APP.Name", comment: "Focus")
         lblTitle.stringValue = dialogueType.title
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
+
         lblSubTitle.stringValue = dialogueType.extented_title
         let buttonsValue = dialogueType.option_buttons.titles
         let position = dialogueType.option_buttons.position
 
-        if buttonsValue.count > 0 {
+        if buttonsValue.count > 1 {
             btnGreen.title = buttonsValue.first ?? "-"
             btnRed.title = buttonsValue.last ?? "-"
             btnTop.title = buttonsValue.first ?? ""
@@ -61,7 +64,8 @@ extension FocusDialogueViewC: BasicSetupType {
             btnGreen.isHidden = (position == .up_down) == true
         } else {
             btnGreen.isHidden = true
-            btnRed.title = dialogueType.extented_buttons.first ?? "-"
+            btnTop.isHidden = true
+            btnRed.title = buttonsValue.first ?? "-"
         }
     }
 
@@ -70,16 +74,49 @@ extension FocusDialogueViewC: BasicSetupType {
         lblDesc.isHidden = dialogueType.description.isEmpty
         lblSubDesc.isHidden = dialogueType.sub_description.isEmpty
         lblSubTitle.isHidden = dialogueType.extented_title.isEmpty
+        containerView.isHidden = dialogueType.extented_buttons.isEmpty
 
+        var i = 0 // for test
         for value in dialogueType.extented_buttons {
             let btn = NSButton(title: value, target: self, action: #selector(extendTimeAction(_:)))
+            btn.tag = i
+                btn.bezelStyle = .texturedRounded
+            btn.isBordered = false // Important
+            btn.wantsLayer = true
+            btn.layer?.backgroundColor = .black
+            btn.layer?.cornerRadius = 6
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.heightAnchor.constraint(equalToConstant: 35).isActive = true
+            btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
+
+            i = i + 1
             btnStackV.addArrangedSubview(btn)
         }
+    }
+
+    func themeSetUp() {
+        lblSubTitle.textColor = .black
+        // containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {
     }
 
     @objc func extendTimeAction(_ sender: NSButton) {
+        let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+        if sender.tag == 0 {
+            controller.dialogueType = .launch_app_alert
+            presentAsModalWindow(controller)
+        }else if sender.tag == 1 {
+            controller.dialogueType = .warning_forced_pause_alert
+            presentAsModalWindow(controller)
+
+        }else if sender.tag == 2 {
+            controller.dialogueType = .seession_completed_alert
+            presentAsModalWindow(controller)
+
+        }else{
+            
+        }
     }
 }
