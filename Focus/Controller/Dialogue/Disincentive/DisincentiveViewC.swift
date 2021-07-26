@@ -30,8 +30,8 @@ class DisincentiveViewC: NSViewController {
     @IBOutlet var lblSubDesc: NSTextField!
     @IBOutlet var lblCharacter: NSTextField!
     @IBOutlet var txtCharacter: NSTextField!
-    @IBOutlet var btnNever: NSButton!
-    @IBOutlet var btnDone: NSButton!
+    @IBOutlet var btnNever: CustomButton!
+    @IBOutlet var btnDone: CustomButton!
 
     var dialogueType: FocusDialogue = .disincentive_xx_character_alert
 
@@ -39,6 +39,7 @@ class DisincentiveViewC: NSViewController {
         super.viewDidLoad()
         setUpText()
         setUpViews()
+        bindData()
     }
 }
 
@@ -55,6 +56,17 @@ extension DisincentiveViewC: BasicSetupType {
     func setUpViews() {
         lblCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         txtCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
+        themeSetUp()
+    }
+
+    func themeSetUp() {
+        btnNever.buttonColor = dialogueType.green
+        btnNever.activeButtonColor = dialogueType.green
+        btnNever.textColor = .white
+
+        btnDone.buttonColor = dialogueType.mixedColor
+        btnDone.activeButtonColor = dialogueType.mixedColor
+        btnDone.textColor = .white
     }
 
     func bindData() {

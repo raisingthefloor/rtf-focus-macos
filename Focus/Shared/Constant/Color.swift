@@ -26,45 +26,131 @@ import Cocoa
 import Foundation
 
 struct Color {
-    static let light_blue_color = NSColor(hex: "#D8E2F3", alpha: 1)
-    static let green_color = NSColor(hex: "#009F01", alpha: 1)
-    static let red_color = NSColor(hex: "#C00500", alpha: 1)
-    static let navy_blue_color = NSColor(hex: "#011F60", alpha: 1)
-}
-
-extension String {
-    func conformsTo(_ pattern: String) -> Bool {
-        return NSPredicate(format: "SELF MATCHES %@", pattern).evaluate(with: self)
-    }
+    static let light_blue_color = NSColor("#D8E2F3") ?? .systemBlue
+    static let green_color = NSColor("#009F01") ?? .systemGreen
+    static let red_color = NSColor("#C00500") ?? .systemRed
+    static let navy_blue_color = NSColor("#011F60") ?? .clear
 }
 
 extension NSColor {
-    convenience init(hex: Int, alpha: Float) {
-        self.init(
-            calibratedRed: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((hex & 0xFF00) >> 8) / 255.0,
-            blue: CGFloat(hex & 0xFF) / 255.0,
-            alpha: 1.0
-        )
-    }
+    typealias Hex = String
 
-    convenience init(hex: String, alpha: Float) {
-        // Handle two types of literals: 0x and # prefixed
-        var cleanedString = ""
-        if hex.hasPrefix("0x") {
-            cleanedString = String(hex[hex.index(cleanedString.startIndex, offsetBy: 2) ... hex.endIndex])
-        } else if hex.hasPrefix("#") {
-            cleanedString = String(hex[hex.index(cleanedString.startIndex, offsetBy: 1) ... hex.endIndex])
+    convenience init?(_ hex: Hex, alpha: CGFloat? = nil) {
+        guard let hexType = Type(from: hex), let components = hexType.components() else {
+            return nil
         }
 
-        // Ensure it only contains valid hex characters 0
-        let validHexPattern = "[a-fA-F0-9]+"
-        if cleanedString.conformsTo(validHexPattern) {
-            var value: UInt32 = 0
-            Scanner(string: cleanedString).scanHexInt32(&value)
-            self.init(hex: Int(value), alpha: 1)
+        #if os(watchOS)
+            self.init(red: components.red, green: components.green, blue: components.blue, alpha: alpha ?? components.alpha)
+        #else
+            self.init(calibratedRed: components.red, green: components.green, blue: components.blue, alpha: alpha ?? components.alpha)
+        #endif
+    }
+
+    /// The string hex value representation of the current color
+    var hex: Hex {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0, rgb: Int
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+
+        if a == 1 { // no alpha value set, we are returning the short version
+            rgb = (Int)(r * 255) << 16 | (Int)(g * 255) << 8 | (Int)(b * 255) << 0
+            return String(format: "#%06x", rgb)
         } else {
-            fatalError("Unable to parse color?")
+            rgb = (Int)(r * 255) << 24 | (Int)(g * 255) << 16 | (Int)(b * 255) << 8 | (Int)(a * 255) << 0
+            return String(format: "#%08x", rgb)
+        }
+    }
+
+    private enum `Type` {
+        case RGBshort(rgb: Hex)
+        case RGBshortAlpha(rgba: Hex)
+        case RGB(rgb: Hex)
+        case RGBA(rgba: Hex)
+
+        init?(from hex: Hex) {
+            var hexString = hex
+            hexString.removeHashIfNecessary()
+
+            guard let t = Type.transform(hex: hexString) else {
+                return nil
+            }
+
+            self = t
+        }
+
+        static func transform(hex string: Hex) -> Type? {
+            switch string.count {
+            case 3:
+                return .RGBshort(rgb: string)
+            case 4:
+                return .RGBshortAlpha(rgba: string)
+            case 6:
+                return .RGB(rgb: string)
+            case 8:
+                return .RGBA(rgba: string)
+            default:
+                return nil
+            }
+        }
+
+        var value: Hex {
+            switch self {
+            case let .RGBshort(rgb):
+                return rgb
+            case let .RGBshortAlpha(rgba):
+                return rgba
+            case let .RGB(rgb):
+                return rgb
+            case let .RGBA(rgba):
+                return rgba
+            }
+        }
+
+        typealias rgbComponents = (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)
+        func components() -> rgbComponents? {
+            var hexValue: UInt32 = 0
+            guard Scanner(string: value).scanHexInt32(&hexValue) else {
+                return nil
+            }
+
+            let r, g, b, a, divisor: CGFloat
+
+            switch self {
+            case .RGBshort:
+                divisor = 15
+                r = CGFloat((hexValue & 0xF00) >> 8) / divisor
+                g = CGFloat((hexValue & 0x0F0) >> 4) / divisor
+                b = CGFloat(hexValue & 0x00F) / divisor
+                a = 1
+            case .RGBshortAlpha:
+                divisor = 15
+                r = CGFloat((hexValue & 0xF000) >> 12) / divisor
+                g = CGFloat((hexValue & 0x0F00) >> 8) / divisor
+                b = CGFloat((hexValue & 0x00F0) >> 4) / divisor
+                a = CGFloat(hexValue & 0x000F) / divisor
+            case .RGB:
+                divisor = 255
+                r = CGFloat((hexValue & 0xFF0000) >> 16) / divisor
+                g = CGFloat((hexValue & 0x00FF00) >> 8) / divisor
+                b = CGFloat(hexValue & 0x0000FF) / divisor
+                a = 1
+            case .RGBA:
+                divisor = 255
+                r = CGFloat((hexValue & 0xFF000000) >> 24) / divisor
+                g = CGFloat((hexValue & 0x00FF0000) >> 16) / divisor
+                b = CGFloat((hexValue & 0x0000FF00) >> 8) / divisor
+                a = CGFloat(hexValue & 0x000000FF) / divisor
+            }
+
+            return (red: r, green: g, blue: b, alpha: a)
+        }
+    }
+}
+
+private extension String {
+    mutating func removeHashIfNecessary() {
+        if hasPrefix("#") {
+            self = replacingOccurrences(of: "#", with: "")
         }
     }
 }

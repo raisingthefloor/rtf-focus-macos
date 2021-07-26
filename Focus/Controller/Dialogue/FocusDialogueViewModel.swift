@@ -6,8 +6,8 @@
 //  Copyright © 2021 Raising the Floor. All rights reserved.
 //
 
-import Foundation
 import Cocoa
+import Foundation
 
 enum FocusDialogue: Int {
     case break_sequence_alert
@@ -126,11 +126,21 @@ extension FocusDialogue {
             return ([NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.take_me_signout", comment: "Take me to SIGN OUT")], .bottom)
         }
     }
-    
-//    var firstButton: NSColor {
-//        return NSColor
-//    }
 
+    var green: NSColor {
+        return Color.green_color
+    }
+
+    var mixedColor: NSColor {
+        switch self {
+        case .warning_forced_pause_alert:
+            return Color.navy_blue_color
+        case .disincentive_xx_character_alert, .seession_completed_alert:
+            return Color.green_color
+        default:
+            return Color.red_color
+        }
+    }
 }
 
 enum ButtonPosition {

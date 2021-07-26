@@ -42,6 +42,7 @@
 "Button.cancel_session" = "Cancel Focus Session";
 "Button.never_mind" = "Never Mind – take me back to focus program";
 "Button.take_me_signout" = "Take me to SIGN OUT";
+"Button.back_to_focus" = "Back To Focus";
 
 "Home.half_last" = "30 Min";
 "Home.one_hr" = "1 Hr";

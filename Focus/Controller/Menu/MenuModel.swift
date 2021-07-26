@@ -84,6 +84,15 @@ extension Focus {
             }
         }
 
+        var color: NSColor {
+            switch self {
+            case .half_past, .one_hr, .two_hr, .untill_press_stop:
+                return Color.navy_blue_color
+            case .stop_focus:
+                return Color.red_color
+            }
+        }
+
         static var key_name: String {
             return "focus_length_time"
         }

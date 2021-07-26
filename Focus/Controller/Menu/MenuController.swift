@@ -113,10 +113,12 @@ extension MenuController: BasicSetupType {
     //Focus set Action
     func setupFocusStopAction(arrButtons: [CustomButton]) {
         for (i, btn) in arrButtons.enumerated() {
+            guard let option = Focus.StopTime(rawValue: i) else { return }
             btn.target = self
-            btn.tag = i
-            btn.buttonColor = Color.navy_blue_color
-            btn.activeButtonColor = Color.navy_blue_color
+            btn.tag = option.rawValue
+            btn.buttonColor = option.color
+            btn.activeButtonColor = option.color
+            btn.textColor = .white
             btn.action = #selector(buttonEventHandler(_:))
         }
     }

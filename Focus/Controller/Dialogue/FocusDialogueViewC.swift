@@ -28,12 +28,12 @@ class FocusDialogueViewC: NSViewController {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var lblDesc: NSTextField!
     @IBOutlet var lblSubDesc: NSTextField!
-    @IBOutlet var btnTop: NSButton!
+    @IBOutlet var btnTop: CustomButton!
     @IBOutlet var containerView: NSView!
     @IBOutlet var lblSubTitle: NSTextField!
     @IBOutlet var btnStackV: NSStackView!
-    @IBOutlet var btnGreen: NSButton!
-    @IBOutlet var btnRed: NSButton!
+    @IBOutlet var btnGreen: CustomButton!
+    @IBOutlet var btnRed: CustomButton!
 
     var dialogueType: FocusDialogue = .break_sequence_alert
 
@@ -42,6 +42,7 @@ class FocusDialogueViewC: NSViewController {
         setUpText()
         setUpViews()
         themeSetUp()
+        bindData()
     }
 }
 
@@ -83,7 +84,7 @@ extension FocusDialogueViewC: BasicSetupType {
             btn.bezelStyle = .texturedRounded
             btn.isBordered = false // Important
             btn.wantsLayer = true
-            btn.layer?.backgroundColor = .black
+            btn.layer?.backgroundColor = Color.navy_blue_color.cgColor
             btn.layer?.cornerRadius = 6
             btn.translatesAutoresizingMaskIntoConstraints = false
             btn.heightAnchor.constraint(equalToConstant: 35).isActive = true
@@ -96,7 +97,22 @@ extension FocusDialogueViewC: BasicSetupType {
 
     func themeSetUp() {
         lblSubTitle.textColor = .black
-        // containerView.bgColor = Color.light_blue_color
+
+        lblTitle.font = NSFont.systemFont(ofSize: 16, weight: .bold)
+
+        btnTop.buttonColor = dialogueType.green
+        btnTop.activeButtonColor = dialogueType.green
+        btnTop.textColor = .white
+
+        btnGreen.buttonColor = dialogueType.green
+        btnGreen.activeButtonColor = dialogueType.green
+        btnGreen.textColor = .white
+
+        btnRed.buttonColor = dialogueType.mixedColor
+        btnRed.activeButtonColor = dialogueType.mixedColor
+        btnRed.textColor = .white
+
+        containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {
@@ -124,17 +140,29 @@ extension FocusDialogueViewC: BasicSetupType {
             presentAsModalWindow(controller)
 
         } else {
-            
         }
     }
 
     @objc func greenAction(_ sender: NSButton) {
-        
+        dismiss(nil)
     }
 
     @objc func redAction(_ sender: NSButton) {
+        switch dialogueType {
+        case .warning_forced_pause_alert:
+            // Open the Combbox
+            break
+        case .seession_completed_alert:
+            break
+        default:
+            // open the disincentive
+            let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
+            controller.dialogueType = .disincentive_signout_signin_alert
+            presentAsModalWindow(controller)
+        }
     }
 
     @objc func topAction(_ sender: NSButton) {
+        dismiss(nil)
     }
 }

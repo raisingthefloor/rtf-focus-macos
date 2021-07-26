@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Allowed_Blocked_GS" representedClassName="Allowed_Blocked_GS" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="General_Settings" inverseName="allowed_override" inverseEntity="General_Settings"/>
     </entity>
@@ -32,6 +32,7 @@
         <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="is_focusing" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="remaining_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="short_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="stop_focus_after_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="uuid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -60,7 +61,7 @@
         <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="44"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
-        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="209"/>
+        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="224"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="104"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="104"/>
     </elements>
