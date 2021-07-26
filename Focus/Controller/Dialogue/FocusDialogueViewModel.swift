@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 enum FocusDialogue: Int {
     case break_sequence_alert
@@ -125,6 +126,11 @@ extension FocusDialogue {
             return ([NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.take_me_signout", comment: "Take me to SIGN OUT")], .bottom)
         }
     }
+    
+//    var firstButton: NSColor {
+//        return NSColor
+//    }
+
 }
 
 enum ButtonPosition {

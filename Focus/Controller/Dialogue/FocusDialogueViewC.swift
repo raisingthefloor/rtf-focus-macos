@@ -80,7 +80,7 @@ extension FocusDialogueViewC: BasicSetupType {
         for value in dialogueType.extented_buttons {
             let btn = NSButton(title: value, target: self, action: #selector(extendTimeAction(_:)))
             btn.tag = i
-                btn.bezelStyle = .texturedRounded
+            btn.bezelStyle = .texturedRounded
             btn.isBordered = false // Important
             btn.wantsLayer = true
             btn.layer?.backgroundColor = .black
@@ -100,6 +100,14 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 
     func bindData() {
+        btnGreen.target = self
+        btnGreen.action = #selector(greenAction(_:))
+
+        btnRed.target = self
+        btnRed.action = #selector(redAction(_:))
+
+        btnTop.target = self
+        btnTop.action = #selector(topAction(_:))
     }
 
     @objc func extendTimeAction(_ sender: NSButton) {
@@ -107,16 +115,26 @@ extension FocusDialogueViewC: BasicSetupType {
         if sender.tag == 0 {
             controller.dialogueType = .launch_app_alert
             presentAsModalWindow(controller)
-        }else if sender.tag == 1 {
+        } else if sender.tag == 1 {
             controller.dialogueType = .warning_forced_pause_alert
             presentAsModalWindow(controller)
 
-        }else if sender.tag == 2 {
+        } else if sender.tag == 2 {
             controller.dialogueType = .seession_completed_alert
             presentAsModalWindow(controller)
 
-        }else{
+        } else {
             
         }
+    }
+
+    @objc func greenAction(_ sender: NSButton) {
+        
+    }
+
+    @objc func redAction(_ sender: NSButton) {
+    }
+
+    @objc func topAction(_ sender: NSButton) {
     }
 }

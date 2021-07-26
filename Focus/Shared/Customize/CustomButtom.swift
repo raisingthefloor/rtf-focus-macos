@@ -90,7 +90,7 @@ open class CustomButton: NSButton, CALayerDelegate {
         }
     }
 
-    @IBInspectable public var borderColor: NSColor = NSColor.darkGray {
+    @IBInspectable public var borderColor: NSColor = NSColor.clear {
         didSet {
             animateColor(state == .on)
         }

@@ -50,13 +50,13 @@ class MenuController: BaseViewController {
     @IBOutlet var popBlock: NSPopUpButton!
 
     @IBOutlet var lblFocusLength: NSTextField!
-    @IBOutlet var btn30m: NSButton!
-    @IBOutlet var btn1Hr: NSButton!
-    @IBOutlet var btn2Hr: NSButton!
-    @IBOutlet var btnUntillI: NSButton!
+    @IBOutlet var btn30m: CustomButton!
+    @IBOutlet var btn1Hr: CustomButton!
+    @IBOutlet var btn2Hr: CustomButton!
+    @IBOutlet var btnUntillI: CustomButton!
 
-    @IBOutlet var btnStop: NSButton!
-    @IBOutlet var btnCostomizeSetting: NSButton!
+    @IBOutlet var btnStop: CustomButton!
+    @IBOutlet var btnCostomizeSetting: CustomButton!
 
     let viewModel: MenuViewModelType = MenuViewModel()
 
@@ -110,14 +110,18 @@ extension MenuController: BasicSetupType {
         setupFocusOptionAction(arrButtons: [checkBoxDND, checkBoxFocusTime, checkBoxBlock])
     }
 
-    func setupFocusStopAction(arrButtons: [NSButton]) {
+    //Focus set Action
+    func setupFocusStopAction(arrButtons: [CustomButton]) {
         for (i, btn) in arrButtons.enumerated() {
             btn.target = self
             btn.tag = i
+            btn.buttonColor = Color.navy_blue_color
+            btn.activeButtonColor = Color.navy_blue_color
             btn.action = #selector(buttonEventHandler(_:))
         }
     }
 
+    //Checkbox Action
     func setupFocusOptionAction(arrButtons: [NSButton]) {
         for (i, btn) in arrButtons.enumerated() {
             guard let option = Focus.Options(rawValue: i) else { return }
@@ -134,10 +138,23 @@ extension MenuController: BasicSetupType {
 
     @objc func buttonEventHandler(_ sender: NSButton) {
         guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
-        viewModel.input.updateFocusStop(time: focusTime) { _, _ in
-            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .break_sequence_alert
-            self.presentAsModalWindow(controller)
+        viewModel.input.updateFocusStop(time: focusTime) { isUpdate, _ in
+            if isUpdate != nil {
+                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+                switch focusTime {
+                case .half_past:
+                    controller.dialogueType = .break_sequence_alert
+                case .one_hr:
+                    controller.dialogueType = .end_break_alert
+                case .two_hr:
+                    controller.dialogueType = .warning_forced_pause_alert
+                case .untill_press_stop:
+                    controller.dialogueType = .seession_completed_alert
+                case .stop_focus:
+                    controller.dialogueType = .till_stop_alert
+                }
+                self.presentAsModalWindow(controller)
+            }
         }
     }
 
