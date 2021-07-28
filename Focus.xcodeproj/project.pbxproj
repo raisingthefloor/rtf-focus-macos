@@ -18,6 +18,7 @@
 		3F4C335A269DBF350016F5E1 /* General_Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C3359269DBF350016F5E1 /* General_Setting.swift */; };
 		3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4DFA3B26835EB30013BA0C /* CustomSetting.storyboard */; };
 		3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DFA3D26835EDF0013BA0C /* CustomSettingController.swift */; };
+		3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */; };
 		3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B62689F8F4008C54A4 /* DBManager.swift */; };
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
 		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
@@ -78,6 +79,7 @@
 		3F4C3359269DBF350016F5E1 /* General_Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General_Setting.swift; sourceTree = "<group>"; };
 		3F4DFA3B26835EB30013BA0C /* CustomSetting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomSetting.storyboard; sourceTree = "<group>"; };
 		3F4DFA3D26835EDF0013BA0C /* CustomSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSettingController.swift; sourceTree = "<group>"; };
+		3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingFocusViewC.swift; sourceTree = "<group>"; };
 		3F5944B62689F8F4008C54A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
@@ -207,6 +209,14 @@
 			path = StoryBoard;
 			sourceTree = "<group>";
 		};
+		3F4E25DE26B153F60029D379 /* FloatingButton */ = {
+			isa = PBXGroup;
+			children = (
+				3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */,
+			);
+			path = FloatingButton;
+			sourceTree = "<group>";
+		};
 		3F5944B52689F8E2008C54A4 /* DBManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +296,7 @@
 		3FA51D49267CB6CE007826F3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F4E25DE26B153F60029D379 /* FloatingButton */,
 				3FC8107D26A9388E0058D1CF /* Dialogue */,
 				3F4DFA3526835D6F0013BA0C /* Setting */,
 				3FA51D4A267CB6D8007826F3 /* Menu */,
@@ -485,6 +496,7 @@
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
 				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,
+				3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */,
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,
 				3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */,
 				3F9111ED268DB38300706B51 /* TableHeaderView.swift in Sources */,

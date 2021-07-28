@@ -47,3 +47,20 @@ extension String {
         return String((0 ..< length).map { _ in letters.randomElement()! })
     }
 }
+
+extension Bundle {
+    static func bundleIDFor(appNamed appName: String) -> String? {
+        if let appPath = NSWorkspace.shared.fullPath(forApplication: appName) {
+            if let itsBundle = Bundle(path: appPath) {
+                if let itsID = itsBundle.bundleIdentifier {
+                    return itsID
+                }
+            } else {
+                if let ownID = Bundle.main.bundleIdentifier {
+                    return ownID
+                }
+            }
+        }
+        return nil
+    }
+}

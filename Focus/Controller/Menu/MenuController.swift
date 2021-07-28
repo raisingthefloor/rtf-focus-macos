@@ -110,7 +110,7 @@ extension MenuController: BasicSetupType {
         setupFocusOptionAction(arrButtons: [checkBoxDND, checkBoxFocusTime, checkBoxBlock])
     }
 
-    //Focus set Action
+    // Focus set Action
     func setupFocusStopAction(arrButtons: [CustomButton]) {
         for (i, btn) in arrButtons.enumerated() {
             guard let option = Focus.StopTime(rawValue: i) else { return }
@@ -123,7 +123,7 @@ extension MenuController: BasicSetupType {
         }
     }
 
-    //Checkbox Action
+    // Checkbox Action
     func setupFocusOptionAction(arrButtons: [NSButton]) {
         for (i, btn) in arrButtons.enumerated() {
             guard let option = Focus.Options(rawValue: i) else { return }
@@ -155,7 +155,7 @@ extension MenuController: BasicSetupType {
                 case .stop_focus:
                     controller.dialogueType = .till_stop_alert
                 }
-                self.presentAsModalWindow(controller)
+                self.presentAsSheet(controller)
             }
         }
     }

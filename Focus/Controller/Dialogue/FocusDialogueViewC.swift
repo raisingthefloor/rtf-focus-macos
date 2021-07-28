@@ -71,6 +71,8 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
+        view.window?.level = .floating
+
         lblTitle.isHidden = dialogueType.title.isEmpty
         lblDesc.isHidden = dialogueType.description.isEmpty
         lblSubDesc.isHidden = dialogueType.sub_description.isEmpty
@@ -130,17 +132,14 @@ extension FocusDialogueViewC: BasicSetupType {
         let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
         if sender.tag == 0 {
             controller.dialogueType = .launch_app_alert
-            presentAsModalWindow(controller)
         } else if sender.tag == 1 {
             controller.dialogueType = .warning_forced_pause_alert
-            presentAsModalWindow(controller)
-
         } else if sender.tag == 2 {
             controller.dialogueType = .seession_completed_alert
-            presentAsModalWindow(controller)
-
         } else {
+            
         }
+        presentAsSheet(controller)
     }
 
     @objc func greenAction(_ sender: NSButton) {
@@ -151,14 +150,16 @@ extension FocusDialogueViewC: BasicSetupType {
         switch dialogueType {
         case .warning_forced_pause_alert:
             // Open the Combbox
+            dismiss(nil)
             break
         case .seession_completed_alert:
+            dismiss(nil)
             break
         default:
             // open the disincentive
             let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
             controller.dialogueType = .disincentive_signout_signin_alert
-            presentAsModalWindow(controller)
+            presentAsSheet(controller)
         }
     }
 

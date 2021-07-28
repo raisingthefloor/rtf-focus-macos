@@ -33,31 +33,91 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var customSetting = NSStoryboard(name: "CustomSetting", bundle: nil).instantiateController(withIdentifier: "WindowController") as? WindowController
 
+    var query: NSMetadataQuery? {
+        willSet {
+            if let query = self.query {
+                query.stop()
+            }
+        }
+    }
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        openFocus()
         setupStautsBarMenu()
+//        addObserverToCheckAppLaunch()
+        doSpotlightQuery()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
+
+    func addObserverToCheckAppLaunch() {
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.willLaunchApplicationNotification, object: nil)
+    }
 }
 
+// For Testing Methods
 extension AppDelegate {
+    public func doSpotlightQuery() {
+        query = NSMetadataQuery()
+        let predicate = NSPredicate(format: "kMDItemContentType == 'com.apple.application-bundle'")
+        NotificationCenter.default.addObserver(self, selector: #selector(queryDidFinish(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
+        query?.predicate = predicate
+        query?.start()
+    }
+
+    @objc public func queryDidFinish(_ notification: NSNotification) {
+        guard let query = notification.object as? NSMetadataQuery else {
+            return
+        }
+
+        for result in query.results {
+            guard let item = result as? NSMetadataItem else {
+                print("Result was not an NSMetadataItem, \(result)")
+                continue
+            }
+//            print("Spotlit Result: \(item.value(forAttribute: kMDItemIdentifier as String))")
+//            print("item \(item.values(forAttributes: [kMDItemDisplayName as String, kMDItemPath as String]))")
+
+            if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
+                if let bundleName = Bundle.bundleIDFor(appNamed: name) {
+                    print("\n")
+                    print("bundleName: \(bundleName)")
+                }
+            }
+        }
+    }
+}
+
+// MARK: Setup Status bar Menu
+
+extension AppDelegate {
+    @objc func appDidLaunch(notification: NSNotification) {
+        if let app = notification.userInfo,
+           let identifier = app["NSApplicationBundleIdentifier"] as? String {
+            let runningApplications = NSWorkspace.shared.runningApplications
+            // filter here to get only that application which are in block list and also check here if focus is running
+            if let application = runningApplications.first(where: { application in
+                application.bundleIdentifier == identifier
+            }) {
+                application.forceTerminate()
+                kill(application.processIdentifier, SIGTERM)
+
+                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+                controller.dialogueType = .launch_app_alert
+                windowController.contentViewController?.presentAsSheet(controller)
+            }
+        }
+    }
+
     func setupStautsBarMenu() {
         guard let statusButton = statusBarItem.button else { return }
         statusButton.title = "Focus"
 
         let statusMenu: NSMenu = {
             let menu = NSMenu()
-
-            let openFocusItem: NSMenuItem = {
-                let item = NSMenuItem(title: "Open Focus", action: #selector(openFocus), keyEquivalent: "")
-                item.tag = 1
-                item.target = self
-                return item
-            }()
-
             let quitApplicationItem: NSMenuItem = {
                 let item = NSMenuItem(title: "Quit", action: #selector(terminate), keyEquivalent: "q")
                 item.target = self
@@ -65,9 +125,6 @@ extension AppDelegate {
 
                 return item
             }()
-
-            menu.addItem(openFocusItem)
-            menu.addItem(.separator())
             menu.addItem(quitApplicationItem)
             return menu
         }()
@@ -80,13 +137,15 @@ extension AppDelegate {
         NSApp.terminate(sender)
     }
 
-    @objc
-    func openFocus(_ sender: NSMenuItem) {
-        if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+    func openFocus() {
+        if let vc = WindowsManager.getVC(withIdentifier: "sidFloatingFocusViewC", ofType: FloatingFocusViewC.self) {
+            vc.title = ""
             let window: NSWindow = {
                 let w = NSWindow(contentViewController: vc)
                 w.styleMask.remove(.fullScreen)
                 w.styleMask.remove(.resizable)
+                w.styleMask.remove(.miniaturizable)
+                w.styleMask.remove(.closable)
                 w.styleMask.remove(.miniaturizable)
                 w.level = .floating
                 return w

@@ -6,6 +6,93 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Window Controller-->
+        <scene sceneID="Zj8-xp-QCR">
+            <objects>
+                <windowController id="qTV-Uq-wDw" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="SJx-W8-J7c">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="229" y="239" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1600" height="875"/>
+                        <view key="contentView" id="L6U-l6-LXU">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="qTV-Uq-wDw" id="XLp-cd-POo"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="gd4-5w-QdD" kind="relationship" relationship="window.shadowedContentViewController" id="LQh-pc-Etp"/>
+                    </connections>
+                </windowController>
+                <customObject id="am6-El-5N4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-737" y="33"/>
+        </scene>
+        <!--Floating Focus ViewC-->
+        <scene sceneID="0zi-o8-9UB">
+            <objects>
+                <customObject id="lIg-Ol-K4P" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="sidFloatingFocusViewC" id="gd4-5w-QdD" customClass="FloatingFocusViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="GD9-Vd-ojM">
+                        <rect key="frame" x="0.0" y="0.0" width="124" height="57"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ItA-5g-JJc" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                <rect key="frame" x="14" y="5" width="96" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="6ap-bD-jh4"/>
+                                    <constraint firstAttribute="height" constant="39" id="K6q-sc-fhD"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="Focus" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpO-18-yD9">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="activeButtonColor">
+                                        <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="activeTextColor">
+                                        <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="activeBorderColor">
+                                        <color key="value" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="XfG-lQ-9wD" kind="show" identifier="segueMainMenu" id="YyC-Ad-N2x"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ItA-5g-JJc" firstAttribute="centerX" secondItem="GD9-Vd-ojM" secondAttribute="centerX" id="OPH-XE-QIb"/>
+                            <constraint firstItem="ItA-5g-JJc" firstAttribute="centerY" secondItem="GD9-Vd-ojM" secondAttribute="centerY" id="SlY-yO-na3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnFocus" destination="ItA-5g-JJc" id="aTN-3e-US2"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-737" y="351.5"/>
+        </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
