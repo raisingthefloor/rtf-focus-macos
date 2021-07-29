@@ -38,4 +38,12 @@ struct WindowsManager {
         }
         return vc
     }
+
+    static func openSystemLogoutDialog() {
+        let path = "/bin/bash"
+        let scriptPath = Bundle.main.path(forResource: "logout", ofType: ".sh") ?? ""
+        let arguments = [scriptPath]
+        let task = Process.launchedProcess(launchPath: path, arguments: arguments)
+        task.waitUntilExit()
+    }
 }

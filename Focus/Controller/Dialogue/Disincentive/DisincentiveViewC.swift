@@ -81,7 +81,7 @@ extension DisincentiveViewC: BasicSetupType {
 extension DisincentiveViewC {
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
-            openAppleMenu()
+            WindowsManager.openSystemLogoutDialog()
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {
@@ -94,36 +94,5 @@ extension DisincentiveViewC {
     @objc func neverClick(_ sender: NSButton) {
         // Take back to previous window from where it opens
         dismiss(nil)
-    }
-
-    func openAppleMenu() {
-        let source = CGEventSource(stateID: .combinedSessionState)
-
-        let ctrKey: UInt16 = 0x3B
-        let f2Key: UInt16 = 0x78
-        let enterKey: UInt16 = 0x4C
-
-        let ctrlDown = CGEvent(keyboardEventSource: source, virtualKey: ctrKey, keyDown: true)
-        let ctrlUp = CGEvent(keyboardEventSource: source, virtualKey: ctrKey, keyDown: false)
-        let keyF2Down = CGEvent(keyboardEventSource: source, virtualKey: f2Key, keyDown: true)
-        let keyF2Up = CGEvent(keyboardEventSource: source, virtualKey: f2Key, keyDown: false)
-        let enterDown = CGEvent(keyboardEventSource: source, virtualKey: enterKey, keyDown: true)
-        let enterUp = CGEvent(keyboardEventSource: source, virtualKey: enterKey, keyDown: false)
-
-        let loc = CGEventTapLocation.cghidEventTap
-
-        ctrlDown?.flags = CGEventFlags.maskControl
-        ctrlUp?.flags = CGEventFlags.maskControl
-        keyF2Down?.flags = CGEventFlags.maskSecondaryFn
-        keyF2Up?.flags = CGEventFlags.maskSecondaryFn
-        enterDown?.flags = CGEventFlags.maskCommand
-        enterUp?.flags = CGEventFlags.maskCommand
-
-        ctrlDown?.post(tap: loc)
-        keyF2Down?.post(tap: loc)
-        enterDown?.post(tap: loc)
-        ctrlUp?.post(tap: loc)
-        keyF2Up?.post(tap: loc)
-        enterUp?.post(tap: loc)
     }
 }

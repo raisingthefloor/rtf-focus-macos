@@ -1,5 +1,4 @@
-/*
- Copyright 2020 Raising the Floor - International
+/* Copyright 2020 Raising the Floor - International
 
  Licensed under the New BSD license. You may not use this file except in
  compliance with this License.
@@ -22,4 +21,13 @@
  * Adobe Foundation
  * Consumer Electronics Association Foundation
  */
+
 import Foundation
+
+var authentication_rule = "com.raisingthefloor.hosts"
+var host_file_location = "/private/etc/hosts"
+var authorise_file = "sys.openfile.readwrite./private/etc/hosts"
+var authorization_comment = "edit_rule"
+var default_host_file_content = "##\n # Host Database\n #\n # localhost is used to configure the loopback interface\n # when the system is booting.  Do not change this entry.\n ##\n 127.0.0.1    localhost\n 255.255.255.255    broadcasthost\n ::1             localhost\n fe80::1%lo0    localhost\n\n"
+
+
