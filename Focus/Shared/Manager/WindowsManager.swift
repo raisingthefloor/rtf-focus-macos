@@ -23,6 +23,7 @@
  */
 
 import AppKit
+import Cocoa
 import Foundation
 
 struct WindowsManager {

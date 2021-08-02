@@ -45,7 +45,7 @@ class AuthorizationManager {
                                                  "comment": authorization_comment,
                                                  "group": "admin",
                                                  "shared": NSNumber(value: true),
-                                                 "timeout": NSNumber(value: 300)] as CFDictionary
+                                                 "timeout": NSNumber(value: 0)] as CFDictionary
 
             status = AuthorizationRightSet(authorization.authorizationRef(), authorise_file, rightDefinition, nil, nil, nil)
 

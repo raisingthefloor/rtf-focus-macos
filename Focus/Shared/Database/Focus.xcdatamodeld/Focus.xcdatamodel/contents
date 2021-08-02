@@ -10,6 +10,7 @@
         <attribute name="block_type" optional="YES" attributeType="String"/>
         <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="ip_address" optional="YES" attributeType="String" defaultValueString="0.0.0.0"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
@@ -56,7 +57,7 @@
     <elements>
         <element name="Allowed_Blocked_GS" positionX="-27" positionY="63" width="128" height="44"/>
         <element name="Block_Category" positionX="-18" positionY="81" width="128" height="44"/>
-        <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="119"/>
+        <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="134"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="29"/>
         <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="44"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>

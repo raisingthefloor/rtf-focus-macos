@@ -46,6 +46,11 @@ extension String {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         return String((0 ..< length).map { _ in letters.randomElement()! })
     }
+
+    var isValidUrl: Bool {
+        let urlRegEx = "((?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
+        return NSPredicate(format: "SELF MATCHES %@", urlRegEx).evaluate(with: self)
+    }
 }
 
 extension Bundle {

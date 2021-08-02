@@ -25,6 +25,8 @@
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
 		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
 		3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */; };
+		3F7872C626B7D3910076FA83 /* FileScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872C526B7D3910076FA83 /* FileScanner.swift */; };
+		3F7872CF26B803970076FA83 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872CE26B803970076FA83 /* AppManager.swift */; };
 		3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78DA0826AADAFA000BA6FC /* Color.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
@@ -44,6 +46,7 @@
 		3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D4B267CB720007826F3 /* Main.storyboard */; };
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
 		3FAAF75D26B2C261009447F8 /* logout.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAAF75C26B2C261009447F8 /* logout.sh */; };
+		3FAD91F326B41E5A00698848 /* AddSite.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* AddSite.sh */; };
 		3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */; };
 		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
 		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
@@ -89,6 +92,8 @@
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
 		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
+		3F7872C526B7D3910076FA83 /* FileScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileScanner.swift; sourceTree = "<group>"; };
+		3F7872CE26B803970076FA83 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 		3F78DA0826AADAFA000BA6FC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
@@ -108,6 +113,7 @@
 		3FA51D4C267CB720007826F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3FAAF75C26B2C261009447F8 /* logout.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = logout.sh; sourceTree = "<group>"; };
+		3FAD91F226B41E5200698848 /* AddSite.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = AddSite.sh; sourceTree = "<group>"; };
 		3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewC.swift; sourceTree = "<group>"; };
 		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
@@ -146,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				3F0004B826B2CDEE00C18AE2 /* BlockManager.swift */,
+				3F7872C526B7D3910076FA83 /* FileScanner.swift */,
 			);
 			path = BlockManager;
 			sourceTree = "<group>";
@@ -257,6 +264,14 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		3F7872CD26B803730076FA83 /* AppManager */ = {
+			isa = PBXGroup;
+			children = (
+				3F7872CE26B803970076FA83 /* AppManager.swift */,
+			);
+			path = AppManager;
+			sourceTree = "<group>";
+		};
 		3F9111E7268D95A200706B51 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				3FAAF75C26B2C261009447F8 /* logout.sh */,
+				3FAD91F226B41E5200698848 /* AddSite.sh */,
 			);
 			path = Script;
 			sourceTree = "<group>";
@@ -400,6 +416,7 @@
 		3FFC1E4B2680C13D0014216C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				3F7872CD26B803730076FA83 /* AppManager */,
 				3F0004C026B2EB3F00C18AE2 /* AuthorizeManager */,
 				3F0004B726B2CCF700C18AE2 /* BlockManager */,
 				3F5944B52689F8E2008C54A4 /* DBManager */,
@@ -504,6 +521,7 @@
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
 				3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */,
 				3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */,
+				3FAD91F326B41E5A00698848 /* AddSite.sh in Resources */,
 				3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */,
 				3FAAF75D26B2C261009447F8 /* logout.sh in Resources */,
 			);
@@ -551,9 +569,11 @@
 				3FFC1E6D2680C13D0014216C /* Operators.swift in Sources */,
 				3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */,
 				3F3C5FF726A17F6D0022C43F /* DBManagerModel.swift in Sources */,
+				3F7872CF26B803970076FA83 /* AppManager.swift in Sources */,
 				3F3C5FFE26A1919C0022C43F /* BlockModel.swift in Sources */,
 				3F9CC4A9268B3DA000AC3026 /* SchedulerViewC.swift in Sources */,
 				3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */,
+				3F7872C626B7D3910076FA83 /* FileScanner.swift in Sources */,
 				3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */,
 				3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */,
 				3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */,
