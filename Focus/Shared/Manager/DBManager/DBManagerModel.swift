@@ -30,5 +30,7 @@ protocol DBMangerLogic {
     func getFoucsObject() -> Focuses?
     func saveBlock(data: [String: Any])
     func getBlockList() -> [Override_Block]
+    func saveApplicationlist(data: [String: Any])
+    func getApplicationList() -> [Application_List]
     func saveContext()
 }

@@ -30,6 +30,7 @@ class DBManager {
     let managedContext = DataController.shared.persistentContainer.viewContext
 }
 
+// Block List
 extension DBManager: DBMangerLogic {
     func saveBlock(data: [String: Any]) {
         let entity = NSEntityDescription.entity(forEntityName: "Override_Block", in: managedContext)!
@@ -60,6 +61,7 @@ extension DBManager: DBMangerLogic {
     }
 }
 
+// Focus Create
 extension DBManager {
     func createFocus(data: [String: Any]) {
         let entity = NSEntityDescription.entity(forEntityName: Focus.entity_name, in: managedContext)!
@@ -93,8 +95,37 @@ extension DBManager {
         }
         return focusObj
     }
+
+    func saveApplicationlist(data: [String: Any]) {
+        let entity = NSEntityDescription.entity(forEntityName: "Application_List", in: managedContext)!
+        let block = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        for (key, value) in data {
+            block.setValue(value, forKeyPath: key)
+        }
+
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save focus. \(error), \(error.userInfo)")
+        }
+    }
+
+    func getApplicationList() -> [Application_List] {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Application_List")
+        do {
+            let block = try managedContext.fetch(fetchRequest)
+            guard let applications = block as? [Application_List] else { return [] }
+            return applications
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+
+        return []
+    }
 }
 
+// Save Context
 extension DBManager {
     func saveContext() {
         do {

@@ -213,8 +213,8 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             if action {
                 print(value)
 
-                let data: [String: Any] = ["name": value, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
-                viewModel.input.storeOverridesBlock(data: data) { overriedBlocks in
+                let data: [String: Any] = ["url": value, "name": value, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
+                viewModel.input.storeOverridesBlock(data: data) { _ in
                     self.tblBlock.reloadData()
                     self.tblNotBlock.reloadData()
                 }
@@ -242,6 +242,14 @@ extension BlockListViewC {
 
     @objc func openAppSelection(_ sender: NSButton) {
         print("openAppSelection")
+        let controller = ApplicationListViewC(nibName: "ApplicationListViewC", bundle: nil)
+        controller.applySuccess = { value in
+            if value {
+                self.tblBlock.reloadData()
+                self.tblNotBlock.reloadData()
+            }
+        }
+        presentAsSheet(controller)
     }
 
     @objc func addWebUrl(_ sender: NSButton) {

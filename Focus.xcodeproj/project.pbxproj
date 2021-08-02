@@ -27,6 +27,8 @@
 		3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */; };
 		3F7872C626B7D3910076FA83 /* FileScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872C526B7D3910076FA83 /* FileScanner.swift */; };
 		3F7872CF26B803970076FA83 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872CE26B803970076FA83 /* AppManager.swift */; };
+		3F7872D326B80C190076FA83 /* ApplicationListViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872D126B80C190076FA83 /* ApplicationListViewC.swift */; };
+		3F7872D426B80C190076FA83 /* ApplicationListViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */; };
 		3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78DA0826AADAFA000BA6FC /* Color.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
@@ -94,6 +96,8 @@
 		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
 		3F7872C526B7D3910076FA83 /* FileScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileScanner.swift; sourceTree = "<group>"; };
 		3F7872CE26B803970076FA83 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
+		3F7872D126B80C190076FA83 /* ApplicationListViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationListViewC.swift; sourceTree = "<group>"; };
+		3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ApplicationListViewC.xib; sourceTree = "<group>"; };
 		3F78DA0826AADAFA000BA6FC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
@@ -272,6 +276,15 @@
 			path = AppManager;
 			sourceTree = "<group>";
 		};
+		3F7872D026B80BF70076FA83 /* Applist */ = {
+			isa = PBXGroup;
+			children = (
+				3F7872D126B80C190076FA83 /* ApplicationListViewC.swift */,
+				3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */,
+			);
+			path = Applist;
+			sourceTree = "<group>";
+		};
 		3F9111E7268D95A200706B51 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +346,7 @@
 		3FA51D49267CB6CE007826F3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F7872D026B80BF70076FA83 /* Applist */,
 				3F4E25DE26B153F60029D379 /* FloatingButton */,
 				3FC8107D26A9388E0058D1CF /* Dialogue */,
 				3F4DFA3526835D6F0013BA0C /* Setting */,
@@ -518,6 +532,7 @@
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
 				3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */,
+				3F7872D426B80C190076FA83 /* ApplicationListViewC.xib in Resources */,
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
 				3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */,
 				3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */,
@@ -535,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */,
+				3F7872D326B80C190076FA83 /* ApplicationListViewC.swift in Sources */,
 				3F0004C226B2EB5800C18AE2 /* AuthorizeManager.swift in Sources */,
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,

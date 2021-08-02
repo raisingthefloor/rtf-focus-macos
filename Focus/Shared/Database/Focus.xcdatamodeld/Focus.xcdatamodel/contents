@@ -3,6 +3,12 @@
     <entity name="Allowed_Blocked_GS" representedClassName="Allowed_Blocked_GS" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="General_Settings" inverseName="allowed_override" inverseEntity="General_Settings"/>
     </entity>
+    <entity name="Application_List" representedClassName="Application_List" syncable="YES" codeGenerationType="class">
+        <attribute name="bundle_id" optional="YES" attributeType="String"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="path" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="Block_Category" representedClassName="Block_Category" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <relationship name="sub_data" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Block_SubCategory" inverseName="main_data" inverseEntity="Block_SubCategory"/>
     </entity>
@@ -49,13 +55,16 @@
     </entity>
     <entity name="Override_Block" representedClassName="Override_Block" syncable="YES" codeGenerationType="class">
         <attribute name="block_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bundle_id" optional="YES" attributeType="String"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="is_deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="Allowed_Blocked_GS" positionX="-27" positionY="63" width="128" height="44"/>
+        <element name="Application_List" positionX="-36" positionY="90" width="128" height="89"/>
         <element name="Block_Category" positionX="-18" positionY="81" width="128" height="44"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="134"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="29"/>
@@ -64,6 +73,6 @@
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
         <element name="Focuses" positionX="-63" positionY="-18" width="128" height="224"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="104"/>
-        <element name="Override_Block" positionX="-36" positionY="63" width="128" height="104"/>
+        <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
     </elements>
 </model>
