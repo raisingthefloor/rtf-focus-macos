@@ -28,7 +28,7 @@ import Foundation
 
 protocol BlockListViewModelIntput {
     func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block])
-    func storeOverridesBlock(data: [String: Any], callback: @escaping (([Override_Block]) -> Void))
+    func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void))
 }
 
 protocol BlockListViewModelOutput {
@@ -65,7 +65,7 @@ class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, Bl
         return (blockCategories, override_bloks, override_bloks)
     }
 
-    func storeOverridesBlock(data: [String: Any], callback: @escaping (([Override_Block]) -> Void)) {
+    func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void)) {
         DBManager.shared.saveBlock(data: data)
         let override_bloks = DBManager.shared.getBlockList()
         callback(override_bloks)

@@ -36,7 +36,9 @@ class AppManager {
             }
         }
     }
+}
 
+extension AppManager {
     public func doSpotlightQuery() {
         query = NSMetadataQuery()
         let predicate = NSPredicate(format: "kMDItemContentType == 'com.apple.application-bundle'")
@@ -66,11 +68,39 @@ class AppManager {
                         print("path: \(path)")
                         let icon = NSWorkspace.shared.icon(forFile: path)
                         print("icon: \(icon)")
-                        let data = ["name": name,"bundle_id": bundleName,"path":path]
+                        let data = ["name": name, "bundle_id": bundleName, "path": path]
                         DBManager.shared.saveApplicationlist(data: data)
                     }
-                    
                 }
+            }
+        }
+    }
+}
+
+// MARK: Application launch Observer and Restrict the App If its Blocked
+
+extension AppManager {
+    func addObserverToCheckAppLaunch() {
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.willLaunchApplicationNotification, object: nil)
+    }
+
+    @objc func appDidLaunch(notification: NSNotification) {
+        let arrBlockerApp = DBManager.shared.getActiveBlockList()
+        if let app = notification.userInfo,
+           let identifier = app["NSApplicationBundleIdentifier"] as? String {
+            let runningApplications = NSWorkspace.shared.runningApplications
+            // filter here to get only that application which are in block list and also check here if focus is running
+
+            if let application = runningApplications.first(where: { application in
+                let bundle_id = arrBlockerApp.filter({ $0.bundle_id == identifier }).map({ $0 }).first?.bundle_id ?? ""
+                return application.bundleIdentifier == bundle_id
+            }) {
+                application.forceTerminate()
+                kill(application.processIdentifier, SIGTERM)
+
+                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+                controller.dialogueType = .launch_app_alert
+                windowController.contentViewController?.presentAsSheet(controller)
             }
         }
     }

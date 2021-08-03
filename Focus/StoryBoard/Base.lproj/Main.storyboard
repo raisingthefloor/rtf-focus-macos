@@ -563,8 +563,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tBr-Ca-sgY" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
-                                        <buttonCell key="cell" type="bevel" title="  Customize Setting" bezelStyle="regularSquare" image="NSSmartBadgeTemplate" imagePosition="left" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Rff-jJ-Cp3">
+                                        <rect key="frame" x="3" y="4" width="594" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="594" id="JbG-Lg-UX4"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" imagePosition="left" alignment="center" imageScaling="proportionallyDown" inset="2" id="Rff-jJ-Cp3">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -578,15 +581,44 @@
                                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                                 <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="activeBorderColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </button>
+                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7kJ-CM-8Pa">
+                                        <rect key="frame" x="12" y="1" width="25" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="21p-MJ-Lxi"/>
+                                            <constraint firstAttribute="width" constant="25" id="nRm-ko-E04"/>
+                                        </constraints>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSSmartBadgeTemplate" id="MNu-Mp-iJq"/>
+                                    </imageView>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9uO-Wq-uKD">
+                                        <rect key="frame" x="45" y="15" width="532" height="20"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Customize Setting" id="q0b-fF-ogt">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </textFieldCell>
+                                    </textField>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="9uO-Wq-uKD" secondAttribute="trailing" constant="25" id="2Vv-he-Rua"/>
                                     <constraint firstItem="tBr-Ca-sgY" firstAttribute="top" secondItem="VTD-iL-xpr" secondAttribute="top" id="3I9-Ds-kqI"/>
+                                    <constraint firstItem="9uO-Wq-uKD" firstAttribute="leading" secondItem="7kJ-CM-8Pa" secondAttribute="trailing" constant="10" id="FEV-Wg-tMd"/>
+                                    <constraint firstItem="9uO-Wq-uKD" firstAttribute="top" secondItem="VTD-iL-xpr" secondAttribute="top" constant="15" id="P1m-RE-gka"/>
                                     <constraint firstAttribute="height" constant="50" id="P9x-cy-P6G"/>
                                     <constraint firstItem="tBr-Ca-sgY" firstAttribute="leading" secondItem="VTD-iL-xpr" secondAttribute="leading" constant="3" id="Wfm-Qa-SXO"/>
                                     <constraint firstAttribute="bottom" secondItem="tBr-Ca-sgY" secondAttribute="bottom" constant="4" id="Ykw-v1-1P8"/>
+                                    <constraint firstAttribute="bottom" secondItem="7kJ-CM-8Pa" secondAttribute="bottom" constant="1" id="c1e-pe-f1n"/>
+                                    <constraint firstItem="7kJ-CM-8Pa" firstAttribute="top" secondItem="VTD-iL-xpr" secondAttribute="top" constant="1" id="hCv-f7-oRo"/>
                                     <constraint firstAttribute="trailing" secondItem="tBr-Ca-sgY" secondAttribute="trailing" constant="3" id="hRb-SM-Her"/>
+                                    <constraint firstItem="7kJ-CM-8Pa" firstAttribute="leading" secondItem="VTD-iL-xpr" secondAttribute="leading" constant="12" id="iaG-pQ-lAT"/>
+                                    <constraint firstAttribute="bottom" secondItem="9uO-Wq-uKD" secondAttribute="bottom" constant="15" id="lro-HR-Fgo"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -616,6 +648,7 @@
                         <outlet property="lblFocusInfo" destination="FCI-vQ-uUb" id="f0b-1L-tCZ"/>
                         <outlet property="lblFocusLength" destination="D8o-0i-S0s" id="FC1-bx-u8R"/>
                         <outlet property="lblFocusTInfo" destination="ZgV-5K-MIu" id="34O-b1-Jyq"/>
+                        <outlet property="lblSetting" destination="9uO-Wq-uKD" id="hTf-1n-Mum"/>
                         <outlet property="lblTitle" destination="1XR-wa-Mu6" id="xSD-f6-t2i"/>
                         <outlet property="popBlock" destination="wJe-Ji-Fgy" id="5AN-w8-Hkj"/>
                         <outlet property="popBreakTime" destination="jBg-Zb-rTV" id="ELZ-xm-1tf"/>

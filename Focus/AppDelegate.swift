@@ -37,41 +37,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
         openFocus()
         setupStautsBarMenu()
-//        addObserverToCheckAppLaunch()
+        AppManager.shared.addObserverToCheckAppLaunch()
         AppManager.shared.doSpotlightQuery()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-    func addObserverToCheckAppLaunch() {
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.willLaunchApplicationNotification, object: nil)
-    }
 }
-
 
 // MARK: Setup Status bar Menu
 
 extension AppDelegate {
-    @objc func appDidLaunch(notification: NSNotification) {
-        if let app = notification.userInfo,
-           let identifier = app["NSApplicationBundleIdentifier"] as? String {
-            let runningApplications = NSWorkspace.shared.runningApplications
-            // filter here to get only that application which are in block list and also check here if focus is running
-            if let application = runningApplications.first(where: { application in
-                application.bundleIdentifier == identifier
-            }) {
-                application.forceTerminate()
-                kill(application.processIdentifier, SIGTERM)
-
-                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-                controller.dialogueType = .launch_app_alert
-                windowController.contentViewController?.presentAsSheet(controller)
-            }
-        }
-    }
-
     func setupStautsBarMenu() {
         guard let statusButton = statusBarItem.button else { return }
         statusButton.title = "Focus"

@@ -32,7 +32,7 @@ class DBManager {
 
 // Block List
 extension DBManager: DBMangerLogic {
-    func saveBlock(data: [String: Any]) {
+    func saveBlock(data: [String: Any?]) {
         let entity = NSEntityDescription.entity(forEntityName: "Override_Block", in: managedContext)!
         let block = NSManagedObject(entity: entity, insertInto: managedContext)
 
@@ -57,6 +57,19 @@ extension DBManager: DBMangerLogic {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
 
+        return []
+    }
+
+    func getActiveBlockList() -> [Override_Block] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Override_Block")
+        fetchRequest.predicate = NSPredicate(format: "is_selected = true")
+        do {
+            let block = try managedContext.fetch(fetchRequest)
+            guard let overriedBlocks = block as? [Override_Block] else { return [] }
+            return overriedBlocks
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
         return []
     }
 }

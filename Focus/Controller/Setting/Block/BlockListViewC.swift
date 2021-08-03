@@ -157,6 +157,7 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cell.checkBox.title = item.name ?? "-"
                 cell.checkBox.target = self
                 cell.checkBox.action = #selector(blockTap(_:))
+                cell.checkBox.tag = row - 1
                 return cell
             }
 
@@ -231,8 +232,10 @@ extension BlockListViewC {
     }
 
     @objc func blockTap(_ sender: NSButton) {
-        print("Block")
-        print(sender.state)
+        let blocks = viewModel.input.getBlockList().1
+        let obj = blocks[sender.tag]
+        obj.is_selected = !obj.is_selected
+        DBManager.shared.saveContext()
     }
 
     @objc func notBlockTap(_ sender: NSButton) {
@@ -243,11 +246,9 @@ extension BlockListViewC {
     @objc func openAppSelection(_ sender: NSButton) {
         print("openAppSelection")
         let controller = ApplicationListViewC(nibName: "ApplicationListViewC", bundle: nil)
-        controller.applySuccess = { value in
-            if value {
-                self.tblBlock.reloadData()
-                self.tblNotBlock.reloadData()
-            }
+        controller.applySuccess = { [weak self] value in
+            self?.tblBlock.reloadData()
+            self?.tblNotBlock.reloadData()
         }
         presentAsSheet(controller)
     }

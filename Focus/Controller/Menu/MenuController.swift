@@ -57,6 +57,8 @@ class MenuController: BaseViewController {
 
     @IBOutlet var btnStop: CustomButton!
     @IBOutlet var btnCostomizeSetting: CustomButton!
+    @IBOutlet var lblSetting: NSTextField!
+
 
     let viewModel: MenuViewModelType = MenuViewModel()
 
@@ -75,7 +77,8 @@ class MenuController: BaseViewController {
 
 extension MenuController: BasicSetupType {
     func setUpText() {
-        btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
+        //btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
+        lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
 
         checkBoxDND.title = Focus.Options.dnd.title
         lblDnDInfo.stringValue = Focus.Options.dnd.information

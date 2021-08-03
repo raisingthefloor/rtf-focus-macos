@@ -34,8 +34,9 @@ class ApplicationListViewC: NSViewController {
     @IBOutlet var bottomView: NSView!
     @IBOutlet var btnApply: NSButton!
     var arrApplicatios: [Application_List] = []
-    var applySuccess: ((Bool) -> Void?)?
+    var applySuccess: ((Bool) -> Void)?
 
+    let viewModel: BlockListViewModelType = BlockListViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +70,15 @@ extension ApplicationListViewC: BasicSetupType {
 
     @objc func apply(_ sender: Any) {
         // Store the application in block list
-        DBManager.shared.saveContext()
+        let data = arrApplicatios.filter({ $0.is_selected }).compactMap({ $0 })
+        for obj in data {
+            let data: [String: Any?] = ["name": obj.name, "created_at": Date(), "bundle_id": obj.bundle_id, "is_selected": false, "is_deleted": false, "block_type": BlockType.application.rawValue]
+            viewModel.input.storeOverridesBlock(data: data) { _ in
+            }
+        }
+
         applySuccess?(true)
+        dismiss(nil)
     }
 }
 
