@@ -57,9 +57,11 @@ extension FocusDialogue {
         case .launch_app_alert:
             return NSLocalizedString("Alert.block_message", comment: "You selected this to be blocked during your focus session.")
         case .seession_completed_alert, .till_stop_alert:
-            return NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for %d hrs and %d min")
+            let str = NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for %d hrs and %d min")
+            return String(format: str, 2,2)
         case .warning_forced_pause_alert:
-            return NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %d hours or more.")
+            let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %d hours or more.")
+            return String(format: str, 2)
         case .schedule_reminded_without_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminded_without_blocklist_alert_desc", comment: "You asked to be reminded that you wanted to focus at this time")
         case .schedule_reminded_with_blocklist_alert:
@@ -127,7 +129,8 @@ extension FocusDialogue {
             let btnString = NSLocalizedString("Button.ok", comment: "Ok") + " - " + NSLocalizedString("Button.done", comment: "Done")
             return ([btnString], .bottom)
         case .warning_forced_pause_alert:
-            let btnString = NSLocalizedString("Alert.continue_with", comment: "Continue with") + " %@ " + NSLocalizedString("Alert.breaks", comment: "min Breaks")
+            let str = NSLocalizedString("Alert.continue_with", comment: "Continue with") + " %@ " + NSLocalizedString("Alert.breaks", comment: "min Breaks")
+            let btnString = String(format: str, "2")
             return ([btnString], .bottom)
         case .till_stop_alert:
             return ([NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")], .bottom)

@@ -51,16 +51,7 @@ extension FloatingFocusViewC: BasicSetupType {
 
     @objc func openMenuViewC() {
         if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-            let window: NSWindow = {
-                let w = NSWindow(contentViewController: vc)
-                w.styleMask.remove(.fullScreen)
-                w.styleMask.remove(.resizable)
-                w.styleMask.remove(.miniaturizable)
-                w.level = .floating
-                return w
-            }()
-            
-            self.presentAsModalWindow(vc)
+            presentAsModalWindow(vc)
         }
     }
 }

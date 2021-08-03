@@ -55,10 +55,10 @@ class MenuController: BaseViewController {
     @IBOutlet var btn2Hr: CustomButton!
     @IBOutlet var btnUntillI: CustomButton!
 
+    @IBOutlet var bottomView: NSView!
     @IBOutlet var btnStop: CustomButton!
     @IBOutlet var btnCostomizeSetting: CustomButton!
     @IBOutlet var lblSetting: NSTextField!
-
 
     let viewModel: MenuViewModelType = MenuViewModel()
 
@@ -77,7 +77,7 @@ class MenuController: BaseViewController {
 
 extension MenuController: BasicSetupType {
     func setUpText() {
-        //btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
+        // btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
         lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
 
         checkBoxDND.title = Focus.Options.dnd.title
@@ -99,6 +99,12 @@ extension MenuController: BasicSetupType {
     }
 
     func setUpViews() {
+        if let window: NSWindow = view.window {
+            window.styleMask.remove(.fullScreen)
+            window.styleMask.remove(.resizable)
+            window.styleMask.remove(.miniaturizable)
+            window.styleMask.remove(.fullSizeContentView)
+        }
     }
 
     func bindData() {
@@ -106,11 +112,15 @@ extension MenuController: BasicSetupType {
         popFocusTime.menu = Focus.FocusTime.focustimes
         popBreakTime.menu = Focus.BreakTime.breaktimes
 
-        btnCostomizeSetting.target = self
-        btnCostomizeSetting.action = #selector(openCustomSetting)
+//        btnCostomizeSetting.target = self
+//        btnCostomizeSetting.action = #selector(openCustomSetting)
 
         setupFocusStopAction(arrButtons: [btn30m, btn1Hr, btn2Hr, btnUntillI, btnStop])
         setupFocusOptionAction(arrButtons: [checkBoxDND, checkBoxFocusTime, checkBoxBlock])
+
+        let g = NSClickGestureRecognizer(target: self, action: #selector(openCustomSetting))
+        g.numberOfClicksRequired = 1
+        bottomView.addGestureRecognizer(g)
     }
 
     // Focus set Action
@@ -165,7 +175,15 @@ extension MenuController: BasicSetupType {
 
     @objc func checkBoxEventHandler(_ sender: NSButton) {
         guard let focusOption = Focus.Options(rawValue: sender.tag) else { return }
-        viewModel.input.updateFocusOption(option: focusOption, state: sender.state) { _, _ in
+        viewModel.input.updateFocusOption(option: focusOption, state: sender.state) { _, error in
+            if error == nil {
+                WindowsManager.runDNDScript()
+//                if (state as? NSControl.StateValue) == .on {
+//                    WindowsManager.enableDND()
+//                } else {
+//                    WindowsManager.disableDND()
+//                }
+            }
         }
     }
 
@@ -193,9 +211,8 @@ extension MenuController: BasicSetupType {
     }
 
     @objc func openCustomSetting() {
-//        performSegue(withIdentifier: "segueSetting", sender: self)
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
-            present(vc, animator: ViewShowAnimator())
+            presentAsSheet(vc)
         }
     }
 }

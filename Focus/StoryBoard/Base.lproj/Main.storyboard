@@ -632,6 +632,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomView" destination="VTD-iL-xpr" id="4yp-xk-72k"/>
                         <outlet property="btn1Hr" destination="HCz-Th-scT" id="gUQ-rx-78i"/>
                         <outlet property="btn2Hr" destination="7Xe-gE-lrJ" id="DU3-jo-OxW"/>
                         <outlet property="btn30m" destination="o8p-Xk-wzJ" id="OPS-HC-RfF"/>

@@ -135,7 +135,7 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cell.checkBox.title = item.name ?? "-"
                 cell.checkBox.target = self
                 cell.checkBox.action = #selector(categoryTap(_:))
-
+                cell.checkBox.tag = row - 1
                 return cell
             }
 
@@ -158,6 +158,7 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cell.checkBox.target = self
                 cell.checkBox.action = #selector(blockTap(_:))
                 cell.checkBox.tag = row - 1
+                cell.checkBox.state = item.is_selected ? .on : .off
                 return cell
             }
 
@@ -180,7 +181,8 @@ extension BlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cell.checkBox.title = item.name ?? "-"
                 cell.checkBox.target = self
                 cell.checkBox.action = #selector(notBlockTap(_:))
-
+                cell.checkBox.tag = row - 1
+                cell.checkBox.state = item.is_selected ? .on : .off
                 return cell
             }
         }

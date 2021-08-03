@@ -81,12 +81,11 @@ extension DisincentiveViewC: BasicSetupType {
 extension DisincentiveViewC {
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
-            //WindowsManager.openSystemLogoutDialog()
+            WindowsManager.openSystemLogoutDialog()
 //            AuthorizationManager.setup()
 //            WindowsManager.perfomTask(value: "0.0.0.0 www.instagram.com")
 //            WindowsManager.perfomTask(value: "0.0.0.0 instagram.com")
             //BlockManager.loadHostFile()
-            BlockManager.shared.resetHostFile()
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {

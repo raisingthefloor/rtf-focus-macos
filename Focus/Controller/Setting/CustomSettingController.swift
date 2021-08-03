@@ -34,7 +34,7 @@ class CustomSettingController: NSViewController, ItemHostSV {
     @IBOutlet var containerView: NSView!
 
     @IBOutlet var stackView: CustomStackView!
-    
+
     var selectedSettig: SettingOptions = .none
 
     override func viewDidLoad() {
@@ -57,7 +57,7 @@ extension CustomSettingController: BasicSetupType {
     }
 
     func setUpViews() {
-        self.view.bgColor = .black
+        view.bgColor = .black
 
         setupCollapseExpandViewC(SettingOptions.general_setting) // set controller's identifier which is set in storyboard
         setupCollapseExpandViewC(SettingOptions.block_setting)
@@ -70,16 +70,10 @@ extension CustomSettingController: BasicSetupType {
     }
 
     @objc func closeWindow(_ sender: Any) {
-                        
-        if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-            present(vc, animator: ViewShowAnimator())
-        }
-            
-//        if presentingViewController != nil {
-//            presentingViewController?.dismiss(self)
-//        } else {
-//            view.window?.close()
+//        if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+//            present(vc, animator: ViewShowAnimator())
 //        }
+        self.dismiss(nil)
     }
 }
 
@@ -99,7 +93,7 @@ extension CustomSettingController {
         stackView.continerViews.append(containerView)
         if selectedSettig == settingOption {
             show(containerView, animated: true)
-        }else{
+        } else {
             hide(containerView, animated: false)
         }
     }

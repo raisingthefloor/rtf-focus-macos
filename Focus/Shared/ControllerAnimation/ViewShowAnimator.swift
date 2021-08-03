@@ -66,6 +66,9 @@ class ViewShowAnimator: NSObject, NSViewControllerPresentationAnimator {
     func animatePresentation(of viewController: NSViewController, from fromViewController: NSViewController) {
         if let window = fromViewController.view.window {
             viewController.view.alphaValue = 0
+            window.styleMask.remove(.resizable)
+            window.styleMask.remove(.miniaturizable)
+
             NSAnimationContext.runAnimationGroup({ (_) -> Void in
                 fromViewController.view.animator().alphaValue = 0
             }, completionHandler: { () -> Void in
