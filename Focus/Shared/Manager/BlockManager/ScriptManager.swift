@@ -33,13 +33,12 @@ class ScriptManager {
         var error: NSDictionary?
         for val in BrowserApp.allBrowsers {
             guard let script = NSAppleScript(source: val.script_rule) else { return }
-
             guard let outputString = script.executeAndReturnError(&error).stringValue else {
                 if let error = error {
-                    print("Get Browser URL request failed with error: \(error.description)")
+                    print("Block Browser URL request failed with error: \(error.description)")
 
                     if #available(macOS 11.0, *) {
-                        os_log("Get Browser URL request failed with error: \(error.description)")
+                        os_log("Block Browser URL request failed with error: \(error.description)")
                     } else {
                         // Fallback on earlier versions
                     }
@@ -48,6 +47,27 @@ class ScriptManager {
             }
             print(outputString)
         }
+    }
+
+    func stopApplicationToLaunch() {
+        var error: NSDictionary?
+        let script_rule = "tell application \"iTunes\" -- doesn't automatically launch app" + "\n" + "if it is running then" + "\n" + "pause"
+            + "\n" + "end if" + "\n" + "end tell"
+
+        guard let script = NSAppleScript(source: script_rule) else { return }
+        guard let outputString = script.executeAndReturnError(&error).stringValue else {
+            if let error = error {
+                print("App Stop request failed with error: \(error.description)")
+
+                if #available(macOS 11.0, *) {
+                    os_log("App Stop request failed with error: \(error.description)")
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+            return
+        }
+        print(outputString)
     }
 }
 
@@ -79,7 +99,7 @@ enum BrowserApp {
             return "repeat until application \"\(name)\" is not running" + "\n" +
                 "if application \"\(name)\" is running then" + "\n" +
                 "tell application \"\(name)\" " + "\n" +
-                "set (URL of every tab of every window where URL contains \"\(host)\") to \"http://127.0.0.1\" " + "\n" +
+                "set (URL of every tab of every window where URL contains \"\(host)\") to \"http://127.0.0.1\" " + "\n" + // Repeat this line as the list
                 "end tell" + "\n" +
                 "end if" + "\n" +
                 "end repeat"
@@ -122,6 +142,6 @@ enum BrowserApp {
     }
 
     static var allBrowsers: [BrowserApp] {
-        return [.chrome("facebook.com")]
+        return [.chrome("facebook.com"), .safari("facebook.com")]
     }
 }
