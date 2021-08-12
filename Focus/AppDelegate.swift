@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupStautsBarMenu()
         AppManager.shared.addObserverToCheckAppLaunch()
         AppManager.shared.doSpotlightQuery()
+        ScriptManager.shared.blockBrowserURLs()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

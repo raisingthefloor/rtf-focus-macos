@@ -26,5 +26,9 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Morphic requires permission to browsers to block them</string>
 </dict>
 </plist>

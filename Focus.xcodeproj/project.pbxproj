@@ -30,6 +30,7 @@
 		3F7872D326B80C190076FA83 /* ApplicationListViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872D126B80C190076FA83 /* ApplicationListViewC.swift */; };
 		3F7872D426B80C190076FA83 /* ApplicationListViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */; };
 		3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78DA0826AADAFA000BA6FC /* Color.swift */; };
+		3F7FCEF426C12F76003BC19A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EA268D985900706B51 /* BlockListViewModel.swift */; };
@@ -62,6 +63,7 @@
 		3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC9131269EC5700021D3E3 /* MenuModel.swift */; };
 		3FDC9134269F1C330021D3E3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC9133269F1C330021D3E3 /* Extension.swift */; };
 		3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FDC9135269F1E850021D3E3 /* Color.xcassets */; };
+		3FFB8C5C26C4F413007FCC81 /* ScriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFB8C5B26C4F413007FCC81 /* ScriptManager.swift */; };
 		3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E4C2680C13D0014216C /* WindowsManager.swift */; };
 		3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E522680C13D0014216C /* UserDefault.swift */; };
 		3FFC1E682680C13D0014216C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E552680C13D0014216C /* Enums.swift */; };
@@ -99,6 +101,7 @@
 		3F7872D126B80C190076FA83 /* ApplicationListViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationListViewC.swift; sourceTree = "<group>"; };
 		3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ApplicationListViewC.xib; sourceTree = "<group>"; };
 		3F78DA0826AADAFA000BA6FC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		3FDC9131269EC5700021D3E3 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		3FDC9133269F1C330021D3E3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		3FDC9135269F1E850021D3E3 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		3FFB8C5B26C4F413007FCC81 /* ScriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptManager.swift; sourceTree = "<group>"; };
 		3FFC1E4C2680C13D0014216C /* WindowsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowsManager.swift; sourceTree = "<group>"; };
 		3FFC1E522680C13D0014216C /* UserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		3FFC1E552680C13D0014216C /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F7FCEF426C12F76003BC19A /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +162,7 @@
 			children = (
 				3F0004B826B2CDEE00C18AE2 /* BlockManager.swift */,
 				3F7872C526B7D3910076FA83 /* FileScanner.swift */,
+				3FFB8C5B26C4F413007FCC81 /* ScriptManager.swift */,
 			);
 			path = BlockManager;
 			sourceTree = "<group>";
@@ -191,6 +197,7 @@
 			children = (
 				3F44CFD02679FAAA00122B1B /* Focus */,
 				3F44CFCF2679FAAA00122B1B /* Products */,
+				3F7FCEF226C12F76003BC19A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -283,6 +290,14 @@
 				3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */,
 			);
 			path = Applist;
+			sourceTree = "<group>";
+		};
+		3F7FCEF226C12F76003BC19A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		3F9111E7268D95A200706B51 /* Cell */ = {
@@ -559,6 +574,7 @@
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */,
 				3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */,
+				3FFB8C5C26C4F413007FCC81 /* ScriptManager.swift in Sources */,
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */,
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
@@ -737,10 +753,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Focus/Focus.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -748,7 +764,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = Plenartech.Focus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plenartech.Focus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -761,10 +777,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Focus/Focus.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -772,7 +788,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = Plenartech.Focus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plenartech.Focus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
