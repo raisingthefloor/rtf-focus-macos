@@ -23,32 +23,108 @@
  */
 
 import AppleScriptObjC
+import Carbon
 import Foundation
 import OSLog
 
 class ScriptManager {
     static var shared = ScriptManager()
 
-    func blockBrowserURLs() {
-        var error: NSDictionary?
-        for val in BrowserApp.allBrowsers {
-            guard let script = NSAppleScript(source: val.script_rule) else { return }
-            guard let outputString = script.executeAndReturnError(&error).stringValue else {
-                if let error = error {
-                    print("Block Browser URL request failed with error: \(error.description)")
+    var isFocus: Bool = false
 
-                    if #available(macOS 11.0, *) {
-                        os_log("Block Browser URL request failed with error: \(error.description)")
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                }
-                return
+    func loadBrowserBlock(val: BrowserApp, isFocusing: Bool) {
+        let blocklist = ["\"yahoo\"", "\"facebook\"", "\"instagram\""].joined(separator: ",")
+
+        var error: NSDictionary?
+//        for val in BrowserApp.allBrowsers {
+        let sctriptVal = getActiveBrowserNBlock(blocklist: blocklist, isFocusing: isFocusing)
+
+        updateFlag { val in
+            print("val \(val)")
+        }
+
+        guard let script = NSAppleScript(source: sctriptVal) else { return }
+        guard let outputString = script.executeAndReturnError(&error).stringValue else {
+            if let error = error {
+                print("Block Browser URL request failed with error: \(error.description)")
             }
-            print(outputString)
+            return
+        }
+        print(outputString)
+//        }
+    }
+
+    func getActiveBrowserNBlock(blocklist: String, isFocusing: Bool) -> String {
+        return
+            "set urls to {\(blocklist)}" + "\n" +
+            "set isFocus to false" + "\n" +
+
+            "tell application \"System Events\" to set activeApp to get the name of every process whose background only is false" + "\n" +
+
+            "repeat until isFocus" + "\n" +
+
+            "if \"Safari\" is in activeApp then" + "\n" +
+            "if application \"Safari\" is running then" + "\n" +
+            "tell application \"Safari\"" + "\n" +
+            "repeat with theURL in urls" + "\n" +
+            "set (URL of every tab of every window where URL contains (contents of theURL)) to \"http://127.0.0.1\"" + "\n" +
+            "end repeat" + "\n" +
+            "delay 0.9" + "\n" +
+            "end tell" + "\n" +
+            "end if" + "\n" +
+            "end if" + "\n" +
+
+            "if \"Google Chrome\" is in activeApp then" + "\n" +
+            "if application \"Google Chrome\" is running then" + "\n" +
+            "tell application \"Google Chrome\"" + "\n" +
+            "repeat with theURL in urls" + "\n" +
+            "set (URL of every tab of every window where URL contains (contents of theURL)) to \"http://127.0.0.1\"" + "\n" +
+            "end repeat" + "\n" +
+            "delay 0.9" + "\n" +
+            "end tell" + "\n" +
+            "end if" + "\n" +
+            "end if" + "\n" +
+            "set isFocus to \(isFocus)" + "\n" +
+            "end repeat"
+    }
+
+    func getSingleScriptVal(blocklist: String, name: String) -> String {
+        return "set urls to {\(blocklist)}" + "\n" +
+            "if application \"\(name)\" is running then" + "\n" +
+            "repeat until application \"\(name)\" is not running" + "\n" +
+            "repeat with theURL in urls" + "\n" +
+            "tell application \"\(name)\"" + "\n" +
+            "set (URL of every tab of every window where URL contains (contents of theURL)) to \"http://127.0.0.1\"" + "\n" +
+            "end tell" + "\n" +
+            "end repeat" + "\n" +
+            "end repeat" + "\n" +
+            "end if"
+    }
+
+    func stopBlockBrowser(browser: BrowserApp) {
+        var error: NSDictionary?
+        let script_rule = "if application \"\(browser.name)\" is running then" + "\n" +
+            "tell application \"\(browser.name)\"" + "\n" +
+            "do JavaScript \"history.back()\"" + "\n" +
+            "end tell" + "\n" +
+            "end if"
+
+        guard let script = NSAppleScript(source: script_rule) else { return }
+        guard let outputString = script.executeAndReturnError(&error).stringValue else {
+            if let error = error {
+                print("App Stop request failed with error: \(error.description)")
+            }
+            return
         }
     }
 
+    func loadScriptBridge() {
+        appDelegate?.browserBridge?.blockList = ["yahoo.com", "facebook.com", "instagram.com"]
+        appDelegate?.browserBridge?.runBlockBrowser(isFocusRunning: true)
+    }
+}
+
+extension ScriptManager {
     func stopApplicationToLaunch() {
         var error: NSDictionary?
         let script_rule = "tell application \"iTunes\" -- doesn't automatically launch app" + "\n" + "if it is running then" + "\n" + "pause"
@@ -69,13 +145,34 @@ class ScriptManager {
         }
         print(outputString)
     }
+
+    /* For Testing to Stop Script */
+    func stopScript() -> Bool {
+        return true
+    }
+
+    var i = 0
+    func updateFlag(callback: @escaping ((Bool) -> Void)) {
+        let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
+            timer in
+            print("iii: \(self.i)")
+            if self.i == 20 {
+                timer.invalidate()
+                self.isFocus = true
+                callback(true)
+                return
+            }
+            self.i = self.i + 1
+            callback(false)
+        }
+    }
 }
 
 enum BrowserApp {
-    case chrome(String)
-    case safari(String)
-    case firefox(String)
-    case opera(String)
+    case chrome
+    case safari
+    case firefox
+    case opera
     case other
 
     var name: String {
@@ -93,55 +190,7 @@ enum BrowserApp {
         }
     }
 
-    var script_rule: String {
-        switch self {
-        case let .chrome(host):
-            return "repeat until application \"\(name)\" is not running" + "\n" +
-                "if application \"\(name)\" is running then" + "\n" +
-                "tell application \"\(name)\" " + "\n" +
-                "set (URL of every tab of every window where URL contains \"\(host)\") to \"http://127.0.0.1\" " + "\n" + // Repeat this line as the list
-                "end tell" + "\n" +
-                "end if" + "\n" +
-                "end repeat"
-        case let .safari(host):
-            return "repeat until application \"\(name)\" is not running" + "\n" +
-                "if application \"\(name)\" is running then" + "\n" +
-                "tell application \"\(name)\" " + "\n" +
-                "set (URL of every tab of every window where URL contains \"\(host)\") to \"http://127.0.0.1\" " + "\n" +
-                "end tell" + "\n" +
-                "end if" + "\n" +
-                "end repeat"
-
-        case let .firefox(host):
-            return "repeat until application \"\(name)\" is not running" + "\n" +
-                "if application \"\(name)\" is running then" + "\n" +
-                "tell application \"\(name)\" " + "\n" +
-                "set (URL of every tab of every window where URL contains \"\(host)\") to \"http://127.0.0.1\" " + "\n" +
-                "end tell" + "\n" +
-                "end if" + "\n" +
-                "end repeat"
-
-        case let .opera(host):
-            return "repeat until application \"\(name)\" is not running" + "\n" +
-                "if application \"\(name)\" is running then" + "\n" +
-                "tell application \"\(name)\" " + "\n" +
-                "set (URL of every tab of every window where URL contains \"\(host)\") to \"http://127.0.0.1\" " + "\n" +
-                "end tell" + "\n" +
-                "end if" + "\n" +
-                "end repeat"
-
-        case .other:
-            return "repeat until application \"\(name)\" is not running" + "\n" +
-                "if application \"\(name)\" is running then" + "\n" +
-                "tell application \"\(name)\" " + "\n" +
-                "set (URL of every tab of every window where URL contains \"facebook.com\") to \"http://127.0.0.1\" " + "\n" +
-                "end tell" + "\n" +
-                "end if" + "\n" +
-                "end repeat"
-        }
-    }
-
     static var allBrowsers: [BrowserApp] {
-        return [.chrome("facebook.com"), .safari("facebook.com")]
+        return [.safari, .chrome]
     }
 }

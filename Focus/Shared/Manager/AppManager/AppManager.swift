@@ -54,7 +54,7 @@ extension AppManager {
 
         for result in query.results {
             guard let item = result as? NSMetadataItem else {
-                print("Result was not an NSMetadataItem, \(result)")
+//                print("Result was not an NSMetadataItem, \(result)")
                 continue
             }
 //            print("Spotlit Result: \(item.value(forAttribute: kMDItemIdentifier as String))")
@@ -62,12 +62,12 @@ extension AppManager {
 
             if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
                 if let bundleName = Bundle.bundleIDFor(appNamed: name) {
-                    print("\n")
-                    print("bundleName: \(bundleName)")
+//                    print("\n")
+//                    print("bundleName: \(bundleName)")
                     if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
-                        print("path: \(path)")
+//                        print("path: \(path)")
                         let icon = NSWorkspace.shared.icon(forFile: path)
-                        print("icon: \(icon)")
+//                        print("icon: \(icon)")
                         let data = ["name": name, "bundle_id": bundleName, "path": path]
                         DBManager.shared.saveApplicationlist(data: data)
                     }

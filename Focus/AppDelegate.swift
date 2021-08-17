@@ -23,6 +23,7 @@
  * Consumer Electronics Association Foundation
  */
 
+import AppleScriptObjC
 import Cocoa
 
 let windowController: NSWindowController = NSWindowController(window: nil)
@@ -32,15 +33,31 @@ let appDelegate = NSApplication.shared.delegate as? AppDelegate
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var customSetting = NSStoryboard(name: "CustomSetting", bundle: nil).instantiateController(withIdentifier: "WindowController") as? WindowController
+    var browserBridge: BrowserBridge?
+    let scManager: ScriptManager = ScriptManager()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         openFocus()
         setupStautsBarMenu()
-        AppManager.shared.addObserverToCheckAppLaunch()
-        AppManager.shared.doSpotlightQuery()
-        ScriptManager.shared.blockBrowserURLs()
+
+        //  Application Block Functionality
+//        AppManager.shared.addObserverToCheckAppLaunch()
+//        AppManager.shared.doSpotlightQuery()
+
+        DispatchQueue.global().async {
+            ScriptManager.shared.loadBrowserBlock(val: .safari,isFocusing: true)
+        }
     }
+
+//    override init() {
+//        Bundle.main.loadAppleScriptObjectiveCScripts()
+//
+//        let browserBridgeClass: AnyClass = NSClassFromString("BrowserBridge")!
+//        browserBridge = browserBridgeClass.alloc() as? BrowserBridge
+//
+//        super.init()
+//    }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application

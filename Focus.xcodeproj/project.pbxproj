@@ -23,6 +23,8 @@
 		3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */; };
 		3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B62689F8F4008C54A4 /* DBManager.swift */; };
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
+		3F68A6C526C657A1003D5913 /* BrowserBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F68A6C426C657A1003D5913 /* BrowserBridge.swift */; };
+		3F68A6C726C658BF003D5913 /* BrowserBridge.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */; };
 		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
 		3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */; };
 		3F7872C626B7D3910076FA83 /* FileScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7872C526B7D3910076FA83 /* FileScanner.swift */; };
@@ -94,6 +96,8 @@
 		3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingFocusViewC.swift; sourceTree = "<group>"; };
 		3F5944B62689F8F4008C54A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
+		3F68A6C426C657A1003D5913 /* BrowserBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserBridge.swift; sourceTree = "<group>"; };
+		3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = BrowserBridge.applescript; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
 		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
 		3F7872C526B7D3910076FA83 /* FileScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileScanner.swift; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 				3F0004B826B2CDEE00C18AE2 /* BlockManager.swift */,
 				3F7872C526B7D3910076FA83 /* FileScanner.swift */,
 				3FFB8C5B26C4F413007FCC81 /* ScriptManager.swift */,
+				3F68A6C426C657A1003D5913 /* BrowserBridge.swift */,
+				3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */,
 			);
 			path = BlockManager;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */,
 				3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */,
 				3FFB8C5C26C4F413007FCC81 /* ScriptManager.swift in Sources */,
+				3F68A6C526C657A1003D5913 /* BrowserBridge.swift in Sources */,
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */,
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
@@ -589,6 +596,7 @@
 				3FFC1E6B2680C13D0014216C /* Config.swift in Sources */,
 				3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */,
 				3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */,
+				3F68A6C726C658BF003D5913 /* BrowserBridge.applescript in Sources */,
 				3FDC9134269F1C330021D3E3 /* Extension.swift in Sources */,
 				3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */,
 				3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */,
