@@ -46,7 +46,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        AppManager.shared.doSpotlightQuery()
 
         DispatchQueue.global().async {
-            ScriptManager.shared.loadBrowserBlock(val: .safari,isFocusing: true)
+//            ScriptManager.shared.loadBrowserBlock(val: .safari,isFocusing: true)
+            ScriptManager.shared.callCustomScript()
         }
     }
 

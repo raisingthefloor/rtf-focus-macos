@@ -2,10 +2,11 @@ script BrowserBridge
     
     property parent : class "NSObject"
     property b_list : class "Array"
-            
-    to runBlockBrowser:isFocusing
+    global isFocusing
+    
+    to runBlockBrowser
 
-        set urls to blist as list -- {"yahoo.com", "facebook.com", "instagram.com"}
+        set urls to {"yahoo.com", "facebook.com", "instagram.com"}
         log(urls)
         tell application "System Events" to set activeApp to get the name of every process whose background only is false
         set val to isFocusing
@@ -38,5 +39,12 @@ script BrowserBridge
         end repeat
 
     end runBlockBrowser
+        
+        
+    on quit
+       set isFocusing to false
+    end quit
+
+
 
 end script

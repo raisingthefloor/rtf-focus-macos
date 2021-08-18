@@ -31,6 +31,7 @@ class ScriptManager {
     static var shared = ScriptManager()
 
     var isFocus: Bool = false
+    var i = 0
 
     func loadBrowserBlock(val: BrowserApp, isFocusing: Bool) {
         let blocklist = ["\"yahoo\"", "\"facebook\"", "\"instagram\""].joined(separator: ",")
@@ -103,9 +104,15 @@ class ScriptManager {
 
     func stopBlockBrowser(browser: BrowserApp) {
         var error: NSDictionary?
+        var backstr = "do JavaScript \"history.back()\" in every tab of every window"
+
+        if browser == .chrome {
+            backstr = "execute javascript \"history.go(-1)\" in every tab of every window"
+        }
+
         let script_rule = "if application \"\(browser.name)\" is running then" + "\n" +
             "tell application \"\(browser.name)\"" + "\n" +
-            "do JavaScript \"history.back()\"" + "\n" +
+            "\(backstr)" + "\n" +
             "end tell" + "\n" +
             "end if"
 
@@ -116,6 +123,24 @@ class ScriptManager {
             }
             return
         }
+    }
+
+    func callCustomScript(isFocus: Bool = true) {
+        var error: NSDictionary?
+        guard let path = Bundle.main.path(forResource: "BlockScript", ofType: "scpt") else { return }
+        guard let script = NSAppleScript(contentsOf: URL(string: path)!, error: &error) else {
+            if let error = error {
+                print("App Stop request failed with error: \(error.description)")
+            }
+            return
+        }
+        guard let output = script.executeAndReturnError(&error).stringValue else {
+            if let error = error {
+                print("App Stop request failed with error: \(error.description)")
+            }
+            return
+        }
+        print("Output: \(output)")
     }
 
     func loadScriptBridge() {
@@ -151,7 +176,6 @@ extension ScriptManager {
         return true
     }
 
-    var i = 0
     func updateFlag(callback: @escaping ((Bool) -> Void)) {
         let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
             timer in

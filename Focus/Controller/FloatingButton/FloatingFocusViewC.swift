@@ -53,7 +53,8 @@ extension FloatingFocusViewC: BasicSetupType {
         // ScriptManager.shared.stopBlockBrowser(browser: .chrome)
         DispatchQueue.global().async {
             // ScriptManager.shared.loadScriptBridge()
-            ScriptManager.shared.loadBrowserBlock(val: .safari, isFocusing: false)
+//            ScriptManager.shared.loadBrowserBlock(val: .safari, isFocusing: false)
+            ScriptManager.shared.callCustomScript(isFocus: false)
         }
 
         if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {

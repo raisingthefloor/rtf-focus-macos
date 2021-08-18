@@ -107,6 +107,7 @@
 		3F78DA0826AADAFA000BA6FC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
+		3F8EB4A626CD369D00FF392D /* BlockScript.scpt */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = BlockScript.scpt; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		3F9111EC268DB38300706B51 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
@@ -164,11 +165,10 @@
 		3F0004B726B2CCF700C18AE2 /* BlockManager */ = {
 			isa = PBXGroup;
 			children = (
-				3F0004B826B2CDEE00C18AE2 /* BlockManager.swift */,
-				3F7872C526B7D3910076FA83 /* FileScanner.swift */,
+				3F8EB4A526CD361200FF392D /* AppleScriptObject */,
+				3F8EB4A426CD35FB00FF392D /* Host */,
 				3FFB8C5B26C4F413007FCC81 /* ScriptManager.swift */,
-				3F68A6C426C657A1003D5913 /* BrowserBridge.swift */,
-				3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */,
+				3F8EB4A326CD35E000FF392D /* BridgeScript */,
 			);
 			path = BlockManager;
 			sourceTree = "<group>";
@@ -304,6 +304,32 @@
 				3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F8EB4A326CD35E000FF392D /* BridgeScript */ = {
+			isa = PBXGroup;
+			children = (
+				3F68A6C426C657A1003D5913 /* BrowserBridge.swift */,
+				3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */,
+			);
+			path = BridgeScript;
+			sourceTree = "<group>";
+		};
+		3F8EB4A426CD35FB00FF392D /* Host */ = {
+			isa = PBXGroup;
+			children = (
+				3F0004B826B2CDEE00C18AE2 /* BlockManager.swift */,
+				3F7872C526B7D3910076FA83 /* FileScanner.swift */,
+			);
+			path = Host;
+			sourceTree = "<group>";
+		};
+		3F8EB4A526CD361200FF392D /* AppleScriptObject */ = {
+			isa = PBXGroup;
+			children = (
+				3F8EB4A626CD369D00FF392D /* BlockScript.scpt */,
+			);
+			path = AppleScriptObject;
 			sourceTree = "<group>";
 		};
 		3F9111E7268D95A200706B51 /* Cell */ = {
