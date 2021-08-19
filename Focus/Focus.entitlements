@@ -10,9 +10,11 @@
 	<true/>
 	<key>com.apple.security.temporary-exception.apple-events</key>
 	<array>
-        <string>com.apple.systemevents</string>
-        <string>com.google.Chrome</string>
+		<string>com.apple.systemevents</string>
+		<string>com.google.Chrome</string>
 		<string>com.apple.Safari</string>
+		<string>org.mozilla.firefox</string>
+        <string>com.apple.systempreferences</string>
 	</array>
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>

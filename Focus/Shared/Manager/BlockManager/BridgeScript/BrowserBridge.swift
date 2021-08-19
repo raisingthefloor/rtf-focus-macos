@@ -21,15 +21,55 @@
  * Adobe Foundation
  * Consumer Electronics Association Foundation
  */
-import Cocoa
+import AppleScriptObjC
 import Foundation
 
-@objc(NSObject) protocol BrowserBridge {
-    var blockList: [String] { get set }
-   // var isFocusRunning: NSNumber { get set }
-
-    func runBlockBrowser(isFocusRunning: NSNumber)
+@objc(NSObject) protocol AppleScriptProtocol {
+    var b_list: [String] { get set }
+    var isFocusing: Bool { get set }
+    func runBlockBrowser()
+    func stopScript()
+    func runPermission()
 }
 
-extension BrowserBridge {
+class BrowserScript {
+    static func load() {
+        Bundle.main.loadAppleScriptObjectiveCScripts()
+    }
+
+    static func loadScript() -> AnyObject {
+        let scriptObj: AnyClass? = NSClassFromString("BrowserBridge")
+        let obj = scriptObj!.alloc()
+        return obj as AnyObject
+    }
+}
+
+enum BrowserApp: String {
+    case chrome
+    case safari
+    case firefox
+    case opera
+    case other
+
+    var name: String {
+        switch self {
+        case .chrome:
+            return "Google Chrome"
+        case .safari:
+            return "Safari"
+        case .firefox:
+            return "Firefox"
+        case .opera:
+            return "Opera"
+        case .other:
+            return "Google Chrome"
+        }
+    }
+
+    static var browserName: [String] {
+        return [BrowserApp.safari.name, BrowserApp.chrome.name, BrowserApp.firefox.name, BrowserApp.opera.name]
+    }
+    static var allBrowsers: [BrowserApp] {
+        return [.safari, .chrome, .firefox, .opera]
+    }
 }

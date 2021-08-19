@@ -33,8 +33,7 @@ let appDelegate = NSApplication.shared.delegate as? AppDelegate
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var customSetting = NSStoryboard(name: "CustomSetting", bundle: nil).instantiateController(withIdentifier: "WindowController") as? WindowController
-    var browserBridge: BrowserBridge?
-    let scManager: ScriptManager = ScriptManager()
+    var browserBridge: AppleScriptProtocol?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -45,20 +44,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        AppManager.shared.addObserverToCheckAppLaunch()
 //        AppManager.shared.doSpotlightQuery()
 
-        DispatchQueue.global().async {
-//            ScriptManager.shared.loadBrowserBlock(val: .safari,isFocusing: true)
-            ScriptManager.shared.callCustomScript()
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.loadScript()
         }
     }
 
-//    override init() {
-//        Bundle.main.loadAppleScriptObjectiveCScripts()
-//
-//        let browserBridgeClass: AnyClass = NSClassFromString("BrowserBridge")!
-//        browserBridge = browserBridgeClass.alloc() as? BrowserBridge
-//
-//        super.init()
-//    }
+    func loadScript() {
+        BrowserScript.load()
+        guard let bridgeScript = BrowserScript.loadScript() as? AppleScriptProtocol else { return }
+        browserBridge = bridgeScript
+        browserBridge?.b_list = ["yahoo.com", "instagram.com", "facebook.com"]
+        browserBridge?.runBlockBrowser()
+        browserBridge?.runPermission()
+        
+        print(AppleScriptProtocol.self)
+    }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
