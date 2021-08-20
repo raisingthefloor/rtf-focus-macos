@@ -14,7 +14,10 @@
 		<string>com.google.Chrome</string>
 		<string>com.apple.Safari</string>
 		<string>org.mozilla.firefox</string>
-        <string>com.apple.systempreferences</string>
+		<string>com.apple.systempreferences</string>
+		<string>com.operasoftware.Opera</string>
+		<string>com.vivaldi.Vivaldi</string>
+		<string>com.brave.Browser</string>
 	</array>
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>

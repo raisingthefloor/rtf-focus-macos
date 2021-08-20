@@ -29,16 +29,37 @@ script BrowserBridge
                 if application "Google Chrome" is running then
                     tell application "Google Chrome"
                         repeat with theURL in urls
+                            log(URL of every tab of every window)
+                            set theDomain to (do shell script "echo " & URL of every tab of every window & " | awk -F/ '{print $3}' $1") as list
+                            log(theDomain)
                             set (URL of every tab of every window where URL contains (contents of theURL)) to block_url
                         end repeat
                     end tell
                 end if
             end if
-            if "Firefox" is in activeApp then
-                if application "Firefox" is running then
-                    tell application "Firefox"
+            if "Opera" is in activeApp then
+                if application "Opera" is running then
+                    tell application "Opera"
                         repeat with theURL in urls
---                            set (URL of every tab of every window where URL contains (contents of theURL)) to block_url
+                            set (URL of every tab of every window where URL contains (contents of theURL)) to block_url
+                        end repeat
+                    end tell
+                end if
+            end if
+            if "Brave Browser" is in activeApp then
+                if application "Brave Browser" is running then
+                    tell application "Brave Browser"
+                        repeat with theURL in urls
+                            set (URL of every tab of every window where URL contains (contents of theURL)) to block_url
+                        end repeat
+                    end tell
+                end if
+            end if
+            if "Vivaldi" is in activeApp then
+                if application "Vivaldi" is running then
+                    tell application "Vivaldi"
+                        repeat with theURL in urls
+                            set (URL of every tab of every window where URL contains (contents of theURL)) to block_url
                         end repeat
                     end tell
                 end if
