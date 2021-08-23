@@ -65,7 +65,7 @@ enum BrowserApp: String {
             return "Google Chrome"
         }
     }
-
+    
     static var browserName: [String] {
         return [BrowserApp.safari.name, BrowserApp.chrome.name, BrowserApp.firefox.name, BrowserApp.opera.name]
     }

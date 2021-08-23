@@ -55,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         browserBridge = bridgeScript
         browserBridge?.b_list = ["https://in.yahoo.com/", "instagram.com", "facebook.com"]
         browserBridge?.runBlockBrowser()
-        browserBridge?.runPermission()
+    //    browserBridge?.runPermission()
         
         print(AppleScriptProtocol.self)
     }
