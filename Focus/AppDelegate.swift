@@ -53,10 +53,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         BrowserScript.load()
         guard let bridgeScript = BrowserScript.loadScript() as? AppleScriptProtocol else { return }
         browserBridge = bridgeScript
-        browserBridge?.b_list = ["https://in.yahoo.com/", "instagram.com", "facebook.com"]
+        browserBridge?.b_list = ["in.yahoo.com", "www.instagram.com", "www.facebook.com"]
+        browserBridge?.app_list = ["Safari", "TV"]
         browserBridge?.runBlockBrowser()
-    //    browserBridge?.runPermission()
-        
+        let value = browserBridge?.blockApplication()
+        if value == true {
+            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+            controller.dialogueType = .launch_app_alert
+            windowController.contentViewController?.presentAsSheet(controller)
+        }
+        //    browserBridge?.runPermission()
+
         print(AppleScriptProtocol.self)
     }
 

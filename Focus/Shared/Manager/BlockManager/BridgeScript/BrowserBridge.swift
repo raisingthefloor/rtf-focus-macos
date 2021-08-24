@@ -26,10 +26,12 @@ import Foundation
 
 @objc(NSObject) protocol AppleScriptProtocol {
     var b_list: [String] { get set }
+    var app_list: [String] { get set }
     var isFocusing: Bool { get set }
     func runBlockBrowser()
     func stopScript()
-    func runPermission()
+    func runUnblockBrowser()
+    func blockApplication() -> Bool
 }
 
 class BrowserScript {
@@ -65,10 +67,11 @@ enum BrowserApp: String {
             return "Google Chrome"
         }
     }
-    
+
     static var browserName: [String] {
         return [BrowserApp.safari.name, BrowserApp.chrome.name, BrowserApp.firefox.name, BrowserApp.opera.name]
     }
+
     static var allBrowsers: [BrowserApp] {
         return [.safari, .chrome, .firefox, .opera]
     }
