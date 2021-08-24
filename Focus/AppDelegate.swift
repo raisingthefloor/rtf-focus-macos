@@ -43,10 +43,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         //  Application Block Functionality
 //        AppManager.shared.addObserverToCheckAppLaunch()
 //        AppManager.shared.doSpotlightQuery()
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            self.loadScript()
-        }
+        
+        //  Browser URL Block Functionality
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            self.loadScript()
+//        }
     }
 
     func loadScript() {

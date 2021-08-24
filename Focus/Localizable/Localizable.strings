@@ -56,14 +56,15 @@
 "Home.turn_on_dnd" = "Turn on 'Do Not Disturb' while focusing";
 "Home.turn_on_dnd_info" = "(turns off notifications and calls)";
 "Home.provide_short_1" = "Provide short";
-"Home.provide_short_2" = "min Breaks for every";
-"Home.provide_short_3" = "min of Focus";
-"Home.provide_short_info" = "(Click number to change)";
+"Home.provide_short_2" = "Breaks for every";
+"Home.provide_short_3" = "of Focus";
+"Home.provide_short_info" = "Use the dropdowns to change time";
 "Home.block_select_prog_web" = "Block select programs & websites which focusing";
 "Home.use_this_block_list" = "Use this blocklist: ";
-"Home.focus_lenght_title" = "Turn on FOCUS for the following length of the time.";
+"Home.focus_lenght_title" = "Start a Focus session now for the following length of time \n(With the settings checked above)";
 "Home.customize_setting" = "Customize Setting";
 "Home.show_edit_blocklist" = "Show or Edit Blocklist";
+"Home.customize_setting_info" = "Customize Focus or schedule automatic focus sessions";
 
 "Customize.general_settings" = "General Settings";
 "Customize.blocklists" = "Blocklists";

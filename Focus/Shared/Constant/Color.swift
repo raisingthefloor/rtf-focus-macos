@@ -27,10 +27,12 @@ import Foundation
 
 struct Color {
     static let light_blue_color = NSColor("#D8E2F3") ?? .systemBlue
-    static let green_color = NSColor("#009F01") ?? .systemGreen
+    static let green_color = NSColor("#008145") ?? .systemGreen
     static let red_color = NSColor("#C00500") ?? .systemRed
-    static let navy_blue_color = NSColor("#011F60") ?? .clear
+    static let navy_blue_color = NSColor("#002957") ?? .clear
+    static let info_blue_color = NSColor("#3566D8") ?? .systemBlue
 }
+
 
 extension NSColor {
     typealias Hex = String

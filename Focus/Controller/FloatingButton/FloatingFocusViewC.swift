@@ -51,8 +51,9 @@ extension FloatingFocusViewC: BasicSetupType {
 
     @objc func openMenuViewC() {
         DispatchQueue.main.async {
-            appDelegate?.browserBridge?.stopScript()
+//            appDelegate?.browserBridge?.stopScript()
             if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+                vc.title = ""
                 self.presentAsModalWindow(vc)
             }
         }

@@ -17,7 +17,7 @@
         <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="identifier" optional="YES" attributeType="String"/>
         <attribute name="ip_address" optional="YES" attributeType="String" defaultValueString="0.0.0.0"/>
-        <attribute name="is_selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
@@ -36,12 +36,12 @@
         <attribute name="extended_brek_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="focus_length_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="is_block_programe_select" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="is_focusing" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_focusing" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="remaining_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="short_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="stop_focus_after_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="short_break_time" optional="YES" attributeType="Double" defaultValueString="15" usesScalarValueType="YES"/>
+        <attribute name="stop_focus_after_time" optional="YES" attributeType="Double" defaultValueString="5" usesScalarValueType="YES"/>
         <attribute name="uuid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="block_data" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focus_Block" inverseName="focus" inverseEntity="Focus_Block"/>
         <relationship name="override_block_data" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Focus_Override_Block" inverseName="focus" inverseEntity="Focus_Override_Block"/>

@@ -44,6 +44,7 @@ class MenuController: BaseViewController {
     @IBOutlet var lblFocusInfo: NSTextField!
     @IBOutlet var lblFocusTInfo: NSTextField!
 
+    @IBOutlet var blockStackV: NSStackView!
     @IBOutlet var checkBoxBlock: NSButton!
     @IBOutlet var lblBlockList: NSTextField!
 //    @IBOutlet var comboBlock: NSComboBox!
@@ -56,7 +57,8 @@ class MenuController: BaseViewController {
     @IBOutlet var btnUntillI: CustomButton!
 
     @IBOutlet var bottomView: NSView!
-    @IBOutlet var btnStop: CustomButton!
+//    @IBOutlet var btnStop: CustomButton!
+    @IBOutlet var lblCustomeInfo: NSTextField!
     @IBOutlet var btnCostomizeSetting: CustomButton!
     @IBOutlet var lblSetting: NSTextField!
 
@@ -67,11 +69,23 @@ class MenuController: BaseViewController {
         setUpText()
         setUpViews()
         bindData()
+        setupData()
     }
 
     @IBAction func showInfoAction(_ sender: Any) {
-        lblDnDInfo.isHidden = !lblDnDInfo.isHidden
-        lblFocusTInfo.isHidden = !lblFocusTInfo.isHidden
+        if btnInfo.state == .off {
+            btnInfo.state = .off
+            btnInfo.image = NSImage(named: "ic_info_filled")
+        }else{
+            btnInfo.image = NSImage(named: "ic_info")
+            btnInfo.state = .on
+        }
+        
+        let color: NSColor = (btnInfo.state == .on) ? Focus.Options.info_color : .clear
+        lblDnDInfo.textColor = color
+        lblFocusTInfo.textColor = color
+        lblFocusLength.textColor = color
+        lblCustomeInfo.textColor = color
     }
 }
 
@@ -91,7 +105,9 @@ extension MenuController: BasicSetupType {
         lblBlockList.stringValue = Focus.Options.block_list.title
         lblFocusLength.stringValue = Focus.Options.block_program_website.information
 
-        btnStop.title = Focus.StopTime.stop_focus.title
+        lblCustomeInfo.stringValue = Focus.Options.customize_setting.information
+
+//        btnStop.title = Focus.StopTime.stop_focus.title
         btn1Hr.title = Focus.StopTime.one_hr.title
         btn2Hr.title = Focus.StopTime.two_hr.title
         btn30m.title = Focus.StopTime.half_past.title
@@ -105,6 +121,25 @@ extension MenuController: BasicSetupType {
             window.styleMask.remove(.miniaturizable)
             window.styleMask.remove(.fullSizeContentView)
         }
+        themeSetUp()
+    }
+
+    func themeSetUp() {
+        lblDnDInfo.textColor = Focus.Options.info_color
+        lblFocusTInfo.textColor = Focus.Options.info_color
+        lblFocusLength.textColor = Focus.Options.info_color
+        lblCustomeInfo.textColor = Focus.Options.info_color
+        lblSetting.textColor = .white
+        lblSetting.font = NSFont.systemFont(ofSize: 15, weight: .medium)
+
+        lblDnDInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+
+        lblDnDInfo.textColor = .clear
+        lblFocusTInfo.textColor = .clear
+        lblFocusLength.textColor = .clear
+        lblCustomeInfo.textColor = .clear
+
+        bottomView.bgColor = Color.navy_blue_color
     }
 
     func bindData() {
@@ -115,7 +150,7 @@ extension MenuController: BasicSetupType {
 //        btnCostomizeSetting.target = self
 //        btnCostomizeSetting.action = #selector(openCustomSetting)
 
-        setupFocusStopAction(arrButtons: [btn30m, btn1Hr, btn2Hr, btnUntillI, btnStop])
+        setupFocusStopAction(arrButtons: [btn30m, btn1Hr, btn2Hr, btnUntillI])
         setupFocusOptionAction(arrButtons: [checkBoxDND, checkBoxFocusTime, checkBoxBlock])
 
         let g = NSClickGestureRecognizer(target: self, action: #selector(openCustomSetting))
@@ -175,14 +210,21 @@ extension MenuController: BasicSetupType {
 
     @objc func checkBoxEventHandler(_ sender: NSButton) {
         guard let focusOption = Focus.Options(rawValue: sender.tag) else { return }
-        viewModel.input.updateFocusOption(option: focusOption, state: sender.state) { _, error in
+        viewModel.input.updateFocusOption(option: focusOption, state: sender.state) { state, error in
             if error == nil {
-                WindowsManager.runDNDScript()
-//                if (state as? NSControl.StateValue) == .on {
-//                    WindowsManager.enableDND()
-//                } else {
-//                    WindowsManager.disableDND()
-//                }
+                switch focusOption {
+                case .block_program_website:
+                    self.blockStackV.isHidden = ((state as? NSControl.StateValue) == .on) ? false : true
+                case .dnd:
+                    WindowsManager.runDNDScript()
+                    if (state as? NSControl.StateValue) == .on {
+                        WindowsManager.enableDND()
+                    } else {
+                        WindowsManager.disableDND()
+                    }
+                default:
+                    break
+                }
             }
         }
     }
@@ -220,10 +262,12 @@ extension MenuController: BasicSetupType {
 extension MenuController {
     func setupData() {
         guard let obj = viewModel.input.focusObj else { return }
-        popBreakTime.title = String(format: "%@", obj.short_break_time)
-        popFocusTime.title = String(format: "%@", obj.stop_focus_after_time)
 
-        for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI, btnStop] {
+        popBreakTime.title = String(format: "%d", obj.short_break_time)
+        popFocusTime.title = String(format: "%d", obj.stop_focus_after_time)
+        blockStackV.isHidden = !obj.is_block_programe_select
+
+        for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI] {
             btn?.isEnabled = !obj.is_focusing
         }
     }

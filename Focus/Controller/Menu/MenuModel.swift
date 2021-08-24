@@ -87,7 +87,7 @@ extension Focus {
         var color: NSColor {
             switch self {
             case .half_past, .one_hr, .two_hr, .untill_press_stop:
-                return Color.navy_blue_color
+                return Color.green_color
             case .stop_focus:
                 return Color.red_color
             }
@@ -179,6 +179,7 @@ extension Focus {
         case focus_break_1
         case focus_break_2
         case block_list
+        case customize_setting
 
         var title: String {
             switch self {
@@ -194,6 +195,8 @@ extension Focus {
                 return NSLocalizedString("Home.block_select_prog_web", comment: "Block select programs & websites while focusing")
             case .block_list:
                 return NSLocalizedString("Home.use_this_block_list", comment: "Use this blocklist: ")
+            case .customize_setting:
+                return ""
             }
         }
 
@@ -202,11 +205,13 @@ extension Focus {
             case .dnd:
                 return NSLocalizedString("Home.turn_on_dnd_info", comment: "(turns off notifications and calls)")
             case .focus_break, .focus_break_1, .focus_break_2:
-                return NSLocalizedString("Home.provide_short_info", comment: "(click number to change)")
+                return NSLocalizedString("Home.provide_short_info", comment: "Use the dropdowns to change time")
             case .block_program_website:
-                return NSLocalizedString("Home.focus_lenght_title", comment: "Turn on FOCUS for the following length of the time.")
+                return NSLocalizedString("Home.focus_lenght_title", comment: "Start a Focus session now for the following length of time (With the settings checked above)")
             case .block_list:
                 return ""
+            case .customize_setting:
+                return NSLocalizedString("Home.customize_setting_info", comment: "Customize Focus or schedule automatic focus sessions")
             }
         }
 
@@ -235,6 +240,10 @@ extension Focus {
             default:
                 return ""
             }
+        }
+
+       static var info_color: NSColor {
+            return Color.info_blue_color
         }
     }
 }
