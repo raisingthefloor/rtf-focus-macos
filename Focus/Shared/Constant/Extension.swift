@@ -41,6 +41,13 @@ extension NSView {
     }
 }
 
+extension NSTextField {
+    func addUnderline() {
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: Color.blue_color, .underlineStyle: NSUnderlineStyle.single.rawValue]
+        attributedStringValue = NSAttributedString(string: stringValue, attributes: attributes)
+    }
+}
+
 extension String {
     static func randomString(length: Int = 5) -> String {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -67,5 +74,134 @@ extension Bundle {
             }
         }
         return nil
+    }
+}
+
+public extension NSView {
+    var border_color: NSColor? {
+        get {
+            guard let color = layer?.borderColor else { return nil }
+            return NSColor(cgColor: color)
+        }
+        set {
+            wantsLayer = true
+            layer?.borderColor = newValue?.cgColor
+        }
+    }
+
+    var border_width: CGFloat {
+        get {
+            return layer?.borderWidth ?? 0
+        }
+        set {
+            wantsLayer = true
+            layer?.borderWidth = newValue
+        }
+    }
+
+    var corner_radius: CGFloat {
+        get {
+            return layer?.cornerRadius ?? 0
+        }
+        set {
+            wantsLayer = true
+            layer?.masksToBounds = true
+            layer?.cornerRadius = newValue.magnitude
+        }
+    }
+
+    var height: CGFloat {
+        get {
+            return frame.size.height
+        }
+        set {
+            frame.size.height = newValue
+        }
+    }
+
+    var shadowColor: NSColor? {
+        get {
+            guard let color = layer?.shadowColor else { return nil }
+            return NSColor(cgColor: color)
+        }
+        set {
+            wantsLayer = true
+            layer?.shadowColor = newValue?.cgColor
+        }
+    }
+
+    var shadowOffset: CGSize {
+        get {
+            return layer?.shadowOffset ?? CGSize.zero
+        }
+        set {
+            wantsLayer = true
+            layer?.shadowOffset = newValue
+        }
+    }
+
+    var shadowOpacity: Float {
+        get {
+            return layer?.shadowOpacity ?? 0
+        }
+        set {
+            wantsLayer = true
+            layer?.shadowOpacity = newValue
+        }
+    }
+
+    var shadowRadius: CGFloat {
+        get {
+            return layer?.shadowRadius ?? 0
+        }
+        set {
+            wantsLayer = true
+            layer?.shadowRadius = newValue
+        }
+    }
+
+    var background_color: NSColor? {
+        get {
+            if let colorRef = layer?.backgroundColor {
+                return NSColor(cgColor: colorRef)
+            } else {
+                return nil
+            }
+        }
+        set {
+            wantsLayer = true
+            layer?.backgroundColor = newValue?.cgColor
+        }
+    }
+
+    var size: CGSize {
+        get {
+            return frame.size
+        }
+        set {
+            width = newValue.width
+            height = newValue.height
+        }
+    }
+
+    var width: CGFloat {
+        get {
+            return frame.size.width
+        }
+        set {
+            frame.size.width = newValue
+        }
+    }
+}
+
+// MARK: - Methods
+
+public extension NSView {
+    func addSubviews(_ subviews: [NSView]) {
+        subviews.forEach { addSubview($0) }
+    }
+
+    func removeSubviews() {
+        subviews.forEach { $0.removeFromSuperview() }
     }
 }

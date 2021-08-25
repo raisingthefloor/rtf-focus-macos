@@ -26,7 +26,10 @@
 import Cocoa
 
 class FloatingFocusViewC: NSViewController {
+    
     @IBOutlet var btnFocus: CustomButton!
+    let viewModel: MenuViewModelType = MenuViewModel()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +53,21 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     @objc func openMenuViewC() {
-        DispatchQueue.main.async {
-//            appDelegate?.browserBridge?.stopScript()
+        
+        guard let obj = viewModel.input.focusObj else { return }
+
+        if obj.is_focusing {
+            if let vc = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
+                self.presentAsModalWindow(vc)
+            }
+        }else{
             if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-                vc.title = ""
                 self.presentAsModalWindow(vc)
             }
         }
+
+//        DispatchQueue.main.async {
+//            appDelegate?.browserBridge?.stopScript()
+//        }
     }
 }

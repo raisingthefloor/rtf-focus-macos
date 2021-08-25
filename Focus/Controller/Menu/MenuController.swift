@@ -76,11 +76,11 @@ class MenuController: BaseViewController {
         if btnInfo.state == .off {
             btnInfo.state = .off
             btnInfo.image = NSImage(named: "ic_info_filled")
-        }else{
+        } else {
             btnInfo.image = NSImage(named: "ic_info")
             btnInfo.state = .on
         }
-        
+
         let color: NSColor = (btnInfo.state == .on) ? Focus.Options.info_color : .clear
         lblDnDInfo.textColor = color
         lblFocusTInfo.textColor = color
@@ -93,10 +93,15 @@ extension MenuController: BasicSetupType {
     func setUpText() {
         // btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
         lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
+        lblTitle.stringValue = NSLocalizedString("Home.title", comment: "Start a Focus Session")
+        title = NSLocalizedString("Home.title", comment: "Start a Focus Session")
 
         checkBoxDND.title = Focus.Options.dnd.title
+        checkBoxDND.toolTip = Focus.Options.dnd.information
+
         lblDnDInfo.stringValue = Focus.Options.dnd.information
         checkBoxFocusTime.title = Focus.Options.focus_break.title
+        checkBoxFocusTime.toolTip = Focus.Options.focus_break.information
         lblBrekInfo.stringValue = Focus.Options.focus_break_1.title
         lblFocusInfo.stringValue = Focus.Options.focus_break_2.title
         lblFocusTInfo.stringValue = Focus.Options.focus_break.information
@@ -104,14 +109,20 @@ extension MenuController: BasicSetupType {
         checkBoxBlock.title = Focus.Options.block_program_website.title
         lblBlockList.stringValue = Focus.Options.block_list.title
         lblFocusLength.stringValue = Focus.Options.block_program_website.information
+        checkBoxBlock.toolTip = Focus.Options.block_program_website.information
 
         lblCustomeInfo.stringValue = Focus.Options.customize_setting.information
+        bottomView.toolTip = Focus.Options.customize_setting.information
 
 //        btnStop.title = Focus.StopTime.stop_focus.title
         btn1Hr.title = Focus.StopTime.one_hr.title
         btn2Hr.title = Focus.StopTime.two_hr.title
         btn30m.title = Focus.StopTime.half_past.title
         btnUntillI.title = Focus.StopTime.untill_press_stop.title
+
+        btn1Hr.toolTip = Focus.Options.block_program_website.information
+        btn2Hr.toolTip = Focus.Options.block_program_website.information
+        btn30m.toolTip = Focus.Options.block_program_website.information
     }
 
     func setUpViews() {

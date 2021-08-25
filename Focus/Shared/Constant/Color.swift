@@ -31,6 +31,12 @@ struct Color {
     static let red_color = NSColor("#C00500") ?? .systemRed
     static let navy_blue_color = NSColor("#002957") ?? .clear
     static let info_blue_color = NSColor("#3566D8") ?? .systemBlue
+    static let light_green_color = NSColor("#DCEFE6") ?? .systemGreen.withAlphaComponent(0.5)
+    static let very_light_grey = NSColor("#F0F2F5") ?? .lightGray.withAlphaComponent(0.5)
+    static let dark_grey_border = NSColor("#4c4c4c") ?? .darkGray.withAlphaComponent(0.8)
+    static let blue_color = NSColor("#3566D8") ?? .blue
+    static let black_color = NSColor("#333333") ?? .black
+    
 }
 
 

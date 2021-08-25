@@ -19,6 +19,9 @@
 		3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4DFA3B26835EB30013BA0C /* CustomSetting.storyboard */; };
 		3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4DFA3D26835EDF0013BA0C /* CustomSettingController.swift */; };
 		3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */; };
+		3F58B08E26D6163800D730D9 /* CurrentSessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F58B08D26D6163800D730D9 /* CurrentSessionVC.swift */; };
+		3F58B09226D6224900D730D9 /* SessionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F58B09026D6224900D730D9 /* SessionInfoView.swift */; };
+		3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F58B09126D6224900D730D9 /* SessionInfoView.xib */; };
 		3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B62689F8F4008C54A4 /* DBManager.swift */; };
 		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
 		3F68A6C526C657A1003D5913 /* BrowserBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F68A6C426C657A1003D5913 /* BrowserBridge.swift */; };
@@ -89,6 +92,9 @@
 		3F4DFA3B26835EB30013BA0C /* CustomSetting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomSetting.storyboard; sourceTree = "<group>"; };
 		3F4DFA3D26835EDF0013BA0C /* CustomSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSettingController.swift; sourceTree = "<group>"; };
 		3F4E25DF26B1541F0029D379 /* FloatingFocusViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingFocusViewC.swift; sourceTree = "<group>"; };
+		3F58B08D26D6163800D730D9 /* CurrentSessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionVC.swift; sourceTree = "<group>"; };
+		3F58B09026D6224900D730D9 /* SessionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfoView.swift; sourceTree = "<group>"; };
+		3F58B09126D6224900D730D9 /* SessionInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionInfoView.xib; sourceTree = "<group>"; };
 		3F5944B62689F8F4008C54A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F68A6C426C657A1003D5913 /* BrowserBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserBridge.swift; sourceTree = "<group>"; };
@@ -246,6 +252,24 @@
 			path = FloatingButton;
 			sourceTree = "<group>";
 		};
+		3F58B08C26D615E900D730D9 /* SessionStart */ = {
+			isa = PBXGroup;
+			children = (
+				3F58B08F26D6220500D730D9 /* Helper */,
+				3F58B08D26D6163800D730D9 /* CurrentSessionVC.swift */,
+			);
+			path = SessionStart;
+			sourceTree = "<group>";
+		};
+		3F58B08F26D6220500D730D9 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3F58B09026D6224900D730D9 /* SessionInfoView.swift */,
+				3F58B09126D6224900D730D9 /* SessionInfoView.xib */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		3F5944B52689F8E2008C54A4 /* DBManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +384,7 @@
 		3FA51D49267CB6CE007826F3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3F58B08C26D615E900D730D9 /* SessionStart */,
 				3F7872D026B80BF70076FA83 /* Applist */,
 				3F4E25DE26B153F60029D379 /* FloatingButton */,
 				3FC8107D26A9388E0058D1CF /* Dialogue */,
@@ -542,6 +567,7 @@
 				3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
+				3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
 				3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */,
@@ -564,6 +590,7 @@
 			files = (
 				3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */,
 				3F7872D326B80C190076FA83 /* ApplicationListViewC.swift in Sources */,
+				3F58B09226D6224900D730D9 /* SessionInfoView.swift in Sources */,
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,
 				3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */,
@@ -605,6 +632,7 @@
 				3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */,
 				3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */,
 				3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */,
+				3F58B08E26D6163800D730D9 /* CurrentSessionVC.swift in Sources */,
 				3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */,
 				3FFC1E6E2680C13D0014216C /* Protocols.swift in Sources */,
 				3FFC1E682680C13D0014216C /* Enums.swift in Sources */,

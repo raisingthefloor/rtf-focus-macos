@@ -48,6 +48,7 @@
 "Button.add_website" = "Add Website";
 "Button.apply" = "Apply";
 
+"Home.title" = "Start a Focus Session";
 "Home.half_last" = "30 Min";
 "Home.one_hr" = "1 Hr";
 "Home.two_hr" = "2 Hr";
@@ -136,5 +137,14 @@
 "Applications" = "Applications";
 
 
+"Session.focus_session" = "Focus Session";
+"Session.stop_focus_session" = "Stop focus session";
+"Session.ur_next_break" = "Your next break is in ";
+"Session.focus_session_has_run" = "Focus session has run for:";
+"Session.using_block" = "Using blocklist:";
+"Session.focus_session_end_at" = "Focus session ends at:";
+"Session.title" = "Currently Running Focus Session(s)";
+"Session.start_focus_session" = "Start a 2nd focus session";
+"Session.why_do_this" = "Why do this?";
 
 
