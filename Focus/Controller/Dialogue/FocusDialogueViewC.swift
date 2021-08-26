@@ -158,7 +158,7 @@ extension FocusDialogueViewC: BasicSetupType {
         default:
             // open the disincentive
             let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-            controller.dialogueType = .disincentive_signout_signin_alert
+            controller.dialogueType = .disincentive_xx_character_alert
             presentAsSheet(controller)
         }
     }

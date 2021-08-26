@@ -34,6 +34,8 @@ class DisincentiveViewC: NSViewController {
     @IBOutlet var btnNever: CustomButton!
     @IBOutlet var btnDone: CustomButton!
 
+    @IBOutlet var lblBlock: NSTextField!
+
     var dialogueType: FocusDialogue = .disincentive_xx_character_alert
 
     override func viewDidLoad() {
@@ -52,6 +54,11 @@ extension DisincentiveViewC: BasicSetupType {
         let buttonsV = dialogueType.option_buttons.titles
         btnDone.title = buttonsV.last ?? ""
         btnNever.title = buttonsV.first ?? ""
+
+        let subTitle = NSLocalizedString("Alert.disincentive.show_blocklist", comment: "Show me the blocklist that requires this ...")
+        let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
+        attributedText.underLine(subString: subTitle)
+        lblBlock.attributedStringValue = attributedText
     }
 
     func setUpViews() {
@@ -61,13 +68,25 @@ extension DisincentiveViewC: BasicSetupType {
     }
 
     func themeSetUp() {
-        btnNever.buttonColor = dialogueType.green
-        btnNever.activeButtonColor = dialogueType.green
-        btnNever.textColor = .white
+        let bg_color = dialogueType.option_buttons_theme.bg_color
+        let b_color = dialogueType.option_buttons_theme.border_color
+        let bwidth = dialogueType.option_buttons_theme.border_width
+        let font_color = dialogueType.option_buttons_theme.font_color
 
-        btnDone.buttonColor = dialogueType.mixedColor
-        btnDone.activeButtonColor = dialogueType.mixedColor
-        btnDone.textColor = .white
+        btnNever.buttonColor = bg_color.first ?? Color.green_color
+        btnNever.activeButtonColor = bg_color.first ?? Color.green_color
+        btnNever.textColor = font_color.first ?? .white
+        btnNever.borderColor = b_color.first ?? Color.green_color
+        btnNever.borderWidth = bwidth
+
+        btnDone.buttonColor = bg_color.last ?? Color.light_green_color
+        btnDone.activeButtonColor = bg_color.last ?? Color.light_green_color
+        btnDone.textColor = font_color.last ?? .white
+        btnDone.borderColor = b_color.last ?? Color.green_color
+        btnDone.borderWidth = bwidth
+
+        lblSubDesc.textColor = (dialogueType == .disincentive_xx_character_alert) ? .black : Color.blue_color
+        lblBlock.textColor = Color.blue_color
     }
 
     func bindData() {
@@ -75,17 +94,29 @@ extension DisincentiveViewC: BasicSetupType {
         btnDone.action = #selector(doneClick(_:))
         btnNever.target = self
         btnNever.action = #selector(neverClick(_:))
+
+        let g = NSClickGestureRecognizer(target: self, action: #selector(openBlockList))
+        g.numberOfClicksRequired = 1
+        lblBlock.addGestureRecognizer(g)
     }
 }
 
 extension DisincentiveViewC {
+    @objc func openBlockList() {
+        // TODO: Open Block list View
+        let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
+        controller.dialogueType = .disincentive_signout_signin_alert
+        presentAsSheet(controller)
+    }
+
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
             WindowsManager.openSystemLogoutDialog()
+            dismiss(nil)
 //            AuthorizationManager.setup()
 //            WindowsManager.perfomTask(value: "0.0.0.0 www.instagram.com")
 //            WindowsManager.perfomTask(value: "0.0.0.0 instagram.com")
-            //BlockManager.loadHostFile()
+            // BlockManager.loadHostFile()
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {
@@ -95,6 +126,7 @@ extension DisincentiveViewC {
         }
     }
 
+//    GwEUf45HBLDKSG56BNBFdbNBIV110nWI
     @objc func neverClick(_ sender: NSButton) {
         // Take back to previous window from where it opens
         dismiss(nil)

@@ -40,13 +40,14 @@
 "Button.ready_to_focus" = "OK - Ready to focus";
 "Button.dont_remind" = "Don't Remind me until NEXT scheduled session";
 "Button.cancel_session" = "Cancel Focus Session";
-"Button.never_mind" = "Never Mind – take me back to focus program";
-"Button.take_me_signout" = "Take me to SIGN OUT";
+"Button.never_mind" = "Nevermind, go back";
+"Button.take_me_signout" = "OK, I’ll restart the computer";
 "Button.back_to_focus" = "Back To Focus";
 "Button.Focus" = "Focus";
 "Button.add_app" = "Add App";
 "Button.add_website" = "Add Website";
 "Button.apply" = "Apply";
+"Button.stop_focus_session" = "Stop focus session";
 
 "Home.title" = "Start a Focus Session";
 "Home.half_last" = "30 Min";
@@ -130,10 +131,11 @@
 "Alert.schedule_reminded_with_blocklist_alert_title" = "Give me a few minutes First";
 "Alert.schedule_reminded_without_blocklist_alert_desc" = "You asked to be reminded that you wanted to focus at this time";
 "Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in";
-"Alert.disincentive_xx_character_sub_desc" = "Type the following letters into the space below.";
-"Alert.disincentive_signout_signin_alert_sub_desc" = "This will cause you to sign out of all your open programs. Be sure to save your work before signing out.";
-"Alert.disincentive_signout_signin_alert_desc" = "This BlockList requires that you sign out of Windows (macOS) and back in – in order to turn this particular BlockList off.";
-"Alert.disincentive_xx_character_alert_desc" = "This BlockList requires that you complete the following task before you can turn it off.";
+"Alert.disincentive_xx_character_sub_desc" = "Type the following characters in the space below:";
+"Alert.disincentive_signout_signin_alert_sub_desc" = "If you still want to stop the focus session, \nsave your work and then restart your computer.";
+"Alert.disincentive_signout_signin_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
+"Alert.disincentive_xx_character_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
+"Alert.disincentive.show_blocklist" = "Show me the blocklist that requires this ...";
 "Applications" = "Applications";
 
 

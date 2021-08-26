@@ -56,7 +56,7 @@ extension FloatingFocusViewC: BasicSetupType {
         
         guard let obj = viewModel.input.focusObj else { return }
 
-        if obj.is_focusing {
+        if !obj.is_focusing {
             if let vc = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
                 self.presentAsModalWindow(vc)
             }

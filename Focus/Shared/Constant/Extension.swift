@@ -50,7 +50,7 @@ extension NSTextField {
 
 extension String {
     static func randomString(length: Int = 5) -> String {
-        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvwxyz0123456789"
         return String((0 ..< length).map { _ in letters.randomElement()! })
     }
 

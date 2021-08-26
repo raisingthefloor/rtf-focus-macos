@@ -69,7 +69,7 @@ class MenuController: BaseViewController {
         setUpText()
         setUpViews()
         bindData()
-        setupData()
+       // setupData()
     }
 
     @IBAction func showInfoAction(_ sender: Any) {

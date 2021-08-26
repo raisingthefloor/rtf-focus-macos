@@ -58,7 +58,7 @@ extension FocusDialogue {
             return NSLocalizedString("Alert.block_message", comment: "You selected this to be blocked during your focus session.")
         case .seession_completed_alert, .till_stop_alert:
             let str = NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for %d hrs and %d min")
-            return String(format: str, 2,2)
+            return String(format: str, 2, 2)
         case .warning_forced_pause_alert:
             let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %d hours or more.")
             return String(format: str, 2)
@@ -67,7 +67,7 @@ extension FocusDialogue {
         case .schedule_reminded_with_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminded_with_blocklist_alert_desc", comment: "You Scheduled and AUTO-FOCUS session with BLOCKING for right now") // Append the Block list
         case .disincentive_xx_character_alert:
-            return NSLocalizedString("Alert.disincentive_xx_character_alert_desc", comment: "This BlockList requires that you complete the following task before you can turn it off.")
+            return NSLocalizedString("Alert.disincentive_xx_character_alert_desc", comment: "You set the blocklist (currently being used) to require you to complete the task below in order to stop the focus session.")
         case .disincentive_signout_signin_alert:
             return NSLocalizedString("Alert.disincentive_signout_signin_alert_desc", comment: "This BlockList requires that you sign out of Windows (macOS) and back in – in order to turn this particular BlockList off.")
         default: return ""
@@ -81,7 +81,7 @@ extension FocusDialogue {
         case .disincentive_xx_character_alert:
             return NSLocalizedString("Alert.disincentive_xx_character_sub_desc", comment: "Type the following letters into the space below.")
         case .disincentive_signout_signin_alert:
-            return NSLocalizedString("Alert.disincentive_signout_signin_alert_sub_desc", comment: "This will cause you to sign out of all your open programs. Be sure to save your work before signing out.")
+            return NSLocalizedString("Alert.disincentive_signout_signin_alert_sub_desc", comment: "If you still want to stop the focus session, save your work and then restart your computer.")
         default:
             return ""
         }
@@ -141,9 +141,9 @@ extension FocusDialogue {
         case .schedule_reminded_with_blocklist_alert:
             return ([NSLocalizedString("Button.ready_to_focus", comment: "OK - Ready to focus"), NSLocalizedString("Button.cancel_session", comment: "Cancel Focus Session")], .up_down)
         case .disincentive_xx_character_alert:
-            return ([NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.done", comment: "Done")], .bottom)
+            return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session")], .bottom)
         case .disincentive_signout_signin_alert:
-            return ([NSLocalizedString("Button.never_mind", comment: "Never Mind – take me back to focus program"), NSLocalizedString("Button.take_me_signout", comment: "Take me to SIGN OUT")], .bottom)
+            return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.take_me_signout", comment: "OK, I’ll restart the computer")], .bottom)
         }
     }
 
@@ -159,6 +159,30 @@ extension FocusDialogue {
             return Color.green_color
         default:
             return Color.red_color
+        }
+    }
+
+    var option_buttons_theme: (bg_color: [NSColor], border_color: [NSColor], font_color: [NSColor], border_width: CGFloat) {
+        let width: CGFloat = 0.6
+        switch self {
+        case .break_sequence_alert, .launch_app_alert:
+            return ([], [], [], width)
+        case .seession_completed_alert:
+            return ([], [], [], width)
+        case .warning_forced_pause_alert:
+            return ([], [], [], width)
+        case .till_stop_alert:
+            return ([], [], [], width)
+        case .end_break_alert: // Option  top n bottom
+            return ([], [], [], width)
+        case .schedule_reminded_without_blocklist_alert:
+            return ([], [], [], width)
+        case .schedule_reminded_with_blocklist_alert:
+            return ([], [], [], width)
+        case .disincentive_xx_character_alert:
+            return ([Color.green_color, Color.very_light_grey], [Color.green_color, Color.dark_grey_border], [.white, Color.black_color], width)
+        case .disincentive_signout_signin_alert:
+            return ([Color.light_green_color, Color.green_color], [Color.green_color, Color.green_color], [Color.txt_green_color, .white], width)
         }
     }
 }

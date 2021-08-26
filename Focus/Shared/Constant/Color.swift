@@ -36,9 +36,9 @@ struct Color {
     static let dark_grey_border = NSColor("#4c4c4c") ?? .darkGray.withAlphaComponent(0.8)
     static let blue_color = NSColor("#3566D8") ?? .blue
     static let black_color = NSColor("#333333") ?? .black
-    
+    static let txt_grey_color = NSColor("#555555") ?? .lightGray.withAlphaComponent(0.5)
+    static let txt_green_color = NSColor("#095930") ?? .systemGreen
 }
-
 
 extension NSColor {
     typealias Hex = String
