@@ -33,6 +33,7 @@
 		3F7872D426B80C190076FA83 /* ApplicationListViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */; };
 		3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78DA0826AADAFA000BA6FC /* Color.swift */; };
 		3F7FCEF426C12F76003BC19A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */; };
+		3F8A231926D757D100D575F7 /* ExAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A231826D757D100D575F7 /* ExAttributedString.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EA268D985900706B51 /* BlockListViewModel.swift */; };
@@ -106,6 +107,7 @@
 		3F7872D226B80C190076FA83 /* ApplicationListViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ApplicationListViewC.xib; sourceTree = "<group>"; };
 		3F78DA0826AADAFA000BA6FC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		3F8A231826D757D100D575F7 /* ExAttributedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExAttributedString.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 		3FFC1E4D2680C13D0014216C /* Constant */ = {
 			isa = PBXGroup;
 			children = (
+				3F8A231826D757D100D575F7 /* ExAttributedString.swift */,
 				3FFC1E522680C13D0014216C /* UserDefault.swift */,
 				3FFC1E552680C13D0014216C /* Enums.swift */,
 				3FFC1E562680C13D0014216C /* Validator.swift */,
@@ -627,6 +630,7 @@
 				3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */,
 				3F3C5FF726A17F6D0022C43F /* DBManagerModel.swift in Sources */,
 				3F7872CF26B803970076FA83 /* AppManager.swift in Sources */,
+				3F8A231926D757D100D575F7 /* ExAttributedString.swift in Sources */,
 				3F3C5FFE26A1919C0022C43F /* BlockModel.swift in Sources */,
 				3F9CC4A9268B3DA000AC3026 /* SchedulerViewC.swift in Sources */,
 				3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */,
