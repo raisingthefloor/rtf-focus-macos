@@ -41,11 +41,13 @@ struct WindowsManager {
     }
 
     static func openSystemLogoutDialog() {
-        let path = "/bin/bash"
-        let scriptPath = Bundle.main.path(forResource: "logout", ofType: ".sh") ?? ""
-        let arguments = [scriptPath]
-        let task = Process.launchedProcess(launchPath: path, arguments: arguments)
-        task.waitUntilExit()
+//        let path = "/bin/bash"
+//        let scriptPath = Bundle.main.path(forResource: "logout", ofType: ".sh") ?? ""
+//        let arguments = [scriptPath]
+//        let task = Process.launchedProcess(launchPath: path, arguments: arguments)
+//        task.waitUntilExit()
+
+        appDelegate?.browserBridge?.logoutAlert()
     }
 
     static func runDNDScript() {

@@ -57,7 +57,7 @@ extension FocusDialogue {
         case .launch_app_alert:
             return NSLocalizedString("Alert.block_message", comment: "You selected this to be blocked during your focus session.")
         case .seession_completed_alert, .till_stop_alert:
-            let str = NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for %d hrs and %d min")
+            let str = NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for:\n%d hrs and %d min")
             return String(format: str, 2, 2)
         case .warning_forced_pause_alert:
             let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %d hours or more.")
@@ -82,6 +82,8 @@ extension FocusDialogue {
             return NSLocalizedString("Alert.disincentive_xx_character_sub_desc", comment: "Type the following letters into the space below.")
         case .disincentive_signout_signin_alert:
             return NSLocalizedString("Alert.disincentive_signout_signin_alert_sub_desc", comment: "If you still want to stop the focus session, save your work and then restart your computer.")
+        case .seession_completed_alert:
+            return NSLocalizedString("Alert.session_complete_subdesc", comment: "I want to focus a little longer.\nExtend focus session for:")
         default:
             return ""
         }
@@ -150,6 +152,11 @@ extension FocusDialogue {
     var green: NSColor {
         return Color.green_color
     }
+    
+    var light_green: NSColor {
+        return Color.light_green_color
+    }
+
 
     var mixedColor: NSColor {
         switch self {

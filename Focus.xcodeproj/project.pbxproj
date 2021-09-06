@@ -41,6 +41,8 @@
 		3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F9111EE268DB68700706B51 /* TableHeaderView.xib */; };
 		3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F0268DBD0D00706B51 /* HKNibView.swift */; };
 		3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F2268DD78500706B51 /* ButtonCell.swift */; };
+		3F9147CB26E648B000449D4B /* SessionCompleteDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */; };
+		3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F9147CA26E648B000449D4B /* SessionCompleteDialogueViewC.xib */; };
 		3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC498268B0CB100AC3026 /* CustomSettingModel.swift */; };
 		3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */; };
 		3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC49C268B2BE800AC3026 /* HeaderView.storyboard */; };
@@ -115,6 +117,8 @@
 		3F9111EE268DB68700706B51 /* TableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableHeaderView.xib; sourceTree = "<group>"; };
 		3F9111F0268DBD0D00706B51 /* HKNibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKNibView.swift; sourceTree = "<group>"; };
 		3F9111F2268DD78500706B51 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteDialogueViewC.swift; sourceTree = "<group>"; };
+		3F9147CA26E648B000449D4B /* SessionCompleteDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionCompleteDialogueViewC.xib; sourceTree = "<group>"; };
 		3F9CC498268B0CB100AC3026 /* CustomSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSettingModel.swift; sourceTree = "<group>"; };
 		3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapseExpandView.swift; sourceTree = "<group>"; };
 		3F9CC49C268B2BE800AC3026 /* HeaderView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HeaderView.storyboard; sourceTree = "<group>"; };
@@ -338,6 +342,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		3F9147C826E647FA00449D4B /* Completed */ = {
+			isa = PBXGroup;
+			children = (
+				3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */,
+				3F9147CA26E648B000449D4B /* SessionCompleteDialogueViewC.xib */,
+			);
+			path = Completed;
+			sourceTree = "<group>";
+		};
 		3F9CC49E268B2C5F00AC3026 /* Header */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +431,7 @@
 		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
 			isa = PBXGroup;
 			children = (
+				3F9147C826E647FA00449D4B /* Completed */,
 				3FC8108626A9776A0058D1CF /* Disincentive */,
 				3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */,
 				3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */,
@@ -567,6 +581,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */,
 				3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
@@ -617,6 +632,7 @@
 				3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */,
 				3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */,
 				3F68A6C726C658BF003D5913 /* BrowserBridge.applescript in Sources */,
+				3F9147CB26E648B000449D4B /* SessionCompleteDialogueViewC.swift in Sources */,
 				3FDC9134269F1C330021D3E3 /* Extension.swift in Sources */,
 				3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */,
 				3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */,

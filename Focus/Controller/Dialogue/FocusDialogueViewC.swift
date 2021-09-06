@@ -131,15 +131,15 @@ extension FocusDialogueViewC: BasicSetupType {
     @objc func extendTimeAction(_ sender: NSButton) {
         let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
         if sender.tag == 0 {
-            controller.dialogueType = .launch_app_alert
+            completeSession()
         } else if sender.tag == 1 {
             controller.dialogueType = .warning_forced_pause_alert
+            presentAsSheet(controller)
         } else if sender.tag == 2 {
             controller.dialogueType = .seession_completed_alert
+            presentAsSheet(controller)
         } else {
-            
         }
-        presentAsSheet(controller)
     }
 
     @objc func greenAction(_ sender: NSButton) {
@@ -165,5 +165,11 @@ extension FocusDialogueViewC: BasicSetupType {
 
     @objc func topAction(_ sender: NSButton) {
         dismiss(nil)
+    }
+
+    func completeSession() {
+        let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
+        controller.dialogueType = .seession_completed_alert
+        presentAsSheet(controller)
     }
 }

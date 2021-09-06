@@ -116,7 +116,7 @@
 "Alert.thirty_min" = "30 min";
 "Alert.block_message" = "You selected this to be blocked during your focus session.";
 "Alert.session_completed" = "Focus Session Completed.";
-"Alert.session_completed_desc" = "You have been focusing for %d hrs and %d min";
+"Alert.session_completed_desc" = "You have been focusing for:\n%d hrs and %d min";
 "Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
 "Alert.warning_forced_pause_desc" = "You have been focusing for %d hours or more.";
 "Alert.warning_forced_pause_extend_title" = "Take a longer break ?";
@@ -137,6 +137,7 @@
 "Alert.disincentive_xx_character_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
 "Alert.disincentive.show_blocklist" = "Show me the blocklist that requires this ...";
 "Applications" = "Applications";
+"Alert.session_complete_subdesc" = "I want to focus a little longer.\nExtend focus session for:";
 
 
 "Session.focus_session" = "Focus Session";

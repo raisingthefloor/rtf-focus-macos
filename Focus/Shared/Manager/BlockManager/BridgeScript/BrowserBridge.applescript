@@ -214,6 +214,9 @@ script BrowserBridge
         end repeat
         return true
     end blockApplication
-
+        
+    on logoutAlert()
+        tell application "System Events" to log out
+    end logoutAlert
     
 end script
