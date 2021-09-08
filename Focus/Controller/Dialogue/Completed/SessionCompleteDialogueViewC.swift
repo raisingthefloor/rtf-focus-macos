@@ -9,17 +9,14 @@
 import Cocoa
 
 class SessionCompleteDialogueViewC: NSViewController {
-    
-    
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var lblDesc: NSTextField!
     @IBOutlet var lblSubDesc: NSTextField!
     @IBOutlet var btnOk: CustomButton!
-    @IBOutlet weak var seperateV: NSBox!
+    @IBOutlet var seperateV: NSBox!
     @IBOutlet var btnStackV: NSStackView!
 
     var dialogueType: FocusDialogue = .seession_completed_alert
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +24,8 @@ class SessionCompleteDialogueViewC: NSViewController {
         setUpViews()
         themeSetUp()
         bindData()
-
     }
-    
 }
-
 
 extension SessionCompleteDialogueViewC: BasicSetupType {
     func setUpText() {
@@ -53,17 +47,12 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
             btn.textColor = dialogueType.green
             btn.borderColor = dialogueType.green
             btn.borderWidth = 0.5
-            btn.translatesAutoresizingMaskIntoConstraints = false
-            btn.heightAnchor.constraint(equalToConstant: 35).isActive = true
-            btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
-
             i = i + 1
             btnStackV.addArrangedSubview(btn)
         }
     }
 
     func themeSetUp() {
-
         lblTitle.font = NSFont.systemFont(ofSize: 20, weight: .medium)
 
         btnOk.buttonColor = dialogueType.green
@@ -77,20 +66,30 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     }
 
     @objc func extendTimeAction(_ sender: NSButton) {
-        let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
         if sender.tag == 0 {
-            controller.dialogueType = .launch_app_alert
+            blockAppDialogue()
         } else if sender.tag == 1 {
-            controller.dialogueType = .warning_forced_pause_alert
+            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+            controller.dialogueType = .long_break_alert
+            presentAsSheet(controller)
         } else if sender.tag == 2 {
-            controller.dialogueType = .seession_completed_alert
-        } else {
-            
+            completeSession()
         }
-        presentAsSheet(controller)
     }
 
     @objc func okAction(_ sender: NSButton) {
         dismiss(nil)
+    }
+
+    func blockAppDialogue() {
+        let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
+        controller.dialogueType = .launch_block_app_alert
+        presentAsSheet(controller)
+    }
+
+    func completeSession() {
+        let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
+        controller.dialogueType = .seession_completed_alert
+        presentAsSheet(controller)
     }
 }

@@ -24,13 +24,13 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Pq1-va-G3u">
-                    <rect key="frame" x="20" y="20" width="450" height="267"/>
+                    <rect key="frame" x="20" y="20" width="450" height="252"/>
                     <subviews>
                         <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aNH-fz-fei">
-                            <rect key="frame" x="0.0" y="10" width="450" height="247"/>
+                            <rect key="frame" x="0.0" y="10" width="450" height="232"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lGz-g4-5t6">
-                                    <rect key="frame" x="99" y="222" width="252" height="25"/>
+                                    <rect key="frame" x="99" y="207" width="252" height="25"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Focus Session Completed" id="CCM-IM-w42">
                                         <font key="font" metaFont="systemMedium" size="21"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -38,7 +38,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aHC-2y-X0n">
-                                    <rect key="frame" x="139" y="168" width="172" height="34"/>
+                                    <rect key="frame" x="139" y="153" width="172" height="34"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" id="HRI-3k-O7j">
                                         <font key="font" metaFont="system" size="14"/>
                                         <string key="title">You’ve been focusing for:
@@ -48,7 +48,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qAK-5G-E7y" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                    <rect key="frame" x="161" y="119" width="129" height="32"/>
+                                    <rect key="frame" x="161" y="104" width="129" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="123" id="EvP-Gk-sJ7"/>
                                         <constraint firstAttribute="height" constant="25" id="iaR-sI-NKo"/>
@@ -68,13 +68,16 @@
                                     </userDefinedRuntimeAttributes>
                                 </button>
                                 <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="QnQ-KE-plX">
-                                    <rect key="frame" x="177" y="100" width="96" height="5"/>
+                                    <rect key="frame" x="177" y="85" width="96" height="5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="96" id="exh-it-Ur4"/>
+                                    </constraints>
                                 </box>
                                 <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XCW-r6-AN4">
-                                    <rect key="frame" x="76" y="0.0" width="299" height="82"/>
+                                    <rect key="frame" x="76" y="0.0" width="299" height="67"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="749" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="E3o-jj-kHV">
-                                            <rect key="frame" x="58" y="50" width="183" height="32"/>
+                                            <rect key="frame" x="58" y="35" width="183" height="32"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="9VU-gF-KCM">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <string key="title">I want to focus a little longer.
@@ -83,10 +86,10 @@ Extend focus session for:</string>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MTI-Tv-dgK">
-                                            <rect key="frame" x="0.0" y="0.0" width="299" height="40"/>
+                                        <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MTI-Tv-dgK">
+                                            <rect key="frame" x="0.0" y="0.0" width="299" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="40" id="ReG-Tj-uLU"/>
+                                                <constraint firstAttribute="height" constant="25" id="ReG-Tj-uLU"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>

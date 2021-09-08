@@ -48,6 +48,9 @@
 "Button.add_website" = "Add Website";
 "Button.apply" = "Apply";
 "Button.stop_focus_session" = "Stop focus session";
+"Button.skip_session" = "Skip this focus session";
+"Button.start_focus" = "Start focus session";
+"Button.start_in" = "start in %d min";
 
 "Home.title" = "Start a Focus Session";
 "Home.half_last" = "30 Min";
@@ -109,28 +112,28 @@
 "SS.pauseinfo" = "To pause (disable) any line in the table, click on the “Pause” button ⏸ in the 1st column";
 "SS.clmninfo" = "(Click on the top of the 🚫 column to pause (disable) all)";
 
-"Alert.break_time" = "Break Time";
-"Alert.break_time_extented_title" = "I want to finish something remind me to break again in";
+"Alert.break_time" = "Time for a break!";
+"Alert.break_time_extented_title" = "I want to focus a little longer. Remind me to break again in:";
 "Alert.five_min" = "5 min";
 "Alert.fifteen_min" = "15 min";
 "Alert.thirty_min" = "30 min";
-"Alert.block_message" = "You selected this to be blocked during your focus session.";
+"Alert.block_message" = "%@ is blocked by the following blocklist,\n%@ \nwhich you selected for this focus session.";
 "Alert.session_completed" = "Focus Session Completed.";
 "Alert.session_completed_desc" = "You have been focusing for:\n%d hrs and %d min";
 "Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
 "Alert.warning_forced_pause_desc" = "You have been focusing for %d hours or more.";
-"Alert.warning_forced_pause_extend_title" = "Take a longer break ?";
+"Alert.warning_forced_pause_extend_title" = "Would you like to take a longer break?";
 "Alert.one_hr" = "1 hr";
 "Alert.continue_with" = "Continue with";
 "Alert.breaks" = "min Breaks";
-"Alert.end_break" = "End of Break";
-"Alert.extend_break_title" = "Please Extend my break by";
+"Alert.end_break" = "End of break!";
+"Alert.extend_break_title" = "Or, extend my break by...";
 "Alert.one_min" = "1 min";
 "Alert.sixty_min" = "60 min";
-"Alert.schedule_reminded_with_blocklist_alert_desc" = "You Scheduled and AUTO-FOCUS session with BLOCKING for right now";
-"Alert.schedule_reminded_with_blocklist_alert_title" = "Give me a few minutes First";
-"Alert.schedule_reminded_without_blocklist_alert_desc" = "You asked to be reminded that you wanted to focus at this time";
-"Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in";
+"Alert.schedule_reminded_with_blocklist_alert_desc" = "You scheduled a focus session for this time using the blocklist: \nMorning Meditation";
+"Alert.schedule_reminded_with_blocklist_alert_title" = "No, instead start session:";
+"Alert.schedule_reminded_without_blocklist_alert_desc" = "You asked to be reminded to focus at this time.";
+"Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in:";
 "Alert.disincentive_xx_character_sub_desc" = "Type the following characters in the space below:";
 "Alert.disincentive_signout_signin_alert_sub_desc" = "If you still want to stop the focus session, \nsave your work and then restart your computer.";
 "Alert.disincentive_signout_signin_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
@@ -138,6 +141,12 @@
 "Alert.disincentive.show_blocklist" = "Show me the blocklist that requires this ...";
 "Applications" = "Applications";
 "Alert.session_complete_subdesc" = "I want to focus a little longer.\nExtend focus session for:";
+"Alert.block_app.show_blocklist" = "Show me the blocklist that is blocking  this ...";
+"Alert.block_app.temp_access" = "Tell me how to allow temporary access to apps or websites...";
+"Alert.block_app.is_blocked" = "%@ is blocked";
+"Alert.block_app.notification" = "Turning off <Do Not Disturb/Focus Assistance> would \nallow notifications, so it cannot be turned off while \nthis blocklist is being used.";
+"Alert.schedule_reminder.title" = "Focus Session Reminder";
+"Alert.schedule_session_list.title" = "Your scheduled focus session starts in %d min.";
 
 
 "Session.focus_session" = "Focus Session";

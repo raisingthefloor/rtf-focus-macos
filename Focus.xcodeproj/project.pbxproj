@@ -56,6 +56,8 @@
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
 		3FAAF75D26B2C261009447F8 /* logout.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAAF75C26B2C261009447F8 /* logout.sh */; };
 		3FAD91F326B41E5A00698848 /* dnd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* dnd.sh */; };
+		3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */; };
+		3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */; };
 		3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */; };
 		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
 		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
@@ -132,6 +134,8 @@
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3FAAF75C26B2C261009447F8 /* logout.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = logout.sh; sourceTree = "<group>"; };
 		3FAD91F226B41E5200698848 /* dnd.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = dnd.sh; sourceTree = "<group>"; };
+		3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAppDialogueViewC.swift; sourceTree = "<group>"; };
+		3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAppDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewC.swift; sourceTree = "<group>"; };
 		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
@@ -428,9 +432,19 @@
 			path = Script;
 			sourceTree = "<group>";
 		};
+		3FB1368326E87FA100B34A01 /* BlockApp */ = {
+			isa = PBXGroup;
+			children = (
+				3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */,
+				3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */,
+			);
+			path = BlockApp;
+			sourceTree = "<group>";
+		};
 		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
 			isa = PBXGroup;
 			children = (
+				3FB1368326E87FA100B34A01 /* BlockApp */,
 				3F9147C826E647FA00449D4B /* Completed */,
 				3FC8108626A9776A0058D1CF /* Disincentive */,
 				3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */,
@@ -595,6 +609,7 @@
 				3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */,
 				3FAD91F326B41E5A00698848 /* dnd.sh in Resources */,
 				3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */,
+				3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */,
 				3FAAF75D26B2C261009447F8 /* logout.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,6 +647,7 @@
 				3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */,
 				3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */,
 				3F68A6C726C658BF003D5913 /* BrowserBridge.applescript in Sources */,
+				3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */,
 				3F9147CB26E648B000449D4B /* SessionCompleteDialogueViewC.swift in Sources */,
 				3FDC9134269F1C330021D3E3 /* Extension.swift in Sources */,
 				3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */,

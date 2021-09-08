@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BlockAppDialogueViewC" customModule="Focus" customModuleProvider="target">
+            <connections>
+                <outlet property="btnOk" destination="ejx-kx-S5i" id="eAF-cH-1qg"/>
+                <outlet property="btnStop" destination="Ldl-DJ-d9k" id="aDW-xQ-96c"/>
+                <outlet property="lblBottomInfo" destination="X2r-es-6wp" id="mib-m8-7eP"/>
+                <outlet property="lblBottomInfo1" destination="7b0-XA-aeh" id="GLK-n9-WOg"/>
+                <outlet property="lblDesc" destination="8xI-GM-WTc" id="gPv-K4-1IV"/>
+                <outlet property="lblSubDesc" destination="4ec-yg-pdk" id="5bW-8s-qLG"/>
+                <outlet property="lblTitle" destination="2lN-ah-t8r" id="XD2-Sv-Ga4"/>
+                <outlet property="seperateV" destination="Fw9-pE-jpC" id="oPX-8s-8Lj"/>
+                <outlet property="view" destination="s4B-pI-AiM" id="OJl-CH-ofz"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView misplaced="YES" id="s4B-pI-AiM">
+            <rect key="frame" x="0.0" y="0.0" width="601" height="402"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="ltr-c1-OJw">
+                    <rect key="frame" x="20" y="20" width="561" height="289"/>
+                    <subviews>
+                        <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="25" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11X-ef-Cxk">
+                            <rect key="frame" x="20" y="0.0" width="521" height="289"/>
+                            <subviews>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2lN-ah-t8r">
+                                    <rect key="frame" x="137" y="256" width="247" height="33"/>
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Discord is blocked" id="7Zu-RX-ATX">
+                                        <font key="font" metaFont="systemBold" size="28"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8xI-GM-WTc">
+                                    <rect key="frame" x="120" y="183" width="281" height="48"/>
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" id="EAa-27-qQo">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <string key="title">Discord is blocked by the following blocklist, 
+All Games Blocklist
+which you selected for this focus session.</string>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ec-yg-pdk">
+                                    <rect key="frame" x="-2" y="241" width="281" height="48"/>
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" id="Umr-Ww-2H1">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <string key="title">Discord is blocked by the following blocklist, 
+All Games Blocklist
+which you selected for this focus session.</string>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1Y-uw-xmS">
+                                    <rect key="frame" x="191" y="67" width="140" height="91"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ejx-kx-S5i" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                            <rect key="frame" x="-7" y="59" width="154" height="37"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="0yN-9j-K3q"/>
+                                                <constraint firstAttribute="height" constant="25" id="Uf4-yY-Fbg"/>
+                                            </constraints>
+                                            <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HuH-cE-Bpq">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="systemBold" size="12"/>
+                                                <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                            </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                        <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fw9-pE-jpC">
+                                            <rect key="frame" x="32" y="43" width="75" height="5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="75" id="DcC-ZV-EIJ"/>
+                                            </constraints>
+                                        </box>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ldl-DJ-d9k" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                            <rect key="frame" x="-7" y="-7" width="154" height="37"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="25" id="uEy-va-u0L"/>
+                                            </constraints>
+                                            <buttonCell key="cell" type="push" title="Stop focus session" bezelStyle="rounded" alignment="center" lineBreakMode="charWrapping" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hnV-ga-I7t">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="systemBold" size="12"/>
+                                            </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Ldl-DJ-d9k" firstAttribute="width" secondItem="ejx-kx-S5i" secondAttribute="width" id="Enl-yy-IiT"/>
+                                    </constraints>
+                                    <visibilityPriorities>
+                                        <integer value="1000"/>
+                                        <integer value="1000"/>
+                                        <integer value="1000"/>
+                                    </visibilityPriorities>
+                                    <customSpacing>
+                                        <real value="3.4028234663852886e+38"/>
+                                        <real value="3.4028234663852886e+38"/>
+                                        <real value="3.4028234663852886e+38"/>
+                                    </customSpacing>
+                                </stackView>
+                                <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cF7-dK-rsU">
+                                    <rect key="frame" x="77" y="0.0" width="367" height="42"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X2r-es-6wp">
+                                            <rect key="frame" x="47" y="26" width="274" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Show me the blocklist that is blocking this ..." id="8S2-zU-5qe">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="linkColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7b0-XA-aeh">
+                                            <rect key="frame" x="-2" y="0.0" width="371" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Tell me how to allow temporary access to apps or websites..." id="6It-9V-iJd">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="linkColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                    <visibilityPriorities>
+                                        <integer value="1000"/>
+                                        <integer value="1000"/>
+                                    </visibilityPriorities>
+                                    <customSpacing>
+                                        <real value="3.4028234663852886e+38"/>
+                                        <real value="3.4028234663852886e+38"/>
+                                    </customSpacing>
+                                </stackView>
+                            </subviews>
+                            <visibilityPriorities>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                            </visibilityPriorities>
+                            <customSpacing>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                            </customSpacing>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="11X-ef-Cxk" secondAttribute="trailing" constant="20" id="IWw-6I-VsM"/>
+                        <constraint firstItem="11X-ef-Cxk" firstAttribute="top" secondItem="ltr-c1-OJw" secondAttribute="top" id="JLj-HV-s0h"/>
+                        <constraint firstAttribute="bottom" secondItem="11X-ef-Cxk" secondAttribute="bottom" id="o1Y-uZ-HCH"/>
+                        <constraint firstItem="11X-ef-Cxk" firstAttribute="leading" secondItem="ltr-c1-OJw" secondAttribute="leading" constant="20" id="wnS-Ha-Alj"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ltr-c1-OJw" secondAttribute="bottom" constant="20" symbolic="YES" id="53e-Em-gbZ"/>
+                <constraint firstItem="ltr-c1-OJw" firstAttribute="top" secondItem="s4B-pI-AiM" secondAttribute="top" constant="20" symbolic="YES" id="QkC-kP-bjM"/>
+                <constraint firstItem="ltr-c1-OJw" firstAttribute="leading" secondItem="s4B-pI-AiM" secondAttribute="leading" constant="20" symbolic="YES" id="ghe-Nx-JMZ"/>
+                <constraint firstAttribute="trailing" secondItem="ltr-c1-OJw" secondAttribute="trailing" constant="20" symbolic="YES" id="r4k-4f-wfR"/>
+            </constraints>
+            <point key="canvasLocation" x="20.5" y="354.5"/>
+        </customView>
+    </objects>
+</document>

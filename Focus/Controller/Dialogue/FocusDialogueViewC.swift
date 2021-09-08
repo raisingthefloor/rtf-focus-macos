@@ -32,10 +32,10 @@ class FocusDialogueViewC: NSViewController {
     @IBOutlet var containerView: NSView!
     @IBOutlet var lblSubTitle: NSTextField!
     @IBOutlet var btnStackV: NSStackView!
-    @IBOutlet var btnGreen: CustomButton!
-    @IBOutlet var btnRed: CustomButton!
+    @IBOutlet var btnContinue: CustomButton!
+    @IBOutlet var btnStop: CustomButton!
 
-    var dialogueType: FocusDialogue = .break_sequence_alert
+    var dialogueType: FocusDialogue = .short_break_alert
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,6 @@ class FocusDialogueViewC: NSViewController {
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
-        title = NSLocalizedString("APP.Name", comment: "Focus")
         lblTitle.stringValue = dialogueType.title
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
@@ -57,17 +56,11 @@ extension FocusDialogueViewC: BasicSetupType {
         let buttonsValue = dialogueType.option_buttons.titles
         let position = dialogueType.option_buttons.position
 
-        if buttonsValue.count > 1 {
-            btnGreen.title = buttonsValue.first ?? "-"
-            btnRed.title = buttonsValue.last ?? "-"
-            btnTop.title = buttonsValue.first ?? ""
-            btnTop.isHidden = (position == .bottom) == true
-            btnGreen.isHidden = (position == .up_down) == true
-        } else {
-            btnGreen.isHidden = true
-            btnTop.isHidden = true
-            btnRed.title = buttonsValue.first ?? "-"
-        }
+        btnStop.title = buttonsValue.first ?? "-"
+        btnTop.title = buttonsValue.last ?? ""
+        btnTop.isHidden = (dialogueType != .long_break_alert) ? false : true
+        btnContinue.isHidden = (dialogueType == .long_break_alert) ? false : true
+        btnContinue.title = buttonsValue.last ?? ""
     }
 
     func setUpViews() {
@@ -81,17 +74,13 @@ extension FocusDialogueViewC: BasicSetupType {
 
         var i = 0 // for test
         for value in dialogueType.extented_buttons {
-            let btn = NSButton(title: value, target: self, action: #selector(extendTimeAction(_:)))
+            let btn = CustomButton(title: value, target: self, action: #selector(extendTimeAction(_:)))
             btn.tag = i
-            btn.bezelStyle = .texturedRounded
-            btn.isBordered = false // Important
-            btn.wantsLayer = true
-            btn.layer?.backgroundColor = Color.navy_blue_color.cgColor
-            btn.layer?.cornerRadius = 6
-            btn.translatesAutoresizingMaskIntoConstraints = false
-            btn.heightAnchor.constraint(equalToConstant: 35).isActive = true
-            btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
-
+            btn.buttonColor = dialogueType.light_green
+            btn.activeButtonColor = dialogueType.light_green
+            btn.textColor = dialogueType.green
+            btn.borderColor = dialogueType.green
+            btn.borderWidth = 0.5
             i = i + 1
             btnStackV.addArrangedSubview(btn)
         }
@@ -100,29 +89,24 @@ extension FocusDialogueViewC: BasicSetupType {
     func themeSetUp() {
         lblSubTitle.textColor = .black
 
-        lblTitle.font = NSFont.systemFont(ofSize: 16, weight: .bold)
+        lblTitle.font = NSFont.systemFont(ofSize: 20, weight: .bold)
 
         btnTop.buttonColor = dialogueType.green
         btnTop.activeButtonColor = dialogueType.green
         btnTop.textColor = .white
 
-        btnGreen.buttonColor = dialogueType.green
-        btnGreen.activeButtonColor = dialogueType.green
-        btnGreen.textColor = .white
-
-        btnRed.buttonColor = dialogueType.mixedColor
-        btnRed.activeButtonColor = dialogueType.mixedColor
-        btnRed.textColor = .white
+        btnStop.buttonColor = dialogueType.light_green
+        btnStop.activeButtonColor = dialogueType.light_green
+        btnStop.textColor = Color.black_color
+        btnStop.borderColor = Color.dark_grey_border
+        btnStop.borderWidth = 0.6
 
         containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {
-        btnGreen.target = self
-        btnGreen.action = #selector(greenAction(_:))
-
-        btnRed.target = self
-        btnRed.action = #selector(redAction(_:))
+        btnStop.target = self
+        btnStop.action = #selector(stopAction(_:))
 
         btnTop.target = self
         btnTop.action = #selector(topAction(_:))
@@ -131,36 +115,19 @@ extension FocusDialogueViewC: BasicSetupType {
     @objc func extendTimeAction(_ sender: NSButton) {
         let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
         if sender.tag == 0 {
-            completeSession()
+            controller.dialogueType = .schedule_reminded_without_blocklist_alert
+            presentAsSheet(controller)
         } else if sender.tag == 1 {
-            controller.dialogueType = .warning_forced_pause_alert
+            controller.dialogueType = .schedule_reminded_with_blocklist_alert
             presentAsSheet(controller)
         } else if sender.tag == 2 {
-            controller.dialogueType = .seession_completed_alert
-            presentAsSheet(controller)
+            completeSession()
         } else {
         }
     }
 
-    @objc func greenAction(_ sender: NSButton) {
+    @objc func stopAction(_ sender: NSButton) {
         dismiss(nil)
-    }
-
-    @objc func redAction(_ sender: NSButton) {
-        switch dialogueType {
-        case .warning_forced_pause_alert:
-            // Open the Combbox
-            dismiss(nil)
-            break
-        case .seession_completed_alert:
-            dismiss(nil)
-            break
-        default:
-            // open the disincentive
-            let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-            controller.dialogueType = .disincentive_xx_character_alert
-            presentAsSheet(controller)
-        }
     }
 
     @objc func topAction(_ sender: NSButton) {

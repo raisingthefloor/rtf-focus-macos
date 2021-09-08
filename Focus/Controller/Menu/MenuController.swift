@@ -204,11 +204,11 @@ extension MenuController: BasicSetupType {
                 let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
                 switch focusTime {
                 case .half_past:
-                    controller.dialogueType = .break_sequence_alert
+                    controller.dialogueType = .short_break_alert
                 case .one_hr:
                     controller.dialogueType = .end_break_alert
                 case .two_hr:
-                    controller.dialogueType = .warning_forced_pause_alert
+                    controller.dialogueType = .long_break_alert
                 case .untill_press_stop:
                     controller.dialogueType = .seession_completed_alert
                 case .stop_focus:

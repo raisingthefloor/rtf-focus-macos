@@ -60,7 +60,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let value = browserBridge?.blockApplication()
         if value == true {
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .launch_app_alert
+            controller.dialogueType = .launch_block_app_alert
             windowController.contentViewController?.presentAsSheet(controller)
         }
         //    browserBridge?.runPermission()
