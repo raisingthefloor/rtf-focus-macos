@@ -29,16 +29,19 @@ enum SettingOptions: Int, CaseIterable {
     case general_setting
     case block_setting
     case schedule_setting
+    case today_schedule
     case none
 
     var title: String {
         switch self {
         case .general_setting:
-            return NSLocalizedString("Customize.general_settings", comment: "General Settings").uppercased()
+            return NSLocalizedString("Customize.general_settings", comment: "General Settings")
         case .block_setting:
-            return NSLocalizedString("Customize.blocklists", comment: "Blocklists").uppercased() + " " + NSLocalizedString("Customize.edit_view", comment: "(view & edit)")
+            return NSLocalizedString("Customize.edit_blocklists", comment: "Edit Blocklists")
         case .schedule_setting:
-            return NSLocalizedString("Customize.scheduler", comment: "Scheduler").uppercased() + " " + NSLocalizedString("Customize.edit_view_active", comment: "(view, edit & activate)")
+            return NSLocalizedString("Customize.focus_schedule", comment: "Focus Schedule")
+        case .today_schedule:
+            return NSLocalizedString("Customize.today_schedule", comment: "Today's Schedule")
         default:
             return ""
         }
@@ -55,5 +58,9 @@ enum SettingOptions: Int, CaseIterable {
         default:
             return ""
         }
+    }
+
+    static var setting_options: [SettingOptions] {
+        return [.general_setting, .block_setting, .schedule_setting, .today_schedule]
     }
 }

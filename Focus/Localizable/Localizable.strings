@@ -72,6 +72,9 @@
 "Home.customize_setting_info" = "Customize Focus or schedule automatic focus sessions";
 
 "Customize.general_settings" = "General Settings";
+"Customize.edit_blocklists" = "Edit Blocklists";
+"Customize.focus_schedule" = "Focus Schedule";
+"Customize.today_schedule" = "Today's Schedule";
 "Customize.blocklists" = "Blocklists";
 "Customize.edit_view" = "(view & edit)";
 "Customize.scheduler" = "Scheduler";

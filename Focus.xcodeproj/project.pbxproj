@@ -58,6 +58,9 @@
 		3FAD91F326B41E5A00698848 /* dnd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* dnd.sh */; };
 		3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */; };
 		3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */; };
+		3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */; };
+		3FB1369026E8F5E700B34A01 /* LeftMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368E26E8F5E700B34A01 /* LeftMenuView.swift */; };
+		3FB1369126E8F5E700B34A01 /* LeftMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368F26E8F5E700B34A01 /* LeftMenuView.xib */; };
 		3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */; };
 		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
 		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
@@ -136,6 +139,9 @@
 		3FAD91F226B41E5200698848 /* dnd.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = dnd.sh; sourceTree = "<group>"; };
 		3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAppDialogueViewC.swift; sourceTree = "<group>"; };
 		3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAppDialogueViewC.xib; sourceTree = "<group>"; };
+		3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplitViewController.swift; sourceTree = "<group>"; };
+		3FB1368E26E8F5E700B34A01 /* LeftMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuView.swift; sourceTree = "<group>"; };
+		3FB1368F26E8F5E700B34A01 /* LeftMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeftMenuView.xib; sourceTree = "<group>"; };
 		3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewC.swift; sourceTree = "<group>"; };
 		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 		3F4DFA3526835D6F0013BA0C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				3FB1368D26E8F5C200B34A01 /* LeftView */,
 				3F9111E7268D95A200706B51 /* Cell */,
 				3F9CC4A7268B3D8800AC3026 /* Scheduler */,
 				3F9CC4A4268B3D2800AC3026 /* Block */,
@@ -441,6 +448,15 @@
 			path = BlockApp;
 			sourceTree = "<group>";
 		};
+		3FB1368D26E8F5C200B34A01 /* LeftView */ = {
+			isa = PBXGroup;
+			children = (
+				3FB1368E26E8F5E700B34A01 /* LeftMenuView.swift */,
+				3FB1368F26E8F5E700B34A01 /* LeftMenuView.xib */,
+			);
+			path = LeftView;
+			sourceTree = "<group>";
+		};
 		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,6 +493,7 @@
 			children = (
 				3FD0CA602682083200C9D82D /* BaseViewController.swift */,
 				3F8A8AFF268C53FD007A36DC /* WindowController.swift */,
+				3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */,
 			);
 			path = BaseControllers;
 			sourceTree = "<group>";
@@ -598,6 +615,7 @@
 				3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */,
 				3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
+				3FB1369126E8F5E700B34A01 /* LeftMenuView.xib in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
 				3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
@@ -637,6 +655,7 @@
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
+				3FB1369026E8F5E700B34A01 /* LeftMenuView.swift in Sources */,
 				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,
 				3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */,
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,
@@ -659,6 +678,7 @@
 				3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */,
 				3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */,
 				3FFC1E6D2680C13D0014216C /* Operators.swift in Sources */,
+				3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */,
 				3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */,
 				3F3C5FF726A17F6D0022C43F /* DBManagerModel.swift in Sources */,
 				3F7872CF26B803970076FA83 /* AppManager.swift in Sources */,
