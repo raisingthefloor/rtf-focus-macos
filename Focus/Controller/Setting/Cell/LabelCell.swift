@@ -31,7 +31,6 @@ import Cocoa
 class LabelCell: NSTableCellView {
     @IBOutlet var lblTitle: NSTextField!
 
-
     override func prepareForReuse() {
         super.prepareForReuse()
     }
@@ -49,5 +48,19 @@ extension LabelCell: BasicSetupType {
 
     func setUpViews() {
         lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+    }
+}
+
+class RowView: NSTableRowView {
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        if isSelected == true {
+            Color.selected_row_color.set()
+            dirtyRect.fill()
+        }else{
+            Color.green_color.set()
+            dirtyRect.fill()
+        }
     }
 }

@@ -27,7 +27,7 @@ import Foundation
 
 struct Color {
     static let light_blue_color = NSColor("#D8E2F3") ?? .systemBlue
-    static let green_color = NSColor("#008145") ?? .systemGreen
+    static let green_color = NSColor("#095930") ?? .systemGreen
     static let red_color = NSColor("#C00500") ?? .systemRed
     static let navy_blue_color = NSColor("#002957") ?? .clear
     static let info_blue_color = NSColor("#3566D8") ?? .systemBlue
@@ -38,6 +38,7 @@ struct Color {
     static let black_color = NSColor("#333333") ?? .black
     static let txt_grey_color = NSColor("#555555") ?? .lightGray.withAlphaComponent(0.5)
     static let txt_green_color = NSColor("#095930") ?? .systemGreen
+    static let selected_row_color = NSColor("#008145") ?? .systemGreen
 }
 
 extension NSColor {
