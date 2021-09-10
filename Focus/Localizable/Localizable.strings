@@ -98,19 +98,24 @@
 "GS.schedule_session" = "of scheduled Focus sessions";
 
 
-"BS.blocksetting_info" = "You can choose the apps and website you want  to have blocked when you are focusing.  You can select categories (on the left) or you can just list individual apps and websites (on the right).  You can use a premade set – or you can make your own sets.  If you try to use an application or website you have blocked during a focus session it will not launch or will immediately shut down with a message ”You selected this to be blocked during your focus session”.";
-"BS.rename_edit" = "Show/edit/rename BlockList Named";
-"BS.additional_options" = "Additional Options for this BlockList (only)";
-"BS.make_hard" = "Make it hard for me to STOP a FOCUS Session early (Lock it)";
-"BS.leave_it" = "No - Leave it so I can unlock focus any time with the click of one of the STOP buttons.";
-"BS.random_character" = "🔒 - Make me type a string of random characters you give me to type  [30] characters";
-"BS.sign_out" = "🔒 - Make me Sign out and back in to stop focus session";
-"BS.schedule_title" = "Scheduling Options (FOR THIS BLOCKLIST ONLY)";
-"BS.short_long" = "Unblock this list during short and long breaks during scheduled focus periods";
-"BS.only_long" = "Unblock this list ONLY for long breaks  (at 2-hour points) in scheduled focus periods";
-"BS.continues"= "Continuously block this list for entire scheduled focus period (including breaks)";
-"BS.eg" = "(e.g. if you might create a BlockList for  just games – and want to make sure they are blocked all day – and not be available even during breaks)";
-"BS.make_new_list" = "Make a new BlockList";
+"BS.title" = "Edit Blocklists";
+"BS.subTitle" = "A blocklist is a group of apps, websites and other items that you can choose to block during \na focus session. Learn more about Blocklists";
+"BS.select_list" = "Select a blocklist to edit:";
+"BS.following_select_list" = "The following settings only apply to the selected blocklist";
+"BS.category_title" = "Block all items in these categories:";
+"BS.block_app_title" = "Also, block these apps & websites:";
+"BS.exception_title" = "Exceptions to blocked items:";
+"BS.exception_subtitle" = "These will not be blocked even if in one of the lists above:";
+"BS.block_behaviour" = "Blocklist behavior during breaks:";
+"BS.short_long_break" = "Unblock this blocklist during short and long breaks";
+"BS.long_break" = "Unblock this blocklist during long breaks only";
+"BS.all_break" = "Keep this blocklist blocked during all breaks";
+"BS.early_title" = "Discourage me from stopping early:";
+"BS.stop_any_time" = "No, let me stop the focus session at any time";
+"BS.stop_focus_session" = "Yes, make me type to stop the focus session:";
+"BS.random_chracter" = "random characters";
+"BS.restart" = "Yes, make me restart my computer to stop the focus session";
+
 
 "SS.scheduleinfo" = "Schedule when you would like the FOCUS feature to turn on.";
 "SS.scheduleinfo1" = "(You can also choose to just get reminders without blocking)";
