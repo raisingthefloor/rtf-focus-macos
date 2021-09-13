@@ -60,14 +60,13 @@
 		3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */; };
 		3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */; };
 		3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */; };
-		3FB1369026E8F5E700B34A01 /* LeftMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368E26E8F5E700B34A01 /* LeftMenuView.swift */; };
-		3FB1369126E8F5E700B34A01 /* LeftMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368F26E8F5E700B34A01 /* LeftMenuView.xib */; };
 		3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */; };
 		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
 		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
 		3FC8108526A939780058D1CF /* FocusDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */; };
 		3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */; };
 		3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */; };
+		3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */; };
 		3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */; };
 		3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */; };
 		3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA602682083200C9D82D /* BaseViewController.swift */; };
@@ -142,14 +141,13 @@
 		3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAppDialogueViewC.swift; sourceTree = "<group>"; };
 		3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAppDialogueViewC.xib; sourceTree = "<group>"; };
 		3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplitViewController.swift; sourceTree = "<group>"; };
-		3FB1368E26E8F5E700B34A01 /* LeftMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftMenuView.swift; sourceTree = "<group>"; };
-		3FB1368F26E8F5E700B34A01 /* LeftMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeftMenuView.xib; sourceTree = "<group>"; };
 		3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewC.swift; sourceTree = "<group>"; };
 		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
 		3FC8108426A939780058D1CF /* FocusDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewModel.swift; sourceTree = "<group>"; };
 		3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisincentiveViewC.swift; sourceTree = "<group>"; };
 		3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisincentiveViewC.xib; sourceTree = "<group>"; };
+		3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDaysCell.swift; sourceTree = "<group>"; };
 		3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3FD0CA602682083200C9D82D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -249,7 +247,6 @@
 		3F4DFA3526835D6F0013BA0C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				3FB1368D26E8F5C200B34A01 /* LeftView */,
 				3F9111E7268D95A200706B51 /* Cell */,
 				3F9CC4A7268B3D8800AC3026 /* Scheduler */,
 				3F9CC4A4268B3D2800AC3026 /* Block */,
@@ -359,6 +356,7 @@
 				3F9111F2268DD78500706B51 /* ButtonCell.swift */,
 				3F6D0BD5269818F9002E6711 /* LabelCell.swift */,
 				3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */,
+				3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -457,15 +455,6 @@
 				3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */,
 			);
 			path = BlockApp;
-			sourceTree = "<group>";
-		};
-		3FB1368D26E8F5C200B34A01 /* LeftView */ = {
-			isa = PBXGroup;
-			children = (
-				3FB1368E26E8F5E700B34A01 /* LeftMenuView.swift */,
-				3FB1368F26E8F5E700B34A01 /* LeftMenuView.xib */,
-			);
-			path = LeftView;
 			sourceTree = "<group>";
 		};
 		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
@@ -626,7 +615,6 @@
 				3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */,
 				3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
-				3FB1369126E8F5E700B34A01 /* LeftMenuView.xib in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
 				3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
@@ -657,6 +645,7 @@
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,
 				3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */,
+				3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */,
@@ -667,7 +656,6 @@
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
-				3FB1369026E8F5E700B34A01 /* LeftMenuView.swift in Sources */,
 				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,
 				3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */,
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,

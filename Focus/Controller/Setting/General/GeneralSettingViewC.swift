@@ -42,10 +42,12 @@ class GeneralSettingViewC: BaseViewController {
     @IBOutlet var lblUnblockingTitle: NSTextField!
     @IBOutlet var lblUnblockingInfo: NSTextField!
 
+    @IBOutlet weak var listContainerV: NSView!
     @IBOutlet var tblView: NSTableView!
 
     @IBOutlet var lblOverrideInfo: NSTextField!
 
+    @IBOutlet weak var btnContainerV: NSView!
     @IBOutlet var lblListInfo: NSTextField!
     @IBOutlet var btnAddApp: CustomButton!
     @IBOutlet var btnAddWeb: CustomButton!
@@ -91,6 +93,7 @@ extension GeneralSettingViewC: BasicSetupType {
     }
 
     func setUpViews() {
+        self.view.background_color = .white
         btnAddApp.buttonColor = Color.green_color
         btnAddApp.activeButtonColor = Color.green_color
         btnAddApp.textColor = .white
@@ -100,6 +103,12 @@ extension GeneralSettingViewC: BasicSetupType {
         btnAddWeb.activeButtonColor = Color.green_color
         btnAddWeb.textColor = .white
         btnAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        
+        listContainerV.border_color = Color.dark_grey_border
+        listContainerV.border_width = 0.5
+        listContainerV.background_color = .white
+        listContainerV.corner_radius = 4
+        btnContainerV.background_color = Color.list_bg_color
     }
 
     func bindData() {

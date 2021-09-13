@@ -39,6 +39,7 @@ struct Color {
     static let txt_grey_color = NSColor("#555555") ?? .lightGray.withAlphaComponent(0.5)
     static let txt_green_color = NSColor("#095930") ?? .systemGreen
     static let selected_row_color = NSColor("#008145") ?? .systemGreen
+    static let list_bg_color = NSColor("#F1F1F1") ?? .systemGreen.withAlphaComponent(0.3)
 }
 
 extension NSColor {

@@ -26,20 +26,22 @@
 import Cocoa
 
 class SchedulerViewC: BaseViewController {
-    @IBOutlet var lblScheduleInfo: NSTextField!
-    @IBOutlet var lblScheduleInfo1: NSTextField!
-    @IBOutlet var lblScheduleInfo2: NSTextField!
+    
+    @IBOutlet var lblTitle: NSTextField!
+    @IBOutlet var lblSubTitle: NSTextField!
 
-    @IBOutlet var lblOption1: NSTextField!
-    @IBOutlet var lblOption2: NSTextField!
-    @IBOutlet var lblOption3: NSTextField!
-
-    @IBOutlet var lblPauseInfo: NSTextField!
-    @IBOutlet var lblClmnInfo: NSTextField!
+    @IBOutlet var lblInstruction: NSTextField!
+    @IBOutlet var mainView: NSView!
 
     @IBOutlet var tblSchedule: NSTableView!
+    
+    @IBOutlet var checkBoxFocusTime: NSButton!
+    @IBOutlet var popBreakTime: NSPopUpButton!
+    @IBOutlet var lblBrekInfo: NSTextField!
+    @IBOutlet var popFocusTime: NSPopUpButton!
+    @IBOutlet var lblFocusInfo: NSTextField!
 
-    override func setTitle() -> String { return SettingOptions.schedule_setting.title }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,15 +55,11 @@ class SchedulerViewC: BaseViewController {
 
 extension SchedulerViewC: BasicSetupType {
     func setUpText() {
-        lblScheduleInfo.stringValue = NSLocalizedString("SS.scheduleinfo", comment: "Schedule when you would like the FOCUS feature to turn on.")
-        lblScheduleInfo1.stringValue = NSLocalizedString("SS.scheduleinfo1", comment: "(You can also choose to just get reminders without blocking)")
-        lblScheduleInfo2.stringValue = NSLocalizedString("SS.scheduleinfo2", comment: "(STOP buttons will stop focus sessions at any time)")
+        lblTitle.stringValue = NSLocalizedString("SS.title", comment: "Focus Schedule")
+        lblSubTitle.stringValue = NSLocalizedString("SS.subTitle", comment: "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)")
 
-        lblOption1.stringValue = NSLocalizedString("SS.option1", comment: "1) Choose a BlockList to schedule in column 1 using the pull down")
-        lblOption2.stringValue = NSLocalizedString("SS.option2", comment: "2) Type or select the time you want to start and stop. (Any hour and minute)")
-        lblOption3.stringValue = NSLocalizedString("SS.option3", comment: "3) Click on the days you want it to be active")
-        lblPauseInfo.stringValue = NSLocalizedString("SS.pauseinfo", comment: "To pause (disable) any line in the table, click on the “Pause” button ⏸  in the 1st column")
-        lblClmnInfo.stringValue = NSLocalizedString("SS.clmninfo", comment: "(Click on the top of the 🚫 column to pause (disable) all)")
+        lblInstruction.stringValue = NSLocalizedString("SS.instruction", comment: "Instructions")
+
     }
 
     func setUpViews() {
@@ -79,7 +77,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return 10
+        return 6
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -87,23 +85,40 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCell(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionIdentifier") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "buttonId"), owner: nil) as? ButtonCell {
-                cell.configScheduleActionCell(isPause: (row % 2) != 0)
-                return cell
-            }
-        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "statusIdentifier") {
+        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "statusIdentifier") {
             if let cellStatus = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "statusId"), owner: nil) as? NSTableCellView {
                 cellStatus.textField?.backgroundColor = NSColor.random
                 return cellStatus
             }
-        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+        }  else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
             if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "comboId"), owner: nil) as? ComboBoxCell {
                 return cellCombo
             }
-        } else {
-            if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "cellId"), owner: nil) as? NSTableCellView {
-                cellText.textField?.stringValue = "-"
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? LabelCell {
+             //   cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                return cell
+            }
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? LabelCell {
+              //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                return cell
+            }
+        }
+        else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "daysId") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "weekdaysId"), owner: nil) as? WeekDaysCell {
+                return cell
+            }
+        }
+        else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionId") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "buttonId"), owner: nil) as? ButtonCell {
+              //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                return cell
+            }
+        }
+        else {
+            if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "buttonId"), owner: nil) as? ButtonCell {
+              //  cellText.textField?.stringValue = "-"
                 return cellText
             }
         }

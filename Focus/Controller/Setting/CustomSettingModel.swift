@@ -23,6 +23,7 @@
  * Consumer Electronics Association Foundation
  */
 
+import Cocoa
 import Foundation
 
 enum SettingOptions: Int, CaseIterable {
@@ -52,11 +53,24 @@ enum SettingOptions: Int, CaseIterable {
         case .general_setting:
             return "GeneralSettingView"
         case .block_setting:
-            return "BlockListView"
+            return "EditBlockListView"
         case .schedule_setting:
             return "SchedulerView"
         default:
-            return ""
+            return "SchedulerView"
+        }
+    }
+
+    var type: NSViewController.Type {
+        switch self {
+        case .general_setting:
+            return GeneralSettingViewC.self
+        case .block_setting:
+            return EditBlockListViewC.self
+        case .schedule_setting:
+            return SchedulerViewC.self
+        default:
+            return SchedulerViewC.self
         }
     }
 

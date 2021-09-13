@@ -47,7 +47,9 @@ extension LabelCell: BasicSetupType {
     }
 
     func setUpViews() {
-        lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        if lblTitle != nil {
+            lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        }
     }
 }
 
@@ -58,7 +60,7 @@ class RowView: NSTableRowView {
         if isSelected == true {
             Color.selected_row_color.set()
             dirtyRect.fill()
-        }else{
+        } else {
             Color.green_color.set()
             dirtyRect.fill()
         }

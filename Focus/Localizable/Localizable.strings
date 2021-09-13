@@ -117,7 +117,10 @@
 "BS.restart" = "Yes, make me restart my computer to stop the focus session";
 
 
-"SS.scheduleinfo" = "Schedule when you would like the FOCUS feature to turn on.";
+"SS.title" = "Focus Schedule";
+"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)";
+"SS.instruction" = "Instructions";
+
 "SS.scheduleinfo1" = "(You can also choose to just get reminders without blocking)";
 "SS.scheduleinfo2" = "(STOP buttons will stop focus sessions at any time)";
 "SS.option1" = "1) Choose a BlockList to schedule in column 1 using the pull down";

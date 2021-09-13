@@ -267,7 +267,7 @@ extension MenuController: BasicSetupType {
 //        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
 //            presentAsSheet(vc)
 //        }
-        self.performSegue(withIdentifier: "segueMCustomSetting", sender: self)
+        self.performSegue(withIdentifier: "segueSetting", sender: self)
     }
 }
 

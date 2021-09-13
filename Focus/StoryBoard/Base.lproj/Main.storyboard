@@ -670,8 +670,7 @@
                         <outlet property="popFocusTime" destination="3E6-jn-XFo" id="I79-8v-c4S"/>
                         <outlet property="txtBreakTime" destination="Rif-lU-fkF" id="1xT-Z7-QcR"/>
                         <outlet property="txtFocusTime" destination="3vu-l8-z7i" id="nxf-aH-y7w"/>
-                        <segue destination="dGD-ua-t8C" kind="show" identifier="segueSetting" id="bad-EV-l4a"/>
-                        <segue destination="UBs-3I-YbD" kind="modal" identifier="segueMCustomSetting" id="yFN-Ed-run"/>
+                        <segue destination="dGD-ua-t8C" kind="modal" identifier="segueSetting" id="bad-EV-l4a"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -684,7 +683,7 @@
                 <controllerPlaceholder storyboardName="CustomSetting" referencedIdentifier="sidCustomSetting" id="dGD-ua-t8C" sceneMemberID="viewController"/>
                 <customObject id="IHg-xM-xde" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="240" y="6"/>
+            <point key="canvasLocation" x="286" y="222"/>
         </scene>
         <!--Current SessionVC-->
         <scene sceneID="ONU-9W-Aoo">
@@ -900,24 +899,16 @@
                         <outlet property="lblTitle" destination="fcC-Yh-zuU" id="bF2-21-4Pt"/>
                         <outlet property="lblWhy" destination="UJC-1z-6SY" id="yTT-Cj-ZtY"/>
                         <outlet property="sessionStack" destination="G6e-qz-915" id="VK0-gj-TOY"/>
-                        <segue destination="UBs-3I-YbD" kind="modal" identifier="segueCustomSetting" id="7Ll-ss-KfM"/>
+                        <segue destination="dGD-ua-t8C" kind="modal" identifier="segueCSetting" id="DNj-iT-t97"/>
                     </connections>
                 </viewController>
                 <customObject id="L7t-rD-EtH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-950" y="503"/>
-        </scene>
-        <!--sidSplitviewController-->
-        <scene sceneID="kuk-wG-bSF">
-            <objects>
-                <controllerPlaceholder storyboardName="CustomSetting" referencedIdentifier="sidSplitviewController" id="UBs-3I-YbD" sceneMemberID="viewController"/>
-                <customObject id="6pC-Xc-MVX" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-465" y="503"/>
+            <point key="canvasLocation" x="-203" y="524"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yFN-Ed-run"/>
+        <segue reference="bad-EV-l4a"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NSSmartBadgeTemplate" width="14" height="14"/>

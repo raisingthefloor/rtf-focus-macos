@@ -25,86 +25,81 @@
 
 import Cocoa
 
-class CustomSettingController: NSViewController, ItemHostSV {
+class CustomSettingController: NSViewController {
     @IBOutlet var topView: NSView!
-    @IBOutlet var btnClose: NSButton!
+    @IBOutlet var tblMenu: NSTableView!
     @IBOutlet var lblTitle: NSTextField!
-    @IBOutlet var scrollView: NSScrollView!
 
-    @IBOutlet var containerView: NSView!
-
-    @IBOutlet var stackView: CustomStackView!
-
-    var selectedSettig: SettingOptions = .none
+    @IBOutlet var righView: NSView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()
         setUpViews()
         bindData()
-    }
-
-    override func viewDidLayout() {
-        super.viewDidLayout()
-        scrollView.needsLayout = true
-        scrollView.needsDisplay = true
+        tableViewSetup()
     }
 }
 
 extension CustomSettingController: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
+        self.title = NSLocalizedString("Home.customize_focus", comment: "Customize Focus") 
+        lblTitle.stringValue = NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
     }
 
     func setUpViews() {
-        view.bgColor = .black
-
-        setupCollapseExpandViewC(SettingOptions.general_setting) // set controller's identifier which is set in storyboard
-        setupCollapseExpandViewC(SettingOptions.block_setting)
-        setupCollapseExpandViewC(SettingOptions.schedule_setting)
+        topView.background_color = Color.green_color
+        lblTitle.textColor = .white
     }
 
     func bindData() {
-        btnClose.target = self
-        btnClose.action = #selector(closeWindow(_:))
-    }
-
-    @objc func closeWindow(_ sender: Any) {
-//        if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-//            present(vc, animator: ViewShowAnimator())
-//        }
-        self.dismiss(nil)
+        let option = SettingOptions.setting_options[0]
+        if let generalSetting = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? GeneralSettingViewC {
+            generalSetting.view.frame = righView.bounds
+            righView.addSubview(generalSetting.view)
+        }
     }
 }
 
-extension CustomSettingController {
-    private func setupCollapseExpandViewC(_ settingOption: SettingOptions) {
-        let storyboard = NSStoryboard(name: "CustomSetting", bundle: nil)
-        guard let viewController = storyboard.instantiateController(withIdentifier: settingOption.identifier) as? BaseViewController else { return }
+// MARK: - NSTableViewDataSource
 
-        let containerView = viewController.headerContinerV!
-
-        containerView.header.disclose = {
-            self.disclose(containerView)
-            // self.closeOtherController(containerView)
-        }
-        stackView.addArrangedSubview(containerView.header.viewController.view)
-        stackView.addArrangedSubview(containerView.body.viewController.view)
-        stackView.continerViews.append(containerView)
-        if selectedSettig == settingOption {
-            show(containerView, animated: true)
-        } else {
-            hide(containerView, animated: false)
-        }
+extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
+    func tableViewSetup() {
+        tblMenu.delegate = self
+        tblMenu.dataSource = self
+        tblMenu.rowHeight = 60
+        let row = tblMenu.rowView(atRow: 0, makeIfNecessary: false)
+        row?.isSelected = true
     }
 
-    func closeOtherController(_ containerView: ItemContainerS) {
-        // One issue when tap on same button then it should be off not on
-        for view in stackView.continerViews {
-            guard let containerViewC = view else { return }
-            containerViewC.state = .on
-            disclose(containerViewC)
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return SettingOptions.setting_options.count
+    }
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameCell"), owner: nil) as? NSTableCellView {
+            cellText.textField?.stringValue = SettingOptions.setting_options[row].title
+            cellText.textField?.alignment = .center
+            cellText.textField?.textColor = .white
+            return cellText
         }
-        disclose(containerView)
+        return nil
+    }
+
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        let customView = RowView()
+        return customView
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        if let tblV = notification.object as? NSTableView {
+            let selectedRow = tblV.selectedRow
+            let option = SettingOptions.setting_options[selectedRow]
+            righView.removeSubviews()
+            if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") {
+                vc.view.frame = righView.bounds
+                righView.addSubview(vc.view)
+            }
+        }
     }
 }

@@ -20,10 +20,10 @@ class EditBlockListViewC: BaseViewController {
 
     @IBOutlet var lblCategoryTitle: NSTextField!
     @IBOutlet var tblCategory: NSTableView!
-    
+
     @IBOutlet var lblBlockAppTitle: NSTextField!
     @IBOutlet var tblBlock: NSTableView!
-    
+
     @IBOutlet var btnBAddApp: CustomButton!
     @IBOutlet var btnBAddWeb: CustomButton!
 
@@ -49,6 +49,8 @@ class EditBlockListViewC: BaseViewController {
     let viewModel: BlockListViewModelType = BlockListViewModel()
     var webSites: [Override_Block] = []
 
+    var blockList = ["email", "slack", "Skype", "LinkedIn", "Yahoo"]
+
     let cellIdentifier: String = "checkboxCellID"
     let addCellIdentifier: String = "addCellID"
 
@@ -65,19 +67,19 @@ extension EditBlockListViewC: BasicSetupType {
     func setUpText() {
         lblTitle.stringValue = NSLocalizedString("BS.title", comment: "Edit Blocklists")
         lblSubTitle.stringValue = NSLocalizedString("BS.subTitle", comment: "A blocklist is a group of apps, websites and other items that you can choose to block during a focus session. Learn more about Blocklists")
-        
+
         lblBlockTitle.stringValue = NSLocalizedString("BS.select_list", comment: "Select a blocklist to edit:")
         lblListTitle.stringValue = NSLocalizedString("BS.following_select_list", comment: "The following settings only apply to the selected blocklist")
-        
+
         lblCategoryTitle.stringValue = NSLocalizedString("BS.category_title", comment: "Block all items in these categories:")
         lblBlockAppTitle.stringValue = NSLocalizedString("BS.block_app_title", comment: "Also, block these apps & websites:")
-                
+
         btnBAddApp.title = NSLocalizedString("Button.add_app", comment: "Add App")
         btnBAddWeb.title = NSLocalizedString("Button.add_website", comment: "Add Website")
 
         btnNBAddApp.title = NSLocalizedString("Button.add_app", comment: "Add App")
         btnNBAddWeb.title = NSLocalizedString("Button.add_website", comment: "Add Website")
-        
+
         lblExceptionTitle.stringValue = NSLocalizedString("BS.exception_title", comment: "Exceptions to blocked items:")
         lblExceptionSubTitle.stringValue = NSLocalizedString("BS.exception_subtitle", comment: "These will not be blocked even if in one of the lists above:")
 
@@ -85,9 +87,9 @@ extension EditBlockListViewC: BasicSetupType {
         radioShortLongBreak.title = NSLocalizedString("BS.short_long_break", comment: "Unblock this blocklist during short and long breaks")
         radioLongBreak.title = NSLocalizedString("BS.long_break", comment: "Unblock this blocklist during long breaks only")
         radioAllBreak.title = NSLocalizedString("BS.all_break", comment: "Keep this blocklist blocked during all breaks")
-            
+
         lblEarlyTitle.stringValue = NSLocalizedString("BS.early_title", comment: "Discourage me from stopping early:")
-        
+
         radioStopAnyTime.title = NSLocalizedString("BS.stop_any_time", comment: "No, let me stop the focus session at any time")
         radioStopFocus.title = NSLocalizedString("BS.stop_focus_session", comment: "Yes, make me type to stop the focus session:")
         lblRandom.stringValue = NSLocalizedString("BS.random_chracter", comment: "random characters")
@@ -99,7 +101,7 @@ extension EditBlockListViewC: BasicSetupType {
         mainView.border_width = 0.6
         mainView.background_color = Color.light_green_color
         mainView.corner_radius = 6
-        
+
         btnBAddApp.buttonColor = Color.green_color
         btnBAddApp.activeButtonColor = Color.green_color
         btnBAddApp.textColor = .white
@@ -109,7 +111,7 @@ extension EditBlockListViewC: BasicSetupType {
         btnBAddWeb.activeButtonColor = Color.green_color
         btnBAddWeb.textColor = .white
         btnBAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
-        
+
         btnNBAddApp.buttonColor = Color.green_color
         btnNBAddApp.activeButtonColor = Color.green_color
         btnNBAddApp.textColor = .white
@@ -119,12 +121,9 @@ extension EditBlockListViewC: BasicSetupType {
         btnNBAddWeb.activeButtonColor = Color.green_color
         btnNBAddWeb.textColor = .white
         btnNBAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
-
-
     }
 
     func bindData() {
-        
         btnBAddWeb.target = self
         btnBAddWeb.action = #selector(addWebAction(_:))
 
@@ -137,7 +136,7 @@ extension EditBlockListViewC: BasicSetupType {
         btnNBAddApp.target = self
         btnNBAddApp.action = #selector(addAppAction(_:))
     }
-    
+
     @objc func addAppAction(_ sender: NSButton) {
     }
 
@@ -162,7 +161,6 @@ extension EditBlockListViewC: BasicSetupType {
             }
         })
     }
-
 }
 
 extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
@@ -178,5 +176,77 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblNotBlock.delegate = self
         tblNotBlock.dataSource = self
         tblNotBlock.usesAutomaticRowHeights = true
+    }
+
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return blockList.count
+    }
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        return setupCellForDifferentTable(tableView, viewFor: tableColumn, row: row)
+    }
+
+    func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if tableView == tblCategory {
+            
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.isEnabled = false
+                    cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
+                    cell.btnAddApp.title = blockList[row]
+                    return cell
+                }
+            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.tag = row
+                    cell.btnAddApp.target = self
+                    cell.btnAddApp.action = #selector(deleAppAction(_:))
+                    return cell
+                }
+            }
+
+        } else if tableView == tblBlock {
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.isEnabled = false
+                    cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
+                    cell.btnAddApp.title = blockList[row]
+                    return cell
+                }
+            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.tag = row
+                    cell.btnAddApp.target = self
+                    cell.btnAddApp.action = #selector(deleAppAction(_:))
+                    return cell
+                }
+            }
+
+        } else {
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.isEnabled = false
+                    cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
+                    cell.btnAddApp.title = blockList[row]
+                    return cell
+                }
+            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.tag = row
+                    cell.btnAddApp.target = self
+                    cell.btnAddApp.action = #selector(deleAppAction(_:))
+                    return cell
+                }
+            }
+        }
+
+        return nil
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        if let tblV = notification.object as? NSTableView {
+            let selectedRow = tblV.selectedRow
+            let option = blockList[selectedRow]
+        }
     }
 }
