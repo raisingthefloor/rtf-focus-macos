@@ -206,7 +206,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSetup() {
         tblView.delegate = self
         tblView.dataSource = self
-        tblView.usesAutomaticRowHeights = true        
+        tblView.usesAutomaticRowHeights = true
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {

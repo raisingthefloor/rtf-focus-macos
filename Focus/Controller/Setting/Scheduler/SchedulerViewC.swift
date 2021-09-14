@@ -26,7 +26,6 @@
 import Cocoa
 
 class SchedulerViewC: BaseViewController {
-    
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var lblSubTitle: NSTextField!
 
@@ -34,14 +33,12 @@ class SchedulerViewC: BaseViewController {
     @IBOutlet var mainView: NSView!
 
     @IBOutlet var tblSchedule: NSTableView!
-    
+
     @IBOutlet var checkBoxFocusTime: NSButton!
     @IBOutlet var popBreakTime: NSPopUpButton!
     @IBOutlet var lblBrekInfo: NSTextField!
     @IBOutlet var popFocusTime: NSPopUpButton!
     @IBOutlet var lblFocusInfo: NSTextField!
-
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +56,6 @@ extension SchedulerViewC: BasicSetupType {
         lblSubTitle.stringValue = NSLocalizedString("SS.subTitle", comment: "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)")
 
         lblInstruction.stringValue = NSLocalizedString("SS.instruction", comment: "Instructions")
-
     }
 
     func setUpViews() {
@@ -90,35 +86,33 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cellStatus.textField?.backgroundColor = NSColor.random
                 return cellStatus
             }
-        }  else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
             if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "comboId"), owner: nil) as? ComboBoxCell {
                 return cellCombo
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? LabelCell {
-             //   cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                //   cell.configScheduleActionCell(isPause: (row % 2) != 0)
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? LabelCell {
-              //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
                 return cell
             }
-        }
-        else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "daysId") {
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "daysId") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "weekdaysId"), owner: nil) as? WeekDaysCell {
+                cell.configDays()
                 return cell
             }
-        }
-        else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionId") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "buttonId"), owner: nil) as? ButtonCell {
-              //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionId") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
+                //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
                 return cell
             }
-        }
-        else {
-            if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "buttonId"), owner: nil) as? ButtonCell {
-              //  cellText.textField?.stringValue = "-"
+        } else {
+            if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteId"), owner: nil) as? ButtonCell {
+                //  cellText.textField?.stringValue = "-"
                 return cellText
             }
         }

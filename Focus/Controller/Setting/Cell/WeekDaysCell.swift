@@ -9,6 +9,8 @@
 import Cocoa
 
 class WeekDaysCell: NSTableCellView {
+    
+    @IBOutlet var stackView: NSStackView!
     @IBOutlet var btnDay: NSButton!
     @IBOutlet var btnM: NSButton!
     @IBOutlet var btnT: NSButton!
@@ -44,8 +46,50 @@ extension WeekDaysCell: BasicSetupType {
         btnDay.target = target
         btnDay.tag = BlockType.application.rawValue
     }
-
-    func configScheduleActionCell(isPause: Bool) {
-        btnDay.title = isPause ? "🚫" : "⏸"
+    
+    func configDays(){
+        for day in WeekDays.days {
+            let btn = NSButton(frame: NSRect(x: 0, y: 0, width: 25, height: 25))
+            btn.tag = day.rawValue
+            btn.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+            btn.title = day.short_name
+            btn.corner_radius = btn.frame.height / 2
+            btn.border_color = .black
+            btn.border_width = 0.5
+            stackView.addArrangedSubview(btn)
+        }
     }
+
+}
+
+
+enum WeekDays: Int, CaseIterable {
+    case mon = 0
+    case tue
+    case wed
+    case thu
+    case fri
+    case sat
+    case sun
+    
+    var short_name: String {
+        switch self {
+        case .mon:
+            return "M"
+        case .tue:
+            return "T"
+        case .wed:
+            return "W"
+        case .thu:
+            return "T"
+        case .fri:
+            return "F"
+        case .sat:
+            return "S"
+        case .sun:
+            return "S"
+        }
+    }
+    
+    static var days: [WeekDays] = WeekDays.allCases
 }
