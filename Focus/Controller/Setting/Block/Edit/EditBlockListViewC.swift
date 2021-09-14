@@ -9,6 +9,7 @@
 import Cocoa
 
 class EditBlockListViewC: BaseViewController {
+    @IBOutlet var scrollView: NSScrollView!
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var lblSubTitle: NSTextField!
 
@@ -65,6 +66,10 @@ class EditBlockListViewC: BaseViewController {
         setUpViews()
         bindData()
         tableViewSetup()
+    }
+
+    override func scrollWheel(with event: NSEvent) {
+        super.scrollWheel(with: event)
     }
 }
 
@@ -126,27 +131,24 @@ extension EditBlockListViewC: BasicSetupType {
         btnNBAddWeb.activeButtonColor = Color.green_color
         btnNBAddWeb.textColor = .white
         btnNBAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
-        
+
         listCategoryContainerV.border_color = Color.dark_grey_border
         listCategoryContainerV.border_width = 0.5
         listCategoryContainerV.background_color = .white
         listCategoryContainerV.corner_radius = 4
-        
+
         listBlocklContainerV.border_color = Color.dark_grey_border
         listBlocklContainerV.border_width = 0.5
         listBlocklContainerV.background_color = .white
         listBlocklContainerV.corner_radius = 4
 
-        
         listNotBContainerV.border_color = Color.dark_grey_border
         listNotBContainerV.border_width = 0.5
         listNotBContainerV.background_color = .white
         listNotBContainerV.corner_radius = 4
 
-        
         btnBContainerV.background_color = Color.list_bg_color
         btnNBContainerV.background_color = Color.list_bg_color
-
     }
 
     func bindData() {
@@ -194,14 +196,17 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblCategory.delegate = self
         tblCategory.dataSource = self
         tblCategory.usesAutomaticRowHeights = true
+        tblCategory.reloadData()
 
         tblBlock.delegate = self
         tblBlock.dataSource = self
         tblBlock.usesAutomaticRowHeights = true
+        tblBlock.reloadData()
 
         tblNotBlock.delegate = self
         tblNotBlock.dataSource = self
         tblNotBlock.usesAutomaticRowHeights = true
+        tblNotBlock.reloadData()
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -213,57 +218,52 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if tableView == tblCategory {
+        if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
             
-            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.isEnabled = false
-                    cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
-                    cell.btnAddApp.title = blockList[row]
-                    return cell
-                }
-            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.tag = row
-                    cell.btnAddApp.target = self
-                    cell.btnAddApp.action = #selector(deleAppAction(_:))
                     return cell
                 }
-            }
 
-        } else if tableView == tblBlock {
-            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.isEnabled = false
-                    cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
-                    cell.btnAddApp.title = blockList[row]
-                    return cell
-                }
-            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.tag = row
-                    cell.btnAddApp.target = self
-                    cell.btnAddApp.action = #selector(deleAppAction(_:))
-                    return cell
+            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
+                if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
+                    categoryCell.configCell()
+                    return categoryCell
                 }
             }
-
-        } else {
-            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.isEnabled = false
-                    cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
-                    cell.btnAddApp.title = blockList[row]
-                    return cell
+            return nil
+        } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+            
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier1") {
+                if let bCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
+                    bCell.configCell()
+                    return bCell
                 }
-            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.tag = row
-                    cell.btnAddApp.target = self
-                    cell.btnAddApp.action = #selector(deleAppAction(_:))
-                    return cell
+            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier1") {
+                if let dCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
+                    dCell.btnAddApp.tag = row
+                    dCell.btnAddApp.target = self
+                    dCell.btnAddApp.action = #selector(deleAppAction(_:))
+                    return dCell
                 }
             }
+            return nil
+        } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "exceptionIdentifier") {
+            
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier2") {
+                if let nBCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
+                    nBCell.configCell()
+                    return nBCell
+                }
+            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier2") {
+                if let deleteCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
+                    deleteCell.btnAddApp.tag = row
+                    deleteCell.btnAddApp.target = self
+                    deleteCell.btnAddApp.action = #selector(deleAppAction(_:))
+                    return deleteCell
+                }
+            }
+            return nil
         }
 
         return nil
