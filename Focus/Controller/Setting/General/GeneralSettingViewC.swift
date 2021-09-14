@@ -42,12 +42,12 @@ class GeneralSettingViewC: BaseViewController {
     @IBOutlet var lblUnblockingTitle: NSTextField!
     @IBOutlet var lblUnblockingInfo: NSTextField!
 
-    @IBOutlet weak var listContainerV: NSView!
+    @IBOutlet var listContainerV: NSView!
     @IBOutlet var tblView: NSTableView!
 
     @IBOutlet var lblOverrideInfo: NSTextField!
 
-    @IBOutlet weak var btnContainerV: NSView!
+    @IBOutlet var btnContainerV: NSView!
     @IBOutlet var lblListInfo: NSTextField!
     @IBOutlet var btnAddApp: CustomButton!
     @IBOutlet var btnAddWeb: CustomButton!
@@ -72,7 +72,7 @@ extension GeneralSettingViewC: BasicSetupType {
         lblBehaviorTitle.stringValue = NSLocalizedString("GS.behaviorTitle", comment: "Behavior during focus sessions:")
         checkBoxWarning.title = NSLocalizedString("GS.before_warning", comment: "Don't give me a 5 minute warning before scheduled focus sessions start")
 //        lbllockInfo.stringValue = NSLocalizedString("GS.lock_computer_info", comment: "(To force me to take a break away from computer for at LEAST 1 min.)")
-        
+
         checkBoxFocusTime.title = NSLocalizedString("GS.provide_focus_time", comment: "Provide short")
         lblBrekInfo.stringValue = NSLocalizedString("GS.break_for", comment: "breaks for every")
         lblFocusInfo.stringValue = NSLocalizedString("GS.schedule_session", comment: "of scheduled Focus sessions")
@@ -93,7 +93,7 @@ extension GeneralSettingViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        self.view.background_color = .white
+        view.background_color = .white
         btnAddApp.buttonColor = Color.green_color
         btnAddApp.activeButtonColor = Color.green_color
         btnAddApp.textColor = .white
@@ -103,12 +103,39 @@ extension GeneralSettingViewC: BasicSetupType {
         btnAddWeb.activeButtonColor = Color.green_color
         btnAddWeb.textColor = .white
         btnAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
-        
+
         listContainerV.border_color = Color.dark_grey_border
         listContainerV.border_width = 0.5
         listContainerV.background_color = .white
         listContainerV.corner_radius = 4
+        
         btnContainerV.background_color = Color.list_bg_color
+        
+        lblBehaviorTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblBehaviorTitle.textColor = .black
+        
+        checkBoxWarning.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        checkBoxFocusTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        
+        lblBrekInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblBrekInfo.textColor = .black
+        lblFocusInfo.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblFocusInfo.textColor = .black
+
+        checkBoxShowTimer.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        checkBoxEachBreak.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        
+        lblUnblockingTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblUnblockingTitle.textColor = .black
+        
+        lblUnblockingInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
+        lblUnblockingInfo.textColor = .black
+        
+        lblOverrideInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblOverrideInfo.textColor = .black
+
+        lblListInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
+        lblListInfo.textColor = .black
     }
 
     func bindData() {
@@ -117,21 +144,18 @@ extension GeneralSettingViewC: BasicSetupType {
 
         btnAddApp.target = self
         btnAddApp.action = #selector(addAppAction(_:))
-        
+
         popFocusTime.menu = Focus.FocusTime.focustimes
         popFocusTime.target = self
         popFocusTime.action = #selector(foucsTimeSelection(_:))
-        
+
         popBreakTime.menu = Focus.BreakTime.breaktimes
         popBreakTime.target = self
         popBreakTime.action = #selector(breakTimeSelection(_:))
-
-
     }
 }
 
 extension GeneralSettingViewC {
-    
     @IBAction func foucsTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         print("Selected Focus Time:", popup.titleOfSelectedItem ?? "")
@@ -190,17 +214,14 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-//        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
-//            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
-//                return cell
-//            }
-//
-//        } else
-        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ButtonCell {
-                cell.btnAddApp.isEnabled = false
-                cell.btnAddApp.image = #imageLiteral(resourceName: "ic_info_filled")
-                cell.btnAddApp.title = blockList[row]
+        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
+                return cell
+            }
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
+                cell.configCell()
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {

@@ -48,10 +48,19 @@ extension LabelCell: BasicSetupType {
 
     func setUpViews() {
         if lblTitle != nil {
-            lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+            lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .medium)
         }
     }
 }
+
+extension LabelCell {
+    func configSettingMenu(value: String){
+        lblTitle.stringValue = value
+        lblTitle.textColor = .white
+    }
+}
+
+
 
 class RowView: NSTableRowView {
     override func draw(_ dirtyRect: NSRect) {

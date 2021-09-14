@@ -88,7 +88,7 @@
 "GS.countdown_timer" = "Show count down timer in minutes for break start and end";
 "GS.block_screen_each" = "Block screen for the first minute of each break to encourage me to stand up and stretch";
 "GS.unblockingtitle" = "Allow me to temporarily unblock these items during focus sessions:";
-"GS.unblockinginfo" = "If you need access to a program or website, but it is blocked during a focus session, then you can \nuse this feature to unblock it.";
+"GS.unblockinginfo" = "If you need access to a program or website, but it is blocked during a focus session, \nthen you can use this feature to unblock it.";
 "GS.allowinfo" = "This feature  allows user to override a block for the rest of the day.";
 "GS.overrideinfo" = "Check an item below to unblock it until midnight (or until you uncheck it):";
 "GS.edit_list" = "Edit List";

@@ -18,18 +18,23 @@ class EditBlockListViewC: BaseViewController {
     @IBOutlet var comboBlock: NSPopUpButton!
     @IBOutlet var lblListTitle: NSTextField!
 
+    @IBOutlet var listCategoryContainerV: NSView!
     @IBOutlet var lblCategoryTitle: NSTextField!
     @IBOutlet var tblCategory: NSTableView!
 
+    @IBOutlet var listBlocklContainerV: NSView!
     @IBOutlet var lblBlockAppTitle: NSTextField!
     @IBOutlet var tblBlock: NSTableView!
 
+    @IBOutlet var btnBContainerV: NSView!
     @IBOutlet var btnBAddApp: CustomButton!
     @IBOutlet var btnBAddWeb: CustomButton!
 
+    @IBOutlet var listNotBContainerV: NSView!
     @IBOutlet var lblExceptionTitle: NSTextField!
     @IBOutlet var lblExceptionSubTitle: NSTextField!
     @IBOutlet var tblNotBlock: NSTableView!
+    @IBOutlet var btnNBContainerV: NSView!
     @IBOutlet var btnNBAddApp: CustomButton!
     @IBOutlet var btnNBAddWeb: CustomButton!
 
@@ -121,6 +126,27 @@ extension EditBlockListViewC: BasicSetupType {
         btnNBAddWeb.activeButtonColor = Color.green_color
         btnNBAddWeb.textColor = .white
         btnNBAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        
+        listCategoryContainerV.border_color = Color.dark_grey_border
+        listCategoryContainerV.border_width = 0.5
+        listCategoryContainerV.background_color = .white
+        listCategoryContainerV.corner_radius = 4
+        
+        listBlocklContainerV.border_color = Color.dark_grey_border
+        listBlocklContainerV.border_width = 0.5
+        listBlocklContainerV.background_color = .white
+        listBlocklContainerV.corner_radius = 4
+
+        
+        listNotBContainerV.border_color = Color.dark_grey_border
+        listNotBContainerV.border_width = 0.5
+        listNotBContainerV.background_color = .white
+        listNotBContainerV.corner_radius = 4
+
+        
+        btnBContainerV.background_color = Color.list_bg_color
+        btnNBContainerV.background_color = Color.list_bg_color
+
     }
 
     func bindData() {

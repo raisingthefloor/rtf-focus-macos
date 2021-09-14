@@ -27,6 +27,7 @@ import Cocoa
 
 class CustomSettingController: NSViewController {
     @IBOutlet var topView: NSView!
+    @IBOutlet var leftView: NSView!
     @IBOutlet var tblMenu: NSTableView!
     @IBOutlet var lblTitle: NSTextField!
 
@@ -43,12 +44,15 @@ class CustomSettingController: NSViewController {
 
 extension CustomSettingController: BasicSetupType {
     func setUpText() {
-        self.title = NSLocalizedString("Home.customize_focus", comment: "Customize Focus") 
+        title = NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
         lblTitle.stringValue = NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
     }
 
     func setUpViews() {
-        topView.background_color = Color.green_color
+        topView.background_color = Color.top_title_green_color
+        tblMenu.backgroundColor = Color.green_color
+        leftView.background_color = Color.green_color
+        righView.background_color = .white
         lblTitle.textColor = .white
     }
 
@@ -67,7 +71,7 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSetup() {
         tblMenu.delegate = self
         tblMenu.dataSource = self
-        tblMenu.rowHeight = 60
+        tblMenu.rowHeight = 34
         let row = tblMenu.rowView(atRow: 0, makeIfNecessary: false)
         row?.isSelected = true
     }
@@ -77,10 +81,8 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameCell"), owner: nil) as? NSTableCellView {
-            cellText.textField?.stringValue = SettingOptions.setting_options[row].title
-            cellText.textField?.alignment = .center
-            cellText.textField?.textColor = .white
+        if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameCell"), owner: nil) as? LabelCell {
+            cellText.configSettingMenu(value: SettingOptions.setting_options[row].title)
             return cellText
         }
         return nil
@@ -94,11 +96,13 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let tblV = notification.object as? NSTableView {
             let selectedRow = tblV.selectedRow
-            let option = SettingOptions.setting_options[selectedRow]
-            righView.removeSubviews()
-            if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") {
-                vc.view.frame = righView.bounds
-                righView.addSubview(vc.view)
+            if selectedRow != -1 {
+                let option = SettingOptions.setting_options[selectedRow]
+                righView.removeSubviews()
+                if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") {
+                    vc.view.frame = righView.bounds
+                    righView.addSubview(vc.view)
+                }
             }
         }
     }

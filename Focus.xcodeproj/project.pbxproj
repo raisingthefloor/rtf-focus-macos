@@ -13,6 +13,7 @@
 		3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C5FF926A187560022C43F /* OverrideBlockListVC.swift */; };
 		3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F3C5FFA26A187560022C43F /* OverrideBlockListVC.xib */; };
 		3F3C5FFE26A1919C0022C43F /* BlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C5FFD26A1919C0022C43F /* BlockModel.swift */; };
+		3F42D47326F06D4A0046D09A /* ImageTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42D47226F06D4A0046D09A /* ImageTextCell.swift */; };
 		3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F44CFD12679FAAA00122B1B /* AppDelegate.swift */; };
 		3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F44CFD52679FAAD00122B1B /* Assets.xcassets */; };
 		3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C3357269D56AD0016F5E1 /* GeneralSettingModel.swift */; };
@@ -91,6 +92,7 @@
 		3F3C5FF926A187560022C43F /* OverrideBlockListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideBlockListVC.swift; sourceTree = "<group>"; };
 		3F3C5FFA26A187560022C43F /* OverrideBlockListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverrideBlockListVC.xib; sourceTree = "<group>"; };
 		3F3C5FFD26A1919C0022C43F /* BlockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockModel.swift; sourceTree = "<group>"; };
+		3F42D47226F06D4A0046D09A /* ImageTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTextCell.swift; sourceTree = "<group>"; };
 		3F44CFCE2679FAAA00122B1B /* Focus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F44CFD12679FAAA00122B1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F44CFD52679FAAD00122B1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				3F6D0BD5269818F9002E6711 /* LabelCell.swift */,
 				3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */,
 				3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */,
+				3F42D47226F06D4A0046D09A /* ImageTextCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				3F58B09226D6224900D730D9 /* SessionInfoView.swift in Sources */,
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,
+				3F42D47326F06D4A0046D09A /* ImageTextCell.swift in Sources */,
 				3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */,
 				3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
