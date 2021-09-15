@@ -70,6 +70,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblSchedule.delegate = self
         tblSchedule.dataSource = self
         tblSchedule.usesAutomaticRowHeights = true
+        tblSchedule.allowsColumnReordering = false
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -91,12 +92,12 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                 return cellCombo
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? LabelCell {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? DateTimeCell {
                 //   cell.configScheduleActionCell(isPause: (row % 2) != 0)
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? LabelCell {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? DateTimeCell {
                 //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
                 return cell
             }
@@ -118,6 +119,12 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         }
         return nil
     }
+    
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        let view = ClearRowView()
+        return view
+    }
+
 }
 
 private extension NSColor {

@@ -45,6 +45,8 @@
 		3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F2268DD78500706B51 /* ButtonCell.swift */; };
 		3F9147CB26E648B000449D4B /* SessionCompleteDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */; };
 		3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F9147CA26E648B000449D4B /* SessionCompleteDialogueViewC.xib */; };
+		3F92BC1B26F1DE7800AC7C64 /* DateTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92BC1A26F1DE7800AC7C64 /* DateTimeCell.swift */; };
+		3F92BC1E26F1F30300AC7C64 /* TodayScheduleViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92BC1D26F1F30300AC7C64 /* TodayScheduleViewC.swift */; };
 		3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC498268B0CB100AC3026 /* CustomSettingModel.swift */; };
 		3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */; };
 		3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC49C268B2BE800AC3026 /* HeaderView.storyboard */; };
@@ -127,6 +129,8 @@
 		3F9111F2268DD78500706B51 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteDialogueViewC.swift; sourceTree = "<group>"; };
 		3F9147CA26E648B000449D4B /* SessionCompleteDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionCompleteDialogueViewC.xib; sourceTree = "<group>"; };
+		3F92BC1A26F1DE7800AC7C64 /* DateTimeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeCell.swift; sourceTree = "<group>"; };
+		3F92BC1D26F1F30300AC7C64 /* TodayScheduleViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayScheduleViewC.swift; sourceTree = "<group>"; };
 		3F9CC498268B0CB100AC3026 /* CustomSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSettingModel.swift; sourceTree = "<group>"; };
 		3F9CC49A268B296400AC3026 /* CollapseExpandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapseExpandView.swift; sourceTree = "<group>"; };
 		3F9CC49C268B2BE800AC3026 /* HeaderView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HeaderView.storyboard; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 		3F4DFA3526835D6F0013BA0C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				3F92BC1C26F1F2AF00AC7C64 /* TodaySchedule */,
 				3F9111E7268D95A200706B51 /* Cell */,
 				3F9CC4A7268B3D8800AC3026 /* Scheduler */,
 				3F9CC4A4268B3D2800AC3026 /* Block */,
@@ -360,6 +365,7 @@
 				3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */,
 				3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */,
 				3F42D47226F06D4A0046D09A /* ImageTextCell.swift */,
+				3F92BC1A26F1DE7800AC7C64 /* DateTimeCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -371,6 +377,14 @@
 				3F9147CA26E648B000449D4B /* SessionCompleteDialogueViewC.xib */,
 			);
 			path = Completed;
+			sourceTree = "<group>";
+		};
+		3F92BC1C26F1F2AF00AC7C64 /* TodaySchedule */ = {
+			isa = PBXGroup;
+			children = (
+				3F92BC1D26F1F30300AC7C64 /* TodayScheduleViewC.swift */,
+			);
+			path = TodaySchedule;
 			sourceTree = "<group>";
 		};
 		3F9CC49E268B2C5F00AC3026 /* Header */ = {
@@ -686,11 +700,13 @@
 				3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */,
 				3F3C5FF726A17F6D0022C43F /* DBManagerModel.swift in Sources */,
 				3F7872CF26B803970076FA83 /* AppManager.swift in Sources */,
+				3F92BC1B26F1DE7800AC7C64 /* DateTimeCell.swift in Sources */,
 				3F8A231926D757D100D575F7 /* ExAttributedString.swift in Sources */,
 				3F3C5FFE26A1919C0022C43F /* BlockModel.swift in Sources */,
 				3F9CC4A9268B3DA000AC3026 /* SchedulerViewC.swift in Sources */,
 				3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */,
 				3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */,
+				3F92BC1E26F1F30300AC7C64 /* TodayScheduleViewC.swift in Sources */,
 				3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */,
 				3F58B08E26D6163800D730D9 /* CurrentSessionVC.swift in Sources */,
 				3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */,

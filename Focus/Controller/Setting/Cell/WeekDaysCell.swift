@@ -1,10 +1,27 @@
-//
-//  WeekDaysCell.swift
-//  Focus
-//
-//  Created by Bhavi on 13/09/21.
-//  Copyright © 2021 Raising the Floor. All rights reserved.
-//
+/*
+ Copyright 2020 Raising the Floor - International
+
+ Licensed under the New BSD license. You may not use this file except in
+ compliance with this License.
+
+ You may obtain a copy of the License at
+ https://github.com/GPII/universal/blob/master/LICENSE.txt
+
+ The R&D leading to these results received funding from the:
+ * Rehabilitation Services Administration, US Dept. of Education under
+   grant H421A150006 (APCP)
+ * National Institute on Disability, Independent Living, and
+   Rehabilitation Research (NIDILRR)
+ * Administration for Independent Living & Dept. of Education under grants
+   H133E080022 (RERC-IT) and H133E130028/90RE5003-01-00 (UIITA-RERC)
+ * European Union's Seventh Framework Programme (FP7/2007-2013) grant
+   agreement nos. 289016 (Cloud4all) and 610510 (Prosperity4All)
+ * William and Flora Hewlett Foundation
+ * Ontario Ministry of Research and Innovation
+ * Canadian Foundation for Innovation
+ * Adobe Foundation
+ * Consumer Electronics Association Foundation
+ */
 
 import Cocoa
 
@@ -49,14 +66,20 @@ extension WeekDaysCell: BasicSetupType {
     
     func configDays(){
         for day in WeekDays.days {
-            let btn = NSButton(frame: NSRect(x: 0, y: 0, width: 25, height: 25))
+            let view = NSView(frame: NSRect(x: 0, y: 0, width: 18, height: 18))
+            let btn = CustomButton(frame: NSRect(x: 0, y: 0, width: 18, height: 18))
             btn.tag = day.rawValue
             btn.font = NSFont.systemFont(ofSize: 10, weight: .regular)
             btn.title = day.short_name
+            btn.alignment = .center
             btn.corner_radius = btn.frame.height / 2
-            btn.border_color = .black
-            btn.border_width = 0.5
-            stackView.addArrangedSubview(btn)
+            btn.textColor = ((day.rawValue % 2) != 0) ? .black : .white
+            btn.buttonColor =  ((day.rawValue % 2) != 0) ? .white : .blue
+            btn.activeButtonColor = ((day.rawValue % 2) != 0) ? .white : .blue
+            btn.borderWidth = 0.5
+            btn.borderColor = .black
+            view.addSubview(btn)
+            stackView.addArrangedSubview(view)
         }
     }
 

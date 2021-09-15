@@ -25,35 +25,11 @@
 
 import Cocoa
 
-class ImageTextCell: NSTableCellView {
+class TodayScheduleViewC: NSViewController {
 
-    @IBOutlet var lblTitle: NSTextField!
-    @IBOutlet var imgV: NSImageView!
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
-
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        setUpText()
-        setUpViews()
-    }
-}
-
-extension ImageTextCell: BasicSetupType {
-    func setUpText() {
-        
-    }
-
-    func setUpViews() {
-        if lblTitle != nil {
-            lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do view setup here.
     }
     
-    func configCell(){
-        lblTitle.stringValue = "Skype"
-        imgV.image = NSImage(named: "ic_info_filled")
-    }
 }

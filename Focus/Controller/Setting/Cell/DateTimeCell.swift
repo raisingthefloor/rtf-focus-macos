@@ -1,6 +1,3 @@
-//
-//  LabelCell.swift
-//  Focus
 /*
  Copyright 2020 Raising the Floor - International
 
@@ -28,8 +25,8 @@
 
 import Cocoa
 
-class LabelCell: NSTableCellView {
-    @IBOutlet var lblTitle: NSTextField!
+class DateTimeCell: NSTableCellView {
+    @IBOutlet var datetimePicker: NSDatePicker!
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -42,42 +39,10 @@ class LabelCell: NSTableCellView {
     }
 }
 
-extension LabelCell: BasicSetupType {
+extension DateTimeCell: BasicSetupType {
     func setUpText() {
     }
 
     func setUpViews() {
-        if lblTitle != nil {
-            lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .medium)
-        }
-    }
-}
-
-extension LabelCell {
-    func configSettingMenu(value: String) {
-        lblTitle.stringValue = value
-        lblTitle.textColor = .white
-    }
-}
-
-class RowView: NSTableRowView {
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-
-        if isSelected == true {
-            Color.selected_row_color.set()
-            dirtyRect.fill()
-        } else {
-            Color.green_color.set()
-            dirtyRect.fill()
-        }
-    }
-}
-
-class ClearRowView: NSTableRowView {
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        NSColor.white.set()
-        dirtyRect.fill()
     }
 }
