@@ -121,13 +121,10 @@
 "SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)";
 "SS.instruction" = "Instructions";
 
-"SS.scheduleinfo1" = "(You can also choose to just get reminders without blocking)";
-"SS.scheduleinfo2" = "(STOP buttons will stop focus sessions at any time)";
-"SS.option1" = "1) Choose a BlockList to schedule in column 1 using the pull down";
-"SS.option2" = "2) Type or select the time you want to start and stop. (Any hour and minute)";
-"SS.option3" = "3) Click on the days you want it to be active";
-"SS.pauseinfo" = "To pause (disable) any line in the table, click on the “Pause” button ⏸ in the 1st column";
-"SS.clmninfo" = "(Click on the top of the 🚫 column to pause (disable) all)";
+"TS.title" = "Today’s Schedule";
+"TS.subTitle" = "These are the focus sessions you scheduled for today. You can edit today’s schedule, but you can only edit or disable a scheduled focus session before it starts.";
+"TS.change" = "Changes made on this page are one-time and will only affect your schedule TODAY.";
+
 
 "Alert.break_time" = "Time for a break!";
 "Alert.break_time_extented_title" = "I want to focus a little longer. Remind me to break again in:";

@@ -57,7 +57,7 @@ enum SettingOptions: Int, CaseIterable {
         case .schedule_setting:
             return "SchedulerView"
         default:
-            return "SchedulerView"
+            return "TodayScheduleView"
         }
     }
 
@@ -70,7 +70,7 @@ enum SettingOptions: Int, CaseIterable {
         case .schedule_setting:
             return SchedulerViewC.self
         default:
-            return SchedulerViewC.self
+            return TodayScheduleViewC.self
         }
     }
 

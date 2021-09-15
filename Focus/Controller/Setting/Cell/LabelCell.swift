@@ -29,6 +29,7 @@
 import Cocoa
 
 class LabelCell: NSTableCellView {
+    @IBOutlet var view: NSView!
     @IBOutlet var lblTitle: NSTextField!
 
     override func prepareForReuse() {

@@ -253,8 +253,8 @@
 		3F4DFA3526835D6F0013BA0C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				3F92BC1C26F1F2AF00AC7C64 /* TodaySchedule */,
 				3F9111E7268D95A200706B51 /* Cell */,
+				3F92BC1C26F1F2AF00AC7C64 /* TodaySchedule */,
 				3F9CC4A7268B3D8800AC3026 /* Scheduler */,
 				3F9CC4A4268B3D2800AC3026 /* Block */,
 				3F9CC4A1268B3C6F00AC3026 /* General */,

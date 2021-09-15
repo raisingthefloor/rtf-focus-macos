@@ -126,7 +126,3 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
 }
-
-private extension NSColor {
-    class var random: NSColor { return colors[Int(arc4random_uniform(UInt32(colors.count)))] }
-}
