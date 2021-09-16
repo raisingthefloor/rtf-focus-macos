@@ -32,7 +32,7 @@ let appDelegate = NSApplication.shared.delegate as? AppDelegate
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    var customSetting = NSStoryboard(name: "CustomSetting", bundle: nil).instantiateController(withIdentifier: "WindowController") as? WindowController
+    var customSetting = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "WindowController") as? WindowController
     var browserBridge: AppleScriptProtocol?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {

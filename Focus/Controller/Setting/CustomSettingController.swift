@@ -61,6 +61,7 @@ extension CustomSettingController: BasicSetupType {
         if let generalSetting = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? GeneralSettingViewC {
             generalSetting.view.frame = righView.bounds
             righView.addSubview(generalSetting.view)
+            generalSetting.reloadView()
         }
     }
 }
@@ -74,6 +75,9 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
         tblMenu.rowHeight = 34
         let row = tblMenu.rowView(atRow: 0, makeIfNecessary: false)
         row?.isSelected = true
+        let selectedRowIndexes = IndexSet(integer: 0)
+        tblMenu.reloadData()
+        tblMenu.selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -99,9 +103,10 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
             if selectedRow != -1 {
                 let option = SettingOptions.setting_options[selectedRow]
                 righView.removeSubviews()
-                if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") {
+                if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? BaseViewController {
                     vc.view.frame = righView.bounds
                     righView.addSubview(vc.view)
+                    vc.reloadView()
                 }
             }
         }

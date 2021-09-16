@@ -87,6 +87,12 @@ class EditBlockListViewC: BaseViewController {
     override func scrollWheel(with event: NSEvent) {
         super.scrollWheel(with: event)
     }
+
+    override func reloadView() {
+        tblBlock.reloadData()
+        tblCategory.reloadData()
+        tblNotBlock.reloadData()
+    }
 }
 
 extension EditBlockListViewC: BasicSetupType {
@@ -235,7 +241,6 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
-            
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
                     return cell
@@ -249,7 +254,6 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
             return nil
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
-            
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier1") {
                 if let bCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
                     bCell.configCell()
@@ -265,7 +269,6 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
             return nil
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "exceptionIdentifier") {
-            
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier2") {
                 if let nBCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
                     nBCell.configCell()

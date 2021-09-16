@@ -65,6 +65,10 @@ class GeneralSettingViewC: BaseViewController {
         bindData()
         tableViewSetup()
     }
+    
+    override func reloadView() {
+        tblView.reloadData()
+    }
 }
 
 extension GeneralSettingViewC: BasicSetupType {
@@ -207,6 +211,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblView.delegate = self
         tblView.dataSource = self
         tblView.usesAutomaticRowHeights = true
+        self.tblView.reloadData()
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {

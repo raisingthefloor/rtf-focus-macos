@@ -209,3 +209,11 @@ public extension NSView {
 extension NSColor {
     class var random: NSColor { return colors[Int(arc4random_uniform(UInt32(colors.count)))] }
 }
+
+extension NSTableView {
+    func reloadDataKeepingSelection() {
+        let selectedRowIndexes = self.selectedRowIndexes
+        reloadData()
+        selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
+    }
+}

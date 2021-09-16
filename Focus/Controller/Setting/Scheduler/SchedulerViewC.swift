@@ -48,6 +48,11 @@ class SchedulerViewC: BaseViewController {
         bindData()
         tableViewSetup()
     }
+
+    override func reloadView() {
+        tblSchedule.reloadData()
+    }
+
 }
 
 extension SchedulerViewC: BasicSetupType {
@@ -74,7 +79,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return 6
+        return 10
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

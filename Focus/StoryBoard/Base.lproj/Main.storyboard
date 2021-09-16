@@ -9,7 +9,7 @@
         <!--Window Controller-->
         <scene sceneID="Zj8-xp-QCR">
             <objects>
-                <windowController id="qTV-Uq-wDw" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="WindowController" id="qTV-Uq-wDw" customClass="WindowController" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="SJx-W8-J7c">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -301,7 +301,7 @@
                                                         </buttonCell>
                                                     </button>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tu-6L-z8G">
-                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="27"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="233" height="27"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liH-U3-c4W">
                                                                 <rect key="frame" x="0.0" y="0.0" width="233" height="27"/>

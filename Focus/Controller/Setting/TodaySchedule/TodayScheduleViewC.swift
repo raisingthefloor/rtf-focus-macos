@@ -26,18 +26,16 @@
 import Cocoa
 
 class TodayScheduleViewC: BaseViewController {
-    
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var lblSubTitle: NSTextField!
 
     @IBOutlet var lblChange: NSTextField!
-    
+
     @IBOutlet var scheduleView: NSView!
     @IBOutlet var tblSchedule: NSTableView!
-    
+
     @IBOutlet var statusView: NSView!
     @IBOutlet var tblStatus: NSTableView!
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +44,10 @@ class TodayScheduleViewC: BaseViewController {
         setUpViews()
         bindData()
         tableViewSetup()
+    }
+
+    override func reloadView() {
+        tblSchedule.reloadData()
     }
 }
 
@@ -81,7 +83,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCell(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView? {
-         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
             if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? LabelCell {
                 cellCombo.view.background_color = NSColor.random
                 return cellCombo
@@ -94,7 +96,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? LabelCell {
                 return cell
             }
-        } else  {
+        } else {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
                 return cell
             }
@@ -102,5 +104,3 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         return nil
     }
 }
-
-

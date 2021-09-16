@@ -30,7 +30,6 @@ protocol DismissViewCDelegate: AnyObject {
 }
 
 class BaseViewController: NSViewController, ItemBody {
-
     typealias alertActionClosure = (_ value: String, _ action: Bool) -> Void
 
     //  header title.
@@ -52,6 +51,9 @@ class BaseViewController: NSViewController, ItemBody {
         headerViewC.title = self.setTitle()
         return ItemContainerS(header: headerViewC, body: self)
     }()
+
+    func reloadView() {
+    }
 }
 
 extension BaseViewController {
