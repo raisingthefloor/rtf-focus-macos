@@ -51,9 +51,6 @@ class BaseViewController: NSViewController, ItemBody {
         headerViewC.title = self.setTitle()
         return ItemContainerS(header: headerViewC, body: self)
     }()
-
-    func reloadView() {
-    }
 }
 
 extension BaseViewController {

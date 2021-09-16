@@ -85,13 +85,32 @@ class EditBlockListViewC: BaseViewController {
     }
 
     override func scrollWheel(with event: NSEvent) {
-        super.scrollWheel(with: event)
+        if !event.momentumPhase.isEmpty || !event.phase.isEmpty {
+            // magic trackpad or magic mouse
+            super.scrollWheel(with: event)
+        } else if event.modifierFlags.contains(.option) {
+            // traditional mouse
+            if let centerPoint = scrollView.documentView?.convert(event.locationInWindow, from: nil) {
+                let linearVal = CGFloat(log2(scrollView.magnification))
+                var linearDeltaY = event.scrollingDeltaY * 0.01
+                if !event.hasPreciseScrollingDeltas {
+                    linearDeltaY *= scrollView.verticalLineScroll
+                }
+                scrollView.setMagnification(CGFloat(pow(2, linearVal + linearDeltaY)), centeredAt: centerPoint)
+            }
+        }
     }
 
-    override func reloadView() {
-        tblBlock.reloadData()
-        tblCategory.reloadData()
-        tblNotBlock.reloadData()
+    public class func scrollMouse(onPoint point: CGPoint, xLines: Int, yLines: Int) {
+        if #available(OSX 10.13, *) {
+            guard let scrollEvent = CGEvent(scrollWheelEvent2Source: nil, units: CGScrollEventUnit.line, wheelCount: 2, wheel1: Int32(yLines), wheel2: Int32(xLines), wheel3: 0) else {
+                return
+            }
+            scrollEvent.setIntegerValueField(CGEventField.eventSourceUserData, value: 1)
+            scrollEvent.post(tap: CGEventTapLocation.cghidEventTap)
+        } else {
+            // scroll event is not supported for macOS older than 10.13
+        }
     }
 }
 
@@ -171,6 +190,18 @@ extension EditBlockListViewC: BasicSetupType {
 
         btnBContainerV.background_color = Color.list_bg_color
         btnNBContainerV.background_color = Color.list_bg_color
+
+        if scrollView.hasVerticalScroller {
+            scrollView.verticalScroller?.floatValue = 0
+        }
+
+        var newScrollOrigin: NSPoint = NSPoint(x: 0, y: 0)
+        if let isFlipped = scrollView.documentView?.isFlipped, isFlipped {
+            newScrollOrigin = NSMakePoint(0.0, 0.0)
+        } else {
+            newScrollOrigin = NSMakePoint(0.0, NSMaxY(scrollView.documentView?.frame ?? .zero) - NSHeight(scrollView.contentView.bounds))
+        }
+        scrollView.documentView?.scroll(newScrollOrigin)
     }
 
     func bindData() {

@@ -64,11 +64,7 @@ class GeneralSettingViewC: BaseViewController {
         setUpViews()
         bindData()
         tableViewSetup()
-    }
-    
-    override func reloadView() {
-        tblView.reloadData()
-    }
+    }    
 }
 
 extension GeneralSettingViewC: BasicSetupType {
@@ -218,19 +214,22 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
         return blockList.count
     }
 
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        return blockList[row]
+    }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: self) as? ButtonCell {
                 return cell
             }
 
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: self) as? ImageTextCell {
                 cell.configCell()
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
-            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
+            if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: self) as? ButtonCell {
                 cell.btnAddApp.tag = row
                 cell.btnAddApp.target = self
                 cell.btnAddApp.action = #selector(deleAppAction(_:))

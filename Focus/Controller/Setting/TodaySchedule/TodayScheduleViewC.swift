@@ -45,10 +45,6 @@ class TodayScheduleViewC: BaseViewController {
         bindData()
         tableViewSetup()
     }
-
-    override func reloadView() {
-        tblSchedule.reloadData()
-    }
 }
 
 extension TodayScheduleViewC: BasicSetupType {

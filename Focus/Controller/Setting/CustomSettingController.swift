@@ -60,8 +60,8 @@ extension CustomSettingController: BasicSetupType {
         let option = SettingOptions.setting_options[0]
         if let generalSetting = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? GeneralSettingViewC {
             generalSetting.view.frame = righView.bounds
+            self.addChild(generalSetting)
             righView.addSubview(generalSetting.view)
-            generalSetting.reloadView()
         }
     }
 }
@@ -105,8 +105,8 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
                 righView.removeSubviews()
                 if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? BaseViewController {
                     vc.view.frame = righView.bounds
+                    self.addChild(vc)
                     righView.addSubview(vc.view)
-                    vc.reloadView()
                 }
             }
         }

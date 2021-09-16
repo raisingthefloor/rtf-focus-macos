@@ -49,10 +49,6 @@ class SchedulerViewC: BaseViewController {
         tableViewSetup()
     }
 
-    override func reloadView() {
-        tblSchedule.reloadData()
-    }
-
 }
 
 extension SchedulerViewC: BasicSetupType {

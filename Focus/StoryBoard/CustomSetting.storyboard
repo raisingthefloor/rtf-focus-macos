@@ -925,10 +925,10 @@
                                                     </menu>
                                                 </popUpButtonCell>
                                             </popUpButton>
-                                            <scrollView borderType="none" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwx-Ha-BqN">
+                                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwx-Ha-BqN">
                                                 <rect key="frame" x="0.0" y="0.0" width="689" height="1017"/>
-                                                <clipView key="contentView" copiesOnScroll="NO" id="yrW-rk-b8P">
-                                                    <rect key="frame" x="0.0" y="0.0" width="678" height="1017"/>
+                                                <clipView key="contentView" id="yrW-rk-b8P">
+                                                    <rect key="frame" x="0.0" y="0.0" width="689" height="1017"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xPx-k0-5av">
@@ -1134,7 +1134,7 @@
                                                                                                                                     <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                     <subviews>
                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CmB-ds-UGD" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                            <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                            <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                             <constraints>
                                                                                                                                                 <constraint firstAttribute="height" constant="25" id="8d6-AB-cif"/>
                                                                                                                                             </constraints>
@@ -1415,7 +1415,7 @@
                                                                                                                                     <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                     <subviews>
                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="89j-Mm-Gcx" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                            <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                            <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                             <constraints>
                                                                                                                                                 <constraint firstAttribute="height" constant="25" id="tnF-Sh-nYn"/>
                                                                                                                                             </constraints>
@@ -1425,7 +1425,7 @@
                                                                                                                                             </buttonCell>
                                                                                                                                         </button>
                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Jh-5L-zHK" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                            <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                            <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                             <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CsH-qP-9QQ">
                                                                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                 <font key="font" metaFont="system"/>
@@ -2017,12 +2017,15 @@
                                                             </constraints>
                                                         </customView>
                                                     </subviews>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="flipped" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="pI0-eT-Lc2">
                                                     <rect key="frame" x="-100" y="-100" width="689" height="11"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="mini" horizontal="NO" id="me2-Ei-AFF">
+                                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="mini" horizontal="NO" id="me2-Ei-AFF">
                                                     <rect key="frame" x="678" y="0.0" width="11" height="1017"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -2179,11 +2182,11 @@
                                                 <subviews>
                                                     <scrollView ambiguous="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="0.0" verticalLineScroll="24" verticalPageScroll="0.0" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR7-jl-4QY">
                                                         <rect key="frame" x="0.0" y="4" width="97" height="101"/>
-                                                        <clipView key="contentView" ambiguous="YES" id="goR-9g-4I2">
+                                                        <clipView key="contentView" id="goR-9g-4I2">
                                                             <rect key="frame" x="0.0" y="0.0" width="97" height="90"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="O5f-3r-a9L" viewBased="YES" id="J2v-lo-Jcf">
+                                                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="O5f-3r-a9L" viewBased="YES" id="J2v-lo-Jcf">
                                                                     <rect key="frame" x="0.0" y="0.0" width="732" height="62"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="17" height="0.0"/>
@@ -2297,8 +2300,8 @@
                                                                                             <rect key="frame" x="2" y="5" width="76" height="21"/>
                                                                                             <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="zyb-Ya-uAs">
                                                                                                 <font key="font" metaFont="system"/>
-                                                                                                <date key="date" timeIntervalSinceReferenceDate="653469852.03297997">
-                                                                                                    <!--2021-09-16 07:24:12 +0000-->
+                                                                                                <date key="date" timeIntervalSinceReferenceDate="653488280.89674199">
+                                                                                                    <!--2021-09-16 12:31:20 +0000-->
                                                                                                 </date>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2338,8 +2341,8 @@
                                                                                             <rect key="frame" x="2" y="5" width="76" height="21"/>
                                                                                             <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="gg0-gy-G3T">
                                                                                                 <font key="font" metaFont="system"/>
-                                                                                                <date key="date" timeIntervalSinceReferenceDate="653469852.03700805">
-                                                                                                    <!--2021-09-16 07:24:12 +0000-->
+                                                                                                <date key="date" timeIntervalSinceReferenceDate="653488280.900859">
+                                                                                                    <!--2021-09-16 12:31:20 +0000-->
                                                                                                 </date>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2535,7 +2538,7 @@
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="2bJ-tg-r5H"/>
                                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="250" id="fZX-gf-M8A"/>
                                                         </constraints>
-                                                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.088188976377952755" controlSize="mini" horizontal="YES" id="nCJ-br-bkx">
+                                                        <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="nCJ-br-bkx">
                                                             <rect key="frame" x="0.0" y="90" width="97" height="11"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
@@ -2815,7 +2818,7 @@
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                             <prototypeCellViews>
                                                                                                 <tableCellView identifier="nameId" misplaced="YES" id="Gwh-Sz-K6T" customClass="LabelCell" customModule="Focus" customModuleProvider="target">
-                                                                                                    <rect key="frame" x="18" y="0.0" width="148" height="24"/>
+                                                                                                    <rect key="frame" x="8" y="0.0" width="148" height="24"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3dE-C9-WOh">
@@ -2873,7 +2876,7 @@
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                             <prototypeCellViews>
                                                                                                 <tableCellView identifier="startId" misplaced="YES" id="yuw-jW-v6g" customClass="LabelCell" customModule="Focus" customModuleProvider="target">
-                                                                                                    <rect key="frame" x="183" y="0.0" width="70" height="24"/>
+                                                                                                    <rect key="frame" x="173" y="0.0" width="70" height="24"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zjv-xj-wal">
@@ -2910,7 +2913,7 @@
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                             <prototypeCellViews>
                                                                                                 <tableCellView identifier="endId" misplaced="YES" id="9ZE-Mp-lLF" customClass="LabelCell" customModule="Focus" customModuleProvider="target">
-                                                                                                    <rect key="frame" x="270" y="0.0" width="70" height="17"/>
+                                                                                                    <rect key="frame" x="260" y="0.0" width="70" height="17"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3MV-Ql-WCP">
@@ -2947,7 +2950,7 @@
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                             <prototypeCellViews>
                                                                                                 <tableCellView identifier="checkId" id="gBt-iM-0yD" customClass="ButtonCell" customModule="Focus" customModuleProvider="target">
-                                                                                                    <rect key="frame" x="357" y="0.0" width="57" height="17"/>
+                                                                                                    <rect key="frame" x="347" y="0.0" width="57" height="17"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="Rke-vJ-pLm">
