@@ -41,6 +41,7 @@ struct Color {
     static let selected_row_color = NSColor("#3a7a59") ?? .systemGreen
     static let list_bg_color = NSColor("#F1F1F1") ?? .systemGreen.withAlphaComponent(0.3)
     static let top_title_green_color = NSColor("#008145") ?? .systemGreen.withAlphaComponent(0.3)
+    static let edit_bg_color = NSColor("#F4F8FF") ?? .blue.withAlphaComponent(0.3)
 }
 
 extension NSColor {

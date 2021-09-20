@@ -117,7 +117,13 @@ class EditBlockListViewC: BaseViewController {
 extension EditBlockListViewC: BasicSetupType {
     func setUpText() {
         lblTitle.stringValue = NSLocalizedString("BS.title", comment: "Edit Blocklists")
-        lblSubTitle.stringValue = NSLocalizedString("BS.subTitle", comment: "A blocklist is a group of apps, websites and other items that you can choose to block during a focus session. Learn more about Blocklists")
+        let subtitle = NSLocalizedString("BS.subTitle", comment: "A blocklist is a group of apps, websites and other items that you can choose to block during a focus session. Learn more about Blocklists")
+        
+        let attributedText = NSMutableAttributedString.getAttributedString(fromString: subtitle)
+        attributedText.underLine(subString: "Learn more about Blocklists") // Need to add seprate string
+        attributedText.apply(color: Color.blue_color, subString: "Learn more about Blocklists")
+        lblSubTitle.attributedStringValue = attributedText
+
 
         lblBlockTitle.stringValue = NSLocalizedString("BS.select_list", comment: "Select a blocklist to edit:")
         lblListTitle.stringValue = NSLocalizedString("BS.following_select_list", comment: "The following settings only apply to the selected blocklist")
@@ -150,7 +156,7 @@ extension EditBlockListViewC: BasicSetupType {
     func setUpViews() {
         mainView.border_color = Color.dark_grey_border
         mainView.border_width = 0.6
-        mainView.background_color = Color.light_green_color
+        mainView.background_color = Color.edit_bg_color
         mainView.corner_radius = 6
 
         btnBAddApp.buttonColor = Color.green_color
@@ -271,6 +277,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
@@ -279,7 +286,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
                 if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    categoryCell.configCell()
+                    categoryCell.configCategory(val: blockList[row])
                     return categoryCell
                 }
             }
@@ -287,7 +294,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier1") {
                 if let bCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    bCell.configCell()
+                    bCell.configCell(val: blockList[row])
                     return bCell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier1") {
@@ -302,7 +309,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "exceptionIdentifier") {
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier2") {
                 if let nBCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    nBCell.configCell()
+                    nBCell.configCell(val: blockList[row])
                     return nBCell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier2") {

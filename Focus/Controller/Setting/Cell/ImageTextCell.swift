@@ -52,8 +52,14 @@ extension ImageTextCell: BasicSetupType {
         }
     }
     
-    func configCell(){
-        lblTitle.stringValue = "Skype"
+    func configCell(val: String){
+        lblTitle.stringValue = val
         imgV.image = NSImage(named: "ic_info_filled")
     }
+    
+    func configCategory(val: String){
+        lblTitle.stringValue = val
+        imgV.isHidden = true
+    }
+
 }

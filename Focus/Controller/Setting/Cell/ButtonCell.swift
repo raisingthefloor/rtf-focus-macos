@@ -61,5 +61,5 @@ extension ButtonCell: BasicSetupType {
 
     func configScheduleActionCell(isPause: Bool) {
         btnAddApp.title = isPause ? "🚫" : "⏸"
-    }
+    }    
 }

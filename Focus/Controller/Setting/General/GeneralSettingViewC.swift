@@ -77,6 +77,7 @@ extension GeneralSettingViewC: BasicSetupType {
         lblBrekInfo.stringValue = NSLocalizedString("GS.break_for", comment: "breaks for every")
         lblFocusInfo.stringValue = NSLocalizedString("GS.schedule_session", comment: "of scheduled Focus sessions")
 
+
         checkBoxShowTimer.title = NSLocalizedString("GS.countdown_timer", comment: "Show count down timer in minutes for break start and end")
         checkBoxEachBreak.title = NSLocalizedString("GS.block_screen_each", comment: "Block screen for the first minute of each break to encourage me to stand up and stretch")
 
@@ -97,12 +98,12 @@ extension GeneralSettingViewC: BasicSetupType {
         btnAddApp.buttonColor = Color.green_color
         btnAddApp.activeButtonColor = Color.green_color
         btnAddApp.textColor = .white
-        btnAddApp.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        btnAddApp.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
 
         btnAddWeb.buttonColor = Color.green_color
         btnAddWeb.activeButtonColor = Color.green_color
         btnAddWeb.textColor = .white
-        btnAddWeb.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        btnAddWeb.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
 
         listContainerV.border_color = Color.dark_grey_border
         listContainerV.border_width = 0.5
@@ -119,7 +120,7 @@ extension GeneralSettingViewC: BasicSetupType {
         
         lblBrekInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblBrekInfo.textColor = .black
-        lblFocusInfo.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+//        lblFocusInfo.font = NSFont.systemFont(ofSize: 12, weight: .semibold) // Italic
         lblFocusInfo.textColor = .black
 
         checkBoxShowTimer.font = NSFont.systemFont(ofSize: 12, weight: .regular)
@@ -128,13 +129,13 @@ extension GeneralSettingViewC: BasicSetupType {
         lblUnblockingTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
         lblUnblockingTitle.textColor = .black
         
-        lblUnblockingInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
+//        lblUnblockingInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
         lblUnblockingInfo.textColor = .black
         
         lblOverrideInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblOverrideInfo.textColor = .black
 
-        lblListInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
+//        lblListInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
         lblListInfo.textColor = .black
     }
 
@@ -225,7 +226,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
 
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: self) as? ImageTextCell {
-                cell.configCell()
+                cell.configCell(val: blockList[row])
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
