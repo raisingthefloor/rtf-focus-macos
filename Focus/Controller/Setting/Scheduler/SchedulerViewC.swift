@@ -59,13 +59,18 @@ extension SchedulerViewC: BasicSetupType {
         lblSubTitle.stringValue = NSLocalizedString("SS.subTitle", comment: "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)")
 
         
-        let attributedText = NSMutableAttributedString.getAttributedString(fromString: NSLocalizedString("SS.instruction", comment: "Instructions"))
-        attributedText.underLine(subString: NSLocalizedString("SS.instruction", comment: "Instructions")) // Need to add seprate string
-        attributedText.apply(color: Color.blue_color, subString: NSLocalizedString("SS.instruction", comment: "Instructions"))
+        let instruction = NSLocalizedString("SS.instruction", comment: "Instructions")
+        let attributedText = NSMutableAttributedString.getAttributedString(fromString: instruction)
+        attributedText.underLine(subString: instruction) // Need to add seprate string
+        attributedText.apply(color: Color.blue_color, subString: instruction)
+        attributedText.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: instruction)
         lblInstruction.attributedStringValue = attributedText
     }
 
     func setUpViews() {
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .semibold)
+        lblTitle.textColor = .black
+
     }
 
     func bindData() {
@@ -76,12 +81,14 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSetup() {
         tblSchedule.delegate = self
         tblSchedule.dataSource = self
-        tblSchedule.usesAutomaticRowHeights = true
+        tblSchedule.rowHeight = 44
         tblSchedule.allowsColumnReordering = false
 
         tblSession.delegate = self
         tblSession.dataSource = self
         tblSession.allowsColumnReordering = false
+        tblSession.rowHeight = 20        
+
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -105,6 +112,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
                 if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "comboId"), owner: nil) as? ComboBoxCell {
+                    cellCombo.statusV.background_color = NSColor.random
                     return cellCombo
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {

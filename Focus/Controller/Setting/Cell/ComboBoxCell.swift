@@ -30,6 +30,8 @@ import Cocoa
 
 class ComboBoxCell: NSTableCellView {
     @IBOutlet var popBreakTime: NSPopUpButton!
+    @IBOutlet var statusV: NSView!
+
 
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -66,7 +66,7 @@ extension WeekDaysCell: BasicSetupType {
     
     func configDays(){
         for day in WeekDays.days {
-            let view = NSView(frame: NSRect(x: 0, y: 0, width: 18, height: 18))
+            let view = NSView(frame: NSRect(x: 0, y: 0, width: 14, height: 18))
             let btn = CustomButton(frame: NSRect(x: 0, y: 0, width: 18, height: 18))
             btn.tag = day.rawValue
             btn.font = NSFont.systemFont(ofSize: 10, weight: .regular)
