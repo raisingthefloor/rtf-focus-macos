@@ -26,6 +26,9 @@
 import Cocoa
 
 class GeneralSettingViewC: BaseViewController {
+    
+    @IBOutlet var lblTitle: NSTextField!
+
     @IBOutlet var lblBehaviorTitle: NSTextField!
     @IBOutlet var checkBoxWarning: NSButton!
     @IBOutlet var lbllockInfo: NSTextField!
@@ -111,6 +114,10 @@ extension GeneralSettingViewC: BasicSetupType {
         listContainerV.corner_radius = 4
         
         btnContainerV.background_color = Color.list_bg_color
+        
+        
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .semibold)
+        lblTitle.textColor = .black
         
         lblBehaviorTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
         lblBehaviorTitle.textColor = .black

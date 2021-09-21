@@ -118,12 +118,11 @@ extension EditBlockListViewC: BasicSetupType {
     func setUpText() {
         lblTitle.stringValue = NSLocalizedString("BS.title", comment: "Edit Blocklists")
         let subtitle = NSLocalizedString("BS.subTitle", comment: "A blocklist is a group of apps, websites and other items that you can choose to block during a focus session. Learn more about Blocklists")
-        
+
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subtitle)
         attributedText.underLine(subString: "Learn more about Blocklists") // Need to add seprate string
         attributedText.apply(color: Color.blue_color, subString: "Learn more about Blocklists")
         lblSubTitle.attributedStringValue = attributedText
-
 
         lblBlockTitle.stringValue = NSLocalizedString("BS.select_list", comment: "Select a blocklist to edit:")
         lblListTitle.stringValue = NSLocalizedString("BS.following_select_list", comment: "The following settings only apply to the selected blocklist")
@@ -196,6 +195,38 @@ extension EditBlockListViewC: BasicSetupType {
 
         btnBContainerV.background_color = Color.list_bg_color
         btnNBContainerV.background_color = Color.list_bg_color
+
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .semibold)
+        lblTitle.textColor = .black
+
+        lblBlockTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblBlockTitle.textColor = .black
+
+        comboBlock.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+
+        lblCategoryTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblCategoryTitle.textColor = .black
+
+        lblBlockAppTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblBlockAppTitle.textColor = .black
+
+        lblExceptionTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblExceptionTitle.textColor = .black
+
+        // lblExceptionSubTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold) // Italic
+        lblExceptionTitle.textColor = Color.black_color
+
+        radioShortLongBreak.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        radioRestart.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        radioAllBreak.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+
+        radioStopFocus.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        radioStopAnyTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        radioLongBreak.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+
+        txtCharacter.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblRandom.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblRandom.textColor = .black
 
         if scrollView.hasVerticalScroller {
             scrollView.verticalScroller?.floatValue = 0
@@ -277,7 +308,6 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
