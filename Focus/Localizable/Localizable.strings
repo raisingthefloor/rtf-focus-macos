@@ -86,7 +86,7 @@
 "GS.before_warning" = "Don't give me a 5 minute warning before scheduled focus sessions start";
 "GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.)";
 "GS.countdown_timer" = "Show count down timer in minutes for break start and end";
-"GS.block_screen_each" = "Block screen for the first minute of each break to encourage me to stand up and stretch";
+"GS.block_screen_each" = "Block screen for the first minute of each break to encourage me to stand up and \nstretch";
 "GS.unblockingtitle" = "Allow me to temporarily unblock these items during focus sessions:";
 "GS.unblockinginfo" = "If you need access to a program or website, but it is blocked during a focus session, \nthen you can use this feature to unblock it.";
 "GS.allowinfo" = "This feature  allows user to override a block for the rest of the day.";
