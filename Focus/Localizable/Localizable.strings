@@ -115,6 +115,8 @@
 "BS.stop_focus_session" = "Yes, make me type to stop the focus session:";
 "BS.random_chracter" = "random characters";
 "BS.restart" = "Yes, make me restart my computer to stop the focus session";
+"BS.note_one" = "Note: You cannot change a \nblocklist while it is in use in an \nactive focus session.";
+"BS.note_two" = "Any changes made will not take \neffect until the next focus session \nwhere the blocklist is used.";
 
 
 "SS.title" = "Focus Schedule";

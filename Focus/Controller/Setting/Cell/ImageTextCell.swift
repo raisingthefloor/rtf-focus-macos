@@ -26,7 +26,6 @@
 import Cocoa
 
 class ImageTextCell: NSTableCellView {
-
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var imgV: NSImageView!
 
@@ -43,7 +42,6 @@ class ImageTextCell: NSTableCellView {
 
 extension ImageTextCell: BasicSetupType {
     func setUpText() {
-        
     }
 
     func setUpViews() {
@@ -51,15 +49,16 @@ extension ImageTextCell: BasicSetupType {
             lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         }
     }
-    
-    func configCell(val: String){
+
+    func configCell(val: String) {
         lblTitle.stringValue = val
         imgV.image = NSImage(named: "ic_info_filled")
     }
-    
-    func configCategory(val: String){
-        lblTitle.stringValue = val
-        imgV.isHidden = true
-    }
 
+    func configCategory(val: String) {
+        let categoryStr = NSMutableAttributedString.getAttributedString(fromString: val)
+        categoryStr.underLine(subString: val)
+        categoryStr.apply(color: Color.blue_color, subString: val)
+        lblTitle.attributedStringValue = categoryStr
+    }
 }

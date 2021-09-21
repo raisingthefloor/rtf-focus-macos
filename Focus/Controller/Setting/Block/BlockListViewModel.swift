@@ -28,6 +28,7 @@ import Foundation
 
 protocol BlockListViewModelIntput {
     func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block])
+    func getCategoryList() -> (NSMenu, [String])
     func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void))
 }
 
@@ -45,6 +46,7 @@ class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, Bl
 
     let blockNames: [String] = ["Calls", "Notification (Turn DND on)", "Social Media", "Games", "News", "Shopping", "Projects", "Medical"]
     let childeren: [String] = ["Facebook", "Intagram", "LinkedIn"]
+    let blockList = ["Starter block list", "Weekend block list", "Social", "Pirate"]
 
     func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block]) {
         var blockCategories: [BlockCategory] = []
@@ -69,6 +71,19 @@ class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, Bl
         DBManager.shared.saveBlock(data: data)
         let override_bloks = DBManager.shared.getBlockList()
         callback(override_bloks)
+    }
+
+    func getCategoryList() -> (NSMenu, [String]) {
+        let menus = NSMenu()
+        for title in blockList {
+            let menuItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+            menus.addItem(menuItem)
+        }
+        menus.addItem(.separator())
+        let showOption = NSMenuItem(title: NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist"), action: nil, keyEquivalent: "c")
+        showOption.tag = -1
+        menus.addItem(showOption)
+        return (menus, blockList)
     }
 }
 

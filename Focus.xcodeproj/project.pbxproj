@@ -79,6 +79,8 @@
 		3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC9131269EC5700021D3E3 /* MenuModel.swift */; };
 		3FDC9134269F1C330021D3E3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC9133269F1C330021D3E3 /* Extension.swift */; };
 		3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FDC9135269F1E850021D3E3 /* Color.xcassets */; };
+		3FE6A38C26F9E54100435503 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE6A38A26F9E54100435503 /* ListView.swift */; };
+		3FE6A38D26F9E54100435503 /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FE6A38B26F9E54100435503 /* ListView.xib */; };
 		3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E4C2680C13D0014216C /* WindowsManager.swift */; };
 		3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E522680C13D0014216C /* UserDefault.swift */; };
 		3FFC1E682680C13D0014216C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E552680C13D0014216C /* Enums.swift */; };
@@ -165,6 +167,8 @@
 		3FDC9131269EC5700021D3E3 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		3FDC9133269F1C330021D3E3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		3FDC9135269F1E850021D3E3 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		3FE6A38A26F9E54100435503 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		3FE6A38B26F9E54100435503 /* ListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListView.xib; sourceTree = "<group>"; };
 		3FFC1E4C2680C13D0014216C /* WindowsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowsManager.swift; sourceTree = "<group>"; };
 		3FFC1E522680C13D0014216C /* UserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		3FFC1E552680C13D0014216C /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 		3F4DFA3526835D6F0013BA0C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				3FE6A38926F9E50200435503 /* Helper */,
 				3F9111E7268D95A200706B51 /* Cell */,
 				3F92BC1C26F1F2AF00AC7C64 /* TodaySchedule */,
 				3F9CC4A7268B3D8800AC3026 /* Scheduler */,
@@ -521,6 +526,15 @@
 			path = BaseControllers;
 			sourceTree = "<group>";
 		};
+		3FE6A38926F9E50200435503 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3FE6A38A26F9E54100435503 /* ListView.swift */,
+				3FE6A38B26F9E54100435503 /* ListView.xib */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		3FFC1E4A2680C13D0014216C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,6 +652,7 @@
 				3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */,
 				3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
+				3FE6A38D26F9E54100435503 /* ListView.xib in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
 				3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
@@ -678,6 +693,7 @@
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */,
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
+				3FE6A38C26F9E54100435503 /* ListView.swift in Sources */,
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
 				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,

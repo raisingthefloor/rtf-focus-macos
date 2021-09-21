@@ -67,6 +67,8 @@ class EditBlockListViewC: BaseViewController {
     @IBOutlet var lblRandom: NSTextField!
 
     @IBOutlet var radioRestart: NSButton!
+    @IBOutlet var lblNote1: NSTextField!
+    @IBOutlet var lblNote2: NSTextField!
 
     let viewModel: BlockListViewModelType = BlockListViewModel()
     var webSites: [Override_Block] = []
@@ -150,9 +152,15 @@ extension EditBlockListViewC: BasicSetupType {
         radioStopFocus.title = NSLocalizedString("BS.stop_focus_session", comment: "Yes, make me type to stop the focus session:")
         lblRandom.stringValue = NSLocalizedString("BS.random_chracter", comment: "random characters")
         radioRestart.title = NSLocalizedString("BS.restart", comment: "Yes, make me restart my computer to stop the focus session")
+
+        lblNote1.stringValue = NSLocalizedString("BS.note_one", comment: "Note: You cannot change a blocklist while it is in use in an active focus session.")
+
+        lblNote2.stringValue = NSLocalizedString("BS.note_two", comment: "Any changes made will not take effect until the next focus session where the blocklist is used.")
     }
 
     func setUpViews() {
+        comboBlock.menu = viewModel.input.getCategoryList().0
+
         mainView.border_color = Color.dark_grey_border
         mainView.border_width = 0.6
         mainView.background_color = Color.edit_bg_color
@@ -228,6 +236,11 @@ extension EditBlockListViewC: BasicSetupType {
         lblRandom.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblRandom.textColor = .black
 
+//        lblNote1.font = NSFont.systemFont(ofSize: 13, weight: .bold) // Bold Italic
+//        lblNote2.font = NSFont.systemFont(ofSize: 13, weight: .bold) // Bold Italic
+        lblNote1.textColor = Color.note_color
+        lblNote2.textColor = Color.note_color
+
         if scrollView.hasVerticalScroller {
             scrollView.verticalScroller?.floatValue = 0
         }
@@ -253,9 +266,18 @@ extension EditBlockListViewC: BasicSetupType {
 
         btnNBAddApp.target = self
         btnNBAddApp.action = #selector(addAppAction(_:))
+        
+        comboBlock.target = self
+        comboBlock.action = #selector(handleBlockSelection(_:))
     }
 
     @objc func addAppAction(_ sender: NSButton) {
+        let controller = ApplicationListViewC(nibName: "ApplicationListViewC", bundle: nil)
+        controller.applySuccess = { [weak self] value in
+            self?.tblBlock.reloadData()
+            self?.tblNotBlock.reloadData()
+        }
+        presentAsSheet(controller)
     }
 
     @objc func addWebAction(_ sender: NSButton) {
@@ -263,6 +285,16 @@ extension EditBlockListViewC: BasicSetupType {
     }
 
     @objc func deleAppAction(_ sender: NSButton) {
+    }
+
+    @objc func handleBlockSelection(_ sender: Any) {
+        guard sender is NSPopUpButton else { return }
+        if comboBlock.selectedTag() == -1 {
+            // Open View as per the functionality
+        }
+        print("Selected block:", comboBlock.titleOfSelectedItem ?? "")
+
+        // Here set the Block object in focus object
     }
 
     func openPopup() {
@@ -285,7 +317,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSetup() {
         tblCategory.delegate = self
         tblCategory.dataSource = self
-        tblCategory.usesAutomaticRowHeights = true
+        tblCategory.rowHeight = 25
         tblCategory.reloadData()
 
         tblBlock.delegate = self
