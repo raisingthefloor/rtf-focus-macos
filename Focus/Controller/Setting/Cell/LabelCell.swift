@@ -60,25 +60,3 @@ extension LabelCell {
         lblTitle.textColor = .white
     }
 }
-
-class RowView: NSTableRowView {
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-
-        if isSelected == true {
-            Color.selected_row_color.set()
-            dirtyRect.fill()
-        } else {
-            Color.green_color.set()
-            dirtyRect.fill()
-        }
-    }
-}
-
-class ClearRowView: NSTableRowView {
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        NSColor.white.set()
-        dirtyRect.fill()
-    }
-}

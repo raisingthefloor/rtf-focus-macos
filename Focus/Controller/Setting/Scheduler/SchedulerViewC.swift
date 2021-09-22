@@ -42,7 +42,6 @@ class SchedulerViewC: BaseViewController {
     @IBOutlet var tblSession: NSTableView!
     let viewModel: ScheduleViewModelType = ScheduleViewModel()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
@@ -58,7 +57,6 @@ extension SchedulerViewC: BasicSetupType {
         lblTitle.stringValue = NSLocalizedString("SS.title", comment: "Focus Schedule")
         lblSubTitle.stringValue = NSLocalizedString("SS.subTitle", comment: "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)")
 
-        
         let instruction = NSLocalizedString("SS.instruction", comment: "Instructions")
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: instruction)
         attributedText.underLine(subString: instruction) // Need to add seprate string
@@ -70,7 +68,6 @@ extension SchedulerViewC: BasicSetupType {
     func setUpViews() {
         lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .semibold)
         lblTitle.textColor = .black
-
     }
 
     func bindData() {
@@ -87,8 +84,14 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblSession.delegate = self
         tblSession.dataSource = self
         tblSession.allowsColumnReordering = false
-        tblSession.rowHeight = 20        
+        tblSession.rowHeight = 20
 
+//        tblSchedule.tableColumns.forEach { column in
+//            column.headerCell.backgroundColor = Color.tbl_header_color
+//            column.headerCell.drawsBackground = true
+//            column.headerCell.isBordered = false
+//            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12)])
+//        }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -98,7 +101,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
             return viewModel.input.getSessionList().count
         }
     }
-
+    
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         return setupCell(tableView: tableView, tableColumn: tableColumn, row: row)
     }
@@ -144,7 +147,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else {
             let arrSession = viewModel.input.getSessionList()
             let obj = arrSession[row]
-            
+
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
                     cellTime.lblTitle.stringValue = arrSession[row].time ?? "-"
@@ -177,7 +180,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
 //                }
             } else {
                 if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-                    slotCell.configSlot(row: row,session: obj)
+                    slotCell.configSlot(row: row, session: obj)
                     return slotCell
                 }
             }

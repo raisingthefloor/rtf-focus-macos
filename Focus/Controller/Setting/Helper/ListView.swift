@@ -21,7 +21,7 @@ class ListView: NSView, NibView {
 
     init() {
         super.init(frame: NSRect.zero)
-        _ = load(viaNib: "TableHeaderView")
+        _ = load(viaNib: "ListView")
         setUpText()
         setUpViews()
     }

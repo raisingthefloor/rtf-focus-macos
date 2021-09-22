@@ -39,8 +39,6 @@
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EA268D985900706B51 /* BlockListViewModel.swift */; };
-		3F9111ED268DB38300706B51 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111EC268DB38300706B51 /* TableHeaderView.swift */; };
-		3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F9111EE268DB68700706B51 /* TableHeaderView.xib */; };
 		3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F0268DBD0D00706B51 /* HKNibView.swift */; };
 		3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F2268DD78500706B51 /* ButtonCell.swift */; };
 		3F9147CB26E648B000449D4B /* SessionCompleteDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */; };
@@ -62,6 +60,15 @@
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
 		3FAAF75D26B2C261009447F8 /* logout.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAAF75C26B2C261009447F8 /* logout.sh */; };
 		3FAD91F326B41E5A00698848 /* dnd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* dnd.sh */; };
+		3FB01CE126FAF46B00828486 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE026FAF46B00828486 /* TableHeaderView.swift */; };
+		3FB01CE326FAF75700828486 /* CustomRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE226FAF75700828486 /* CustomRowView.swift */; };
+		3FB01CE526FAFC6D00828486 /* CustomTableHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */; };
+		3FB01CE926FB014900828486 /* ErrorDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE726FB014900828486 /* ErrorDialogueViewC.swift */; };
+		3FB01CEA26FB014900828486 /* ErrorDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB01CE826FB014900828486 /* ErrorDialogueViewC.xib */; };
+		3FB01CEC26FB019C00828486 /* ErrorDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CEB26FB019C00828486 /* ErrorDialogueViewModel.swift */; };
+		3FB01CF026FB0E9400828486 /* InputDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CEE26FB0E9400828486 /* InputDialogueViewC.swift */; };
+		3FB01CF126FB0E9400828486 /* InputDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB01CEF26FB0E9400828486 /* InputDialogueViewC.xib */; };
+		3FB01CF326FB0EB000828486 /* InputDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CF226FB0EB000828486 /* InputDialogueViewModel.swift */; };
 		3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */; };
 		3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */; };
 		3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */; };
@@ -127,8 +134,6 @@
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111EA268D985900706B51 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
-		3F9111EC268DB38300706B51 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
-		3F9111EE268DB68700706B51 /* TableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableHeaderView.xib; sourceTree = "<group>"; };
 		3F9111F0268DBD0D00706B51 /* HKNibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKNibView.swift; sourceTree = "<group>"; };
 		3F9111F2268DD78500706B51 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		3F9147C926E648B000449D4B /* SessionCompleteDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteDialogueViewC.swift; sourceTree = "<group>"; };
@@ -150,6 +155,15 @@
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3FAAF75C26B2C261009447F8 /* logout.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = logout.sh; sourceTree = "<group>"; };
 		3FAD91F226B41E5200698848 /* dnd.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = dnd.sh; sourceTree = "<group>"; };
+		3FB01CE026FAF46B00828486 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
+		3FB01CE226FAF75700828486 /* CustomRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRowView.swift; sourceTree = "<group>"; };
+		3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableHeaderCell.swift; sourceTree = "<group>"; };
+		3FB01CE726FB014900828486 /* ErrorDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogueViewC.swift; sourceTree = "<group>"; };
+		3FB01CE826FB014900828486 /* ErrorDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorDialogueViewC.xib; sourceTree = "<group>"; };
+		3FB01CEB26FB019C00828486 /* ErrorDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDialogueViewModel.swift; sourceTree = "<group>"; };
+		3FB01CEE26FB0E9400828486 /* InputDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDialogueViewC.swift; sourceTree = "<group>"; };
+		3FB01CEF26FB0E9400828486 /* InputDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputDialogueViewC.xib; sourceTree = "<group>"; };
+		3FB01CF226FB0EB000828486 /* InputDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDialogueViewModel.swift; sourceTree = "<group>"; };
 		3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAppDialogueViewC.swift; sourceTree = "<group>"; };
 		3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAppDialogueViewC.xib; sourceTree = "<group>"; };
 		3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplitViewController.swift; sourceTree = "<group>"; };
@@ -367,8 +381,6 @@
 			isa = PBXGroup;
 			children = (
 				3F9111E8268D95A200706B51 /* CheckBoxCell.swift */,
-				3F9111EC268DB38300706B51 /* TableHeaderView.swift */,
-				3F9111EE268DB68700706B51 /* TableHeaderView.xib */,
 				3F9111F2268DD78500706B51 /* ButtonCell.swift */,
 				3F6D0BD5269818F9002E6711 /* LabelCell.swift */,
 				3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */,
@@ -376,6 +388,9 @@
 				3F42D47226F06D4A0046D09A /* ImageTextCell.swift */,
 				3F92BC1A26F1DE7800AC7C64 /* DateTimeCell.swift */,
 				3F96A35B26F86B7900F6BAD2 /* SlotViewCell.swift */,
+				3FB01CE026FAF46B00828486 /* TableHeaderView.swift */,
+				3FB01CE226FAF75700828486 /* CustomRowView.swift */,
+				3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -447,6 +462,8 @@
 		3FA51D49267CB6CE007826F3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3FB01CED26FB0E4F00828486 /* InputDialogue */,
+				3FB01CE626FB011300828486 /* ErrorDialogue */,
 				3F58B08C26D615E900D730D9 /* SessionStart */,
 				3F7872D026B80BF70076FA83 /* Applist */,
 				3F4E25DE26B153F60029D379 /* FloatingButton */,
@@ -474,6 +491,26 @@
 				3FAD91F226B41E5200698848 /* dnd.sh */,
 			);
 			path = Script;
+			sourceTree = "<group>";
+		};
+		3FB01CE626FB011300828486 /* ErrorDialogue */ = {
+			isa = PBXGroup;
+			children = (
+				3FB01CE726FB014900828486 /* ErrorDialogueViewC.swift */,
+				3FB01CE826FB014900828486 /* ErrorDialogueViewC.xib */,
+				3FB01CEB26FB019C00828486 /* ErrorDialogueViewModel.swift */,
+			);
+			path = ErrorDialogue;
+			sourceTree = "<group>";
+		};
+		3FB01CED26FB0E4F00828486 /* InputDialogue */ = {
+			isa = PBXGroup;
+			children = (
+				3FB01CEE26FB0E9400828486 /* InputDialogueViewC.swift */,
+				3FB01CEF26FB0E9400828486 /* InputDialogueViewC.xib */,
+				3FB01CF226FB0EB000828486 /* InputDialogueViewModel.swift */,
+			);
+			path = InputDialogue;
 			sourceTree = "<group>";
 		};
 		3FB1368326E87FA100B34A01 /* BlockApp */ = {
@@ -661,10 +698,11 @@
 				3F7872D426B80C190076FA83 /* ApplicationListViewC.xib in Resources */,
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
 				3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */,
-				3F9111EF268DB68700706B51 /* TableHeaderView.xib in Resources */,
 				3FAD91F326B41E5A00698848 /* dnd.sh in Resources */,
 				3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */,
 				3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */,
+				3FB01CF126FB0E9400828486 /* InputDialogueViewC.xib in Resources */,
+				3FB01CEA26FB014900828486 /* ErrorDialogueViewC.xib in Resources */,
 				3FAAF75D26B2C261009447F8 /* logout.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,12 +733,13 @@
 				3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */,
 				3FE6A38C26F9E54100435503 /* ListView.swift in Sources */,
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
+				3FB01CF026FB0E9400828486 /* InputDialogueViewC.swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
 				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,
+				3FB01CEC26FB019C00828486 /* ErrorDialogueViewModel.swift in Sources */,
 				3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */,
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,
 				3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */,
-				3F9111ED268DB38300706B51 /* TableHeaderView.swift in Sources */,
 				3F4C335A269DBF350016F5E1 /* General_Setting.swift in Sources */,
 				3FFC1E6B2680C13D0014216C /* Config.swift in Sources */,
 				3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */,
@@ -712,11 +751,13 @@
 				3F9CC49B268B296400AC3026 /* CollapseExpandView.swift in Sources */,
 				3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */,
 				3FFC1E692680C13D0014216C /* Validator.swift in Sources */,
+				3FB01CE926FB014900828486 /* ErrorDialogueViewC.swift in Sources */,
 				3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */,
 				3F9CC4A6268B3D5800AC3026 /* BlockListViewC.swift in Sources */,
 				3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */,
 				3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */,
 				3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */,
+				3FB01CE526FAFC6D00828486 /* CustomTableHeaderCell.swift in Sources */,
 				3FFC1E6D2680C13D0014216C /* Operators.swift in Sources */,
 				3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */,
 				3F9CC499268B0CB100AC3026 /* CustomSettingModel.swift in Sources */,
@@ -731,11 +772,14 @@
 				3F92BC1E26F1F30300AC7C64 /* TodayScheduleViewC.swift in Sources */,
 				3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */,
 				3F58B08E26D6163800D730D9 /* CurrentSessionVC.swift in Sources */,
+				3FB01CE126FAF46B00828486 /* TableHeaderView.swift in Sources */,
 				3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */,
 				3FFC1E6E2680C13D0014216C /* Protocols.swift in Sources */,
 				3F96A35C26F86B7900F6BAD2 /* SlotViewCell.swift in Sources */,
 				3FFC1E682680C13D0014216C /* Enums.swift in Sources */,
+				3FB01CF326FB0EB000828486 /* InputDialogueViewModel.swift in Sources */,
 				3FC8108526A939780058D1CF /* FocusDialogueViewModel.swift in Sources */,
+				3FB01CE326FAF75700828486 /* CustomRowView.swift in Sources */,
 				3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */,
 				3F1F265226845B3B007D9878 /* ViewShowAnimator.swift in Sources */,
 				3F96A35E26F88B9E00F6BAD2 /* ScheduleViewModel.swift in Sources */,

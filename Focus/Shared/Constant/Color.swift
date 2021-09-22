@@ -43,6 +43,7 @@ struct Color {
     static let top_title_green_color = NSColor("#008145") ?? .systemGreen.withAlphaComponent(0.3)
     static let edit_bg_color = NSColor("#F4F8FF") ?? .blue.withAlphaComponent(0.3)
     static let note_color = NSColor("#8C191B") ?? .brown
+    static let tbl_header_color = NSColor("#EBF2FF") ?? .blue.withAlphaComponent(0.2)
 }
 
 extension NSColor {
