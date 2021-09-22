@@ -26,18 +26,17 @@
 import Cocoa
 
 class InputDialogueViewC: NSViewController {
-    
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var txtField: NSTextField!
-    
-    @IBOutlet var testStackV: NSStackView!
-    
+
+    @IBOutlet var testView: NSView!
+
     @IBOutlet var btnTestUrl: CustomButton!
     @IBOutlet var lblInfo: NSTextField!
     @IBOutlet var btnCreate: CustomButton!
     @IBOutlet var btnCancel: CustomButton!
 
-    var errorType: ErrorDialogue = .edit_blocklist_error
+    var inputType: InputDialogue = .add_website
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,43 +49,67 @@ class InputDialogueViewC: NSViewController {
 
 extension InputDialogueViewC: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = errorType.title
-        lblDesc.stringValue = errorType.description
-        lblInfo.stringValue = errorType.link
+        lblTitle.stringValue = inputType.title
+        lblInfo.stringValue = inputType.link
 
-        lblInfo.isHidden = errorType.islinkVisible
+        testView.isHidden = !inputType.isTestUrlVisible
 
-        btnOk.title = NSLocalizedString("", comment: "OK")
+        btnCancel.title = NSLocalizedString("Button.cancel", comment: "Cancel")
+        btnTestUrl.title = NSLocalizedString("ID.test_url", comment: "Test URL")
+        btnCreate.title = inputType.add_button_title
     }
 
     func setUpViews() {
         view.window?.level = .floating
         view.background_color = Color.edit_bg_color
-
-        btnOk.buttonColor = Color.green_color
-        btnOk.activeButtonColor = Color.green_color
-        btnOk.textColor = .white
-        btnOk.borderColor = Color.green_color
-        btnOk.borderWidth = 0.5
     }
 
     func themeSetUp() {
         lblTitle.textColor = .black
-        lblDesc.textColor = .black
         lblInfo.textColor = Color.info_blue_color
 
-        lblTitle.font = NSFont.systemFont(ofSize: 16, weight: .medium)
-        lblDesc.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        lblInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        // lblInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
+
+        btnCreate.buttonColor = Color.green_color
+        btnCreate.activeButtonColor = Color.green_color
+        btnCreate.textColor = .white
+        btnCreate.borderColor = Color.green_color
+        btnCreate.borderWidth = 0.5
+
+        btnCancel.buttonColor = Color.very_light_grey
+        btnCancel.activeButtonColor = Color.very_light_grey
+        btnCancel.textColor = .black
+        btnCancel.borderColor = Color.dark_grey_border
+        btnCancel.borderWidth = 0.5
+
+        btnTestUrl.buttonColor = Color.light_green_color
+        btnTestUrl.activeButtonColor = Color.light_green_color
+        btnTestUrl.textColor = Color.green_color
+        btnTestUrl.borderColor = Color.green_color
+        btnTestUrl.borderWidth = 0.5
     }
 
     func bindData() {
-        btnOk.target = self
-        btnOk.action = #selector(okAction(_:))
+        btnCreate.target = self
+        btnCreate.action = #selector(createAction(_:))
+
+        btnCancel.target = self
+        btnCancel.action = #selector(cancelAction(_:))
+
+        btnTestUrl.target = self
+        btnTestUrl.action = #selector(testUrlAction(_:))
     }
 
-    @objc func okAction(_ sender: NSButton) {
+    @objc func createAction(_ sender: NSButton) {
         dismiss(sender)
     }
-}
+
+    @objc func cancelAction(_ sender: NSButton) {
+        dismiss(sender)
+    }
+
+    @objc func testUrlAction(_ sender: NSButton) {
+        dismiss(sender)
+    }
 }

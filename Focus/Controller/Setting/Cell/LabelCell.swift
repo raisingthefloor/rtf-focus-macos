@@ -59,4 +59,15 @@ extension LabelCell {
         lblTitle.stringValue = value
         lblTitle.textColor = .white
     }
+    
+    func setupTime(value: String) {
+        lblTitle.stringValue = value
+        lblTitle.font = NSFont.systemFont(ofSize: 9, weight: .regular)
+    }
+    
+    func setupSart(value: String) {
+        lblTitle.stringValue = value
+        lblTitle.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+    }
+
 }

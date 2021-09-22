@@ -120,11 +120,13 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? DateTimeCell {
+                    cell.setupSart(value: "11:00 PM")
                     //   cell.configScheduleActionCell(isPause: (row % 2) != 0)
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? DateTimeCell {
+                    cell.setupSart(value: "11:00 PM")
                     //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
                     return cell
                 }
@@ -150,7 +152,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
-                    cellTime.lblTitle.stringValue = arrSession[row].time ?? "-"
+                    cellTime.setupTime(value: arrSession[row].time ?? "-")
                     return cellTime
                 }
 //            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "sunIdentifier") {

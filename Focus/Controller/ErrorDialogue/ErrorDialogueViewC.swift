@@ -48,9 +48,9 @@ extension ErrorDialogueViewC: BasicSetupType {
         lblDesc.stringValue = errorType.description
         lblInfo.stringValue = errorType.link
 
-        lblInfo.isHidden = errorType.islinkVisible
+       // lblInfo.isHidden = !errorType.islinkVisible
 
-        btnOk.title = NSLocalizedString("", comment: "OK")
+        btnOk.title = NSLocalizedString("Button.ok", comment: "OK").uppercased()
     }
 
     func setUpViews() {

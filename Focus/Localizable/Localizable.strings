@@ -9,13 +9,13 @@
 
    The R&D leading to these results received funding from the:
  * Rehabilitation Services Administration, US Dept. of Education under
-   grant H421A150006 (APCP)
+   grant H421A150006 (APCP;
  * National Institute on Disability, Independent Living, and
-   Rehabilitation Research (NIDILRR)
+   Rehabilitation Research (NIDILRR;
  * Administration for Independent Living & Dept. of Education under grants
-   H133E080022 (RERC-IT) and H133E130028/90RE5003-01-00 (UIITA-RERC)
- * European Union's Seventh Framework Programme (FP7/2007-2013) grant
-   agreement nos. 289016 (Cloud4all) and 610510 (Prosperity4All)
+   H133E080022 (RERC-IT; and H133E130028/90RE5003-01-00 (UIITA-RERC;
+ * European Union's Seventh Framework Programme (FP7/2007-2013; grant
+   agreement nos. 289016 (Cloud4all; and 610510 (Prosperity4All;
  * William and Flora Hewlett Foundation
  * Ontario Ministry of Research and Innovation
  * Canadian Foundation for Innovation
@@ -59,14 +59,14 @@
 "Home.untill_press_stop" = "Focus untill I press stop";
 "Home.stop_focus" = "Stop Focus";
 "Home.turn_on_dnd" = "Turn on 'Do Not Disturb' while focusing";
-"Home.turn_on_dnd_info" = "(turns off notifications and calls)";
+"Home.turn_on_dnd_info" = "(turns off notifications and calls;";
 "Home.provide_short_1" = "Provide short";
 "Home.provide_short_2" = "Breaks for every";
 "Home.provide_short_3" = "of Focus";
 "Home.provide_short_info" = "Use the dropdowns to change time";
 "Home.block_select_prog_web" = "Block select programs & websites which focusing";
 "Home.use_this_block_list" = "Use this blocklist: ";
-"Home.focus_lenght_title" = "Start a Focus session now for the following length of time \n(With the settings checked above)";
+"Home.focus_lenght_title" = "Start a Focus session now for the following length of time \n(With the settings checked above;";
 "Home.customize_setting" = "Customize Setting";
 "Home.show_edit_blocklist" = "Show or Edit Blocklist";
 "Home.customize_setting_info" = "Customize Focus or schedule automatic focus sessions";
@@ -77,20 +77,20 @@
 "Customize.focus_schedule" = "Focus Schedule";
 "Customize.today_schedule" = "Today's Schedule";
 "Customize.blocklists" = "Blocklists";
-"Customize.edit_view" = "(view & edit)";
+"Customize.edit_view" = "(view & edit;";
 "Customize.scheduler" = "Scheduler";
-"Customize.edit_view_active" = "(view, edit & activate)";
+"Customize.edit_view_active" = "(view, edit & activate;";
 
 
 "GS.behaviorTitle" = "Behavior during focus sessions:";
 "GS.before_warning" = "Don't give me a 5 minute warning before scheduled focus sessions start";
-"GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.)";
+"GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.;";
 "GS.countdown_timer" = "Show count down timer in minutes for break start and end";
 "GS.block_screen_each" = "Block screen for the first minute of each break to encourage me to stand up and \nstretch";
 "GS.unblockingtitle" = "Allow me to temporarily unblock these items during focus sessions:";
 "GS.unblockinginfo" = "If you need access to a program or website, but it is blocked during a focus session, \nthen you can use this feature to unblock it.";
 "GS.allowinfo" = "This feature  allows user to override a block for the rest of the day.";
-"GS.overrideinfo" = "Check an item below to unblock it until midnight (or until you uncheck it):";
+"GS.overrideinfo" = "Check an item below to unblock it until midnight (or until you uncheck it;:";
 "GS.edit_list" = "Edit List";
 "GS.listInfo" = "This list cannot be changed while \na focus session is in progress.";
 "GS.provide_focus_time" = "Provide short";
@@ -120,7 +120,7 @@
 
 
 "SS.title" = "Focus Schedule";
-"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)";
+"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.;";
 "SS.instruction" = "Instructions";
 
 "TS.title" = "Today’s Schedule";
@@ -152,8 +152,8 @@
 "Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in:";
 "Alert.disincentive_xx_character_sub_desc" = "Type the following characters in the space below:";
 "Alert.disincentive_signout_signin_alert_sub_desc" = "If you still want to stop the focus session, \nsave your work and then restart your computer.";
-"Alert.disincentive_signout_signin_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
-"Alert.disincentive_xx_character_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
+"Alert.disincentive_signout_signin_alert_desc" = "You set the blocklist (currently being used; to \nrequire you to complete the task below in order to \nstop the focus session.";
+"Alert.disincentive_xx_character_alert_desc" = "You set the blocklist (currently being used; to \nrequire you to complete the task below in order to \nstop the focus session.";
 "Alert.disincentive.show_blocklist" = "Show me the blocklist that requires this ...";
 "Applications" = "Applications";
 "Alert.session_complete_subdesc" = "I want to focus a little longer.\nExtend focus session for:";
@@ -171,8 +171,28 @@
 "Session.focus_session_has_run" = "Focus session has run for:";
 "Session.using_block" = "Using blocklist:";
 "Session.focus_session_end_at" = "Focus session ends at:";
-"Session.title" = "Currently Running Focus Session(s)";
+"Session.title" = "Currently Running Focus Session(s;";
 "Session.start_focus_session" = "Start a 2nd focus session";
 "Session.why_do_this" = "Why do this?";
 
+"Error.active_session_error" = "Changes cannot be made to an active Focus session";
+"Error.change_blocklist_error" = "Changes cannot be made to this Blocklist";
+"Error.scheduler" = "Two Focus sessions already scheduled";
+"Error.active_focus_error" = "Changes cannot be made during active Focus session";
+"Error.active_session_error_desc" = "A Focus session cannot be changed while it is in progress.\nYou must stop this session to make changes.";
+"Error.change_blocklist_error_desc" = "A Blocklist cannot be changed while it is being used during a Focus session.\nYou must stop this session to make changes.";
+"Error.scheduler_desc" = "More than two Focus sessions cannot be scheduled for the same time.\nTry editing your schedule.";
+"Error.active_focus_error_desc" = "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.";
+"Error.Info" = "< include “stop task” message if there is as stop task>";
 
+"ID.test_url" = "Test URL";
+
+"Input.add_block_list_name.title" = "Name blocklist:";
+"Input.add_website.title" = "Type or paste a website URL:";
+"Input.add_website.link" = "Opens the URL in your internet browser.";
+"Input.create_block_list" = "Create blocklist";
+"Input.add_website" = "Add Website";
+
+"List.category.title" = "Apps and websites blocked by the category:";
+"List.unblocking_list.title" = "Select apps and websites from your blocklists to allow yourself to temporarily unblock.";
+"List.add_item" = "Add items";

@@ -69,6 +69,9 @@
 		3FB01CF026FB0E9400828486 /* InputDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CEE26FB0E9400828486 /* InputDialogueViewC.swift */; };
 		3FB01CF126FB0E9400828486 /* InputDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB01CEF26FB0E9400828486 /* InputDialogueViewC.xib */; };
 		3FB01CF326FB0EB000828486 /* InputDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CF226FB0EB000828486 /* InputDialogueViewModel.swift */; };
+		3FB01CF726FB400500828486 /* BlocklistDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CF526FB400500828486 /* BlocklistDialogueViewC.swift */; };
+		3FB01CF826FB400500828486 /* BlocklistDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB01CF626FB400500828486 /* BlocklistDialogueViewC.xib */; };
+		3FB01CFA26FB475200828486 /* BlocklistDialogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CF926FB475200828486 /* BlocklistDialogueViewModel.swift */; };
 		3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */; };
 		3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */; };
 		3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */; };
@@ -164,6 +167,9 @@
 		3FB01CEE26FB0E9400828486 /* InputDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDialogueViewC.swift; sourceTree = "<group>"; };
 		3FB01CEF26FB0E9400828486 /* InputDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputDialogueViewC.xib; sourceTree = "<group>"; };
 		3FB01CF226FB0EB000828486 /* InputDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDialogueViewModel.swift; sourceTree = "<group>"; };
+		3FB01CF526FB400500828486 /* BlocklistDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocklistDialogueViewC.swift; sourceTree = "<group>"; };
+		3FB01CF626FB400500828486 /* BlocklistDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlocklistDialogueViewC.xib; sourceTree = "<group>"; };
+		3FB01CF926FB475200828486 /* BlocklistDialogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocklistDialogueViewModel.swift; sourceTree = "<group>"; };
 		3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAppDialogueViewC.swift; sourceTree = "<group>"; };
 		3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAppDialogueViewC.xib; sourceTree = "<group>"; };
 		3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplitViewController.swift; sourceTree = "<group>"; };
@@ -462,6 +468,7 @@
 		3FA51D49267CB6CE007826F3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3FB01CF426FB3FBA00828486 /* BlocklistDialogue */,
 				3FB01CED26FB0E4F00828486 /* InputDialogue */,
 				3FB01CE626FB011300828486 /* ErrorDialogue */,
 				3F58B08C26D615E900D730D9 /* SessionStart */,
@@ -511,6 +518,16 @@
 				3FB01CF226FB0EB000828486 /* InputDialogueViewModel.swift */,
 			);
 			path = InputDialogue;
+			sourceTree = "<group>";
+		};
+		3FB01CF426FB3FBA00828486 /* BlocklistDialogue */ = {
+			isa = PBXGroup;
+			children = (
+				3FB01CF526FB400500828486 /* BlocklistDialogueViewC.swift */,
+				3FB01CF626FB400500828486 /* BlocklistDialogueViewC.xib */,
+				3FB01CF926FB475200828486 /* BlocklistDialogueViewModel.swift */,
+			);
+			path = BlocklistDialogue;
 			sourceTree = "<group>";
 		};
 		3FB1368326E87FA100B34A01 /* BlockApp */ = {
@@ -701,6 +718,7 @@
 				3FAD91F326B41E5A00698848 /* dnd.sh in Resources */,
 				3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */,
 				3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */,
+				3FB01CF826FB400500828486 /* BlocklistDialogueViewC.xib in Resources */,
 				3FB01CF126FB0E9400828486 /* InputDialogueViewC.xib in Resources */,
 				3FB01CEA26FB014900828486 /* ErrorDialogueViewC.xib in Resources */,
 				3FAAF75D26B2C261009447F8 /* logout.sh in Resources */,
@@ -719,9 +737,11 @@
 				3F7872D326B80C190076FA83 /* ApplicationListViewC.swift in Sources */,
 				3F58B09226D6224900D730D9 /* SessionInfoView.swift in Sources */,
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
+				3FB01CFA26FB475200828486 /* BlocklistDialogueViewModel.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,
 				3F42D47326F06D4A0046D09A /* ImageTextCell.swift in Sources */,
 				3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */,
+				3FB01CF726FB400500828486 /* BlocklistDialogueViewC.swift in Sources */,
 				3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,

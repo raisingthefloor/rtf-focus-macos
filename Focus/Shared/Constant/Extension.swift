@@ -217,3 +217,13 @@ extension NSTableView {
         selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
     }
 }
+
+extension Date {
+    static func getDayName() -> String {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        let dayInWeek = dateFormatter.string(from: date)
+        return dayInWeek
+    }
+}

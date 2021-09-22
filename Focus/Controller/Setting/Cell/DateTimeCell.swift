@@ -45,4 +45,8 @@ extension DateTimeCell: BasicSetupType {
 
     func setUpViews() {
     }
+    
+    func setupSart(value: String) {
+    }
+
 }

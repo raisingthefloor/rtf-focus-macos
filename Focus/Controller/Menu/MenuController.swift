@@ -69,7 +69,7 @@ class MenuController: BaseViewController {
         setUpText()
         setUpViews()
         bindData()
-       // setupData()
+        // setupData()
     }
 
     @IBAction func showInfoAction(_ sender: Any) {
@@ -202,15 +202,22 @@ extension MenuController: BasicSetupType {
         viewModel.input.updateFocusStop(time: focusTime) { isUpdate, _ in
             if isUpdate != nil {
                 let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+                let inputDialogue = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+                let listDialogue = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
+
                 switch focusTime {
                 case .half_past:
                     controller.dialogueType = .short_break_alert
                 case .one_hr:
-                    controller.dialogueType = .end_break_alert
+                    listDialogue.listType = .category_list
+                    self.presentAsSheet(listDialogue)
                 case .two_hr:
-                    controller.dialogueType = .long_break_alert
+                    inputDialogue.inputType = .add_website
+                    self.presentAsSheet(inputDialogue)
                 case .untill_press_stop:
-                    controller.dialogueType = .seession_completed_alert
+                    errorDialog.errorType = .schedule_error
+                    self.presentAsSheet(errorDialog)
                 case .stop_focus:
                     controller.dialogueType = .till_stop_alert
                 }
@@ -267,7 +274,7 @@ extension MenuController: BasicSetupType {
 //        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
 //            presentAsSheet(vc)
 //        }
-        self.performSegue(withIdentifier: "segueSetting", sender: self)
+        performSegue(withIdentifier: "segueSetting", sender: self)
     }
 }
 

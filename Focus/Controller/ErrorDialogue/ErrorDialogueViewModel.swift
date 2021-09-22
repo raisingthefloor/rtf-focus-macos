@@ -48,26 +48,22 @@ enum ErrorDialogue: Int {
     var description: String {
         switch self {
         case .focus_schedule_error:
-            return NSLocalizedString("Error.active_session_error", comment: "A Focus session cannot be changed while it is in progress.\nYou must stop this session to make changes.")
+            return NSLocalizedString("Error.active_session_error_desc", comment: "A Focus session cannot be changed while it is in progress.\nYou must stop this session to make changes.")
         case .edit_blocklist_error:
-            return NSLocalizedString("Error.active_session_error", comment: "A Blocklist cannot be changed while it is being used during a Focus session.\nYou must stop this session to make changes.")
+            return NSLocalizedString("Error.change_blocklist_error_desc", comment: "A Blocklist cannot be changed while it is being used during a Focus session.\nYou must stop this session to make changes.")
         case .schedule_error:
-            return NSLocalizedString("Error.active_session_error", comment: "More than two Focus sessions cannot be scheduled for the same time.\nTry editing your schedule.")
+            return NSLocalizedString("Error.scheduler_desc", comment: "More than two Focus sessions cannot be scheduled for the same time.\nTry editing your schedule.")
         case .general_setting_error:
-            return NSLocalizedString("Error.active_session_error", comment: "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.")
+            return NSLocalizedString("Error.active_focus_error_desc", comment: "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.")
         }
     }
     
     var link: String {
         switch self {
-        case .focus_schedule_error:
-            return "< include “stop task” message if there is as stop task>"
-        case .edit_blocklist_error:
-            return "< include “stop task” message if there is as stop task>"
+        case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
+            return NSLocalizedString("Error.Info", comment: "< include “stop task” message if there is as stop task>")
         case .schedule_error:
             return ""
-        case .general_setting_error:
-            return "< include “stop task” message if there is as stop task>"
         }
     }
 
