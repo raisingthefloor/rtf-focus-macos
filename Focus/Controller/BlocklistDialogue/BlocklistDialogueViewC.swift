@@ -32,6 +32,7 @@ class BlocklistDialogueViewC: NSViewController {
     @IBOutlet var btnAdd: CustomButton!
 
     var listType: ListDialogue = .category_list
+    var categoryName: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +51,19 @@ extension BlocklistDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        
         view.window?.level = .floating
         view.background_color = Color.edit_bg_color
 
-        lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold) // set font as per the dialogue
+        lblTitle.font = listType.font // set font as per the dialogue
         lblTitle.textColor = .black
+
+        if listType == .category_list {
+            let title = listType.title + "\n" + categoryName
+            let attributedValue = NSMutableAttributedString.getAttributedString(fromString: title)
+            attributedValue.apply(font: NSFont.systemFont(ofSize: 18, weight: .bold), subString: categoryName)
+            attributedValue.alignment(alignment: .natural,lineSpace: 4, subString: title)
+            lblTitle.attributedStringValue = attributedValue
+        }
 
         btnAdd.buttonColor = Color.green_color
         btnAdd.activeButtonColor = Color.green_color
@@ -67,7 +75,7 @@ extension BlocklistDialogueViewC: BasicSetupType {
         listContainerV.background_color = .white
         listContainerV.corner_radius = 4
     }
-    
+
     func bindData() {
         btnAdd.target = self
         btnAdd.action = #selector(btnAction(_:))
@@ -76,7 +84,6 @@ extension BlocklistDialogueViewC: BasicSetupType {
     @objc func btnAction(_ sender: NSButton) {
         dismiss(sender)
     }
-
 }
 
 extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
@@ -84,6 +91,13 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblView.delegate = self
         tblView.dataSource = self
         tblView.rowHeight = 23
+        if listType == .category_list {
+            tblView.tableColumns.forEach { column in
+                if column.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
+                    column.isHidden = true
+                }
+            }
+        }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -105,6 +119,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
         } else {
             if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
+                categoryCell.imgV.isHidden = (listType == .category_list) ? true : false
                 categoryCell.configCategory(val: obj)
                 return categoryCell
             }

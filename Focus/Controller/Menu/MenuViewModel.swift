@@ -27,7 +27,6 @@ import Cocoa
 import Foundation
 
 protocol MenuViewModelIntput {
-    func getBlockList() -> (NSMenu, [String])
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void))
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void))
     var focusObj: Focuses? { get set }
@@ -48,21 +47,6 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
 
     var input: MenuViewModelIntput { return self }
     var output: MenuViewModelOutput { return self }
-
-    let blockList = ["Starter block list", "Weekend block list", "Social", "Pirate"]
-
-    func getBlockList() -> (NSMenu, [String]) {
-        let menus = NSMenu()
-        for title in blockList {
-            let menuItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
-            menus.addItem(menuItem)
-        }
-        menus.addItem(.separator())
-        let showOption = NSMenuItem(title: NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist"), action: nil, keyEquivalent: "c")
-        showOption.tag = -1
-        menus.addItem(showOption)
-        return (menus, blockList)
-    }
 }
 
 extension MenuViewModel {

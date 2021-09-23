@@ -57,6 +57,15 @@ enum InputDialogue: Int {
         }
     }
 
+    var error_message: String {
+        switch self {
+        case .add_block_list_name:
+            return NSLocalizedString("Input.add_block_list_name.error", comment: "Blocklist name is missing")
+        case .add_website:
+            return NSLocalizedString("Input.add_website.error", comment: "URL is missing")
+        }
+    }
+
     var isTestUrlVisible: Bool {
         switch self {
         case .add_block_list_name:

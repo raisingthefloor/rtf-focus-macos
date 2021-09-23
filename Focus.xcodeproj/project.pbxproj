@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F1AA87B26EB56D4007BDA37 /* EditBlockListViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1AA87A26EB56D4007BDA37 /* EditBlockListViewC.swift */; };
 		3F1F265226845B3B007D9878 /* ViewShowAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F265126845B3B007D9878 /* ViewShowAnimator.swift */; };
+		3F27BC3526FC93C300A827D4 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F27BC3426FC93C300A827D4 /* DataModel.swift */; };
 		3F3C5FF726A17F6D0022C43F /* DBManagerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C5FF626A17F6D0022C43F /* DBManagerModel.swift */; };
 		3F3C5FFB26A187560022C43F /* OverrideBlockListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3C5FF926A187560022C43F /* OverrideBlockListVC.swift */; };
 		3F3C5FFC26A187560022C43F /* OverrideBlockListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F3C5FFA26A187560022C43F /* OverrideBlockListVC.xib */; };
@@ -104,6 +105,7 @@
 /* Begin PBXFileReference section */
 		3F1AA87A26EB56D4007BDA37 /* EditBlockListViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBlockListViewC.swift; sourceTree = "<group>"; };
 		3F1F265126845B3B007D9878 /* ViewShowAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewShowAnimator.swift; sourceTree = "<group>"; };
+		3F27BC3426FC93C300A827D4 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		3F3C5FF626A17F6D0022C43F /* DBManagerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManagerModel.swift; sourceTree = "<group>"; };
 		3F3C5FF926A187560022C43F /* OverrideBlockListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverrideBlockListVC.swift; sourceTree = "<group>"; };
 		3F3C5FFA26A187560022C43F /* OverrideBlockListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverrideBlockListVC.xib; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				3F3C5FF626A17F6D0022C43F /* DBManagerModel.swift */,
 				3F5944B62689F8F4008C54A4 /* DBManager.swift */,
 				3FDC912F269EB78F0021D3E3 /* DataController.swift */,
+				3F27BC3426FC93C300A827D4 /* DataModel.swift */,
 			);
 			path = DBManager;
 			sourceTree = "<group>";
@@ -785,6 +788,7 @@
 				3F7872CF26B803970076FA83 /* AppManager.swift in Sources */,
 				3F92BC1B26F1DE7800AC7C64 /* DateTimeCell.swift in Sources */,
 				3F8A231926D757D100D575F7 /* ExAttributedString.swift in Sources */,
+				3F27BC3526FC93C300A827D4 /* DataModel.swift in Sources */,
 				3F3C5FFE26A1919C0022C43F /* BlockModel.swift in Sources */,
 				3F9CC4A9268B3DA000AC3026 /* SchedulerViewC.swift in Sources */,
 				3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */,

@@ -42,7 +42,7 @@ extension NSMutableAttributedString {
         }
     }
 
-    /*Color Attribute*/
+    /* Color Attribute */
     func apply(color: NSColor, subString: String) {
         if let range = string.range(of: subString) {
             apply(color: color, onRange: NSRange(range, in: string))
@@ -151,16 +151,17 @@ extension NSMutableAttributedString {
 
     /* Paragraph Style  Attribute */
     // Apply paragraph style on substring
-    func alignment(alignment: NSTextAlignment, subString: String) {
+    func alignment(alignment: NSTextAlignment, lineSpace: CGFloat = 5, subString: String) {
         if let range = string.range(of: subString) {
-            self.alignment(alignment: alignment, onRange: NSRange(range, in: string))
+            self.alignment(alignment: alignment, lineSpace: lineSpace, onRange: NSRange(range, in: string))
         }
     }
 
     // Apply paragraph style on give range
-    func alignment(alignment: NSTextAlignment, onRange: NSRange) {
+    func alignment(alignment: NSTextAlignment, lineSpace: CGFloat, onRange: NSRange) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = alignment
+        paragraphStyle.lineSpacing = lineSpace
         addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: onRange)
     }
 }

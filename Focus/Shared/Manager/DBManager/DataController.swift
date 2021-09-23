@@ -35,6 +35,15 @@ class DataController: NSObject {
 
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Focus")
+
+        let dbURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus")
+        let description = NSPersistentStoreDescription(url: dbURL)
+        description.shouldInferMappingModelAutomatically = true
+        description.shouldMigrateStoreAutomatically = true
+        description.type = NSSQLiteStoreType
+        
+        container.persistentStoreDescriptions = [description]
+
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -47,6 +56,7 @@ class DataController: NSObject {
     }
 
     // MARK: - Core Data Saving
+
     func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {

@@ -30,7 +30,7 @@
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="351-0H-ehx">
                                     <rect key="frame" x="-2" y="225" width="493" height="15"/>
                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Select apps and websites from your blocklists to allow yourself to temporarily unblock." id="zWv-gA-09M">
-                                        <font key="font" metaFont="system" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
@@ -209,10 +209,10 @@
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="7ZR-fe-U3X" secondAttribute="bottom" constant="15" id="Fph-yE-ITW"/>
-                <constraint firstAttribute="trailing" secondItem="7ZR-fe-U3X" secondAttribute="trailing" constant="12" id="HPK-wt-fr2"/>
-                <constraint firstItem="7ZR-fe-U3X" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="TFc-Wa-6Yc"/>
-                <constraint firstItem="7ZR-fe-U3X" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="15" id="n1B-pC-G5y"/>
+                <constraint firstAttribute="bottom" secondItem="7ZR-fe-U3X" secondAttribute="bottom" constant="18" id="Fph-yE-ITW"/>
+                <constraint firstAttribute="trailing" secondItem="7ZR-fe-U3X" secondAttribute="trailing" constant="18" id="HPK-wt-fr2"/>
+                <constraint firstItem="7ZR-fe-U3X" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="18" id="TFc-Wa-6Yc"/>
+                <constraint firstItem="7ZR-fe-U3X" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="18" id="n1B-pC-G5y"/>
             </constraints>
             <point key="canvasLocation" x="-26" y="130"/>
         </customView>

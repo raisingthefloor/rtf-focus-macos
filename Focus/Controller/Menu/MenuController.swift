@@ -63,13 +63,15 @@ class MenuController: BaseViewController {
     @IBOutlet var lblSetting: NSTextField!
 
     let viewModel: MenuViewModelType = MenuViewModel()
+    let dataModel: DataModelType = DataModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        dataModel.input.storeCategory() // Store first time only
         setUpText()
         setUpViews()
         bindData()
-        // setupData()
+        setupData()
     }
 
     @IBAction func showInfoAction(_ sender: Any) {
@@ -154,12 +156,9 @@ extension MenuController: BasicSetupType {
     }
 
     func bindData() {
-        popBlock.menu = viewModel.input.getBlockList().0
+        popBlock.menu = dataModel.input.getCategoryList(cntrl: .main_menu).0
         popFocusTime.menu = Focus.FocusTime.focustimes
         popBreakTime.menu = Focus.BreakTime.breaktimes
-
-//        btnCostomizeSetting.target = self
-//        btnCostomizeSetting.action = #selector(openCustomSetting)
 
         setupFocusStopAction(arrButtons: [btn30m, btn1Hr, btn2Hr, btnUntillI])
         setupFocusOptionAction(arrButtons: [checkBoxDND, checkBoxFocusTime, checkBoxBlock])
@@ -233,13 +232,13 @@ extension MenuController: BasicSetupType {
                 switch focusOption {
                 case .block_program_website:
                     self.blockStackV.isHidden = ((state as? NSControl.StateValue) == .on) ? false : true
-                case .dnd:
-                    WindowsManager.runDNDScript()
-                    if (state as? NSControl.StateValue) == .on {
-                        WindowsManager.enableDND()
-                    } else {
-                        WindowsManager.disableDND()
-                    }
+                case .dnd: break
+                // TODO: below DND code will perfor when focus start
+//                    if (state as? NSControl.StateValue) == .on {
+//                        WindowsManager.enableDND()
+//                    } else {
+//                        WindowsManager.disableDND()
+//                    }
                 default:
                     break
                 }
@@ -250,7 +249,7 @@ extension MenuController: BasicSetupType {
     @IBAction func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
         if popBlock.selectedTag() == -1 {
-            openCustomSetting()
+            performSegue(withIdentifier: "segueSetting", sender: SettingOptions.block_setting)
         }
         print("Selected block:", popBlock.titleOfSelectedItem ?? "")
 
@@ -288,6 +287,14 @@ extension MenuController {
 
         for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI] {
             btn?.isEnabled = !obj.is_focusing
+        }
+    }
+
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueSetting" {
+            if let detailVC = segue.destinationController as? CustomSettingController {
+                detailVC.selectOption = sender as? SettingOptions ?? SettingOptions.general_setting
+            }
         }
     }
 }

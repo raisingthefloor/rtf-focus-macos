@@ -117,6 +117,7 @@
 "BS.restart" = "Yes, make me restart my computer to stop the focus session";
 "BS.note_one" = "Note: You cannot change a \nblocklist while it is in use in an \nactive focus session.";
 "BS.note_two" = "Any changes made will not take \neffect until the next focus session \nwhere the blocklist is used.";
+"BS.create_new_blocklist" = "Create new blocklist...";
 
 
 "SS.title" = "Focus Schedule";
@@ -192,6 +193,8 @@
 "Input.add_website.link" = "Opens the URL in your internet browser.";
 "Input.create_block_list" = "Create blocklist";
 "Input.add_website" = "Add Website";
+"Input.add_block_list_name.error" = "Blocklist name is missing";
+"Input.add_website.error" = "URL is missing";
 
 "List.category.title" = "Apps and websites blocked by the category:";
 "List.unblocking_list.title" = "Select apps and websites from your blocklists to allow yourself to temporarily unblock.";

@@ -11,6 +11,7 @@
                 <outlet property="btnCancel" destination="VcA-ue-sDg" id="AXb-Xt-PeZ"/>
                 <outlet property="btnCreate" destination="PEY-bJ-Eev" id="Bjr-23-7Tf"/>
                 <outlet property="btnTestUrl" destination="w6g-UQ-i0N" id="nfh-RD-kGv"/>
+                <outlet property="lblError" destination="g8d-AL-ByD" id="Avk-Dk-mOf"/>
                 <outlet property="lblInfo" destination="w3M-se-qjT" id="m43-1O-IwJ"/>
                 <outlet property="lblTitle" destination="eBw-ZH-FQw" id="FFL-Ga-4jk"/>
                 <outlet property="testView" destination="uvy-TD-0SL" id="Z8E-SI-oxJ"/>
@@ -31,7 +32,7 @@
                             <rect key="frame" x="2" y="0.0" width="372" height="177"/>
                             <subviews>
                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zyy-es-BBs">
-                                    <rect key="frame" x="-4" y="80" width="376" height="97"/>
+                                    <rect key="frame" x="0.0" y="80" width="376" height="97"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eBw-ZH-FQw">
                                             <rect key="frame" x="-2" y="81" width="181" height="16"/>
@@ -49,6 +50,14 @@
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="QNe-DQ-DoE">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g8d-AL-ByD">
+                                            <rect key="frame" x="-2" y="81" width="156" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Blocklist name is missing" id="ahL-Pr-t0q">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
@@ -102,8 +111,10 @@
                                         <integer value="1000"/>
                                         <integer value="1000"/>
                                         <integer value="1000"/>
+                                        <integer value="1000"/>
                                     </visibilityPriorities>
                                     <customSpacing>
+                                        <real value="3.4028234663852886e+38"/>
                                         <real value="3.4028234663852886e+38"/>
                                         <real value="3.4028234663852886e+38"/>
                                         <real value="3.4028234663852886e+38"/>

@@ -32,33 +32,20 @@ class DBManager {
 
 // Block List
 extension DBManager: DBMangerLogic {
-    func saveBlock(data: [String: Any?]) {
-        let entity = NSEntityDescription.entity(forEntityName: "Override_Block", in: managedContext)!
-        let block = NSManagedObject(entity: entity, insertInto: managedContext)
-
-        for (key, value) in data {
-            block.setValue(value, forKeyPath: key)
-        }
-
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-
-    func getBlockList() -> [Override_Block] {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Override_Block")
-        do {
-            let block = try managedContext.fetch(fetchRequest)
-            guard let overriedBlocks = block as? [Override_Block] else { return [] }
-            return overriedBlocks
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-
-        return []
-    }
+//    func saveBlock(data: [String: Any?]) {
+//        let entity = NSEntityDescription.entity(forEntityName: "Override_Block", in: managedContext)!
+//        let block = NSManagedObject(entity: entity, insertInto: managedContext)
+//
+//        for (key, value) in data {
+//            block.setValue(value, forKeyPath: key)
+//        }
+//
+//        do {
+//            try managedContext.save()
+//        } catch let error as NSError {
+//            print("Could not save. \(error), \(error.userInfo)")
+//        }
+//    }
 
     func getActiveBlockList() -> [Override_Block] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Override_Block")
@@ -132,6 +119,85 @@ extension DBManager {
             return applications
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
+        }
+
+        return []
+    }
+}
+
+// MARK: Block list Store and Fetch
+
+extension DBManager {
+    func saveBlocklist(data: [String: Any?]) {
+        let entity = NSEntityDescription.entity(forEntityName: "Block_List", in: managedContext)!
+        let category = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        for (key, value) in data {
+            category.setValue(value, forKeyPath: key)
+        }
+
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save category. \(error), \(error.userInfo)")
+        }
+    }
+
+    func getBlockList() -> [Block_List] {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_List")
+        do {
+            let block = try managedContext.fetch(fetchRequest)
+            guard let blocklist = block as? [Block_List] else { return [] }
+            return blocklist
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+
+        return []
+    }
+}
+
+// MARK: Category Store and Fetch
+
+extension DBManager {
+    func checkDataIsPresent() -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
+        do {
+            let results = try managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch let error {
+            print("Could not Check data. categories \(error), \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    func saveCategory(data: [String: Any?]) {
+        let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: managedContext)!
+        let category = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        for (key, value) in data {
+            category.setValue(value, forKeyPath: key)
+        }
+
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save category. \(error), \(error.userInfo)")
+        }
+    }
+
+    func getCategories() -> [Block_Category] {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_Category")
+        do {
+            let block = try managedContext.fetch(fetchRequest)
+            guard let categories = block as? [Block_Category] else { return [] }
+            return categories
+        } catch let error as NSError {
+            print("Could not fetch. categories \(error), \(error.userInfo)")
         }
 
         return []

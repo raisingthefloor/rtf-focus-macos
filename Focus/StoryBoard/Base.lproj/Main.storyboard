@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -301,10 +301,10 @@
                                                         </buttonCell>
                                                     </button>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tu-6L-z8G">
-                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="27"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="260" height="27"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liH-U3-c4W">
-                                                                <rect key="frame" x="0.0" y="0.0" width="233" height="27"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="260" height="27"/>
                                                                 <subviews>
                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tSG-xv-MZj">
                                                                         <rect key="frame" x="-2" y="5" width="112" height="16"/>
@@ -314,9 +314,13 @@
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
                                                                     </textField>
-                                                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wJe-Ji-Fgy">
-                                                                        <rect key="frame" x="115" y="-1" width="122" height="25"/>
-                                                                        <popUpButtonCell key="cell" type="push" title="Select Option" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="DEW-KY-SOo" id="R3X-gN-fUS">
+                                                                    <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="wJe-Ji-Fgy">
+                                                                        <rect key="frame" x="115" y="-1" width="148" height="27"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="142" id="ce7-T0-fya"/>
+                                                                            <constraint firstAttribute="height" constant="20" id="kc2-N1-4Ms"/>
+                                                                        </constraints>
+                                                                        <popUpButtonCell key="cell" type="bevel" title="Select Option" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="DEW-KY-SOo" id="R3X-gN-fUS">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="menu"/>
                                                                             <menu key="menu" id="jjA-gv-9E3">

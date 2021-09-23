@@ -73,8 +73,8 @@ extension ApplicationListViewC: BasicSetupType {
         let data = arrApplicatios.filter({ $0.is_selected }).compactMap({ $0 })
         for obj in data {
             let data: [String: Any?] = ["name": obj.name, "created_at": Date(), "bundle_id": obj.bundle_id, "is_selected": false, "is_deleted": false, "block_type": BlockType.application.rawValue]
-            viewModel.input.storeOverridesBlock(data: data) { _ in
-            }
+//            viewModel.input.storeOverridesBlock(data: data) { _ in
+//            }
         }
 
         applySuccess?(true)

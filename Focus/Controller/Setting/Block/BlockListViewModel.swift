@@ -27,9 +27,8 @@ import Cocoa
 import Foundation
 
 protocol BlockListViewModelIntput {
-    func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block])
-    func getCategoryList() -> (NSMenu, [String])
-    func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void))
+//    func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block])
+//    func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void))
 }
 
 protocol BlockListViewModelOutput {
@@ -48,43 +47,30 @@ class BlockListViewModel: BlockListViewModelIntput, BlockListViewModelOutput, Bl
     let childeren: [String] = ["Facebook", "Intagram", "LinkedIn"]
     let blockList = ["Starter block list", "Weekend block list", "Social", "Pirate"]
 
-    func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block]) {
-        var blockCategories: [BlockCategory] = []
+//    func getBlockList() -> ([BlockCategory], [Override_Block], [Override_Block]) {
+//        var blockCategories: [BlockCategory] = []
+//
+//        for i in 0 ..< blockNames.count {
+//            var childrenBlock: [BlockData] = []
+//            if (i % 2) != 0 {
+//                for i in 0 ..< childeren.count {
+//                    let block = BlockData(id: i, name: childeren[i])
+//                    childrenBlock.append(block)
+//                }
+//            }
+//
+//            let block = BlockCategory(id: i, name: blockNames[i], childeren: childrenBlock)
+//            blockCategories.append(block)
+//        }
+//        let override_bloks = DBManager.shared.getBlockList()
+//        return (blockCategories, override_bloks, override_bloks)
+//    }
 
-        for i in 0 ..< blockNames.count {
-            var childrenBlock: [BlockData] = []
-            if (i % 2) != 0 {
-                for i in 0 ..< childeren.count {
-                    let block = BlockData(id: i, name: childeren[i])
-                    childrenBlock.append(block)
-                }
-            }
-
-            let block = BlockCategory(id: i, name: blockNames[i], childeren: childrenBlock)
-            blockCategories.append(block)
-        }
-        let override_bloks = DBManager.shared.getBlockList()
-        return (blockCategories, override_bloks, override_bloks)
-    }
-
-    func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void)) {
-        DBManager.shared.saveBlock(data: data)
-        let override_bloks = DBManager.shared.getBlockList()
-        callback(override_bloks)
-    }
-
-    func getCategoryList() -> (NSMenu, [String]) {
-        let menus = NSMenu()
-        for title in blockList {
-            let menuItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
-            menus.addItem(menuItem)
-        }
-        menus.addItem(.separator())
-        let showOption = NSMenuItem(title: NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist"), action: nil, keyEquivalent: "c")
-        showOption.tag = -1
-        menus.addItem(showOption)
-        return (menus, blockList)
-    }
+//    func storeOverridesBlock(data: [String: Any?], callback: @escaping (([Override_Block]) -> Void)) {
+//        DBManager.shared.saveBlock(data: data)
+//        let override_bloks = DBManager.shared.getBlockList()
+//        callback(override_bloks)
+//    }
 }
 
 struct BlockCategory {

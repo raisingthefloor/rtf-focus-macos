@@ -28,6 +28,7 @@ import Cocoa
 class InputDialogueViewC: NSViewController {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var txtField: NSTextField!
+    @IBOutlet var lblError: NSTextField!
 
     @IBOutlet var testView: NSView!
 
@@ -37,6 +38,8 @@ class InputDialogueViewC: NSViewController {
     @IBOutlet var btnCancel: CustomButton!
 
     var inputType: InputDialogue = .add_website
+    var addedSuccess: ((Bool) -> Void)?
+    let dataModel: DataModelType = DataModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +72,9 @@ extension InputDialogueViewC: BasicSetupType {
         lblInfo.textColor = Color.info_blue_color
 
         lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        lblError.font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        lblError.textColor = Color.red_color
+
         // lblInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
 
         btnCreate.buttonColor = Color.green_color
@@ -102,7 +108,18 @@ extension InputDialogueViewC: BasicSetupType {
     }
 
     @objc func createAction(_ sender: NSButton) {
-        dismiss(sender)
+        lblError.isHidden = !txtField.stringValue.isEmpty
+        if txtField.stringValue.isEmpty {
+            lblError.stringValue = inputType.error_message
+        } else {
+            if inputType == .add_block_list_name {
+                dataModel.input.storeBlocklist(data: ["name": txtField.stringValue, "id": UUID(), "created_at": Date()])
+            } else {
+                let data: [String: Any] = ["url": txtField.stringValue, "name": txtField.stringValue, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
+            }
+            addedSuccess?(true)
+            dismiss(sender)
+        }
     }
 
     @objc func cancelAction(_ sender: NSButton) {
@@ -110,6 +127,14 @@ extension InputDialogueViewC: BasicSetupType {
     }
 
     @objc func testUrlAction(_ sender: NSButton) {
-        dismiss(sender)
+        lblError.isHidden = !txtField.stringValue.isEmpty
+        guard !txtField.stringValue.isEmpty else {
+            lblError.stringValue = inputType.error_message
+            return
+        }
+        guard let url = URL(string: txtField.stringValue) else { return }
+        if NSWorkspace.shared.open(url) {
+            print("default browser was successfully opened")
+        }
     }
 }

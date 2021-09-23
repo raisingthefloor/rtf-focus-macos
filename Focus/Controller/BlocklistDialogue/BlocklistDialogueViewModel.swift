@@ -48,6 +48,15 @@ enum ListDialogue: Int {
         }
     }
 
+    var font: NSFont {
+        switch self {
+        case .category_list:
+            return NSFont.systemFont(ofSize: 18, weight: .regular)
+        case .unblocking_list:
+            return NSFont.systemFont(ofSize: 12, weight: .semibold)
+        }
+    }
+
     var isCheckboxVisible: Bool {
         switch self {
         case .category_list:

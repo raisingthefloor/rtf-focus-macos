@@ -32,6 +32,9 @@ class CustomSettingController: NSViewController {
     @IBOutlet var lblTitle: NSTextField!
 
     @IBOutlet var righView: NSView!
+    
+    
+    var selectOption: SettingOptions = .general_setting
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +78,7 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
         tblMenu.rowHeight = 34
         let row = tblMenu.rowView(atRow: 0, makeIfNecessary: false)
         row?.isSelected = true
-        let selectedRowIndexes = IndexSet(integer: 0)
+        let selectedRowIndexes = IndexSet(integer: selectOption.rawValue)
         tblMenu.reloadData()
         tblMenu.selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
     }

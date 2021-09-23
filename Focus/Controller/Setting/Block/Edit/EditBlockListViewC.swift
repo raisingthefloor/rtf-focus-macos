@@ -71,8 +71,9 @@ class EditBlockListViewC: BaseViewController {
     @IBOutlet var lblNote2: NSTextField!
 
     let viewModel: BlockListViewModelType = BlockListViewModel()
-    var webSites: [Override_Block] = []
+    let dataModel: DataModelType = DataModel()
 
+    var webSites: [Override_Block] = []
     var blockList = ["email", "slack", "Skype", "LinkedIn", "Yahoo"]
 
     let cellIdentifier: String = "checkboxCellID"
@@ -159,7 +160,7 @@ extension EditBlockListViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        comboBlock.menu = viewModel.input.getCategoryList().0
+        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
 
         mainView.border_color = Color.dark_grey_border
         mainView.border_width = 0.6
@@ -266,14 +267,14 @@ extension EditBlockListViewC: BasicSetupType {
 
         btnNBAddApp.target = self
         btnNBAddApp.action = #selector(addAppAction(_:))
-        
+
         comboBlock.target = self
         comboBlock.action = #selector(handleBlockSelection(_:))
     }
 
     @objc func addAppAction(_ sender: NSButton) {
         let controller = ApplicationListViewC(nibName: "ApplicationListViewC", bundle: nil)
-        controller.applySuccess = { [weak self] value in
+        controller.applySuccess = { [weak self] _ in
             self?.tblBlock.reloadData()
             self?.tblNotBlock.reloadData()
         }
@@ -281,7 +282,16 @@ extension EditBlockListViewC: BasicSetupType {
     }
 
     @objc func addWebAction(_ sender: NSButton) {
-        openPopup()
+        let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+        inputDialogueCntrl.inputType = .add_website
+        inputDialogueCntrl.addedSuccess = { [weak self] value in
+            if value {
+                self?.tblBlock.reloadDataKeepingSelection()
+                self?.tblNotBlock.reloadDataKeepingSelection()
+            }
+        }
+
+        presentAsSheet(inputDialogueCntrl)
     }
 
     @objc func deleAppAction(_ sender: NSButton) {
@@ -289,11 +299,22 @@ extension EditBlockListViewC: BasicSetupType {
 
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
-        if comboBlock.selectedTag() == -1 {
-            // Open View as per the functionality
-        }
-        print("Selected block:", comboBlock.titleOfSelectedItem ?? "")
+        let index = comboBlock.selectedTag()
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        if index == -1 {
+            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+            inputDialogueCntrl.inputType = .add_block_list_name
+            inputDialogueCntrl.dataModel.input.objBlocklist = arrBlock[index]
 
+            inputDialogueCntrl.addedSuccess = { [weak self] value in
+                if value {
+                    self?.comboBlock.menu = self?.dataModel.input.getCategoryList(cntrl: .edit_blocklist).0
+                    self?.tblCategory.reloadDataKeepingSelection()
+                }
+            }
+
+            presentAsSheet(inputDialogueCntrl)
+        }
         // Here set the Block object in focus object
     }
 
@@ -304,10 +325,6 @@ extension EditBlockListViewC: BasicSetupType {
         promptToForInput("Enter Web Url", "Copy Url from Webrowser and paste it below.", completion: { (value: String, action: Bool) in
             if action {
                 print(value)
-
-                let data: [String: Any] = ["url": value, "name": value, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
-                viewModel.input.storeOverridesBlock(data: data) { _ in
-                }
             }
         })
     }
@@ -332,7 +349,11 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return blockList.count
+        if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
+            return dataModel.input.getCategoryList(cntrl: .edit_blocklist).1.count
+        } else {
+            return blockList.count
+        }
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -341,6 +362,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
+            let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
                     return cell
@@ -348,7 +370,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
                 if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    categoryCell.configCategory(val: blockList[row])
+                    categoryCell.configCategory(val: objCat.name ?? "")
                     return categoryCell
                 }
             }
@@ -388,10 +410,23 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         return nil
     }
 
+    // Need to check other option to get the object
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let tblV = notification.object as? NSTableView {
             let selectedRow = tblV.selectedRow
-            let option = blockList[selectedRow]
+            guard selectedRow != -1 else { return }
+            if tblV.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
+                let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[selectedRow]
+                let listDialogue = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
+                listDialogue.listType = .category_list
+                listDialogue.categoryName = objCat.name ?? "-"
+                presentAsSheet(listDialogue)
+            }
         }
+    }
+
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        let view = ClearRowView()
+        return view
     }
 }

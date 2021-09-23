@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Allowed_Blocked_GS" representedClassName="Allowed_Blocked_GS" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="General_Settings" inverseName="allowed_override" inverseEntity="General_Settings"/>
     </entity>
@@ -9,21 +9,39 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="path" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Block_Category" representedClassName="Block_Category" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+    <entity name="Block_App_Web" representedClassName="Block_App_Web" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="block_app_web" inverseEntity="Block_List"/>
+    </entity>
+    <entity name="Block_Category" representedClassName="Block_Category" syncable="YES" codeGenerationType="class">
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="sub_data" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Block_SubCategory" inverseName="main_data" inverseEntity="Block_SubCategory"/>
     </entity>
     <entity name="Block_Interface" representedClassName="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="app_identifier" optional="YES" attributeType="String"/>
         <attribute name="block_type" optional="YES" attributeType="String"/>
-        <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="ip_address" optional="YES" attributeType="String" defaultValueString="0.0.0.0"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Block_List" representedClassName="Block_List" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class"/>
-    <entity name="Block_SubCategory" representedClassName="Block_SubCategory" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+    <entity name="Block_List" representedClassName="Block_List" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="block_app_web" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Block_App_Web" inverseName="block_list" inverseEntity="Block_App_Web"/>
+        <relationship name="exception_block" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Exception_App_Web" inverseName="block_list" inverseEntity="Exception_App_Web"/>
+    </entity>
+    <entity name="Block_SubCategory" representedClassName="Block_SubCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="main_data" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_Category" inverseName="sub_data" inverseEntity="Block_Category"/>
+    </entity>
+    <entity name="Exception_App_Web" representedClassName="Exception_App_Web" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="exception_block" inverseEntity="Block_List"/>
     </entity>
     <entity name="Focus_Block" representedClassName="Focus_Block" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <relationship name="focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="block_data" inverseEntity="Focuses"/>
@@ -33,7 +51,7 @@
     </entity>
     <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
         <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="extended_brek_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="extended_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="focus_length_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="is_block_programe_select" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -65,14 +83,16 @@
     <elements>
         <element name="Allowed_Blocked_GS" positionX="-27" positionY="63" width="128" height="44"/>
         <element name="Application_List" positionX="-36" positionY="90" width="128" height="89"/>
-        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="44"/>
+        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="89"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="134"/>
-        <element name="Block_List" positionX="-18" positionY="72" width="128" height="29"/>
-        <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="44"/>
+        <element name="Block_List" positionX="-18" positionY="72" width="128" height="74"/>
+        <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="89"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
         <element name="Focuses" positionX="-63" positionY="-18" width="128" height="224"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="104"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
+        <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
+        <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
     </elements>
 </model>

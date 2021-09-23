@@ -28,10 +28,14 @@ import Foundation
 protocol DBMangerLogic {
     func createFocus(data: [String: Any])
     func getFoucsObject() -> Focuses?
-    func saveBlock(data: [String: Any?])
-    func getBlockList() -> [Override_Block]
     func saveApplicationlist(data: [String: Any])
     func getApplicationList() -> [Application_List]
     func getActiveBlockList() -> [Override_Block]
+    func checkDataIsPresent() -> Bool
+    func saveBlocklist(data: [String: Any?])
+    func getBlockList() -> [Block_List]
+    func getCategories() -> [Block_Category]
+    func saveCategory(data: [String: Any?])
+
     func saveContext()
 }
