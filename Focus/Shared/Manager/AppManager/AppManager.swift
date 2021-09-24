@@ -68,7 +68,7 @@ extension AppManager {
 //                        print("path: \(path)")
                         let icon = NSWorkspace.shared.icon(forFile: path)
 //                        print("icon: \(icon)")
-                        let data = ["name": name, "bundle_id": bundleName, "path": path]
+                        let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date()]
                         DBManager.shared.saveApplicationlist(data: data)
                     }
                 }

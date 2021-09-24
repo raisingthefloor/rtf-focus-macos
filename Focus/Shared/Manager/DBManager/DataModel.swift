@@ -14,7 +14,10 @@ protocol DataModelIntput {
     func storeBlocklist(data: [String: Any?])
     func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category])
     func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List])
-    var objBlocklist: Block_List? { get set }
+    func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
+    func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
+    func updateSelectedCategorylist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
+    func resetApplistSelection()
 }
 
 protocol DataModelOutput {
@@ -23,6 +26,7 @@ protocol DataModelOutput {
 protocol DataModelType {
     var input: DataModelIntput { get }
     var output: DataModelOutput { get }
+    var objBlocklist: Block_List? { get set }
 }
 
 class DataModel: DataModelIntput, DataModelOutput, DataModelType {
@@ -36,9 +40,12 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category]) {
         let menus = NSMenu()
         let categories = DBManager.shared.getCategories()
-        for obj in categories.reversed() {
+        var i = 0
+        for obj in categories {
             let menuItem = NSMenuItem(title: obj.name ?? "-", action: nil, keyEquivalent: "")
+            menuItem.tag = i
             menus.addItem(menuItem)
+            i = i + 1
         }
         menus.addItem(.separator())
         let title = (cntrl == .edit_blocklist) ? NSLocalizedString("BS.create_new_blocklist", comment: "Create new blocklist...") : NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist")
@@ -51,12 +58,17 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List]) {
         let menus = NSMenu()
         let blocklist = DBManager.shared.getBlockList()
-        for obj in blocklist.reversed() {
+        var i = 0
+        for obj in blocklist {
             let menuItem = NSMenuItem(title: obj.name ?? "-", action: nil, keyEquivalent: "")
+            menuItem.tag = i
             menus.addItem(menuItem)
+            i = i + 1
         }
         menus.addItem(.separator())
+
         let title = (cntrl == .edit_blocklist) ? NSLocalizedString("BS.create_new_blocklist", comment: "Create new blocklist...") : NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist")
+
         let showOption = NSMenuItem(title: title, action: nil, keyEquivalent: "c")
         showOption.tag = -1
         menus.addItem(showOption)
@@ -73,7 +85,55 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     }
 
     func storeBlocklist(data: [String: Any?]) {
-        DBManager.shared.saveCategory(data: data)
+        DBManager.shared.saveBlocklist(data: data)
+    }
+
+    func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+        var arrObj: [Block_App_Web] = []
+        for val in data {
+            let objblockWA = Block_App_Web(context: DBManager.managedContext)
+            for (key, value) in val {
+                objblockWA.setValue(value, forKeyPath: key)
+            }
+            arrObj.append(objblockWA)
+        }
+        arrObj = arrObj + (objBlocklist?.block_app_web?.allObjects as! [Block_App_Web])
+        objBlocklist?.block_app_web = NSSet(array: arrObj)
+        DBManager.shared.saveContext()
+        callback(true)
+    }
+
+    func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+        var arrObj: [Exception_App_Web] = []
+        for val in data {
+            let objexceptionWA = Exception_App_Web(context: DBManager.managedContext)
+            for (key, value) in val {
+                objexceptionWA.setValue(value, forKeyPath: key)
+            }
+            arrObj.append(objexceptionWA)
+        }
+        arrObj = arrObj + (objBlocklist?.exception_block?.allObjects as! [Exception_App_Web])
+        objBlocklist?.exception_block = NSSet(array: arrObj)
+        DBManager.shared.saveContext()
+        callback(true)
+    }
+
+    func updateSelectedCategorylist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+        var arrObj: [Block_List_Category] = []
+        for val in data {
+            let objexceptionWA = Block_List_Category(context: DBManager.managedContext)
+            for (key, value) in val {
+                objexceptionWA.setValue(value, forKeyPath: key)
+            }
+            arrObj.append(objexceptionWA)
+        }
+        arrObj = arrObj + (objBlocklist?.block_category?.allObjects as! [Block_List_Category])
+        objBlocklist?.block_category = NSSet(array: arrObj)
+        DBManager.shared.saveContext()
+        callback(true)
+    }
+
+    func resetApplistSelection() {
     }
 }
 

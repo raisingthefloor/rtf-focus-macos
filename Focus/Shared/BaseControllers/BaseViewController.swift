@@ -102,4 +102,13 @@ extension BaseViewController {
         }
         completion(txtField.stringValue, actionState)
     }
+
+    func systemAlert(title: String, description: String, btnOk: String) {
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = description
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: btnOk)
+        alert.runModal()
+    }
 }

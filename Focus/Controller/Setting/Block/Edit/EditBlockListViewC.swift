@@ -71,7 +71,7 @@ class EditBlockListViewC: BaseViewController {
     @IBOutlet var lblNote2: NSTextField!
 
     let viewModel: BlockListViewModelType = BlockListViewModel()
-    let dataModel: DataModelType = DataModel()
+    var dataModel: DataModelType = DataModel()
 
     var webSites: [Override_Block] = []
     var blockList = ["email", "slack", "Skype", "LinkedIn", "Yahoo"]
@@ -157,10 +157,11 @@ extension EditBlockListViewC: BasicSetupType {
         lblNote1.stringValue = NSLocalizedString("BS.note_one", comment: "Note: You cannot change a blocklist while it is in use in an active focus session.")
 
         lblNote2.stringValue = NSLocalizedString("BS.note_two", comment: "Any changes made will not take effect until the next focus session where the blocklist is used.")
+        txtCharacter.stringValue = "30"
     }
 
     func setUpViews() {
-        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
+        updateBlocklistList()
 
         mainView.border_color = Color.dark_grey_border
         mainView.border_width = 0.6
@@ -258,75 +259,156 @@ extension EditBlockListViewC: BasicSetupType {
     func bindData() {
         btnBAddWeb.target = self
         btnBAddWeb.action = #selector(addWebAction(_:))
+        btnBAddWeb.tag = BlockList.block_web_app.rawValue
 
         btnBAddApp.target = self
         btnBAddApp.action = #selector(addAppAction(_:))
+        btnBAddApp.tag = BlockList.block_web_app.rawValue
 
         btnNBAddWeb.target = self
         btnNBAddWeb.action = #selector(addWebAction(_:))
+        btnNBAddWeb.tag = BlockList.exception_web_app.rawValue
 
         btnNBAddApp.target = self
         btnNBAddApp.action = #selector(addAppAction(_:))
+        btnNBAddApp.tag = BlockList.exception_web_app.rawValue
 
         comboBlock.target = self
         comboBlock.action = #selector(handleBlockSelection(_:))
     }
 
     @objc func addAppAction(_ sender: NSButton) {
-        let controller = ApplicationListViewC(nibName: "ApplicationListViewC", bundle: nil)
-        controller.applySuccess = { [weak self] _ in
-            self?.tblBlock.reloadData()
-            self?.tblNotBlock.reloadData()
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        if !arrBlock.isEmpty {
+            let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
+            controller.listType = .system_app_list
+            controller.dataModel.objBlocklist = dataModel.objBlocklist
+            controller.addedSuccess = { [weak self] dataV in
+                if sender.tag == BlockList.block_web_app.rawValue {
+                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+                        if isStore {
+                            self?.tblBlock.reloadData()
+                            self?.tblNotBlock.reloadData()
+                        }
+                    }
+                } else {
+                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
+                        if isStore {
+                            self?.tblBlock.reloadData()
+                            self?.tblNotBlock.reloadData()
+                        }
+                    }
+                }
+            }
+            presentAsSheet(controller)
+        } else {
+            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
         }
-        presentAsSheet(controller)
     }
 
     @objc func addWebAction(_ sender: NSButton) {
-        let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
-        inputDialogueCntrl.inputType = .add_website
-        inputDialogueCntrl.addedSuccess = { [weak self] value in
-            if value {
-                self?.tblBlock.reloadDataKeepingSelection()
-                self?.tblNotBlock.reloadDataKeepingSelection()
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        if !arrBlock.isEmpty {
+            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+            inputDialogueCntrl.inputType = .add_website
+            inputDialogueCntrl.dataModel.objBlocklist = dataModel.objBlocklist
+            inputDialogueCntrl.addedSuccess = { [weak self] dataV in
+                if sender.tag == BlockList.block_web_app.rawValue {
+                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+                        if isStore {
+                            self?.tblBlock.reloadData()
+                            self?.tblNotBlock.reloadData()
+                        }
+                    }
+                } else {
+                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
+                        if isStore {
+                            self?.tblBlock.reloadData()
+                            self?.tblNotBlock.reloadData()
+                        }
+                    }
+                }
             }
+            presentAsSheet(inputDialogueCntrl)
+        } else {
+            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
         }
-
-        presentAsSheet(inputDialogueCntrl)
     }
 
     @objc func deleAppAction(_ sender: NSButton) {
+        // TODO: Delete Functionality of list and exception list
+    }
+
+    @objc func addCategoryAction(_ sender: NSButton) {
+        let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[sender.tag]
+        obj.is_selected = !obj.is_selected
+        DBManager.shared.saveContext()
+
+//        var selectedVal = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1
+//        selectedVal = selectedVal.filter({ $0.is_selected }).compactMap({ $0 })
+//        if !selectedVal.isEmpty {
+//            var storeData: [[String: Any?]] = []
+//            for val in selectedVal {
+//                let data: [String: Any?] = ["name": val.name, "created_at": Date(), "id": UUID()]
+//                storeData.append(data)
+//            }
+//            //TODO: Need to implement that as
+//            //dataModel.input.updateSelectedCategorylist(data: <#T##[[String : Any?]]#>, callback: <#T##(Bool) -> Void#>)
+//        }
     }
 
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
         let index = comboBlock.selectedTag()
-        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
         if index == -1 {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_block_list_name
-            inputDialogueCntrl.dataModel.input.objBlocklist = arrBlock[index]
-
-            inputDialogueCntrl.addedSuccess = { [weak self] value in
-                if value {
-                    self?.comboBlock.menu = self?.dataModel.input.getCategoryList(cntrl: .edit_blocklist).0
-                    self?.tblCategory.reloadDataKeepingSelection()
-                }
+            inputDialogueCntrl.addedSuccess = { [weak self] _ in
+                self?.updateBlocklistList()
+                self?.tblCategory.reloadDataKeepingSelection()
             }
 
             presentAsSheet(inputDialogueCntrl)
+        } else {
+            dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1[index]
+            tblBlock.reloadData()
+            tblNotBlock.reloadData()
         }
-        // Here set the Block object in focus object
     }
 
-    func openPopup() {
-        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        print(paths[0])
+    @IBAction func behaviorOptions(sender: NSButton) {
+        if radioShortLongBreak.state == .on {
+            radioLongBreak.state = .off
+            radioAllBreak.state = .off            
+        }
 
-        promptToForInput("Enter Web Url", "Copy Url from Webrowser and paste it below.", completion: { (value: String, action: Bool) in
-            if action {
-                print(value)
-            }
-        })
+        if radioLongBreak.state == .on {
+            radioShortLongBreak.state = .off
+            radioAllBreak.state = .off
+        }
+
+        if radioAllBreak.state == .on {
+            radioLongBreak.state = .off
+            radioShortLongBreak.state = .off
+        }
+    }
+
+    @IBAction func stopOptions(sender: NSButton) {
+        
+        if radioStopAnyTime.state == .on {
+            radioStopFocus.state = .off
+            radioRestart.state = .off
+        }
+
+        if radioStopFocus.state == .on {
+            radioStopAnyTime.state = .off
+            radioRestart.state = .off
+        }
+
+        if radioRestart.state == .on {
+            radioStopAnyTime.state = .off
+            radioStopFocus.state = .off
+        }
     }
 }
 
@@ -339,7 +421,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
         tblBlock.delegate = self
         tblBlock.dataSource = self
-        tblBlock.usesAutomaticRowHeights = true
+        tblNotBlock.usesAutomaticRowHeights = true
         tblBlock.reloadData()
 
         tblNotBlock.delegate = self
@@ -351,8 +433,10 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
             return dataModel.input.getCategoryList(cntrl: .edit_blocklist).1.count
+        } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+            return dataModel.objBlocklist?.block_app_web?.allObjects.count ?? 0
         } else {
-            return blockList.count
+            return dataModel.objBlocklist?.exception_block?.allObjects.count ?? 0
         }
     }
 
@@ -365,6 +449,10 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
+                    cell.btnAddApp.tag = row
+                    cell.btnAddApp.target = self
+                    cell.btnAddApp.state = objCat.is_selected ? .on : .off
+                    cell.btnAddApp.action = #selector(addCategoryAction(_:))
                     return cell
                 }
 
@@ -376,9 +464,11 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
             return nil
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+            let arrBlock = dataModel.objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
+            let objBlock = arrBlock?[row] as? Block_Interface
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier1") {
                 if let bCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    bCell.configCell(val: blockList[row])
+                    bCell.configCell(obj: objBlock)
                     return bCell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier1") {
@@ -391,9 +481,12 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
             return nil
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "exceptionIdentifier") {
+            let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
+            let objBlock = arrBlock?[row] as? Block_Interface
+
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier2") {
                 if let nBCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    nBCell.configCell(val: blockList[row])
+                    nBCell.configCell(obj: objBlock)
                     return nBCell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier2") {
@@ -426,7 +519,16 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-        let view = ClearRowView()
+        let view = LightRowView()
         return view
+    }
+}
+
+// MARK: Common Methods Here
+
+extension EditBlockListViewC {
+    func updateBlocklistList() {
+        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
+        dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1.first
     }
 }

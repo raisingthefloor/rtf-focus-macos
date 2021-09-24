@@ -30,3 +30,13 @@ class ClearRowView: NSTableRowView {
         dirtyRect.fill()
     }
 }
+
+class LightRowView: NSTableRowView {
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        if isSelected == true {
+            Color.light_blue_color.set()
+            dirtyRect.fill()
+        }
+    }
+}

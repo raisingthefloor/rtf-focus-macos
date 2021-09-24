@@ -39,3 +39,19 @@ enum BlockType: Int {
         }
     }
 }
+
+// Edit List Tables
+enum BlockList: Int {
+    case block_web_app
+    case exception_web_app
+    case block_category
+}
+
+enum BlocklistOptions: Int {
+    case short_long_breaks
+    case long_break_only
+    case all_break
+    case stop_focus_anytime
+    case stop_random_character
+    case stop_restart_computer
+}

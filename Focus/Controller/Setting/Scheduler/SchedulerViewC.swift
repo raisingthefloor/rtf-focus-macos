@@ -192,7 +192,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
-            let view = ClearRowView()
+            let view = LightRowView()
             return view
         }
         return nil

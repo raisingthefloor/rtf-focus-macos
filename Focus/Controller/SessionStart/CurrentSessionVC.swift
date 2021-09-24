@@ -108,7 +108,8 @@ extension CurrentSessionVC: BasicSetupType {
 
     @objc func openCustomSetting() {
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
-            presentAsSheet(vc)
+            vc.selectOption = SettingOptions.general_setting
+            presentAsModalWindow(vc)
         }
     }
 

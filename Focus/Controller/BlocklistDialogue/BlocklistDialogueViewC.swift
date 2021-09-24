@@ -33,6 +33,8 @@ class BlocklistDialogueViewC: NSViewController {
 
     var listType: ListDialogue = .category_list
     var categoryName: String = ""
+    var addedSuccess: (([[String: Any?]]) -> Void)?
+    var dataModel: DataModelType = DataModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +63,7 @@ extension BlocklistDialogueViewC: BasicSetupType {
             let title = listType.title + "\n" + categoryName
             let attributedValue = NSMutableAttributedString.getAttributedString(fromString: title)
             attributedValue.apply(font: NSFont.systemFont(ofSize: 18, weight: .bold), subString: categoryName)
-            attributedValue.alignment(alignment: .natural,lineSpace: 4, subString: title)
+            attributedValue.alignment(alignment: .natural, lineSpace: 4, subString: title)
             lblTitle.attributedStringValue = attributedValue
         }
 
@@ -82,7 +84,22 @@ extension BlocklistDialogueViewC: BasicSetupType {
     }
 
     @objc func btnAction(_ sender: NSButton) {
-        dismiss(sender)
+        if listType != .system_app_list {
+        } else {
+            if !listType.selectedData.isEmpty {
+                guard let dataV = listType.selectedData as? [[String: Any?]] else { return }
+//                dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+//                    if isStore {
+                listType.resetSelection
+                addedSuccess?(dataV)
+                dismiss(sender)
+//                    }
+//                }
+            } else {
+                addedSuccess?([])
+                dismiss(sender)
+            }
+        }
     }
 }
 
@@ -115,12 +132,19 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cell.btnAddApp.target = self
                 cell.btnAddApp.tag = row
                 cell.btnAddApp.action = #selector(toggleUse(_:))
+                if listType == .system_app_list { // For temp
+                    cell.btnAddApp.state = ((obj as? Application_List)?.is_selected ?? false) ? .on : .off
+                }
                 return cell
             }
         } else {
             if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                categoryCell.imgV.isHidden = (listType == .category_list) ? true : false
-                categoryCell.configCategory(val: obj)
+                categoryCell.imgV.isHidden = !listType.isIconVisible
+                if listType == .system_app_list {
+                    categoryCell.configApps(obj: obj as? Application_List)
+                } else {
+                    categoryCell.configCategory(val: obj as? String)
+                }
                 return categoryCell
             }
         }
@@ -129,5 +153,8 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     @objc func toggleUse(_ sender: NSButton) {
         let state = sender.state
+        let obj = listType.arrData[sender.tag]
+        (obj as? Application_List)?.is_selected = !((obj as? Application_List)?.is_selected ?? false)
+        // tblView.reloadData()
     }
 }

@@ -43,12 +43,13 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
     var output: ScheduleViewModelOutput { return self }
 
     let session: [String] = ["Facebook", "Facebook1", "Facebook2"]
-    var arrSession: [String] = ["5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 AM", "1 AM", "2 AM", "3 AM", "4 AM"]
+    var arrSession: [String] = ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"]
+
     
 
     func getSessionList() -> [ScheduleSession] {
         var scheduleS: [ScheduleSession] = []
-        
+
 //        for day in WeekDays.days {
 //            switch day {
 //            case .mon:
@@ -72,7 +73,6 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
 //        }
 
         for i in 0 ..< arrSession.count {
-            
             switch arrSession[i] {
             case "5 AM":
                 let twel = ScheduleSession(id: i, time: "5 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)

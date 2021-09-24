@@ -29,6 +29,7 @@ import Foundation
 enum ListDialogue: Int {
     case category_list
     case unblocking_list
+    case system_app_list
 
     var title: String {
         switch self {
@@ -36,6 +37,8 @@ enum ListDialogue: Int {
             return NSLocalizedString("List.category.title", comment: "Apps and websites blocked by the category:")
         case .unblocking_list:
             return NSLocalizedString("List.unblocking_list.title", comment: "Select apps and websites from your blocklists to allow yourself to temporarily unblock.")
+        case .system_app_list:
+            return NSLocalizedString("List.system_app_list.title", comment: "Select apps from your system app list to allow yourself to block.")
         }
     }
 
@@ -43,7 +46,7 @@ enum ListDialogue: Int {
         switch self {
         case .category_list:
             return NSLocalizedString("Button.ok", comment: "OK").uppercased()
-        case .unblocking_list:
+        case .unblocking_list, .system_app_list:
             return NSLocalizedString("List.add_item", comment: "Add items")
         }
     }
@@ -52,7 +55,7 @@ enum ListDialogue: Int {
         switch self {
         case .category_list:
             return NSFont.systemFont(ofSize: 18, weight: .regular)
-        case .unblocking_list:
+        case .unblocking_list, .system_app_list:
             return NSFont.systemFont(ofSize: 12, weight: .semibold)
         }
     }
@@ -66,12 +69,52 @@ enum ListDialogue: Int {
         }
     }
 
-    var arrData: [String] {
+    var isIconVisible: Bool {
+        switch self {
+        case .category_list:
+            return false
+        default:
+            return true
+        }
+    }
+
+    var arrData: [Any] {
         switch self {
         case .category_list:
             return ["www. facebook.com", "www.classmates.com", "www.linkedin.com"]
         case .unblocking_list:
             return ["Acron Editor", "doppler.com", "Brian Lara’s Cricket", "Microsoft Word", "wikipedia.com"]
+        case .system_app_list:
+            return DBManager.shared.getApplicationList()
         }
+    }
+
+    var selectedData: [Any] {
+        switch self {
+        case .category_list:
+            return ["www. facebook.com"]
+        case .unblocking_list:
+            return ["Acron Editor"]
+        case .system_app_list:
+            guard var selectedVal = arrData as? [Application_List] else { return [] }
+            selectedVal = selectedVal.filter({ $0.is_selected }).compactMap({ $0 })
+            if !selectedVal.isEmpty {
+                var storeData: [[String: Any?]] = []
+                for val in selectedVal {
+                    let data: [String: Any?] = ["url": val.path, "name": val.name, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.application.rawValue, "id": UUID(), "app_identifier": val.bundle_id, "app_icon_path": val.path]
+                    storeData.append(data)
+                }
+                return storeData
+            }
+            return []
+        }
+    }
+
+    var resetSelection: Void {
+        guard var selectedVal = arrData as? [Application_List] else { return }
+        selectedVal = selectedVal.filter({ $0.is_selected }).compactMap({ $0 })
+        _ = selectedVal.map({ $0.is_selected = false })
+        DBManager.shared.saveContext()
+        return
     }
 }

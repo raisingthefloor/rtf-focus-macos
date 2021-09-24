@@ -49,13 +49,14 @@ extension LabelCell: BasicSetupType {
 
     func setUpViews() {
         if lblTitle != nil {
-            lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+            
         }
     }
 }
 
 extension LabelCell {
     func configSettingMenu(value: String) {
+        lblTitle.font = NSFont.systemFont(ofSize: 13, weight: .medium)
         lblTitle.stringValue = value
         lblTitle.textColor = .white
     }
@@ -67,7 +68,7 @@ extension LabelCell {
     
     func setupSart(value: String) {
         lblTitle.stringValue = value
-        lblTitle.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+        lblTitle.font = NSFont.systemFont(ofSize: 9, weight: .regular)
     }
 
 }

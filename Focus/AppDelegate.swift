@@ -42,8 +42,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //  Application Block Functionality
 //        AppManager.shared.addObserverToCheckAppLaunch()
-//        AppManager.shared.doSpotlightQuery()
-        
+        AppManager.shared.doSpotlightQuery()
+
         //  Browser URL Block Functionality
 //        DispatchQueue.global(qos: .userInteractive).async {
 //            self.loadScript()
@@ -121,4 +121,11 @@ extension AppDelegate {
             windowController.showWindow(self)
         }
     }
+
+    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
+        let menu = NSMenu()
+        let reOpenMenuItem = NSMenuItem(title: "Quit", action: #selector(terminate(_:)), keyEquivalent: "q")
+        menu.addItem(reOpenMenuItem)
+        return menu
+    }        
 }

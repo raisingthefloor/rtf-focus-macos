@@ -25,16 +25,16 @@
 
 import Cocoa
 
-class CustomSettingController: NSViewController {
+class CustomSettingController: NSViewController, NSWindowDelegate {
     @IBOutlet var topView: NSView!
     @IBOutlet var leftView: NSView!
     @IBOutlet var tblMenu: NSTableView!
     @IBOutlet var lblTitle: NSTextField!
 
     @IBOutlet var righView: NSView!
-    
-    
+
     var selectOption: SettingOptions = .general_setting
+    var updateView: ((Bool) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +43,11 @@ class CustomSettingController: NSViewController {
         bindData()
         tableViewSetup()
     }
+
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        updateView?(true)
+        return true
+    }    
 }
 
 extension CustomSettingController: BasicSetupType {
@@ -52,6 +57,11 @@ extension CustomSettingController: BasicSetupType {
     }
 
     func setUpViews() {
+        view.window?.delegate = self
+
+        view.window?.preservesContentDuringLiveResize = true
+        view.window?.preventsApplicationTerminationWhenModal = false
+
         topView.background_color = Color.top_title_green_color
         tblMenu.backgroundColor = Color.green_color
         leftView.background_color = Color.green_color
@@ -63,7 +73,7 @@ extension CustomSettingController: BasicSetupType {
         let option = SettingOptions.setting_options[0]
         if let generalSetting = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? GeneralSettingViewC {
             generalSetting.view.frame = righView.bounds
-            self.addChild(generalSetting)
+            addChild(generalSetting)
             righView.addSubview(generalSetting.view)
         }
     }
@@ -108,7 +118,7 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
                 righView.removeSubviews()
                 if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? BaseViewController {
                     vc.view.frame = righView.bounds
-                    self.addChild(vc)
+                    addChild(vc)
                     righView.addSubview(vc.view)
                 }
             }

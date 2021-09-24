@@ -26,7 +26,6 @@
 import Cocoa
 
 class GeneralSettingViewC: BaseViewController {
-    
     @IBOutlet var lblTitle: NSTextField!
 
     @IBOutlet var lblBehaviorTitle: NSTextField!
@@ -67,7 +66,7 @@ class GeneralSettingViewC: BaseViewController {
         setUpViews()
         bindData()
         tableViewSetup()
-    }    
+    }
 }
 
 extension GeneralSettingViewC: BasicSetupType {
@@ -79,7 +78,6 @@ extension GeneralSettingViewC: BasicSetupType {
         checkBoxFocusTime.title = NSLocalizedString("GS.provide_focus_time", comment: "Provide short")
         lblBrekInfo.stringValue = NSLocalizedString("GS.break_for", comment: "breaks for every")
         lblFocusInfo.stringValue = NSLocalizedString("GS.schedule_session", comment: "of scheduled Focus sessions")
-
 
         checkBoxShowTimer.title = NSLocalizedString("GS.countdown_timer", comment: "Show count down timer in minutes for break start and end")
         checkBoxEachBreak.title = NSLocalizedString("GS.block_screen_each", comment: "Block screen for the first minute of each break to encourage me to stand up and stretch")
@@ -112,19 +110,18 @@ extension GeneralSettingViewC: BasicSetupType {
         listContainerV.border_width = 0.5
         listContainerV.background_color = .white
         listContainerV.corner_radius = 4
-        
+
         btnContainerV.background_color = Color.list_bg_color
-        
-        
+
         lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .semibold)
         lblTitle.textColor = .black
-        
+
         lblBehaviorTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
         lblBehaviorTitle.textColor = .black
-        
+
         checkBoxWarning.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         checkBoxFocusTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        
+
         lblBrekInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblBrekInfo.textColor = .black
 //        lblFocusInfo.font = NSFont.systemFont(ofSize: 12, weight: .semibold) // Italic
@@ -132,13 +129,13 @@ extension GeneralSettingViewC: BasicSetupType {
 
         checkBoxShowTimer.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         checkBoxEachBreak.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        
+
         lblUnblockingTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
         lblUnblockingTitle.textColor = .black
-        
+
 //        lblUnblockingInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
         lblUnblockingInfo.textColor = .black
-        
+
         lblOverrideInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblOverrideInfo.textColor = .black
 
@@ -199,10 +196,10 @@ extension GeneralSettingViewC {
                 print(value)
 
                 let data: [String: Any] = ["url": value, "name": value, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
-                viewModel.input.storeOverridesBlock(data: data) { _ in
-                    self.blockList.append(value)
-                    self.tblView.reloadData()
-                }
+//                viewModel.input.storeOverridesBlock(data: data) { _ in
+//                    self.blockList.append(value)
+//                    self.tblView.reloadData()
+//                }
             }
         })
     }
@@ -215,7 +212,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblView.delegate = self
         tblView.dataSource = self
         tblView.usesAutomaticRowHeights = true
-        self.tblView.reloadData()
+        tblView.reloadData()
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -225,6 +222,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return blockList[row]
     }
+
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: self) as? ButtonCell {
@@ -233,7 +231,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
 
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: self) as? ImageTextCell {
-                cell.configCell(val: blockList[row])
+                cell.configCategory(val: blockList[row])
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {

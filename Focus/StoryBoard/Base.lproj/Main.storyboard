@@ -11,7 +11,7 @@
             <objects>
                 <windowController storyboardIdentifier="WindowController" id="qTV-Uq-wDw" customClass="WindowController" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="SJx-W8-J7c">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="229" y="239" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1600" height="875"/>
@@ -194,11 +194,11 @@
                                                                 </buttonCell>
                                                             </button>
                                                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="jBg-Zb-rTV">
-                                                                <rect key="frame" x="112" y="5" width="67" height="25"/>
+                                                                <rect key="frame" x="112" y="6" width="66" height="25"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="60" id="hq2-4U-5BQ"/>
                                                                 </constraints>
-                                                                <popUpButtonCell key="cell" type="push" title="5" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="TIZ-dm-xTm" id="8Jl-Yl-Mtx">
+                                                                <popUpButtonCell key="cell" type="bevel" title="5" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="TIZ-dm-xTm" id="8Jl-Yl-Mtx">
                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                     <font key="font" metaFont="menu"/>
                                                                     <menu key="menu" id="7tU-km-6qi">
@@ -230,11 +230,11 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="3E6-jn-XFo">
-                                                                <rect key="frame" x="291" y="5" width="67" height="25"/>
+                                                                <rect key="frame" x="291" y="6" width="66" height="25"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="60" id="NuV-lo-Qhg"/>
                                                                 </constraints>
-                                                                <popUpButtonCell key="cell" type="push" title="25" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="MXR-Oj-weA" id="5xK-Up-N9g">
+                                                                <popUpButtonCell key="cell" type="bevel" title="25" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="MXR-Oj-weA" id="5xK-Up-N9g">
                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                     <font key="font" metaFont="menu"/>
                                                                     <menu key="menu" id="sKw-3u-btH">

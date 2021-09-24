@@ -38,8 +38,8 @@ class InputDialogueViewC: NSViewController {
     @IBOutlet var btnCancel: CustomButton!
 
     var inputType: InputDialogue = .add_website
-    var addedSuccess: ((Bool) -> Void)?
-    let dataModel: DataModelType = DataModel()
+    var addedSuccess: (([[String: Any?]]) -> Void)?
+    var dataModel: DataModelType = DataModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,11 +114,17 @@ extension InputDialogueViewC: BasicSetupType {
         } else {
             if inputType == .add_block_list_name {
                 dataModel.input.storeBlocklist(data: ["name": txtField.stringValue, "id": UUID(), "created_at": Date()])
+                addedSuccess?([])
+                dismiss(sender)
             } else {
-                let data: [String: Any] = ["url": txtField.stringValue, "name": txtField.stringValue, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
+                let data: [String: Any?] = ["url": txtField.stringValue, "name": txtField.stringValue, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue, "id": UUID()]
+//                dataModel.input.updateSelectedBlocklist(data: [data]) { isStore in
+//                    if isStore {
+                addedSuccess?([data])
+                dismiss(sender)
+//                    }
+//                }
             }
-            addedSuccess?(true)
-            dismiss(sender)
         }
     }
 

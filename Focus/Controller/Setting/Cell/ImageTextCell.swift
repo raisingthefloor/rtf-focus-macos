@@ -50,15 +50,30 @@ extension ImageTextCell: BasicSetupType {
         }
     }
 
-    func configCell(val: String) {
-        lblTitle.stringValue = val
-        imgV.image = NSImage(named: "ic_info_filled")
+    func configCell(obj: Block_Interface?) {
+        guard let model = obj else { return }
+
+        lblTitle.stringValue = model.name ?? "-"
+        imgV.isHidden = (model.block_type == BlockType.application.rawValue) ? false : true
+        if model.block_type == BlockType.application.rawValue {
+            let icon = NSWorkspace.shared.icon(forFile: model.app_icon_path ?? "")
+            imgV.image = icon
+        }
     }
 
-    func configCategory(val: String) {
-        let categoryStr = NSMutableAttributedString.getAttributedString(fromString: val)
-        categoryStr.underLine(subString: val)
-        categoryStr.apply(color: Color.blue_color, subString: val)
+    func configCategory(val: String?) {
+        guard let strVal = val else { return }
+        let categoryStr = NSMutableAttributedString.getAttributedString(fromString: strVal)
+        categoryStr.underLine(subString: strVal)
+        categoryStr.apply(color: Color.blue_color, subString: strVal)
         lblTitle.attributedStringValue = categoryStr
+    }
+
+    func configApps(obj: Application_List?) {
+        guard let model = obj else { return }
+        lblTitle.stringValue = model.name ?? "-"
+
+        let icon = NSWorkspace.shared.icon(forFile: model.path ?? "")
+        imgV.image = icon
     }
 }
