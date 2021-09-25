@@ -36,6 +36,7 @@ protocol DBMangerLogic {
     func getBlockList() -> [Block_List]
     func getCategories() -> [Block_Category]
     func saveCategory(data: [String: Any?])
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
 
     func saveContext()
 }

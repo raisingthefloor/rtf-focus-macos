@@ -47,7 +47,7 @@ class CustomSettingController: NSViewController, NSWindowDelegate {
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         updateView?(true)
         return true
-    }    
+    }
 }
 
 extension CustomSettingController: BasicSetupType {
@@ -61,6 +61,8 @@ extension CustomSettingController: BasicSetupType {
 
         view.window?.preservesContentDuringLiveResize = true
         view.window?.preventsApplicationTerminationWhenModal = false
+        let button = view.window?.standardWindowButton(.zoomButton)
+        button?.isEnabled = false
 
         topView.background_color = Color.top_title_green_color
         tblMenu.backgroundColor = Color.green_color

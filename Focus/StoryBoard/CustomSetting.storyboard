@@ -10,7 +10,7 @@
         <scene sceneID="qY0-4s-7lU">
             <objects>
                 <windowController id="iEI-Ir-oSN" sceneMemberID="viewController">
-                    <window key="window" title="NSStackView" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="3cO-2s-gKi">
+                    <window key="window" title="NSStackView" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" toolbarStyle="unified" id="3cO-2s-gKi">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="229" y="239" width="480" height="270"/>
@@ -457,7 +457,7 @@
                                                                                                                 </tableCellView>
                                                                                                             </prototypeCellViews>
                                                                                                         </tableColumn>
-                                                                                                        <tableColumn identifier="nameIdentifier" width="159" minWidth="159" maxWidth="159" id="O6u-1m-08R">
+                                                                                                        <tableColumn identifier="nameIdentifier" width="163" minWidth="163" maxWidth="163" id="O6u-1m-08R">
                                                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -483,9 +483,9 @@
                                                                                                                                     </constraints>
                                                                                                                                     <imageCell key="cell" controlSize="small" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSColorPanel" id="QqS-7H-6YT"/>
                                                                                                                                 </imageView>
-                                                                                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mMz-us-fno">
+                                                                                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="mMz-us-fno">
                                                                                                                                     <rect key="frame" x="30" y="9" width="111" height="14"/>
-                                                                                                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="zGK-71-Ndv">
+                                                                                                                                    <textFieldCell key="cell" controlSize="small" title="Label" id="zGK-71-Ndv">
                                                                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1040,7 +1040,7 @@
                                                                                                                                                                                 <subviews>
                                                                                                                                                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HE2-tK-7s0">
                                                                                                                                                                                         <rect key="frame" x="-2" y="3" width="33" height="14"/>
-                                                                                                                                                                                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="Ymr-NY-qxS">
+                                                                                                                                                                                        <textFieldCell key="cell" controlSize="small" title="Label" id="Ymr-NY-qxS">
                                                                                                                                                                                             <font key="font" metaFont="smallSystem"/>
                                                                                                                                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1336,7 +1336,7 @@
                                                                                                                                                                             </imageView>
                                                                                                                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fvG-Ld-4EM">
                                                                                                                                                                                 <rect key="frame" x="30" y="8" width="144" height="16"/>
-                                                                                                                                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="5h7-4r-nWK">
+                                                                                                                                                                                <textFieldCell key="cell" title="Label" id="5h7-4r-nWK">
                                                                                                                                                                                     <font key="font" metaFont="system"/>
                                                                                                                                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1661,7 +1661,7 @@
                                                                                                                                                                     </imageView>
                                                                                                                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nPI-yN-F4n">
                                                                                                                                                                         <rect key="frame" x="30" y="8" width="144" height="16"/>
-                                                                                                                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Bta-jr-5u7">
+                                                                                                                                                                        <textFieldCell key="cell" title="Label" id="Bta-jr-5u7">
                                                                                                                                                                             <font key="font" metaFont="system"/>
                                                                                                                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1996,7 +1996,7 @@
                                                                                                                         <font key="font" metaFont="cellTitle"/>
                                                                                                                     </buttonCell>
                                                                                                                     <connections>
-                                                                                                                        <action selector="stopOptionsWithSender:" target="qWk-bv-G8Y" id="qgY-HA-J2A"/>
+                                                                                                                        <action selector="stopOptionsWithSender:" target="qWk-bv-G8Y" id="rJT-FR-1z4"/>
                                                                                                                     </connections>
                                                                                                                 </button>
                                                                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g5l-eT-Qjb">
@@ -2216,13 +2216,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Jjv-Pb-3oX">
-                                <rect key="frame" x="0.0" y="0.0" width="529" height="693"/>
+                                <rect key="frame" x="0.0" y="0.0" width="529" height="743"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qmq-FJ-6wC">
-                                        <rect key="frame" x="0.0" y="10" width="529" height="673"/>
+                                        <rect key="frame" x="0.0" y="10" width="529" height="723"/>
                                         <subviews>
                                             <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hCe-0m-70G" userLabel="TopView">
-                                                <rect key="frame" x="0.0" y="599" width="529" height="74"/>
+                                                <rect key="frame" x="0.0" y="649" width="529" height="74"/>
                                                 <subviews>
                                                     <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-xk-OHA">
                                                         <rect key="frame" x="28" y="10" width="473" height="54"/>
@@ -2301,16 +2301,16 @@
                                                 </constraints>
                                             </customView>
                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEk-ah-8aI" userLabel="ScheduleV">
-                                                <rect key="frame" x="0.0" y="386" width="529" height="208"/>
+                                                <rect key="frame" x="0.0" y="386" width="529" height="258"/>
                                                 <subviews>
                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="0.0" verticalLineScroll="24" verticalPageScroll="0.0" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR7-jl-4QY">
-                                                        <rect key="frame" x="0.0" y="4" width="529" height="200"/>
+                                                        <rect key="frame" x="0.0" y="4" width="529" height="250"/>
                                                         <clipView key="contentView" id="goR-9g-4I2">
-                                                            <rect key="frame" x="0.0" y="0.0" width="529" height="200"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="529" height="250"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView identifier="scheduleIdentifier" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="O5f-3r-a9L" viewBased="YES" id="J2v-lo-Jcf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="529" height="172"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="529" height="222"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="5" height="0.0"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2408,8 +2408,8 @@
                                                                                             </constraints>
                                                                                             <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="zyb-Ya-uAs">
                                                                                                 <font key="font" metaFont="smallSystem"/>
-                                                                                                <date key="date" timeIntervalSinceReferenceDate="654188652.87162101">
-                                                                                                    <!--2021-09-24 15:04:12 +0000-->
+                                                                                                <date key="date" timeIntervalSinceReferenceDate="654246534.40304196">
+                                                                                                    <!--2021-09-25 07:08:54 +0000-->
                                                                                                 </date>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2451,8 +2451,8 @@
                                                                                             </constraints>
                                                                                             <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="gg0-gy-G3T">
                                                                                                 <font key="font" metaFont="smallSystem"/>
-                                                                                                <date key="date" timeIntervalSinceReferenceDate="654188652.87573099">
-                                                                                                    <!--2021-09-24 15:04:12 +0000-->
+                                                                                                <date key="date" timeIntervalSinceReferenceDate="654246534.40730596">
+                                                                                                    <!--2021-09-25 07:08:54 +0000-->
                                                                                                 </date>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2768,13 +2768,13 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="5" verticalLineScroll="24" verticalPageScroll="5" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jkv-8l-W6s">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="697" height="148"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="697" height="224"/>
                                                                             <clipView key="contentView" drawsBackground="NO" id="47K-90-5TW">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="697" height="148"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="697" height="224"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView identifier="sessionIdentifier" verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="M8N-bI-Jfj" viewBased="YES" id="GZR-U8-2oo">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="697" height="120"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="697" height="196"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>

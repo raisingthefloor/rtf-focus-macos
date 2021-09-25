@@ -196,6 +196,7 @@ extension DBManager {
     func getCategories() -> [Block_Category] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_Category")
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Block_Category.created_at, ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "type = %d", CategoryType.system.rawValue)
 
         do {
             let block = try DBManager.managedContext.fetch(fetchRequest)
@@ -206,6 +207,19 @@ extension DBManager {
         }
 
         return []
+    }
+
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory]) { 
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
+        fetchRequest.predicate = NSPredicate(format: "type = %d", CategoryType.general.rawValue)
+        do {
+            let categories = try DBManager.managedContext.fetch(fetchRequest)
+            guard let category = categories.first as? Block_Category else { return (nil, []) }
+            return (category, category.sub_data?.allObjects as! [Block_SubCategory])
+        } catch let error as NSError {
+            print("Could not General Cat fetch. \(error), \(error.userInfo)")
+        }
+        return (nil, [])
     }
 }
 

@@ -85,6 +85,7 @@ extension BlocklistDialogueViewC: BasicSetupType {
 
     @objc func btnAction(_ sender: NSButton) {
         if listType != .system_app_list {
+            dismiss(sender)
         } else {
             if !listType.selectedData.isEmpty {
                 guard let dataV = listType.selectedData as? [[String: Any?]] else { return }

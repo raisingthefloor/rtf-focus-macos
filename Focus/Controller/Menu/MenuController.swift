@@ -134,6 +134,9 @@ extension MenuController: BasicSetupType {
             window.styleMask.remove(.miniaturizable)
             window.styleMask.remove(.fullSizeContentView)
         }
+        let button = view.window?.standardWindowButton(.zoomButton)
+        button?.isEnabled = false
+
         themeSetUp()
     }
 
@@ -278,8 +281,8 @@ extension MenuController {
     func setupData() {
         guard let obj = viewModel.input.focusObj else { return }
 
-        popBreakTime.title = "5" //String(format: "%d", obj.short_break_time)
-        popFocusTime.title = "15" //String(format: "%d", obj.stop_focus_after_time)
+        popBreakTime.title = "5" + " min" // String(format: "%d", obj.short_break_time)
+        popFocusTime.title = "15" + " min" // String(format: "%d", obj.stop_focus_after_time)
         blockStackV.isHidden = !obj.is_block_programe_select
 
 //        for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI] {

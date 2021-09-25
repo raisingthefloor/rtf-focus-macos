@@ -27,6 +27,8 @@ import Cocoa
 import Foundation
 
 protocol GeneralSettingModelIntput {
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
+    func addAppWebData(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
 }
 
 protocol GeneralSettingModelOutput {
@@ -35,14 +37,42 @@ protocol GeneralSettingModelOutput {
 protocol GeneralSettingModelType {
     var input: GeneralSettingModelIntput { get }
     var output: GeneralSettingModelOutput { get }
+    var objGCategory: Block_Category? { get set }
 }
 
 class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput, GeneralSettingModelType {
     var input: GeneralSettingModelIntput { return self }
     var output: GeneralSettingModelOutput { return self }
+    var objGCategory: Block_Category?
+
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory]) {
+        objGCategory = DBManager.shared.getGeneralCategoryData().gCat
+        let subCat = DBManager.shared.getGeneralCategoryData().subCat
+        return (objGCategory, subCat)
+    }
+
+    func addAppWebData(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+        var arrObj: [Block_SubCategory] = []
+        for val in data {
+            let objSubWA = Block_SubCategory(context: DBManager.managedContext)
+            for (key, value) in val {
+                objSubWA.setValue(value, forKeyPath: key)
+            }
+            arrObj.append(objSubWA)
+        }
+        arrObj = arrObj + (objGCategory?.sub_data?.allObjects as! [Block_SubCategory])
+        objGCategory?.sub_data = NSSet(array: arrObj)
+        DBManager.shared.saveContext()
+        callback(true)
+    }
 }
 
 enum General_Setting {
     case behavior_foucs
     case allow_unblocking
+}
+
+enum CategoryType: Int {
+    case general
+    case system
 }

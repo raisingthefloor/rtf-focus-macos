@@ -26,6 +26,7 @@
 import Cocoa
 
 class ButtonCell: NSTableCellView {
+    // TODO: Need to update the name of the buttons as it previously define as per the old design
     @IBOutlet var btnAddApp: NSButton!
     @IBOutlet var btnAddWeb: NSButton!
 
@@ -61,5 +62,22 @@ extension ButtonCell: BasicSetupType {
 
     func configScheduleActionCell(isPause: Bool) {
         btnAddApp.title = isPause ? "🚫" : "⏸"
-    }    
+    }
+
+    func configCategoryCell(row: Int, objCat: Block_Category, objBlocklist: Block_List?, target: AnyObject?, action: Selector?) {
+        let arrCate = objBlocklist?.block_category?.allObjects as? [Block_List_Category]
+        btnAddApp.tag = row
+        btnAddApp.target = target
+        let isSelected = arrCate?.compactMap({ $0.id == objCat.id }).filter({ $0 }).first ?? false
+        btnAddApp.state = isSelected ? .on : .off
+        btnAddApp.action = action
+    }
+
+    func configGCategoryCell(row: Int, objSubCat: Block_SubCategory?, target: AnyObject?, action: Selector?) {
+        btnAddApp.tag = row
+        btnAddApp.target = target
+        let isSelected = objSubCat?.is_selected ?? false
+        btnAddApp.state = isSelected ? .on : .off
+        btnAddApp.action = action
+    }
 }

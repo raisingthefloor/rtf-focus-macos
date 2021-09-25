@@ -275,140 +275,7 @@ extension EditBlockListViewC: BasicSetupType {
 
         comboBlock.target = self
         comboBlock.action = #selector(handleBlockSelection(_:))
-    }
-
-    @objc func addAppAction(_ sender: NSButton) {
-        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
-        if !arrBlock.isEmpty {
-            let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
-            controller.listType = .system_app_list
-            controller.dataModel.objBlocklist = dataModel.objBlocklist
-            controller.addedSuccess = { [weak self] dataV in
-                if sender.tag == BlockList.block_web_app.rawValue {
-                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
-                        if isStore {
-                            self?.tblBlock.reloadData()
-                            self?.tblNotBlock.reloadData()
-                        }
-                    }
-                } else {
-                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
-                        if isStore {
-                            self?.tblBlock.reloadData()
-                            self?.tblNotBlock.reloadData()
-                        }
-                    }
-                }
-            }
-            presentAsSheet(controller)
-        } else {
-            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
-        }
-    }
-
-    @objc func addWebAction(_ sender: NSButton) {
-        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
-        if !arrBlock.isEmpty {
-            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
-            inputDialogueCntrl.inputType = .add_website
-            inputDialogueCntrl.dataModel.objBlocklist = dataModel.objBlocklist
-            inputDialogueCntrl.addedSuccess = { [weak self] dataV in
-                if sender.tag == BlockList.block_web_app.rawValue {
-                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
-                        if isStore {
-                            self?.tblBlock.reloadData()
-                            self?.tblNotBlock.reloadData()
-                        }
-                    }
-                } else {
-                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
-                        if isStore {
-                            self?.tblBlock.reloadData()
-                            self?.tblNotBlock.reloadData()
-                        }
-                    }
-                }
-            }
-            presentAsSheet(inputDialogueCntrl)
-        } else {
-            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
-        }
-    }
-
-    @objc func deleAppAction(_ sender: NSButton) {
-        // TODO: Delete Functionality of list and exception list
-    }
-
-    @objc func addCategoryAction(_ sender: NSButton) {
-        let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[sender.tag]
-        obj.is_selected = !obj.is_selected
-        DBManager.shared.saveContext()
-
-//        var selectedVal = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1
-//        selectedVal = selectedVal.filter({ $0.is_selected }).compactMap({ $0 })
-//        if !selectedVal.isEmpty {
-//            var storeData: [[String: Any?]] = []
-//            for val in selectedVal {
-//                let data: [String: Any?] = ["name": val.name, "created_at": Date(), "id": UUID()]
-//                storeData.append(data)
-//            }
-//            //TODO: Need to implement that as
-//            //dataModel.input.updateSelectedCategorylist(data: <#T##[[String : Any?]]#>, callback: <#T##(Bool) -> Void#>)
-//        }
-    }
-
-    @objc func handleBlockSelection(_ sender: Any) {
-        guard sender is NSPopUpButton else { return }
-        let index = comboBlock.selectedTag()
-        if index == -1 {
-            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
-            inputDialogueCntrl.inputType = .add_block_list_name
-            inputDialogueCntrl.addedSuccess = { [weak self] _ in
-                self?.updateBlocklistList()
-                self?.tblCategory.reloadDataKeepingSelection()
-            }
-
-            presentAsSheet(inputDialogueCntrl)
-        } else {
-            dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1[index]
-            tblBlock.reloadData()
-            tblNotBlock.reloadData()
-        }
-    }
-
-    @IBAction func behaviorOptions(sender: NSButton) {
-        if radioShortLongBreak.state == .on {
-            radioLongBreak.state = .off
-            radioAllBreak.state = .off            
-        }
-
-        if radioLongBreak.state == .on {
-            radioShortLongBreak.state = .off
-            radioAllBreak.state = .off
-        }
-
-        if radioAllBreak.state == .on {
-            radioLongBreak.state = .off
-            radioShortLongBreak.state = .off
-        }
-    }
-
-    @IBAction func stopOptions(sender: NSButton) {
-        
-        if radioStopAnyTime.state == .on {
-            radioStopFocus.state = .off
-            radioRestart.state = .off
-        }
-
-        if radioStopFocus.state == .on {
-            radioStopAnyTime.state = .off
-            radioRestart.state = .off
-        }
-
-        if radioRestart.state == .on {
-            radioStopAnyTime.state = .off
-            radioStopFocus.state = .off
-        }
+        txtCharacter.delegate = self
     }
 }
 
@@ -449,10 +316,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
-                    cell.btnAddApp.tag = row
-                    cell.btnAddApp.target = self
-                    cell.btnAddApp.state = objCat.is_selected ? .on : .off
-                    cell.btnAddApp.action = #selector(addCategoryAction(_:))
+                    cell.configCategoryCell(row: row, objCat: objCat, objBlocklist: dataModel.objBlocklist, target: self, action: #selector(addCategoryAction(_:)))
                     return cell
                 }
 
@@ -475,7 +339,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 if let dCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
                     dCell.btnAddApp.tag = row
                     dCell.btnAddApp.target = self
-                    dCell.btnAddApp.action = #selector(deleAppAction(_:))
+                    dCell.btnAddApp.action = #selector(deleteSetBlock(_:))
                     return dCell
                 }
             }
@@ -493,7 +357,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 if let deleteCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: nil) as? ButtonCell {
                     deleteCell.btnAddApp.tag = row
                     deleteCell.btnAddApp.target = self
-                    deleteCell.btnAddApp.action = #selector(deleAppAction(_:))
+                    deleteCell.btnAddApp.action = #selector(deleteSetException(_:))
                     return deleteCell
                 }
             }
@@ -524,11 +388,205 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 }
 
-// MARK: Common Methods Here
+// MARK: Common Methods and Button Action Here
 
-extension EditBlockListViewC {
+extension EditBlockListViewC: NSTextFieldDelegate {
+    func controlTextDidChange(_ notification: Notification) {
+        let object = notification.object as! NSTextField
+        txtCharacter.stringValue = object.stringValue
+        dataModel.objBlocklist?.character_val = Int64(object.stringValue) ?? 36
+
+        DBManager.shared.saveContext()
+    }
+
     func updateBlocklistList() {
         comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
         dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1.first
+        updateRadioOptions()
+        reloadTables()
+    }
+
+    func updateRadioOptions() {
+        // Blocklist Behaviour
+        radioAllBreak.state = dataModel.objBlocklist?.blocked_all_break ?? false ? .on : .off
+        radioLongBreak.state = dataModel.objBlocklist?.unblock_long_break_only ?? false ? .on : .off
+        radioShortLongBreak.state = dataModel.objBlocklist?.unblock_short_long_break ?? true ? .on : .off
+
+        // Discourage Stop Session
+        radioRestart.state = dataModel.objBlocklist?.restart_computer ?? false ? .on : .off
+        radioStopFocus.state = dataModel.objBlocklist?.random_character ?? false ? .on : .off
+        radioStopAnyTime.state = dataModel.objBlocklist?.stop_focus_session_anytime ?? true ? .on : .off
+
+        txtCharacter.stringValue = "\(dataModel.objBlocklist?.character_val ?? 36)"
+    }
+
+    // Store the Apps in Block Also and Exception as per selected blick list
+    @objc func addAppAction(_ sender: NSButton) {
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        if !arrBlock.isEmpty {
+            let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
+            controller.listType = .system_app_list
+            controller.dataModel.objBlocklist = dataModel.objBlocklist
+            controller.addedSuccess = { [weak self] dataV in
+                if sender.tag == BlockList.block_web_app.rawValue {
+                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+                        if isStore {
+                            self?.reloadTables()
+                        }
+                    }
+                } else {
+                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
+                        if isStore {
+                            self?.reloadTables()
+                        }
+                    }
+                }
+            }
+            presentAsSheet(controller)
+        } else {
+            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
+        }
+    }
+
+    // Store the Web URL in Block Also and Exception as per selected blick list
+    @objc func addWebAction(_ sender: NSButton) {
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        if !arrBlock.isEmpty {
+            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+            inputDialogueCntrl.inputType = .add_website
+            inputDialogueCntrl.dataModel.objBlocklist = dataModel.objBlocklist
+            inputDialogueCntrl.addedSuccess = { [weak self] dataV in
+                if sender.tag == BlockList.block_web_app.rawValue {
+                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+                        if isStore {
+                            self?.reloadTables()
+                        }
+                    }
+                } else {
+                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
+                        if isStore {
+                            self?.reloadTables()
+                        }
+                    }
+                }
+            }
+            presentAsSheet(inputDialogueCntrl)
+        } else {
+            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
+        }
+    }
+
+    // Remove the Apps and Web Url from Also Block View
+    @objc func deleteSetBlock(_ sender: NSButton) {
+        let arrBlock = dataModel.objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
+        guard let objBlock = arrBlock?[sender.tag] as? Block_App_Web else { return }
+        DBManager.managedContext.delete(objBlock)
+        DBManager.shared.saveContext()
+        tblBlock.reloadData()
+    }
+
+    // Remove the Apps and Web Url from Exceptions view
+    @objc func deleteSetException(_ sender: NSButton) {
+        let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
+        guard let objException = arrBlock?[sender.tag] as? Exception_App_Web else { return }
+        DBManager.managedContext.delete(objException)
+        DBManager.shared.saveContext()
+        tblNotBlock.reloadData()
+    }
+
+    // Store the Categories as per selected blick list
+    @objc func addCategoryAction(_ sender: NSButton) {
+        let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[sender.tag]
+        obj.is_selected = !obj.is_selected
+        DBManager.shared.saveContext()
+        dataModel.input.updateSelectedCategorylist(objCat: obj) { _ in
+            self.reloadTables()
+        }
+    }
+
+    @objc func handleBlockSelection(_ sender: Any) {
+        guard sender is NSPopUpButton else { return }
+        let index = comboBlock.selectedTag()
+        if index == -1 {
+            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+            inputDialogueCntrl.inputType = .add_block_list_name
+            inputDialogueCntrl.addedSuccess = { [weak self] _ in
+                self?.updateBlocklistList()
+                self?.reloadTables()
+            }
+
+            presentAsSheet(inputDialogueCntrl)
+        } else {
+            dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1[index]
+            updateRadioOptions()
+        }
+        reloadTables()
+    }
+
+    @IBAction func behaviorOptions(sender: NSButton) {
+        if radioShortLongBreak.state == .on {
+            radioLongBreak.state = .off
+            radioAllBreak.state = .off
+
+            dataModel.objBlocklist?.unblock_short_long_break = true
+            dataModel.objBlocklist?.unblock_long_break_only = false
+            dataModel.objBlocklist?.blocked_all_break = false
+        }
+
+        if radioLongBreak.state == .on {
+            radioShortLongBreak.state = .off
+            radioAllBreak.state = .off
+
+            dataModel.objBlocklist?.unblock_long_break_only = true
+            dataModel.objBlocklist?.unblock_short_long_break = false
+            dataModel.objBlocklist?.blocked_all_break = false
+        }
+
+        if radioAllBreak.state == .on {
+            radioLongBreak.state = .off
+            radioShortLongBreak.state = .off
+
+            dataModel.objBlocklist?.blocked_all_break = true
+            dataModel.objBlocklist?.unblock_long_break_only = false
+            dataModel.objBlocklist?.unblock_short_long_break = false
+        }
+
+        DBManager.shared.saveContext()
+    }
+
+    @IBAction func stopOptions(sender: NSButton) {
+        if radioStopAnyTime.state == .on {
+            radioStopFocus.state = .off
+            radioRestart.state = .off
+
+            dataModel.objBlocklist?.stop_focus_session_anytime = true
+            dataModel.objBlocklist?.random_character = false
+            dataModel.objBlocklist?.restart_computer = false
+        }
+
+        if radioStopFocus.state == .on {
+            radioStopAnyTime.state = .off
+            radioRestart.state = .off
+
+            dataModel.objBlocklist?.stop_focus_session_anytime = false
+            dataModel.objBlocklist?.random_character = true
+            dataModel.objBlocklist?.restart_computer = false
+        }
+
+        if radioRestart.state == .on {
+            radioStopAnyTime.state = .off
+            radioStopFocus.state = .off
+
+            dataModel.objBlocklist?.stop_focus_session_anytime = false
+            dataModel.objBlocklist?.random_character = false
+            dataModel.objBlocklist?.restart_computer = true
+        }
+        DBManager.shared.saveContext()
+    }
+
+    func reloadTables() {
+        tblBlock.reloadData()
+        tblNotBlock.reloadData()
+        tblCategory.reloadData()
     }
 }

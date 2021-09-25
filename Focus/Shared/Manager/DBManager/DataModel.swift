@@ -16,7 +16,7 @@ protocol DataModelIntput {
     func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List])
     func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
     func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
-    func updateSelectedCategorylist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
+    func updateSelectedCategorylist(objCat: Block_Category, callback: @escaping ((Bool) -> Void))
     func resetApplistSelection()
 }
 
@@ -78,9 +78,11 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func storeCategory() {
         if !DBManager.shared.checkDataIsPresent() {
             for val in categories {
-                let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date()]
+                let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue]
                 DBManager.shared.saveCategory(data: data)
             }
+            let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
+            DBManager.shared.saveCategory(data: data)
         }
     }
 
@@ -118,17 +120,22 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         callback(true)
     }
 
-    func updateSelectedCategorylist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+    func updateSelectedCategorylist(objCat: Block_Category, callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_List_Category] = []
-        for val in data {
-            let objexceptionWA = Block_List_Category(context: DBManager.managedContext)
-            for (key, value) in val {
-                objexceptionWA.setValue(value, forKeyPath: key)
-            }
-            arrObj.append(objexceptionWA)
+        if objCat.is_selected {
+            let objCategory = Block_List_Category(context: DBManager.managedContext)
+            objCategory.setValue(objCat.name, forKeyPath: "name")
+            objCategory.setValue(objCat.id, forKeyPath: "id")
+            objCategory.setValue(Date(), forKeyPath: "created_at")
+            arrObj.append(objCategory)
+            arrObj = arrObj + (objBlocklist?.block_category?.allObjects as! [Block_List_Category])
+            objBlocklist?.block_category = NSSet(array: arrObj)
+        } else {
+            let arrCat = objBlocklist?.block_category?.allObjects as! [Block_List_Category]
+            guard let obj = arrCat.filter({ $0.id == objCat.id }).compactMap({ $0 }).first else { return callback(false) }
+            print(obj)
+            DBManager.managedContext.delete(obj)
         }
-        arrObj = arrObj + (objBlocklist?.block_category?.allObjects as! [Block_List_Category])
-        objBlocklist?.block_category = NSSet(array: arrObj)
         DBManager.shared.saveContext()
         callback(true)
     }

@@ -54,7 +54,7 @@ class GeneralSettingViewC: BaseViewController {
     @IBOutlet var btnAddApp: CustomButton!
     @IBOutlet var btnAddWeb: CustomButton!
 
-    let viewModel: BlockListViewModelType = BlockListViewModel()
+    let viewModel: GeneralSettingModelType = GeneralSettingModel()
 
     override func setTitle() -> String { return SettingOptions.general_setting.title }
 
@@ -176,32 +176,55 @@ extension GeneralSettingViewC {
     }
 
     @objc func addAppAction(_ sender: NSButton) {
+        let objCat = viewModel.input.getGeneralCategoryData().gCat
+        if objCat != nil {
+            let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
+            controller.listType = .system_app_list
+            controller.addedSuccess = { [weak self] dataV in
+                self?.viewModel.input.addAppWebData(data: dataV) { isStore in
+                    if isStore {
+                        self?.tblView.reloadData()
+                    }
+                }
+            }
+            presentAsSheet(controller)
+        } else {
+            // TODO: Need to check
+        }
     }
 
     @objc func addWebAction(_ sender: NSButton) {
-        openPopup()
+        let objCat = viewModel.input.getGeneralCategoryData().gCat
+        if objCat != nil {
+            let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
+            inputDialogueCntrl.inputType = .add_website
+            inputDialogueCntrl.addedSuccess = { [weak self] dataV in
+                self?.viewModel.input.addAppWebData(data: dataV) { isStore in
+                    if isStore {
+                        self?.tblView.reloadData()
+                    }
+                }
+            }
+            presentAsSheet(inputDialogueCntrl)
+        } else {
+            // TODO: Need to check
+        }
     }
 
-    @objc func deleAppAction(_ sender: NSButton) {
-        blockList.remove(at: sender.tag)
+    @objc func deleteSubCate(_ sender: NSButton) {
+        let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
+        guard let objBlock = arrSCat?[sender.tag] else { return }
+        DBManager.managedContext.delete(objBlock)
+        DBManager.shared.saveContext()
         tblView.reloadData()
     }
 
-    func openPopup() {
-        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-        print(paths[0])
-
-        promptToForInput("Enter Web Url", "Copy Url from Webrowser and paste it below.", completion: { (value: String, action: Bool) in
-            if action {
-                print(value)
-
-                let data: [String: Any] = ["url": value, "name": value, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue]
-//                viewModel.input.storeOverridesBlock(data: data) { _ in
-//                    self.blockList.append(value)
-//                    self.tblView.reloadData()
-//                }
-            }
-        })
+    // Store the Categories as per selected blick list
+    @objc func addSCategory(_ sender: NSButton) {
+        let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
+        guard let objBlock = arrSCat?[sender.tag] else { return }
+        objBlock.is_selected = !objBlock.is_selected
+        DBManager.shared.saveContext()
     }
 }
 
@@ -216,29 +239,28 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return blockList.count
-    }
-
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return blockList[row]
+        return viewModel.input.getGeneralCategoryData().subCat.count
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let objSCat = viewModel.input.getGeneralCategoryData().subCat[row] as? Block_SubCategory
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: self) as? ButtonCell {
+                cell.configGCategoryCell(row: row, objSubCat: objSCat, target: self, action: #selector(addSCategory(_:)))
+
                 return cell
             }
 
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: self) as? ImageTextCell {
-                cell.configCategory(val: blockList[row])
+                cell.configCell(obj: objSCat)
                 return cell
             }
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "deleteIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteID"), owner: self) as? ButtonCell {
                 cell.btnAddApp.tag = row
                 cell.btnAddApp.target = self
-                cell.btnAddApp.action = #selector(deleAppAction(_:))
+                cell.btnAddApp.action = #selector(deleteSubCate(_:))
                 return cell
             }
         }
