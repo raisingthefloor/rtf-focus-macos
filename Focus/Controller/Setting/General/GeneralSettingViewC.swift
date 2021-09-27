@@ -95,6 +95,8 @@ extension GeneralSettingViewC: BasicSetupType {
     }
 
     func setUpViews() {
+        setupData()
+
         view.background_color = .white
         btnAddApp.buttonColor = Color.green_color
         btnAddApp.activeButtonColor = Color.green_color
@@ -120,7 +122,9 @@ extension GeneralSettingViewC: BasicSetupType {
         lblBehaviorTitle.textColor = .black
 
         checkBoxWarning.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        checkBoxWarning.tag = 0
         checkBoxFocusTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        checkBoxFocusTime.tag = 1
 
         lblBrekInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblBrekInfo.textColor = .black
@@ -128,7 +132,9 @@ extension GeneralSettingViewC: BasicSetupType {
         lblFocusInfo.textColor = .black
 
         checkBoxShowTimer.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        checkBoxShowTimer.tag = 2
         checkBoxEachBreak.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        checkBoxEachBreak.tag = 3
 
         lblUnblockingTitle.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
         lblUnblockingTitle.textColor = .black
@@ -161,18 +167,47 @@ extension GeneralSettingViewC: BasicSetupType {
 }
 
 extension GeneralSettingViewC {
+    func setupData() {
+        _ = viewModel.input.getGeneralCategoryData()
+        checkBoxWarning.state = (viewModel.objGCategory?.general_setting?.warning_before_schedule_session_start == true) ? .on : .off
+        checkBoxFocusTime.state = (viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session == true) ? .on : .off
+        checkBoxShowTimer.state = (viewModel.objGCategory?.general_setting?.show_count_down_for_break_start_end == true) ? .on : .off
+        checkBoxEachBreak.state = (viewModel.objGCategory?.general_setting?.block_screen_first_min_each_break == true) ? .on : .off
+        popBreakTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.break_time as! CVarArg)
+        popFocusTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.for_every_time as! CVarArg)
+    }
+
     @IBAction func foucsTimeSelection(_ sender: Any) {
-        guard let popup = sender as? NSPopUpButton else { return }
+        guard let popup = sender as? NSPopUpButton, let val = popup.titleOfSelectedItem, let intVal = Int64(val) else { return }
         print("Selected Focus Time:", popup.titleOfSelectedItem ?? "")
+        viewModel.objGCategory?.general_setting?.for_every_time = Int64(intVal)
+        DBManager.shared.saveContext()
     }
 
     @IBAction func breakTimeSelection(_ sender: Any) {
-        guard let popup = sender as? NSPopUpButton else { return }
+        guard let popup = sender as? NSPopUpButton, let val = popup.titleOfSelectedItem, let intVal = Int64(val) else { return }
         print("Selected Break Time:", popup.titleOfSelectedItem ?? "")
+        viewModel.objGCategory?.general_setting?.break_time = Int64(intVal)
+        DBManager.shared.saveContext()
     }
 
-    @objc func checkBoxEventHandler(_ sender: NSButton) {
+    @IBAction func checkBoxEventHandler(_ sender: NSButton) {
         print(" Check Box Event : \(sender.state) ::: \(sender.title)")
+
+        let isChecked = (sender.state == .on) ? true : false
+        switch sender.tag {
+        case 0:
+            viewModel.objGCategory?.general_setting?.warning_before_schedule_session_start = isChecked
+        case 1:
+            viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session = isChecked
+        case 2:
+            viewModel.objGCategory?.general_setting?.show_count_down_for_break_start_end = isChecked
+        case 3:
+            viewModel.objGCategory?.general_setting?.block_screen_first_min_each_break = isChecked
+        default:
+            break
+        }
+        DBManager.shared.saveContext()
     }
 
     @objc func addAppAction(_ sender: NSButton) {
@@ -247,7 +282,6 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: self) as? ButtonCell {
                 cell.configGCategoryCell(row: row, objSubCat: objSCat, target: self, action: #selector(addSCategory(_:)))
-
                 return cell
             }
 

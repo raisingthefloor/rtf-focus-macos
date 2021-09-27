@@ -79,10 +79,10 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         if !DBManager.shared.checkDataIsPresent() {
             for val in categories {
                 let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue]
-                DBManager.shared.saveCategory(data: data)
+                DBManager.shared.saveCategory(data: data, type: .system)
             }
             let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
-            DBManager.shared.saveCategory(data: data)
+            DBManager.shared.saveCategory(data: data, type: .general)
         }
     }
 

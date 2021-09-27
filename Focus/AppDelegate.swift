@@ -32,12 +32,11 @@ let appDelegate = NSApplication.shared.delegate as? AppDelegate
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    var customSetting = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "WindowController") as? WindowController
     var browserBridge: AppleScriptProtocol?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        openFocus()
+       // openFocus()
         setupStautsBarMenu()
 
         //  Application Block Functionality
@@ -112,6 +111,7 @@ extension AppDelegate {
                 w.styleMask.remove(.closable)
                 w.styleMask.remove(.miniaturizable)
                 w.level = .floating
+                w.collectionBehavior = .fullScreenAuxiliary
                 return w
             }()
 
@@ -121,11 +121,4 @@ extension AppDelegate {
             windowController.showWindow(self)
         }
     }
-
-    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
-        let menu = NSMenu()
-        let reOpenMenuItem = NSMenuItem(title: "Quit", action: #selector(terminate(_:)), keyEquivalent: "q")
-        menu.addItem(reOpenMenuItem)
-        return menu
-    }        
 }

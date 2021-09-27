@@ -134,6 +134,7 @@ extension MenuController: BasicSetupType {
             window.styleMask.remove(.miniaturizable)
             window.styleMask.remove(.fullSizeContentView)
         }
+
         let button = view.window?.standardWindowButton(.zoomButton)
         button?.isEnabled = false
 
@@ -203,25 +204,26 @@ extension MenuController: BasicSetupType {
         guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
         viewModel.input.updateFocusStop(time: focusTime) { isUpdate, _ in
             if isUpdate != nil {
-                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-                switch focusTime {
-                case .half_past:
-                    controller.dialogueType = .short_break_alert
-                    self.presentAsSheet(controller)
-                case .one_hr:
-                    errorDialog.errorType = .edit_blocklist_error
-                    self.presentAsSheet(errorDialog)
-                case .two_hr:
-                    errorDialog.errorType = .focus_schedule_error
-                    self.presentAsSheet(errorDialog)
-                case .untill_press_stop:
-                    errorDialog.errorType = .schedule_error
-                    self.presentAsSheet(errorDialog)
-                case .stop_focus:
-                    controller.dialogueType = .till_stop_alert
-                    self.presentAsSheet(controller)
-                }
+                self.dismiss(nil)
+//                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+//                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+//                switch focusTime {
+//                case .half_past:
+//                    controller.dialogueType = .short_break_alert
+//                    self.presentAsSheet(controller)
+//                case .one_hr:
+//                    errorDialog.errorType = .edit_blocklist_error
+//                    self.presentAsSheet(errorDialog)
+//                case .two_hr:
+//                    errorDialog.errorType = .focus_schedule_error
+//                    self.presentAsSheet(errorDialog)
+//                case .untill_press_stop:
+//                    errorDialog.errorType = .schedule_error
+//                    self.presentAsSheet(errorDialog)
+//                case .stop_focus:
+//                    controller.dialogueType = .till_stop_alert
+//                    self.presentAsSheet(controller)
+//                }
             }
         }
     }
@@ -250,8 +252,17 @@ extension MenuController: BasicSetupType {
     // Block list selection
     @IBAction func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
-        if popBlock.selectedTag() == -1 {
+        let arrBlock = dataModel.input.getBlockList(cntrl: .main_menu).1
+        let index = popBlock.selectedTag()
+        if index == -1 {
             performSegue(withIdentifier: "segueSetting", sender: SettingOptions.block_setting)
+        } else {
+            if !arrBlock.isEmpty {
+                let objBlockList = arrBlock[index]
+//                viewModel.input.focusObj.block_data = objBlockList
+                viewModel.input.focusObj?.block_list_id = objBlockList.id
+                DBManager.shared.saveContext()
+            }
         }
         print("Selected block:", popBlock.titleOfSelectedItem ?? "")
     }
@@ -260,6 +271,7 @@ extension MenuController: BasicSetupType {
         guard let popup = sender as? NSPopUpButton else { return }
         print("Selected Focus Time:", popup.titleOfSelectedItem ?? "")
         viewModel.input.focusObj?.stop_focus_after_time = Double(popup.titleOfSelectedItem ?? "15") ?? Double(Focus.FocusTime.fifteen.value)
+        DBManager.shared.saveContext()
     }
 
     @IBAction func breakTimeSelection(_ sender: Any) {
@@ -267,6 +279,7 @@ extension MenuController: BasicSetupType {
         print("Selected Break Time:", popup.titleOfSelectedItem ?? "")
 
         viewModel.input.focusObj?.short_break_time = Double(popup.titleOfSelectedItem ?? "5") ?? Double(Focus.BreakTime.five.value)
+        DBManager.shared.saveContext()
     }
 
     @objc func openCustomSetting() {
@@ -281,13 +294,13 @@ extension MenuController {
     func setupData() {
         guard let obj = viewModel.input.focusObj else { return }
 
-        popBreakTime.title = "5" + " min" // String(format: "%d", obj.short_break_time)
-        popFocusTime.title = "15" + " min" // String(format: "%d", obj.stop_focus_after_time)
+        popBreakTime.title = String(format: "%d", obj.short_break_time)
+        popFocusTime.title = String(format: "%d", obj.stop_focus_after_time)
         blockStackV.isHidden = !obj.is_block_programe_select
 
-//        for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI] {
-//            btn?.isEnabled = !obj.is_focusing
-//        }
+        for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI] {
+            btn?.isEnabled = !obj.is_focusing
+        }
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {

@@ -81,7 +81,7 @@ extension DBManager {
     func getFoucsObject() -> Focuses? {
         var focusObj: Focuses?
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Focus.entity_name)
-        fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
+//        fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
 
         do {
             let results = try DBManager.managedContext.fetch(fetchRequest)
@@ -89,6 +89,7 @@ extension DBManager {
                 focusObj = results.first as? Focuses
             } else {
                 focusObj = Focuses(context: DBManager.managedContext)
+                focusObj?.uuid = UUID()
             }
         } catch let error {
             print(error.localizedDescription)
@@ -178,12 +179,21 @@ extension DBManager {
         }
     }
 
-    func saveCategory(data: [String: Any?]) {
+    func saveCategory(data: [String: Any?], type: CategoryType) {
         let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: DBManager.managedContext)!
         let category = NSManagedObject(entity: entity, insertInto: DBManager.managedContext)
 
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
+        }
+
+        if type == .general {
+            let setting_data: [String: Any?] = ["warning_before_schedule_session_start": true, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": 5, "for_every_time": 15]
+            let objGS = General_Settings(context: DBManager.managedContext)
+            for (key, value) in setting_data {
+                objGS.setValue(value, forKeyPath: key)
+            }
+            (category as? Block_Category)?.general_setting = objGS
         }
 
         do {
@@ -209,7 +219,7 @@ extension DBManager {
         return []
     }
 
-    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory]) { 
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory]) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
         fetchRequest.predicate = NSPredicate(format: "type = %d", CategoryType.general.rawValue)
         do {

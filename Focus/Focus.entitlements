@@ -2,11 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>com.apple.developer.networking.networkextension</key>
-	<array>
-		<string>content-filter-provider</string>
-	</array>
-	<key>com.apple.security.app-sandbox</key>
+	<key>com.apple.security.automation.apple-events</key>
 	<true/>
 	<key>com.apple.security.temporary-exception.apple-events</key>
 	<array>
@@ -19,7 +15,5 @@
 		<string>com.vivaldi.Vivaldi</string>
 		<string>com.brave.Browser</string>
 	</array>
-	<key>com.apple.security.automation.apple-events</key>
-	<true/>
 </dict>
 </plist>

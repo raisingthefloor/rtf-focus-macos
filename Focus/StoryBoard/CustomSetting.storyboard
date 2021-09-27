@@ -12,6 +12,7 @@
                 <windowController id="iEI-Ir-oSN" sceneMemberID="viewController">
                     <window key="window" title="NSStackView" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" toolbarStyle="unified" id="3cO-2s-gKi">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+                        <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="229" y="239" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1600" height="875"/>
@@ -241,6 +242,9 @@
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="cellTitle"/>
                                                                 </buttonCell>
+                                                                <connections>
+                                                                    <action selector="checkBoxEventHandler:" target="SAg-tH-avP" id="Bif-wa-xaa"/>
+                                                                </connections>
                                                             </button>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KWF-Y1-IYA">
                                                                 <rect key="frame" x="0.0" y="42" width="486" height="23"/>
@@ -251,6 +255,9 @@
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                             <font key="font" metaFont="cellTitle"/>
                                                                         </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="checkBoxEventHandler:" target="SAg-tH-avP" id="IZ5-9v-0rZ"/>
+                                                                        </connections>
                                                                     </button>
                                                                     <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="zZq-ib-KhX">
                                                                         <rect key="frame" x="107" y="-4" width="66" height="30"/>
@@ -258,12 +265,12 @@
                                                                             <constraint firstAttribute="height" constant="23" id="8HU-TC-x6f"/>
                                                                             <constraint firstAttribute="width" constant="60" id="IUd-lL-8Ry"/>
                                                                         </constraints>
-                                                                        <popUpButtonCell key="cell" type="bevel" title="5" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="tHp-oS-BBr" id="ssZ-RS-ntM">
+                                                                        <popUpButtonCell key="cell" type="bevel" title="5" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="tHp-oS-BBr" id="ssZ-RS-ntM">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="menu"/>
                                                                             <menu key="menu" id="tUX-bJ-EQo">
                                                                                 <items>
-                                                                                    <menuItem title="5" state="on" hidden="YES" id="tHp-oS-BBr"/>
+                                                                                    <menuItem title="5" state="on" id="tHp-oS-BBr"/>
                                                                                     <menuItem title="Item 2" id="Vbz-Pb-kuY"/>
                                                                                     <menuItem title="Item 3" id="dyi-2U-Bfs"/>
                                                                                 </items>
@@ -284,12 +291,12 @@
                                                                             <constraint firstAttribute="width" constant="60" id="JLN-8Y-hwh"/>
                                                                             <constraint firstAttribute="height" constant="23" id="W5Y-Ia-V8v"/>
                                                                         </constraints>
-                                                                        <popUpButtonCell key="cell" type="bevel" title="25" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="rwA-gt-Gya" id="EBJ-e3-89M">
+                                                                        <popUpButtonCell key="cell" type="bevel" title="25" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="rwA-gt-Gya" id="EBJ-e3-89M">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="menu"/>
                                                                             <menu key="menu" id="xSa-SG-YXI">
                                                                                 <items>
-                                                                                    <menuItem title="25" state="on" hidden="YES" id="rwA-gt-Gya"/>
+                                                                                    <menuItem title="25" state="on" id="rwA-gt-Gya"/>
                                                                                     <menuItem title="Item 2" id="WfQ-xo-bXF"/>
                                                                                     <menuItem title="Item 3" id="O2L-Y3-EMR"/>
                                                                                 </items>
@@ -334,6 +341,9 @@
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="cellTitle"/>
                                                                 </buttonCell>
+                                                                <connections>
+                                                                    <action selector="checkBoxEventHandler:" target="SAg-tH-avP" id="gRS-e2-eGK"/>
+                                                                </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8FB-Pb-D9P">
                                                                 <rect key="frame" x="-2" y="-1" width="503" height="18"/>
@@ -341,6 +351,9 @@
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="cellTitle"/>
                                                                 </buttonCell>
+                                                                <connections>
+                                                                    <action selector="checkBoxEventHandler:" target="SAg-tH-avP" id="2DF-FJ-xsp"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <visibilityPriorities>
@@ -470,11 +483,11 @@
                                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                             <prototypeCellViews>
                                                                                                                 <tableCellView identifier="nameId" misplaced="YES" id="n6D-YJ-O1w" customClass="ImageTextCell" customModule="Focus" customModuleProvider="target">
-                                                                                                                    <rect key="frame" x="26" y="0.0" width="159" height="24"/>
+                                                                                                                    <rect key="frame" x="26" y="0.0" width="163" height="24"/>
                                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                     <subviews>
                                                                                                                         <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V8k-01-DFZ">
-                                                                                                                            <rect key="frame" x="10" y="2" width="139" height="32"/>
+                                                                                                                            <rect key="frame" x="10" y="2" width="143" height="32"/>
                                                                                                                             <subviews>
                                                                                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0HV-uc-fJw">
                                                                                                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="32"/>
@@ -484,7 +497,7 @@
                                                                                                                                     <imageCell key="cell" controlSize="small" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSColorPanel" id="QqS-7H-6YT"/>
                                                                                                                                 </imageView>
                                                                                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="mMz-us-fno">
-                                                                                                                                    <rect key="frame" x="30" y="9" width="111" height="14"/>
+                                                                                                                                    <rect key="frame" x="30" y="9" width="115" height="14"/>
                                                                                                                                     <textFieldCell key="cell" controlSize="small" title="Label" id="zGK-71-Ndv">
                                                                                                                                         <font key="font" metaFont="smallSystem"/>
                                                                                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -527,7 +540,7 @@
                                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                             <prototypeCellViews>
                                                                                                                 <tableCellView identifier="deleteID" id="yy8-xb-vbK" customClass="ButtonCell" customModule="Focus" customModuleProvider="target">
-                                                                                                                    <rect key="frame" x="185" y="0.0" width="31" height="24"/>
+                                                                                                                    <rect key="frame" x="189" y="0.0" width="31" height="24"/>
                                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                     <subviews>
                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tGb-D3-gO3">
@@ -845,7 +858,7 @@
                 </tableColumn>
                 <customObject id="Uph-0T-lSL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2395.5" y="-1751.5"/>
+            <point key="canvasLocation" x="-1764" y="-1045"/>
         </scene>
         <!--Edit Block List ViewC-->
         <scene sceneID="CJP-x4-lnY">
@@ -1147,7 +1160,7 @@
                                                                                                                                                     <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                     <subviews>
                                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CmB-ds-UGD" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                            <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                                            <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                                             <constraints>
                                                                                                                                                                 <constraint firstAttribute="height" constant="25" id="8d6-AB-cif"/>
                                                                                                                                                             </constraints>
@@ -1157,7 +1170,7 @@
                                                                                                                                                             </buttonCell>
                                                                                                                                                         </button>
                                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f7Q-O1-EHb" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                            <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                                            <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                                             <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y7i-LL-3qk">
                                                                                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                 <font key="font" metaFont="system"/>
@@ -2216,13 +2229,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Jjv-Pb-3oX">
-                                <rect key="frame" x="0.0" y="0.0" width="529" height="743"/>
+                                <rect key="frame" x="0.0" y="0.0" width="529" height="693"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qmq-FJ-6wC">
-                                        <rect key="frame" x="0.0" y="10" width="529" height="723"/>
+                                        <rect key="frame" x="0.0" y="10" width="529" height="673"/>
                                         <subviews>
                                             <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hCe-0m-70G" userLabel="TopView">
-                                                <rect key="frame" x="0.0" y="649" width="529" height="74"/>
+                                                <rect key="frame" x="0.0" y="599" width="529" height="74"/>
                                                 <subviews>
                                                     <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-xk-OHA">
                                                         <rect key="frame" x="28" y="10" width="473" height="54"/>
@@ -2301,16 +2314,16 @@
                                                 </constraints>
                                             </customView>
                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEk-ah-8aI" userLabel="ScheduleV">
-                                                <rect key="frame" x="0.0" y="386" width="529" height="258"/>
+                                                <rect key="frame" x="0.0" y="386" width="529" height="208"/>
                                                 <subviews>
                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="0.0" verticalLineScroll="24" verticalPageScroll="0.0" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR7-jl-4QY">
-                                                        <rect key="frame" x="0.0" y="4" width="529" height="250"/>
+                                                        <rect key="frame" x="0.0" y="4" width="529" height="200"/>
                                                         <clipView key="contentView" id="goR-9g-4I2">
-                                                            <rect key="frame" x="0.0" y="0.0" width="529" height="250"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="529" height="200"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView identifier="scheduleIdentifier" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="O5f-3r-a9L" viewBased="YES" id="J2v-lo-Jcf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="529" height="222"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="529" height="172"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="5" height="0.0"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2408,8 +2421,8 @@
                                                                                             </constraints>
                                                                                             <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="zyb-Ya-uAs">
                                                                                                 <font key="font" metaFont="smallSystem"/>
-                                                                                                <date key="date" timeIntervalSinceReferenceDate="654246534.40304196">
-                                                                                                    <!--2021-09-25 07:08:54 +0000-->
+                                                                                                <date key="date" timeIntervalSinceReferenceDate="654435401.16458797">
+                                                                                                    <!--2021-09-27 11:36:41 +0000-->
                                                                                                 </date>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2451,8 +2464,8 @@
                                                                                             </constraints>
                                                                                             <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="gg0-gy-G3T">
                                                                                                 <font key="font" metaFont="smallSystem"/>
-                                                                                                <date key="date" timeIntervalSinceReferenceDate="654246534.40730596">
-                                                                                                    <!--2021-09-25 07:08:54 +0000-->
+                                                                                                <date key="date" timeIntervalSinceReferenceDate="654435401.16856301">
+                                                                                                    <!--2021-09-27 11:36:41 +0000-->
                                                                                                 </date>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2768,13 +2781,13 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="5" verticalLineScroll="24" verticalPageScroll="5" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jkv-8l-W6s">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="697" height="224"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="697" height="148"/>
                                                                             <clipView key="contentView" drawsBackground="NO" id="47K-90-5TW">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="697" height="224"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="697" height="148"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView identifier="sessionIdentifier" verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="fullWidth" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="M8N-bI-Jfj" viewBased="YES" id="GZR-U8-2oo">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="697" height="196"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="697" height="120"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>

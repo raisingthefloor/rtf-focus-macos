@@ -26,10 +26,8 @@
 import Cocoa
 
 class FloatingFocusViewC: NSViewController {
-    
     @IBOutlet var btnFocus: CustomButton!
     let viewModel: MenuViewModelType = MenuViewModel()
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +43,22 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func setUpViews() {
+        // If in GS Coundt down is on then show timer It appears below button else 
+        // If focus is running then Show "FOCUS"
+        // If Break mode is on then Show "BREAK"
+        
+        guard let obj = viewModel.input.focusObj else { return }
+        if obj.is_focusing {            
+            btnFocus.buttonColor = Color.very_light_grey
+            btnFocus.activeButtonColor = Color.very_light_grey
+            btnFocus.textColor = Color.black_color
+            btnFocus.borderColor = Color.dark_grey_border
+            btnFocus.borderWidth = 0.6
+        } else {
+            btnFocus.buttonColor = Color.green_color
+            btnFocus.activeButtonColor = Color.green_color
+            btnFocus.textColor = .white
+        }
     }
 
     func bindData() {
@@ -53,18 +67,15 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     @objc func openMenuViewC() {
-        
         guard let obj = viewModel.input.focusObj else { return }
 
         if obj.is_focusing {
             if let vc = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
-                vc.view.window?.preventsApplicationTerminationWhenModal = false
-                self.presentAsModalWindow(vc)
+                presentAsModalWindow(vc)
             }
-        }else{
+        } else {
             if let vc = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-                vc.view.window?.preventsApplicationTerminationWhenModal = false
-                self.presentAsModalWindow(vc)
+                presentAsModalWindow(vc)
             }
         }
 

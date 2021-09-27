@@ -55,17 +55,26 @@ extension MenuViewModel {
         switch time {
         case .half_past:
             print("half_past")
+            focusObj?.is_focusing = true // Need to check what to do.
+
         case .one_hr:
             print("one_hr")
+            focusObj?.is_focusing = true
+
         case .two_hr:
             print("two_hr")
+            focusObj?.is_focusing = true
+
         case .untill_press_stop:
             print("untill_press_stop")
+            focusObj?.is_focusing = true
+
         case .stop_focus:
+            focusObj?.is_focusing = false
             print("stop_focus")
         }
+        focusObj?.created_date = Date()
         focusObj?.focus_length_time = time.value
-        focusObj?.is_focusing = true
         DBManager.shared.saveContext()
         callback(true, nil)
     }
@@ -76,18 +85,16 @@ extension MenuViewModel {
         case .dnd:
             print("dnd ::: \(state)")
             focusObj?.is_dnd_mode = (state == .on) ? true : false
-            callback(state, nil)
         case .focus_break:
             print("focus_break ::: \(state)")
             focusObj?.is_provided_short_break = (state == .on) ? true : false
-            callback(state, nil)
         case .block_program_website:
             print("block_program_website ::: \(state)")
             focusObj?.is_block_programe_select = (state == .on) ? true : false
-            callback(state, nil)
         default:
             print("default ::: \(state)")
-            callback(state, nil)
         }
+        DBManager.shared.saveContext()
+        callback(state, nil)
     }
 }
