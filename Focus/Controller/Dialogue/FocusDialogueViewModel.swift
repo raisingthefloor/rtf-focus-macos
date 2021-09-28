@@ -205,6 +205,21 @@ extension FocusDialogue {
             return ([Color.light_green_color, Color.green_color], [Color.green_color, Color.green_color], [Color.txt_green_color, .white], width)
         }
     }
+
+    var value: [Int] {
+        switch self {
+        case .short_break_alert, .seession_completed_alert, .schedule_reminded_with_blocklist_alert:
+            return [5 * 60, 15 * 60, 30 * 60]
+        case .launch_block_app_alert, .till_stop_alert, .disincentive_xx_character_alert, .disincentive_signout_signin_alert, .notifiction_block_alert:
+            return []
+        case .long_break_alert:
+            return [15 * 60, 30 * 60, 60 * 60]
+        case .end_break_alert:
+            return [1 * 60, 5 * 60, 15 * 60]
+        case .schedule_reminded_without_blocklist_alert:
+            return [5 * 60, 15 * 60, 30 * 60, 60 * 60]
+        }
+    }
 }
 
 enum ButtonPosition {

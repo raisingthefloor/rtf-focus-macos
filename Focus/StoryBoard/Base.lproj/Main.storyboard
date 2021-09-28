@@ -38,61 +38,88 @@
                 <customObject id="lIg-Ol-K4P" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sidFloatingFocusViewC" id="gd4-5w-QdD" customClass="FloatingFocusViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GD9-Vd-ojM">
-                        <rect key="frame" x="0.0" y="0.0" width="124" height="57"/>
+                        <rect key="frame" x="0.0" y="0.0" width="124" height="73"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ItA-5g-JJc" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                <rect key="frame" x="14" y="5" width="96" height="46"/>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YOJ-zR-xiF">
+                                <rect key="frame" x="17" y="17" width="90" height="39"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ItA-5g-JJc" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                        <rect key="frame" x="-3" y="-4" width="96" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="90" id="6ap-bD-jh4"/>
+                                            <constraint firstAttribute="height" constant="39" id="K6q-sc-fhD"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="bevel" title="Focus" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpO-18-yD9">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                                <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="activeButtonColor">
+                                                <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="activeTextColor">
+                                                <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="activeBorderColor">
+                                                <color key="value" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="XfG-lQ-9wD" kind="modal" identifier="segueMainMenu" id="YyC-Ad-N2x"/>
+                                        </connections>
+                                    </button>
+                                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cin-g2-IFK">
+                                        <rect key="frame" x="-2" y="23" width="94" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="1Rp-uX-lIf">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="6ap-bD-jh4"/>
-                                    <constraint firstAttribute="height" constant="39" id="K6q-sc-fhD"/>
+                                    <constraint firstItem="Cin-g2-IFK" firstAttribute="width" secondItem="ItA-5g-JJc" secondAttribute="width" id="TPh-54-P8F"/>
                                 </constraints>
-                                <buttonCell key="cell" type="bevel" title="Focus" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpO-18-yD9">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
-                                        <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="activeButtonColor">
-                                        <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                        <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="activeTextColor">
-                                        <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="activeBorderColor">
-                                        <color key="value" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <segue destination="XfG-lQ-9wD" kind="modal" identifier="segueMainMenu" id="YyC-Ad-N2x"/>
-                                </connections>
-                            </button>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="ItA-5g-JJc" firstAttribute="centerX" secondItem="GD9-Vd-ojM" secondAttribute="centerX" id="OPH-XE-QIb"/>
-                            <constraint firstItem="ItA-5g-JJc" firstAttribute="centerY" secondItem="GD9-Vd-ojM" secondAttribute="centerY" id="SlY-yO-na3"/>
+                            <constraint firstItem="YOJ-zR-xiF" firstAttribute="top" secondItem="GD9-Vd-ojM" secondAttribute="top" constant="17" id="0Ec-zb-vK0"/>
+                            <constraint firstAttribute="bottom" secondItem="YOJ-zR-xiF" secondAttribute="bottom" constant="17" id="fd9-eH-jrm"/>
+                            <constraint firstItem="YOJ-zR-xiF" firstAttribute="leading" secondItem="GD9-Vd-ojM" secondAttribute="leading" constant="17" id="tip-7I-XZd"/>
+                            <constraint firstAttribute="trailing" secondItem="YOJ-zR-xiF" secondAttribute="trailing" constant="17" id="vZc-t6-fHn"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btnFocus" destination="ItA-5g-JJc" id="aTN-3e-US2"/>
+                        <outlet property="lblTimeVal" destination="Cin-g2-IFK" id="F6E-T8-7eA"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-620" y="7"/>
+            <point key="canvasLocation" x="-620" y="16"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
@@ -210,6 +237,9 @@
                                                                         </items>
                                                                     </menu>
                                                                 </popUpButtonCell>
+                                                                <connections>
+                                                                    <action selector="breakTimeSelection:" target="XfG-lQ-9wD" id="Soa-M1-9BM"/>
+                                                                </connections>
                                                             </popUpButton>
                                                             <textField hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rif-lU-fkF">
                                                                 <rect key="frame" x="0.0" y="17" width="30" height="21"/>
@@ -246,6 +276,9 @@
                                                                         </items>
                                                                     </menu>
                                                                 </popUpButtonCell>
+                                                                <connections>
+                                                                    <action selector="foucsTimeSelection:" target="XfG-lQ-9wD" id="m0i-5J-RLs"/>
+                                                                </connections>
                                                             </popUpButton>
                                                             <textField hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3vu-l8-z7i">
                                                                 <rect key="frame" x="0.0" y="17" width="30" height="21"/>
@@ -302,7 +335,7 @@
                                                         </buttonCell>
                                                     </button>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tu-6L-z8G">
-                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="27"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="260" height="27"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liH-U3-c4W">
                                                                 <rect key="frame" x="0.0" y="0.0" width="260" height="27"/>
@@ -913,7 +946,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="DNj-iT-t97"/>
+        <segue reference="bad-EV-l4a"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NSSmartBadgeTemplate" width="14" height="14"/>

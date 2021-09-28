@@ -75,6 +75,7 @@ extension MenuViewModel {
         }
         focusObj?.created_date = Date()
         focusObj?.focus_length_time = time.value
+        focusObj?.remaining_time = time.value
         DBManager.shared.saveContext()
         callback(true, nil)
     }

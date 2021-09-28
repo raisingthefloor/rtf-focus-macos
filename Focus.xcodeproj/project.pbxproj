@@ -61,6 +61,7 @@
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
 		3FAAF75D26B2C261009447F8 /* logout.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAAF75C26B2C261009447F8 /* logout.sh */; };
 		3FAD91F326B41E5A00698848 /* dnd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* dnd.sh */; };
+		3FAE26A52702F048005CF777 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAE26A42702F048005CF777 /* TimeManager.swift */; };
 		3FB01CE126FAF46B00828486 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE026FAF46B00828486 /* TableHeaderView.swift */; };
 		3FB01CE326FAF75700828486 /* CustomRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE226FAF75700828486 /* CustomRowView.swift */; };
 		3FB01CE526FAFC6D00828486 /* CustomTableHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */; };
@@ -160,6 +161,7 @@
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3FAAF75C26B2C261009447F8 /* logout.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = logout.sh; sourceTree = "<group>"; };
 		3FAD91F226B41E5200698848 /* dnd.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = dnd.sh; sourceTree = "<group>"; };
+		3FAE26A42702F048005CF777 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		3FB01CE026FAF46B00828486 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
 		3FB01CE226FAF75700828486 /* CustomRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRowView.swift; sourceTree = "<group>"; };
 		3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableHeaderCell.swift; sourceTree = "<group>"; };
@@ -503,6 +505,14 @@
 			path = Script;
 			sourceTree = "<group>";
 		};
+		3FAE26A32702F030005CF777 /* TimeManager */ = {
+			isa = PBXGroup;
+			children = (
+				3FAE26A42702F048005CF777 /* TimeManager.swift */,
+			);
+			path = TimeManager;
+			sourceTree = "<group>";
+		};
 		3FB01CE626FB011300828486 /* ErrorDialogue */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,6 +620,7 @@
 		3FFC1E4B2680C13D0014216C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				3FAE26A32702F030005CF777 /* TimeManager */,
 				3F7872CD26B803730076FA83 /* AppManager */,
 				3F0004B726B2CCF700C18AE2 /* BlockManager */,
 				3F5944B52689F8E2008C54A4 /* DBManager */,
@@ -747,6 +758,7 @@
 				3FB01CF726FB400500828486 /* BlocklistDialogueViewC.swift in Sources */,
 				3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
+				3FAE26A52702F048005CF777 /* TimeManager.swift in Sources */,
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3F9111EB268D985900706B51 /* BlockListViewModel.swift in Sources */,
 				3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */,

@@ -65,6 +65,8 @@ class MenuController: BaseViewController {
     let viewModel: MenuViewModelType = MenuViewModel()
     let dataModel: DataModelType = DataModel()
 
+    var focusStart: ((Bool) -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataModel.input.storeCategory() // Store first time only
@@ -204,6 +206,7 @@ extension MenuController: BasicSetupType {
         guard let focusTime = Focus.StopTime(rawValue: sender.tag) else { return }
         viewModel.input.updateFocusStop(time: focusTime) { isUpdate, _ in
             if isUpdate != nil {
+                self.focusStart?(true)
                 self.dismiss(nil)
 //                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
 //                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
@@ -270,15 +273,18 @@ extension MenuController: BasicSetupType {
     @IBAction func foucsTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         print("Selected Focus Time:", popup.titleOfSelectedItem ?? "")
-        viewModel.input.focusObj?.stop_focus_after_time = Double(popup.titleOfSelectedItem ?? "15") ?? Double(Focus.FocusTime.fifteen.value)
+        // Store in Second
+        let apply_break_after_every_min = ((Double(popup.titleOfSelectedItem ?? "15") ?? 15) * 60)
+        viewModel.input.focusObj?.stop_focus_after_time = apply_break_after_every_min
         DBManager.shared.saveContext()
     }
 
     @IBAction func breakTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         print("Selected Break Time:", popup.titleOfSelectedItem ?? "")
-
-        viewModel.input.focusObj?.short_break_time = Double(popup.titleOfSelectedItem ?? "5") ?? Double(Focus.BreakTime.five.value)
+        // Store in Second
+        let break_time = ((Double(popup.titleOfSelectedItem ?? "5") ?? 5) * 60)
+        viewModel.input.focusObj?.short_break_time = break_time
         DBManager.shared.saveContext()
     }
 
@@ -294,8 +300,8 @@ extension MenuController {
     func setupData() {
         guard let obj = viewModel.input.focusObj else { return }
 
-        popBreakTime.title = String(format: "%d", obj.short_break_time)
-        popFocusTime.title = String(format: "%d", obj.stop_focus_after_time)
+        popBreakTime.title = String(format: "%d", obj.short_break_time / 60)
+        popFocusTime.title = String(format: "%d", obj.stop_focus_after_time / 60)
         blockStackV.isHidden = !obj.is_block_programe_select
 
         for btn in [btn30m, btn1Hr, btn2Hr, btnUntillI] {

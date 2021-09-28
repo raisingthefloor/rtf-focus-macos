@@ -37,6 +37,8 @@ class FocusDialogueViewC: NSViewController {
 
     var dialogueType: FocusDialogue = .short_break_alert
 
+    var breakAction: ((Bool, Int) -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()
@@ -113,24 +115,23 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 
     @objc func extendTimeAction(_ sender: NSButton) {
-        let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-        if sender.tag == 0 {
-            controller.dialogueType = .schedule_reminded_without_blocklist_alert
-            presentAsSheet(controller)
-        } else if sender.tag == 1 {
-            controller.dialogueType = .schedule_reminded_with_blocklist_alert
-            presentAsSheet(controller)
-        } else if sender.tag == 2 {
-            completeSession()
-        } else {
-        }
+        let extendVal = dialogueType.value[sender.tag]
+        breakAction?(true, extendVal)
+        dismiss(nil)
+
+//        let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+//            controller.dialogueType = .schedule_reminded_without_blocklist_alert
+//            presentAsSheet(controller)
     }
 
     @objc func stopAction(_ sender: NSButton) {
-        dismiss(nil)
+        let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
+        controller.dialogueType = .disincentive_xx_character_alert // If Random Character is on the show this other wise Restart dialogue
+        presentAsSheet(controller)
     }
 
     @objc func topAction(_ sender: NSButton) {
+        breakAction?(false, 0)
         dismiss(nil)
     }
 

@@ -72,13 +72,13 @@ extension Focus {
         var value: Double {
             switch self {
             case .half_past:
-                return 30
+                return 30 * 60
             case .one_hr:
-                return 60
+                return 60 * 60
             case .two_hr:
-                return 120
+                return 120 * 60
             case .untill_press_stop:
-                return 8 * 60
+                return 8 * 60 * 60
             case .stop_focus:
                 return 0
             }
@@ -242,7 +242,7 @@ extension Focus {
             }
         }
 
-       static var info_color: NSColor {
+        static var info_color: NSColor {
             return Color.info_blue_color
         }
     }
