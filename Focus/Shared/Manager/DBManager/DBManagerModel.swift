@@ -28,9 +28,10 @@ import Foundation
 protocol DBMangerLogic {
     func createFocus(data: [String: Any])
     func getFoucsObject() -> Focuses?
+    func getCurrentSession() -> Focuses?
     func saveApplicationlist(data: [String: Any])
     func getApplicationList() -> [Application_List]
-    func getActiveBlockList() -> [Override_Block]
+    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
     func checkDataIsPresent() -> Bool
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]

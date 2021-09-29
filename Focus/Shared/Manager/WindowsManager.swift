@@ -40,6 +40,19 @@ struct WindowsManager {
         return vc
     }
 
+    static func getWindowC<T: NSWindowController>(withIdentifier identifier: String, ofType: T.Type?, storyboard: String = "Main", bundle: Bundle? = nil) -> T? {
+        let storyboard = NSStoryboard(name: storyboard, bundle: bundle)
+
+        guard let vc: T = storyboard.instantiateController(withIdentifier: identifier) as? T else {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.messageText = "Error initiating the windowcontroller"
+            alert.runModal()
+            return nil
+        }
+        return vc
+    }
+
     static func openSystemLogoutDialog() {
 //        let path = "/bin/bash"
 //        let scriptPath = Bundle.main.path(forResource: "logout", ofType: ".sh") ?? ""

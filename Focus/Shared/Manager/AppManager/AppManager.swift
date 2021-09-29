@@ -82,25 +82,41 @@ extension AppManager {
 extension AppManager {
     func addObserverToCheckAppLaunch() {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.willLaunchApplicationNotification, object: nil)
+
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.didActivateApplicationNotification, object: nil)
+    }
+
+    func removeObserver() {
+        NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.willLaunchApplicationNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.didActivateApplicationNotification, object: nil)
     }
 
     @objc func appDidLaunch(notification: NSNotification) {
-        let arrBlockerApp = DBManager.shared.getActiveBlockList()
-        if let app = notification.userInfo,
-           let identifier = app["NSApplicationBundleIdentifier"] as? String {
+        let arrBlockerApp = DBManager.shared.getCurrentBlockList().apps
+        guard let app = notification.userInfo else { return }
+        if let identifier = app["NSApplicationBundleIdentifier"] as? String {
             let runningApplications = NSWorkspace.shared.runningApplications
             // filter here to get only that application which are in block list and also check here if focus is running
+            let bundle_id = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier ?? ""
 
-            if let application = runningApplications.first(where: { application in
-                let bundle_id = arrBlockerApp.filter({ $0.bundle_id == identifier }).map({ $0 }).first?.bundle_id ?? ""
-                return application.bundleIdentifier == bundle_id
-            }) {
+            print(runningApplications)
+
+            if let application = NSRunningApplication.runningApplications(withBundleIdentifier: bundle_id).first {
+//            if let application = runningApplications.first(where: { application in
+//                application.bundleIdentifier == bundle_id
+//            }) {
                 application.forceTerminate()
                 kill(application.processIdentifier, SIGTERM)
+//            }
 
-                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-                controller.dialogueType = .launch_block_app_alert
-                windowController.contentViewController?.presentAsSheet(controller)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: application)
+            }
+        } else if let application = app["NSWorkspaceApplicationKey"] as? NSRunningApplication {
+            let identifier = application.bundleIdentifier
+            if let bundle_id = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier {
+                application.forceTerminate()
+                kill(application.processIdentifier, SIGTERM)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: application)
             }
         }
     }

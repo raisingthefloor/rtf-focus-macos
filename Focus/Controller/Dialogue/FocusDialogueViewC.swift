@@ -36,6 +36,7 @@ class FocusDialogueViewC: NSViewController {
     @IBOutlet var btnStop: CustomButton!
 
     var dialogueType: FocusDialogue = .short_break_alert
+    var viewModel: FocusDialogueViewModelType = FocusDialogueViewModel()
 
     var breakAction: ((Bool, Int) -> Void)?
 
@@ -50,7 +51,7 @@ class FocusDialogueViewC: NSViewController {
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = dialogueType.title
+        lblTitle.stringValue = (dialogueType == .launch_block_app_alert) ? String(format: dialogueType.title, viewModel.application?.localizedName as! CVarArg) : dialogueType.title
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
 
@@ -63,6 +64,8 @@ extension FocusDialogueViewC: BasicSetupType {
         btnTop.isHidden = (dialogueType != .long_break_alert) ? false : true
         btnContinue.isHidden = (dialogueType == .long_break_alert) ? false : true
         btnContinue.title = buttonsValue.last ?? ""
+
+        setupStringValue()
     }
 
     func setUpViews() {
@@ -113,7 +116,22 @@ extension FocusDialogueViewC: BasicSetupType {
         btnTop.target = self
         btnTop.action = #selector(topAction(_:))
     }
+}
 
+extension FocusDialogueViewC {
+    func setupStringValue() {
+        if dialogueType == .launch_block_app_alert {
+            let desc = String(format: dialogueType.description, viewModel.application?.localizedName as! CVarArg, viewModel.currentSession?.objBl?.name as! CVarArg)
+
+            let attString = NSMutableAttributedString.getAttributedString(fromString: desc)
+            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.application?.localizedName ?? "-")
+            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.currentSession?.objBl?.name ?? "-")
+            lblDesc.attributedStringValue = attString
+        }
+    }
+}
+
+extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
         breakAction?(true, extendVal)
@@ -125,13 +143,24 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 
     @objc func stopAction(_ sender: NSButton) {
+        if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
+            viewModel.currentSession?.objFocus?.is_focusing = false
+            DBManager.shared.saveContext()
+            breakAction?(false, 0)
+            return
+        }
+// Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = .disincentive_xx_character_alert // If Random Character is on the show this other wise Restart dialogue
+        controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         presentAsSheet(controller)
     }
 
     @objc func topAction(_ sender: NSButton) {
-        breakAction?(false, 0)
+        if dialogueType == .launch_block_app_alert {
+            breakAction?(true, 0)
+        } else {
+            breakAction?(false, 0)
+        }
         dismiss(nil)
     }
 

@@ -28,40 +28,40 @@ import Foundation
 
 class Countdowner {
     var counter: Int = 0
-    var alert: Double = 0
-    var danger: Double = 0
+    var stop_focus_after_time: Double = 0
+    var obj: Focuses!
 
-    init(counter: Int) {
-        setCountdownValue(counter: counter)
+    init(counter: Int, obj: Focuses) {
+        setSessionValue(counter: counter, obj: obj)
     }
 
-    func update(counter: Int) -> (window: Any, color: CGColor, minutes: Int, seconds: Int) {
+    func update(counter: Int, usedValue: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
+        let hours = (counter / 60) / 60
         let minutes = counter / 60
         let seconds = counter % 60
 
-        switch Double(counter) {
-        case danger ... alert: break
-        case 0 ... danger: break
+        switch Double(usedValue) {
+        case obj.stop_focus_after_time:
+            return (popup: .short_break_alert, hours: hours, minutes: minutes, seconds: seconds)
         default:
             return defaultState(counter: counter)
         }
 
-        return (window: "", color: Color.light_blue_color.cgColor, minutes: minutes, seconds: seconds)
-    }
-//TODO: Need to Set for Hours options
-    func secondsToTime(seconds: Int) -> (timeInMinutes: Int, timeInSeconds: Int) {
-        return (timeInMinutes: seconds / 60, timeInSeconds: seconds % 60)
+//        return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
     }
 
-    func defaultState(counter: Int) -> (window: Any, color: CGColor, minutes: Int, seconds: Int) {
+    // TODO: Need to Set for Hours options
+
+    func defaultState(counter: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
+        let hours = (counter / 60) / 60
         let minutes = counter / 60
         let seconds = counter % 60
-        return (window: "", color: Color.light_blue_color.cgColor, minutes: minutes, seconds: seconds)
+        return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
     }
 
-    func setCountdownValue(counter: Int) {
+    func setSessionValue(counter: Int, obj: Focuses) { // Need to set the break time and interval time to display controller
         self.counter = counter
-        alert = Double(counter) * 0.33
-        danger = Double(counter) * 0.17
+        self.obj = obj
+        stop_focus_after_time = obj.stop_focus_after_time
     }
 }

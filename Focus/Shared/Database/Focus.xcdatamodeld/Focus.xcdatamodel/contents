@@ -67,6 +67,7 @@
     <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="extended_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="focus_length_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="is_block_programe_select" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -109,7 +110,7 @@
         <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
-        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="239"/>
+        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="254"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
     </elements>

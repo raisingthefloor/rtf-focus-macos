@@ -26,21 +26,20 @@
 import AppleScriptObjC
 import Cocoa
 
-let windowController: NSWindowController = NSWindowController(window: nil)
 let appDelegate = NSApplication.shared.delegate as? AppDelegate
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var browserBridge: AppleScriptProtocol?
+    var windowController: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-       // openFocus()
+        openFocus()
         setupStautsBarMenu()
 
         //  Application Block Functionality
-//        AppManager.shared.addObserverToCheckAppLaunch()
         AppManager.shared.doSpotlightQuery()
 
         //  Browser URL Block Functionality
@@ -60,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if value == true {
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
             controller.dialogueType = .launch_block_app_alert
-            windowController.contentViewController?.presentAsSheet(controller)
+            windowController?.contentViewController?.presentAsSheet(controller)
         }
         //    browserBridge?.runPermission()
 
@@ -101,24 +100,26 @@ extension AppDelegate {
     }
 
     func openFocus() {
-        if let vc = WindowsManager.getVC(withIdentifier: "sidFloatingFocusViewC", ofType: FloatingFocusViewC.self) {
-            vc.title = ""
-            let window: NSWindow = {
-                let w = NSWindow(contentViewController: vc)
-                w.styleMask.remove(.fullScreen)
-                w.styleMask.remove(.resizable)
-                w.styleMask.remove(.miniaturizable)
-                w.styleMask.remove(.closable)
-                w.styleMask.remove(.miniaturizable)
-                w.level = .floating
-                w.collectionBehavior = .fullScreenAuxiliary
-                return w
-            }()
-
-            if windowController.window == nil {
-                windowController.window = window
-            }
-            windowController.showWindow(self)
-        }
+        windowController = WindowsManager.getWindowC(withIdentifier: "sidWindowController", ofType: NSWindowController.self)
+        windowController?.showWindow(self)
+//        if let vc = WindowsManager.getVC(withIdentifier: "sidFloatingFocusViewC", ofType: FloatingFocusViewC.self) {
+//            vc.title = ""
+//            let window: NSWindow = {
+//                let w = NSWindow(contentViewController: vc)
+//                w.styleMask.remove(.fullScreen)
+//                w.styleMask.remove(.resizable)
+//                w.styleMask.remove(.miniaturizable)
+//                w.styleMask.remove(.closable)
+//                w.styleMask.remove(.miniaturizable)
+//                w.level = .floating
+//                w.collectionBehavior = .fullScreenAuxiliary
+//                return w
+//            }()
+//
+//            if windowController?.window == nil {
+//                windowController?.window = window
+//            }
+//            windowController?.showWindow(self)
+//        }
     }
 }

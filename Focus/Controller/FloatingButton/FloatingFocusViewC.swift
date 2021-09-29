@@ -29,8 +29,9 @@ class FloatingFocusViewC: NSViewController {
     @IBOutlet var btnFocus: CustomButton!
     @IBOutlet var lblTimeVal: NSTextField!
 
-    var addedObserver = false
     var remaininTimeInSeconds = 0
+    var usedTime = 0
+
     var countdownTimer: Timer?
     var countdowner: Countdowner?
     var runningTimer = false
@@ -60,37 +61,52 @@ extension FloatingFocusViewC: BasicSetupType {
 
         guard let obj = viewModel.input.focusObj else { return }
         if obj.is_focusing {
-            btnFocus.buttonColor = Color.very_light_grey
-            btnFocus.activeButtonColor = Color.very_light_grey
-            btnFocus.textColor = Color.black_color
-            btnFocus.borderColor = Color.dark_grey_border
-            btnFocus.borderWidth = 0.6
-            lblTimeVal.isHidden = false
             setupCountDown()
-
         } else {
-            btnFocus.buttonColor = Color.green_color
-            btnFocus.activeButtonColor = Color.green_color
-            btnFocus.textColor = .white
+            defaultUI()
         }
     }
 
     func bindData() {
         btnFocus.target = self
         btnFocus.action = #selector(openMenuViewC)
+        setupObserver()
+    }
+
+    func updateUI() {
+        lblTimeVal.isHidden = false
+        btnFocus.buttonColor = Color.very_light_grey
+        btnFocus.activeButtonColor = Color.very_light_grey
+        btnFocus.textColor = Color.black_color
+        btnFocus.borderColor = Color.dark_grey_border
+        btnFocus.borderWidth = 0.6
+    }
+
+    func defaultUI() {
+        lblTimeVal.isHidden = true
+        btnFocus.buttonColor = Color.green_color
+        btnFocus.activeButtonColor = Color.green_color
+        btnFocus.textColor = .white
+    }
+
+    func setupObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: nil)
     }
 
     @objc func openMenuViewC() {
         guard let obj = viewModel.input.focusObj else { return }
 
         if obj.is_focusing {
-            if let vc = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
-                presentAsModalWindow(vc)
+            if let controller = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
+                controller.viewModel = viewModel
+                presentAsModalWindow(controller)
             }
         } else {
             if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-                controller.focusStart = { [weak self] _ in
-                    self?.setupCountDown()
+                controller.focusStart = { [weak self] isStarted in
+                    if isStarted {
+                        self?.setupCountDown()
+                    }
                 }
                 presentAsModalWindow(controller)
             }
@@ -102,18 +118,15 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 }
 
+// TIMER Count Down
 extension FloatingFocusViewC {
     func setupCountDown() {
-        setDefaultCounterValue()
-        countdowner = Countdowner(counter: remaininTimeInSeconds)
-        setTime()
+        guard let obj = viewModel.input.focusObj else { return }
+        updateUI()
+        setUpdateCounterValue()
+        countdowner = Countdowner(counter: remaininTimeInSeconds, obj: obj)
         handleTimer()
-    }
-
-    func setTime() {
-        guard let countdownerDetails = countdowner?.secondsToTime(seconds: remaininTimeInSeconds) else { fatalError() }
-
-        lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", countdownerDetails.timeInMinutes)):\(String(format: "%02d", countdownerDetails.timeInSeconds))")
+        startBlockingAppsWeb()
     }
 
     func handleTimer() {
@@ -129,9 +142,12 @@ extension FloatingFocusViewC {
         }
     }
 
-    func setDefaultCounterValue() {
+    func setUpdateCounterValue() {
         guard let obj = viewModel.input.focusObj else { return }
         remaininTimeInSeconds = Int(obj.remaining_time)
+        usedTime = 0
+        let countdownerDetails = remaininTimeInSeconds.secondsToTime()
+        updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds)
     }
 
     func startTimer() {
@@ -155,70 +171,93 @@ extension FloatingFocusViewC {
 
     func resetTimer() {
         handleTimer()
-        setDefaultCounterValue()
-
-        let countdownerDetails = countdowner!.defaultState(counter: remaininTimeInSeconds)
-
-        updateWindow(minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
+        setUpdateCounterValue()
     }
 
     @objc func update() {
         guard let obj = viewModel.input.focusObj else { return }
 
         print("remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
-
+        print("usedTimeSeconds ::: \(usedTime)")
         print("Stop after This Min ::: \(Int(obj.stop_focus_after_time))")
-        if remaininTimeInSeconds == Int(obj.stop_focus_after_time) {
-            pauseTimer()
-            runningTimer = false
-            showBreakDialogue()
-            return
-        } else if remaininTimeInSeconds > 0 {
+
+        if remaininTimeInSeconds > 0 {
             remaininTimeInSeconds -= 1
-            guard let countdownerDetails = countdowner?.update(counter: remaininTimeInSeconds) else { fatalError() }
-            updateWindow(minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
-            setCoutdownerTime(seconds: remaininTimeInSeconds)
+            usedTime += 1
+            guard let countdownerDetails = countdowner?.update(counter: remaininTimeInSeconds, usedValue: usedTime) else { fatalError() }
+            if countdownerDetails.popup == .none {
+                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
+                updateRemaingTimeInDB(seconds: remaininTimeInSeconds)
+            } else {
+                pauseTimer()
+                runningTimer = false
+                showBreakDialogue(dialogueType: countdownerDetails.popup)
+            }
         } else {
             pauseTimer()
             runningTimer = false
         }
     }
 
-    func updateWindow(minutes: Int, seconds: Int) {
+    func updateTimeInfo(hours: Int, minutes: Int, seconds: Int) {
         DispatchQueue.main.async {
-            self.lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+            self.lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", hours)):\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
         }
     }
 
-    @objc func setCoutdownerTime(seconds: Int) {
+    func updateRemaingTimeInDB(seconds: Int) {
         DispatchQueue.main.async {
             guard let obj = self.viewModel.input.focusObj else { return }
-
             obj.remaining_time = Double(seconds)
-            self.countdowner?.setCountdownValue(counter: seconds)
             DBManager.shared.saveContext()
         }
-    }
-
-    @objc func setTimerValue() {
-        setDefaultCounterValue()
-        countdowner?.setCountdownValue(counter: remaininTimeInSeconds)
-        setTime()
     }
 }
 
 extension FloatingFocusViewC {
-    func showBreakDialogue() {
+    func startBlockingAppsWeb() {
+        AppManager.shared.addObserverToCheckAppLaunch()
+    }
+}
+
+// MARK: Dialogue Present Methods
+
+extension FloatingFocusViewC {
+    @objc func appDidLaunch(_ notification: NSNotification) {
+        handleTimer()
+        if let app = notification.object as? NSRunningApplication {
+            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+            controller.dialogueType = .launch_block_app_alert
+            controller.viewModel.application = app
+            controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
+            controller.breakAction = { isAction, _ in
+                if isAction {
+                    self.setUpdateCounterValue()
+                    self.handleTimer()
+                } else {
+                    self.defaultUI()
+                    AppManager.shared.removeObserver()
+                }
+            }
+            presentAsSheet(controller)
+        }
+    }
+
+    func showBreakDialogue(dialogueType: FocusDialogue) {
         guard let obj = viewModel.input.focusObj else { return }
 
         // Start Break time timer and also display the Break Time Dialogue
         DispatchQueue.main.async {
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .short_break_alert
+            controller.dialogueType = dialogueType
             controller.breakAction = { isAction, value in
                 if isAction {
-                    obj.stop_focus_after_time = Double(value)
+//                    obj.stop_focus_after_time = Double(value)
+                    obj.extended_break_time = Double(value)
+                    let val = obj.remaining_time + Double(value)
+                    obj.remaining_time = val
                     DBManager.shared.saveContext()
+                    self.setUpdateCounterValue()
                     self.handleTimer()
                 } else {
                     // Start Break Timer and Break Mode

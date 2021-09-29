@@ -38,6 +38,8 @@ class CurrentSessionVC: BaseViewController {
     @IBOutlet var btnStart: CustomButton!
     @IBOutlet var lblWhy: NSTextField!
 
+    var viewModel: MenuViewModelType?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()

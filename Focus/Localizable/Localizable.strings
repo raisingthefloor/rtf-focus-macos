@@ -90,7 +90,7 @@
 "GS.unblockingtitle" = "Allow me to temporarily unblock these items during focus sessions:";
 "GS.unblockinginfo" = "If you need access to a program or website, but it is blocked during a focus session, \nthen you can use this feature to unblock it.";
 "GS.allowinfo" = "This feature  allows user to override a block for the rest of the day.";
-"GS.overrideinfo" = "Check an item below to unblock it until midnight (or until you uncheck it;:";
+"GS.overrideinfo" = "Check an item below to unblock it until midnight (or until you uncheck it):";
 "GS.edit_list" = "Edit List";
 "GS.listInfo" = "This list cannot be changed while \na focus session is in progress.";
 "GS.provide_focus_time" = "Provide short";

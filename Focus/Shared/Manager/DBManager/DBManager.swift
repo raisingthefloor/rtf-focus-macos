@@ -47,17 +47,41 @@ extension DBManager: DBMangerLogic {
 //        }
 //    }
 
-    func getActiveBlockList() -> [Override_Block] { // No Need
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Override_Block")
-        fetchRequest.predicate = NSPredicate(format: "is_selected = true")
+    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
+        guard let objFocus = getCurrentSession() else { return (nil, nil, [], []) }
+
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", objFocus.block_list_id! as CVarArg)
+
         do {
             let block = try DBManager.managedContext.fetch(fetchRequest)
-            guard let overriedBlocks = block as? [Override_Block] else { return [] }
-            return overriedBlocks
+
+            guard let blocks = (block as? [Block_List])?.first else { return (objFocus, nil, [], []) }
+
+            guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (objFocus, blocks, [], []) }
+            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface] {
+                
+                //Category list here or merge into applist and weblist
+                
+                let applist = arrBlocks.filter { obj in
+                    arrExceBlocks.contains { objEx in
+                        objEx.app_identifier != obj.app_identifier
+                    }
+                }
+
+                let weblist = arrBlocks.filter { obj in
+                    arrExceBlocks.contains { objEx in
+                        objEx.name != obj.name
+                    }
+                }
+
+                return (objFocus, blocks, applist, weblist)
+            }
+            return (objFocus, blocks, arrBlocks, [])
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        return []
+        return (objFocus, nil, [], [])
     }
 }
 
@@ -90,6 +114,22 @@ extension DBManager {
             } else {
                 focusObj = Focuses(context: DBManager.managedContext)
                 focusObj?.uuid = UUID()
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        return focusObj
+    }
+
+    func getCurrentSession() -> Focuses? {
+        var focusObj: Focuses?
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Focus.entity_name)
+        fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
+
+        do {
+            let results = try DBManager.managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                focusObj = results.first as? Focuses
             }
         } catch let error {
             print(error.localizedDescription)

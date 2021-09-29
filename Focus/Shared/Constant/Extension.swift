@@ -226,4 +226,31 @@ extension Date {
         let dayInWeek = dateFormatter.string(from: date)
         return dayInWeek
     }
+
+    public func setTime(hour: Int, min: Int, sec: Int) -> Date? {
+        let x: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
+        let cal = Calendar.current
+        var components = cal.dateComponents(x, from: self)
+
+        components.hour = hour
+        components.minute = min
+        components.second = sec
+
+        return cal.date(from: components)
+    }
+}
+
+extension Int {
+    func secondsToTime() -> (timeInHours: Int, timeInMinutes: Int, timeInSeconds: Int) {
+        let hours = Int(Double((self / 60) / 60).rounded(.towardZero))
+        return (timeInHours: hours, timeInMinutes: self / 60, timeInSeconds: self % 60)
+    }
+}
+
+extension Array where Element: Hashable {
+    func difference(from other: [Element]) -> [Element] {
+        let thisSet = Set(self)
+        let otherSet = Set(other)
+        return Array(thisSet.subtracting(otherSet))
+    }
 }
