@@ -55,6 +55,8 @@
 		3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC4A2268B3C8F00AC3026 /* GeneralSettingViewC.swift */; };
 		3F9CC4A6268B3D5800AC3026 /* BlockListViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC4A5268B3D5800AC3026 /* BlockListViewC.swift */; };
 		3F9CC4A9268B3DA000AC3026 /* SchedulerViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC4A8268B3DA000AC3026 /* SchedulerViewC.swift */; };
+		3FA0490C2705CC150074BEB1 /* LockedScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0490A2705CC150074BEB1 /* LockedScreenVC.swift */; };
+		3FA0490D2705CC150074BEB1 /* LockedScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FA0490B2705CC150074BEB1 /* LockedScreenVC.xib */; };
 		3FA4AAFB26CE68D900344B56 /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA4AAFA26CE68D900344B56 /* AppleScriptObjC.framework */; };
 		3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D47267CA9F0007826F3 /* Localizable.strings */; };
 		3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D4B267CB720007826F3 /* Main.storyboard */; };
@@ -155,6 +157,8 @@
 		3F9CC4A2268B3C8F00AC3026 /* GeneralSettingViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingViewC.swift; sourceTree = "<group>"; };
 		3F9CC4A5268B3D5800AC3026 /* BlockListViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewC.swift; sourceTree = "<group>"; };
 		3F9CC4A8268B3DA000AC3026 /* SchedulerViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerViewC.swift; sourceTree = "<group>"; };
+		3FA0490A2705CC150074BEB1 /* LockedScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedScreenVC.swift; sourceTree = "<group>"; };
+		3FA0490B2705CC150074BEB1 /* LockedScreenVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockedScreenVC.xib; sourceTree = "<group>"; };
 		3FA4AAFA26CE68D900344B56 /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
 		3FA51D47267CA9F0007826F3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		3FA51D4C267CB720007826F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -462,6 +466,15 @@
 			path = Scheduler;
 			sourceTree = "<group>";
 		};
+		3FA049092705CBEF0074BEB1 /* LockedScreen */ = {
+			isa = PBXGroup;
+			children = (
+				3FA0490A2705CC150074BEB1 /* LockedScreenVC.swift */,
+				3FA0490B2705CC150074BEB1 /* LockedScreenVC.xib */,
+			);
+			path = LockedScreen;
+			sourceTree = "<group>";
+		};
 		3FA51D46267CA972007826F3 /* Localizable */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,6 +568,7 @@
 		3FC8107D26A9388E0058D1CF /* Dialogue */ = {
 			isa = PBXGroup;
 			children = (
+				3FA049092705CBEF0074BEB1 /* LockedScreen */,
 				3FB1368326E87FA100B34A01 /* BlockApp */,
 				3F9147C826E647FA00449D4B /* Completed */,
 				3FC8108626A9776A0058D1CF /* Disincentive */,
@@ -727,6 +741,7 @@
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
 				3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */,
 				3F7872D426B80C190076FA83 /* ApplicationListViewC.xib in Resources */,
+				3FA0490D2705CC150074BEB1 /* LockedScreenVC.xib in Resources */,
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
 				3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */,
 				3FAD91F326B41E5A00698848 /* dnd.sh in Resources */,
@@ -770,6 +785,7 @@
 				3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */,
 				3FB01CF026FB0E9400828486 /* InputDialogueViewC.swift in Sources */,
 				3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */,
+				3FA0490C2705CC150074BEB1 /* LockedScreenVC.swift in Sources */,
 				3F78DA0926AADAFA000BA6FC /* Color.swift in Sources */,
 				3FB01CEC26FB019C00828486 /* ErrorDialogueViewModel.swift in Sources */,
 				3F4E25E026B1541F0029D379 /* FloatingFocusViewC.swift in Sources */,
@@ -960,6 +976,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;
@@ -984,6 +1001,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;

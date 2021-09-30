@@ -39,6 +39,7 @@ class CurrentSessionVC: BaseViewController {
     @IBOutlet var lblWhy: NSTextField!
 
     var viewModel: MenuViewModelType?
+    var updateView: ((ButtonAction) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,15 +51,18 @@ class CurrentSessionVC: BaseViewController {
 
 extension CurrentSessionVC: BasicSetupType {
     func setUpText() {
+        let objFocus = viewModel?.input.focusObj
+        let break_time = Int(objFocus?.short_break_time ?? 100).secondsToTime()
+
         title = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
-        let subTitle = NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ") + "12 minutes"
+        let subTitle = NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ") + "\(break_time.timeInMinutes) minutes"
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
-        attributedText.apply(color: Color.blue_color, subString: "12 minutes")
+        attributedText.apply(color: Color.blue_color, subString: "\(break_time.timeInMinutes) minutes")
         attributedText.apply(color: Color.blue_color, subString: subTitle)
         attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: subTitle)
-        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: "12 minutes")
+        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: "\(break_time.timeInMinutes) minutes")
         lblSubTitle.attributedStringValue = attributedText
 
         lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
@@ -108,6 +112,19 @@ extension CurrentSessionVC: BasicSetupType {
         btnOk.action = #selector(okAction(_:))
     }
 
+    func setFocusSessionView() {
+        // TODO: With Two Sesison Data setup Dynamically pending
+        let sessionV = SessionInfoView()
+        sessionV.setupData()
+        sessionV.btnStop.target = self
+        sessionV.btnStop.action = #selector(stopAction(_:))
+        sessionStack.addArrangedSubview(sessionV)
+//        let sessionV1 = SessionInfoView()
+//        sessionStack.addArrangedSubview(sessionV1)
+    }
+}
+
+extension CurrentSessionVC {
     @objc func openCustomSetting() {
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
             vc.selectOption = SettingOptions.general_setting
@@ -121,13 +138,23 @@ extension CurrentSessionVC: BasicSetupType {
 
     @objc func okAction(_ sender: NSButton) {
         // Action perform for OK
+        dismiss(self)
     }
 
-    func setFocusSessionView() {
-        // Perform the task dynamically
-        let sessionV = SessionInfoView()
-        sessionStack.addArrangedSubview(sessionV)
-//        let sessionV1 = SessionInfoView()
-//        sessionStack.addArrangedSubview(sessionV1)
+    @objc func stopAction(_ sender: NSButton) {
+        let objBl = DBManager.shared.getCurrentBlockList().objBl
+        if let anyTime = objBl?.stop_focus_session_anytime, anyTime {
+            updateView?(.stop_session)
+            dismiss(nil)
+            return
+        }
+        // Need to check the Condition as if all false but that never happedn
+        let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
+        controller.dialogueType = (objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.updateFocusStop = { focusStop in
+            self.updateView?(focusStop)
+            self.dismiss(nil)
+        }
+        presentAsSheet(controller)
     }
 }

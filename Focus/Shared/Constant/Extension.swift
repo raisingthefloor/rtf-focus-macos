@@ -49,7 +49,7 @@ extension NSTextField {
 }
 
 extension String {
-    static func randomString(length: Int = 5) -> String {
+    static func randomString(length: Int64 = 36) -> String {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvwxyz0123456789"
         return String((0 ..< length).map { _ in letters.randomElement()! })
     }
@@ -237,6 +237,13 @@ extension Date {
         components.second = sec
 
         return cal.date(from: components)
+    }
+
+    func convertToTime() -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .none
+        return formatter.string(from: self)
     }
 }
 

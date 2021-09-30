@@ -52,17 +52,37 @@ struct WindowsManager {
         }
         return vc
     }
+}
 
+// MARK: Block Web and Display Restart window Script Methods
+
+extension WindowsManager {
     static func openSystemLogoutDialog() {
-//        let path = "/bin/bash"
-//        let scriptPath = Bundle.main.path(forResource: "logout", ofType: ".sh") ?? ""
-//        let arguments = [scriptPath]
-//        let task = Process.launchedProcess(launchPath: path, arguments: arguments)
-//        task.waitUntilExit()
-
-        appDelegate?.browserBridge?.logoutAlert()
+        DispatchQueue.global(qos: .userInteractive).async {
+            appDelegate?.browserBridge?.logoutAlert()
+        }
     }
 
+    static func blockWebSite() {
+        let arrWeb = DBManager.shared.getCurrentBlockList().webs
+        if !arrWeb.isEmpty {
+            DispatchQueue.global(qos: .userInteractive).async {
+                appDelegate?.browserBridge?.b_list = arrWeb.compactMap({ $0.url })
+                appDelegate?.browserBridge?.runBlockBrowser()
+            }
+        }
+    }
+
+    static func launchMyapp() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            appDelegate?.browserBridge?.launchMyApp()
+        }
+    }
+}
+
+// MARK: DND Functionality
+
+extension WindowsManager {
     static func runDNDScript() {
         let path = "/bin/bash"
         let scriptPath = Bundle.main.path(forResource: "dnd", ofType: ".sh") ?? ""
@@ -70,9 +90,7 @@ struct WindowsManager {
         let task = Process.launchedProcess(launchPath: path, arguments: arguments)
         task.waitUntilExit()
     }
-}
 
-extension WindowsManager {
     static func enableDND() {
         CFPreferencesSetValue("dndStart" as CFString, CGFloat(0) as CFPropertyList, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
 

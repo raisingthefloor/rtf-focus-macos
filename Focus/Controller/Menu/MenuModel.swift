@@ -117,6 +117,19 @@ extension Focus {
             }
         }
 
+        var valueInSeconds: Double {
+            switch self {
+            case .one:
+                return 1 * 60
+            case .three:
+                return 3 * 60
+            case .five:
+                return 5 * 60
+            case .ten:
+                return 10 * 60
+            }
+        }
+
         static var breaktimes: NSMenu {
             let menus = NSMenu()
             for time in BreakTime.allCases {
@@ -154,6 +167,23 @@ extension Focus {
                 return 45
             case .sixty:
                 return 60
+            }
+        }
+
+        var valueInSeconds: Double {
+            switch self {
+            case .fifteen:
+                return 15 * 60
+            case .twenty:
+                return 20 * 60
+            case .twentyfive:
+                return 25 * 60
+            case .thirty:
+                return 30 * 60
+            case .fourtyfive:
+                return 45 * 60
+            case .sixty:
+                return 60 * 60
             }
         }
 

@@ -44,6 +44,10 @@ class BlocklistDialogueViewC: NSViewController {
         bindData()
         tableViewSetup()
     }
+
+    override func mouseDown(with event: NSEvent) {
+        dismiss(nil)
+    }
 }
 
 extension BlocklistDialogueViewC: BasicSetupType {

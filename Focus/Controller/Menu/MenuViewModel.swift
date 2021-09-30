@@ -44,7 +44,6 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
     var focusObj: Focuses? = {
         DBManager.shared.getFoucsObject()
     }()
-
     var input: MenuViewModelIntput { return self }
     var output: MenuViewModelOutput { return self }
 }

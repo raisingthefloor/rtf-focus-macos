@@ -37,6 +37,7 @@ class FloatingFocusViewC: NSViewController {
     var runningTimer = false
 
     let viewModel: MenuViewModelType = MenuViewModel()
+    var objGCategoey: Block_Category?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +75,9 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func updateUI() {
-        lblTimeVal.isHidden = false
+        if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
+            lblTimeVal.isHidden = !isCountDownOn
+        }
         btnFocus.buttonColor = Color.very_light_grey
         btnFocus.activeButtonColor = Color.very_light_grey
         btnFocus.textColor = Color.black_color
@@ -99,6 +102,9 @@ extension FloatingFocusViewC: BasicSetupType {
         if obj.is_focusing {
             if let controller = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
                 controller.viewModel = viewModel
+                controller.updateView = { [weak self] action in
+                    self?.updateViewnData(dialogueType: .none, action: action, value: 0)
+                }
                 presentAsModalWindow(controller)
             }
         } else {
@@ -111,10 +117,6 @@ extension FloatingFocusViewC: BasicSetupType {
                 presentAsModalWindow(controller)
             }
         }
-
-//        DispatchQueue.main.async {
-//            appDelegate?.browserBridge?.stopScript()
-//        }
     }
 }
 
@@ -122,8 +124,10 @@ extension FloatingFocusViewC: BasicSetupType {
 extension FloatingFocusViewC {
     func setupCountDown() {
         guard let obj = viewModel.input.focusObj else { return }
+        objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
         updateUI()
         setUpdateCounterValue()
+        usedTime = 0
         countdowner = Countdowner(counter: remaininTimeInSeconds, obj: obj)
         handleTimer()
         startBlockingAppsWeb()
@@ -145,7 +149,6 @@ extension FloatingFocusViewC {
     func setUpdateCounterValue() {
         guard let obj = viewModel.input.focusObj else { return }
         remaininTimeInSeconds = Int(obj.remaining_time)
-        usedTime = 0
         let countdownerDetails = remaininTimeInSeconds.secondsToTime()
         updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds)
     }
@@ -217,6 +220,7 @@ extension FloatingFocusViewC {
 extension FloatingFocusViewC {
     func startBlockingAppsWeb() {
         AppManager.shared.addObserverToCheckAppLaunch()
+        WindowsManager.blockWebSite()
     }
 }
 
@@ -226,44 +230,82 @@ extension FloatingFocusViewC {
     @objc func appDidLaunch(_ notification: NSNotification) {
         handleTimer()
         if let app = notification.object as? NSRunningApplication {
-            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+            let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
             controller.dialogueType = .launch_block_app_alert
             controller.viewModel.application = app
             controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
-            controller.breakAction = { isAction, _ in
-                if isAction {
-                    self.setUpdateCounterValue()
-                    self.handleTimer()
-                } else {
-                    self.defaultUI()
-                    AppManager.shared.removeObserver()
-                }
+            controller.updateView = { action in
+                self.updateViewnData(dialogueType: .launch_block_app_alert, action: action, value: 0)
             }
             presentAsSheet(controller)
         }
     }
 
     func showBreakDialogue(dialogueType: FocusDialogue) {
-        guard let obj = viewModel.input.focusObj else { return }
-
         // Start Break time timer and also display the Break Time Dialogue
+        DispatchQueue.main.async {
+            if let isFirstMin = self.objGCategoey?.general_setting?.block_screen_first_min_each_break {
+                // Display Screen for one min
+                let controller = LockedScreenVC(nibName: "LockedScreenVC", bundle: nil)
+                controller.dismiss = { _ in
+                    self.openBreakDialouge(dialogueType: dialogueType)
+                }
+                self.presentAsSheet(controller)
+            } else {
+                self.openBreakDialouge(dialogueType: dialogueType)
+            }
+        }
+    }
+
+    func openBreakDialouge(dialogueType: FocusDialogue) {
         DispatchQueue.main.async {
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
             controller.dialogueType = dialogueType
-            controller.breakAction = { isAction, value in
-                if isAction {
-//                    obj.stop_focus_after_time = Double(value)
-                    obj.extended_break_time = Double(value)
-                    let val = obj.remaining_time + Double(value)
-                    obj.remaining_time = val
-                    DBManager.shared.saveContext()
-                    self.setUpdateCounterValue()
-                    self.handleTimer()
-                } else {
-                    // Start Break Timer and Break Mode
-                }
+            controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
+            controller.breakAction = { action, value in
+                self.updateViewnData(dialogueType: dialogueType, action: action, value: value)
             }
             self.presentAsSheet(controller)
         }
+    }
+
+    func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int) {
+        guard let obj = viewModel.input.focusObj else { return }
+
+        switch action {
+        case .extend_focus:
+            usedTime = 0
+            //                    obj.stop_focus_after_time = Double(value)
+            obj.extended_break_time = Double(value)
+            let val = obj.remaining_time + Double(value)
+            obj.remaining_time = val
+            DBManager.shared.saveContext()
+            setUpdateCounterValue()
+            handleTimer()
+
+        case .extent_break:
+            break
+        case .stop_session:
+            obj.is_focusing = false
+            DBManager.shared.saveContext()
+            stopBlockingAction()
+        case .skip_session:
+            break
+        case .normal_ok:
+            if dialogueType == .short_break_alert {
+                // TODO: Perform the Break Timer and its functionality
+            } else {
+                setUpdateCounterValue()
+                handleTimer()
+            }
+        }
+    }
+
+    func stopBlockingAction() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            appDelegate?.browserBridge?.stopScript()
+            AppManager.shared.removeObserver()
+        }
+        defaultUI()
     }
 }

@@ -172,7 +172,7 @@
 "Session.focus_session_has_run" = "Focus session has run for:";
 "Session.using_block" = "Using blocklist:";
 "Session.focus_session_end_at" = "Focus session ends at:";
-"Session.title" = "Currently Running Focus Session(s;";
+"Session.title" = "Currently Running Focus Session(s)";
 "Session.start_focus_session" = "Start a 2nd focus session";
 "Session.why_do_this" = "Why do this?";
 
@@ -199,3 +199,4 @@
 "List.category.title" = "Apps and websites blocked by the category:";
 "List.unblocking_list.title" = "Select apps and websites from your blocklists to allow yourself to temporarily unblock.";
 "List.add_item" = "Add items";
+"List.system_app_list.title" = "Select apps from your system app list to allow yourself to block.";

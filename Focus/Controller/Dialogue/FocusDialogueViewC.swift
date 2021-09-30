@@ -38,7 +38,7 @@ class FocusDialogueViewC: NSViewController {
     var dialogueType: FocusDialogue = .short_break_alert
     var viewModel: FocusDialogueViewModelType = FocusDialogueViewModel()
 
-    var breakAction: ((Bool, Int) -> Void)?
+    var breakAction: ((ButtonAction, Int) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class FocusDialogueViewC: NSViewController {
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = (dialogueType == .launch_block_app_alert) ? String(format: dialogueType.title, viewModel.application?.localizedName as! CVarArg) : dialogueType.title
+        lblTitle.stringValue = dialogueType.title
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
 
@@ -65,7 +65,7 @@ extension FocusDialogueViewC: BasicSetupType {
         btnContinue.isHidden = (dialogueType == .long_break_alert) ? false : true
         btnContinue.title = buttonsValue.last ?? ""
 
-        setupStringValue()
+//        setupStringValue()
     }
 
     func setUpViews() {
@@ -118,49 +118,44 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 }
 
-extension FocusDialogueViewC {
-    func setupStringValue() {
-        if dialogueType == .launch_block_app_alert {
-            let desc = String(format: dialogueType.description, viewModel.application?.localizedName as! CVarArg, viewModel.currentSession?.objBl?.name as! CVarArg)
-
-            let attString = NSMutableAttributedString.getAttributedString(fromString: desc)
-            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.application?.localizedName ?? "-")
-            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.currentSession?.objBl?.name ?? "-")
-            lblDesc.attributedStringValue = attString
-        }
-    }
-}
+// extension FocusDialogueViewC {
+//    func setupStringValue() {
+//        if dialogueType == .launch_block_app_alert {
+//            let desc = String(format: dialogueType.description, viewModel.application?.localizedName as! CVarArg, viewModel.currentSession?.objBl?.name as! CVarArg)
+//
+//            let attString = NSMutableAttributedString.getAttributedString(fromString: desc)
+//            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.application?.localizedName ?? "-")
+//            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.currentSession?.objBl?.name ?? "-")
+//            lblDesc.attributedStringValue = attString
+//        }
+//    }
+// }
 
 extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
-        breakAction?(true, extendVal)
+        breakAction?(.extend_focus, extendVal)
         dismiss(nil)
-
-//        let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-//            controller.dialogueType = .schedule_reminded_without_blocklist_alert
-//            presentAsSheet(controller)
     }
 
     @objc func stopAction(_ sender: NSButton) {
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
-            viewModel.currentSession?.objFocus?.is_focusing = false
-            DBManager.shared.saveContext()
-            breakAction?(false, 0)
+            breakAction?(.stop_session, 0)
+            dismiss(nil)
             return
         }
-// Need to check the Condition as if all false but that never happedn
+        // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.updateFocusStop = { focusStop in
+            self.breakAction?(focusStop, 0)
+            self.dismiss(nil)
+        }
         presentAsSheet(controller)
     }
 
     @objc func topAction(_ sender: NSButton) {
-        if dialogueType == .launch_block_app_alert {
-            breakAction?(true, 0)
-        } else {
-            breakAction?(false, 0)
-        }
+        breakAction?(.normal_ok, 0)
         dismiss(nil)
     }
 

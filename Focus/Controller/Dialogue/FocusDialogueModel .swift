@@ -235,3 +235,11 @@ enum ButtonPosition {
     case up_down
     case bottom
 }
+
+enum ButtonAction {
+    case extend_focus
+    case extent_break
+    case stop_session
+    case skip_session
+    case normal_ok
+}

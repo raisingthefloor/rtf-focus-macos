@@ -33,6 +33,7 @@ import Foundation
     func runUnblockBrowser()
     func blockApplication() -> Bool
     func logoutAlert()
+    func launchMyApp()
 }
 
 class BrowserScript {

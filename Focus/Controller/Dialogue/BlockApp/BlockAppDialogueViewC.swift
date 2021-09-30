@@ -38,6 +38,9 @@ class BlockAppDialogueViewC: NSViewController {
     @IBOutlet var lblBottomInfo1: NSTextField!
 
     var dialogueType: FocusDialogue = .launch_block_app_alert
+    var viewModel: FocusDialogueViewModelType = FocusDialogueViewModel()
+
+    var updateView: ((ButtonAction) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,20 +53,21 @@ class BlockAppDialogueViewC: NSViewController {
 
 extension BlockAppDialogueViewC: BasicSetupType {
     func setUpText() {
-        let appName = (dialogueType == .notifiction_block_alert) ? "Notifiction" : "AppleTV"
-        let titleV = String(format: dialogueType.title, appName)
+        let appName = ((dialogueType == .notifiction_block_alert) ? "Notifiction" : viewModel.application?.localizedName) ?? "-"
+        let list_name = viewModel.currentSession?.objBl?.name ?? "-"
+        let titleV = String(format: dialogueType.title, appName as! CVarArg)
         lblTitle.stringValue = titleV
 
-        let titleDesc = String(format: dialogueType.description, appName, "Social Blocklist")
+        let titleDesc = String(format: dialogueType.description, appName as! CVarArg, list_name as! CVarArg)
         let attributedDesc = NSMutableAttributedString.getAttributedString(fromString: titleDesc)
         attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: titleDesc)
         attributedDesc.alignment(alignment: .center, subString: titleDesc)
         attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .semibold), subString: appName)
-        attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .semibold), subString: "Social Blocklist")
+        attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .semibold), subString: list_name)
 
         lblDesc.attributedStringValue = attributedDesc
         lblDesc.alignment = .center
-        
+
         lblSubDesc.stringValue = dialogueType.sub_description
         lblSubDesc.isHidden = dialogueType.sub_description.isEmpty
 
@@ -125,20 +129,32 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     @objc func okAction(_ sender: NSButton) {
+        updateView?(.normal_ok)
         dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
+        if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
+            updateView?(.stop_session)
+            dismiss(nil)
+            return
+        }
+        // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = .disincentive_xx_character_alert
+        controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.updateFocusStop = { isfocusStop in
+            self.updateView?(isfocusStop)
+            self.dismiss(nil)
+        }
         presentAsSheet(controller)
     }
 
     @objc func openBlockList() {
         // TODO: Open Block list View
-        let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = .disincentive_signout_signin_alert
-        presentAsSheet(controller)
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = "In Progress, Which Screen we have to open?"
+        alert.runModal()
     }
 
     @objc func tempAccess() {

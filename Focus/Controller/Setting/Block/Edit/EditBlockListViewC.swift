@@ -480,7 +480,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     @objc func deleteSetBlock(_ sender: NSButton) {
         let arrBlock = dataModel.objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
         guard let objBlock = arrBlock?[sender.tag] as? Block_App_Web else { return }
-        DBManager.managedContext.delete(objBlock)
+        DBManager.shared.managedContext.delete(objBlock)
         DBManager.shared.saveContext()
         tblBlock.reloadData()
     }
@@ -489,7 +489,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     @objc func deleteSetException(_ sender: NSButton) {
         let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
         guard let objException = arrBlock?[sender.tag] as? Exception_App_Web else { return }
-        DBManager.managedContext.delete(objException)
+        DBManager.shared.managedContext.delete(objException)
         DBManager.shared.saveContext()
         tblNotBlock.reloadData()
     }

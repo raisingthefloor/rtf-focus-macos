@@ -35,35 +35,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var windowController: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        // Setup the Focus button
+        loadScript()
+
         openFocus()
+
         setupStautsBarMenu()
 
-        //  Application Block Functionality
+        // Get All application from the system and store in DB
         AppManager.shared.doSpotlightQuery()
-
-        //  Browser URL Block Functionality
-//        DispatchQueue.global(qos: .userInteractive).async {
-//            self.loadScript()
-//        }
     }
 
     func loadScript() {
         BrowserScript.load()
         guard let bridgeScript = BrowserScript.loadScript() as? AppleScriptProtocol else { return }
         browserBridge = bridgeScript
-        browserBridge?.b_list = ["in.yahoo.com", "www.instagram.com", "www.facebook.com"]
-        browserBridge?.app_list = ["Safari", "TV"]
-        browserBridge?.runBlockBrowser()
-        let value = browserBridge?.blockApplication()
-        if value == true {
-            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .launch_block_app_alert
-            windowController?.contentViewController?.presentAsSheet(controller)
-        }
-        //    browserBridge?.runPermission()
-
-        print(AppleScriptProtocol.self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -102,24 +88,5 @@ extension AppDelegate {
     func openFocus() {
         windowController = WindowsManager.getWindowC(withIdentifier: "sidWindowController", ofType: NSWindowController.self)
         windowController?.showWindow(self)
-//        if let vc = WindowsManager.getVC(withIdentifier: "sidFloatingFocusViewC", ofType: FloatingFocusViewC.self) {
-//            vc.title = ""
-//            let window: NSWindow = {
-//                let w = NSWindow(contentViewController: vc)
-//                w.styleMask.remove(.fullScreen)
-//                w.styleMask.remove(.resizable)
-//                w.styleMask.remove(.miniaturizable)
-//                w.styleMask.remove(.closable)
-//                w.styleMask.remove(.miniaturizable)
-//                w.level = .floating
-//                w.collectionBehavior = .fullScreenAuxiliary
-//                return w
-//            }()
-//
-//            if windowController?.window == nil {
-//                windowController?.window = window
-//            }
-//            windowController?.showWindow(self)
-//        }
     }
 }

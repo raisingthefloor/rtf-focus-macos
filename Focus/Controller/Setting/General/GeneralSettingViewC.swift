@@ -249,7 +249,7 @@ extension GeneralSettingViewC {
     @objc func deleteSubCate(_ sender: NSButton) {
         let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
         guard let objBlock = arrSCat?[sender.tag] else { return }
-        DBManager.managedContext.delete(objBlock)
+        DBManager.shared.managedContext.delete(objBlock)
         DBManager.shared.saveContext()
         tblView.reloadData()
     }

@@ -33,10 +33,10 @@ class DataController: NSObject {
 
     // MARK: - Core Data stack
 
-    lazy var persistentContainer: NSPersistentContainer = {
+    func fetchPersistentContainer() -> NSPersistentContainer {
         let container = NSPersistentContainer(name: "Focus")
 
-        let dbURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus/Focus")
+        let dbURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus/Focus1.1")
         let description = NSPersistentStoreDescription(url: dbURL)
         description.shouldInferMappingModelAutomatically = true
         description.shouldMigrateStoreAutomatically = true
@@ -44,16 +44,18 @@ class DataController: NSObject {
 
         container.persistentStoreDescriptions = [description]
 
+        
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                self.clearAllFilesFromFolder()
+                return
             }
 
             container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             container.viewContext.automaticallyMergesChangesFromParent = true
         })
         return container
-    }()
+    }
 
     override init() {
     }
@@ -61,7 +63,7 @@ class DataController: NSObject {
     // MARK: - Core Data Saving
 
     func saveContext() {
-        let context = persistentContainer.viewContext
+        let context = DBManager.shared.managedContext
         if context.hasChanges {
             do {
                 try context.save()
@@ -70,5 +72,16 @@ class DataController: NSObject {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+
+    func clearAllFilesFromFolder() {
+        let fileManager = FileManager.default
+        let myDocuments = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let diskCacheStorageBaseUrl = myDocuments.appendingPathComponent("Focus")
+        guard let filePaths = try? fileManager.contentsOfDirectory(at: diskCacheStorageBaseUrl, includingPropertiesForKeys: nil, options: []) else { return }
+        for filePath in filePaths {
+            try? fileManager.removeItem(at: filePath)
+        }
+        // AppManager.shared.doSpotlightQuery()
     }
 }

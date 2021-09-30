@@ -26,18 +26,26 @@ import CoreData
 import Foundation
 
 protocol DBMangerLogic {
-    func createFocus(data: [String: Any])
+    var managedContext: NSManagedObjectContext { get set }
+    func createFocus(data: [String: Any]) // Not Used
     func getFoucsObject() -> Focuses?
     func getCurrentSession() -> Focuses?
+    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
+
     func saveApplicationlist(data: [String: Any])
     func getApplicationList() -> [Application_List]
-    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
-    func checkDataIsPresent() -> Bool
+    func checkAppsIsPresent() -> Bool
+
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]
+
+    func checkDataIsPresent() -> Bool
     func getCategories() -> [Block_Category]
     func saveCategory(data: [String: Any?], type: CategoryType)
+
     func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
+
+    func getGeneralSetting() -> General_Setting?
 
     func saveContext()
 }

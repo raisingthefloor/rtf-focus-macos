@@ -38,11 +38,14 @@ class DisincentiveViewC: NSViewController {
 
     var dialogueType: FocusDialogue = .disincentive_xx_character_alert
 
+    var updateFocusStop: ((ButtonAction) -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()
         setUpViews()
         bindData()
+        setupRandomCharacter()
     }
 }
 
@@ -99,26 +102,35 @@ extension DisincentiveViewC: BasicSetupType {
         g.numberOfClicksRequired = 1
         lblBlock.addGestureRecognizer(g)
     }
+
+    func setupRandomCharacter() {
+        if let objB = DBManager.shared.getCurrentBlockList().objBl {
+            let randomVal = objB.character_val
+            lblCharacter.stringValue = String.randomString(length: randomVal)
+            txtCharacter.stringValue = lblCharacter.stringValue
+        }
+    }
 }
 
 extension DisincentiveViewC {
     @objc func openBlockList() {
         // TODO: Open Block list View
-        let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = .disincentive_signout_signin_alert
-        presentAsSheet(controller)
+
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = "In Progress, Which Screen we have to open?"
+        alert.runModal()
     }
 
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
+            updateFocusStop?(.stop_session)
             WindowsManager.openSystemLogoutDialog()
-//            AuthorizationManager.setup()
-//            WindowsManager.perfomTask(value: "0.0.0.0 www.instagram.com")
-//            WindowsManager.perfomTask(value: "0.0.0.0 instagram.com")
-            // BlockManager.loadHostFile()
+            dismiss(nil)
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {
+                updateFocusStop?(.stop_session)
                 dismiss(nil)
             } else {
             }
@@ -128,6 +140,7 @@ extension DisincentiveViewC {
 //    GwEUf45HBLDKSG56BNBFdbNBIV110nWI
     @objc func neverClick(_ sender: NSButton) {
         // Take back to previous window from where it opens
+        updateFocusStop?(.normal_ok)
         dismiss(nil)
     }
 }

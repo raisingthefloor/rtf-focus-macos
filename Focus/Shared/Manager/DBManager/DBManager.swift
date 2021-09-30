@@ -27,57 +27,54 @@ import Foundation
 
 class DBManager {
     static var shared: DBMangerLogic = DBManager()
-    static let managedContext = DataController.shared.persistentContainer.viewContext
+    var managedContext: NSManagedObjectContext
+    
+    init() {
+        let container = DataController.shared.fetchPersistentContainer()
+        managedContext = container.viewContext
+    }
 }
 
 // Block List
 extension DBManager: DBMangerLogic {
-//    func saveBlock(data: [String: Any?]) {
-//        let entity = NSEntityDescription.entity(forEntityName: "Override_Block", in: DBManager.managedContext)!
-//        let block = NSManagedObject(entity: entity, insertInto: DBManager.managedContext)
-//
-//        for (key, value) in data {
-//            block.setValue(value, forKeyPath: key)
-//        }
-//
-//        do {
-//            try DBManager.managedContext.save()
-//        } catch let error as NSError {
-//            print("Could not save. \(error), \(error.userInfo)")
-//        }
-//    }
-
     func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
         guard let objFocus = getCurrentSession() else { return (nil, nil, [], []) }
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
-        fetchRequest.predicate = NSPredicate(format: "id = %@", objFocus.block_list_id! as CVarArg)
-
+        if let id = objFocus.block_list_id {
+            fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        }
         do {
-            let block = try DBManager.managedContext.fetch(fetchRequest)
+            let block = try DBManager.shared.managedContext.fetch(fetchRequest)
 
             guard let blocks = (block as? [Block_List])?.first else { return (objFocus, nil, [], []) }
 
             guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (objFocus, blocks, [], []) }
+
             if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface] {
-                
-                //Category list here or merge into applist and weblist
-                
-                let applist = arrBlocks.filter { obj in
+                // Category list here or merge into applist and weblist
+
+                var applist = arrBlocks.filter { obj in
                     arrExceBlocks.contains { objEx in
                         objEx.app_identifier != obj.app_identifier
                     }
                 }
+                applist = applist.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
 
-                let weblist = arrBlocks.filter { obj in
+                var weblist = arrBlocks.filter { obj in
                     arrExceBlocks.contains { objEx in
                         objEx.name != obj.name
                     }
                 }
 
+                weblist = weblist.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
+
                 return (objFocus, blocks, applist, weblist)
             }
-            return (objFocus, blocks, arrBlocks, [])
+            let weblist = arrBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
+            let applist = arrBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
+
+            return (objFocus, blocks, applist, weblist)
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -88,15 +85,15 @@ extension DBManager: DBMangerLogic {
 // Focus Create
 extension DBManager {
     func createFocus(data: [String: Any]) {
-        let entity = NSEntityDescription.entity(forEntityName: Focus.entity_name, in: DBManager.managedContext)!
-        let block = NSManagedObject(entity: entity, insertInto: DBManager.managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: Focus.entity_name, in: DBManager.shared.managedContext)!
+        let block = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
         for (key, value) in data {
             block.setValue(value, forKeyPath: key)
         }
 
         do {
-            try DBManager.managedContext.save()
+            try DBManager.shared.managedContext.save()
         } catch let error as NSError {
             print("Could not save focus. \(error), \(error.userInfo)")
         }
@@ -108,11 +105,11 @@ extension DBManager {
 //        fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
 
         do {
-            let results = try DBManager.managedContext.fetch(fetchRequest)
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
                 focusObj = results.first as? Focuses
             } else {
-                focusObj = Focuses(context: DBManager.managedContext)
+                focusObj = Focuses(context: DBManager.shared.managedContext)
                 focusObj?.uuid = UUID()
             }
         } catch let error {
@@ -127,7 +124,7 @@ extension DBManager {
         fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
 
         do {
-            let results = try DBManager.managedContext.fetch(fetchRequest)
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
                 focusObj = results.first as? Focuses
             }
@@ -138,15 +135,15 @@ extension DBManager {
     }
 
     func saveApplicationlist(data: [String: Any]) {
-        let entity = NSEntityDescription.entity(forEntityName: "Application_List", in: DBManager.managedContext)!
-        let block = NSManagedObject(entity: entity, insertInto: DBManager.managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: "Application_List", in: DBManager.shared.managedContext)!
+        let block = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
         for (key, value) in data {
             block.setValue(value, forKeyPath: key)
         }
 
         do {
-            try DBManager.managedContext.save()
+            try DBManager.shared.managedContext.save()
         } catch let error as NSError {
             print("Could not save focus. \(error), \(error.userInfo)")
         }
@@ -157,7 +154,7 @@ extension DBManager {
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Application_List.created_at, ascending: false)]
 
         do {
-            let block = try DBManager.managedContext.fetch(fetchRequest)
+            let block = try DBManager.shared.managedContext.fetch(fetchRequest)
             guard let applications = block as? [Application_List] else { return [] }
             return applications
         } catch let error as NSError {
@@ -166,21 +163,36 @@ extension DBManager {
 
         return []
     }
+
+    func checkAppsIsPresent() -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Application_List")
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch let error {
+            print("Could not Check data. categories \(error), \(error.localizedDescription)")
+            return false
+        }
+    }
 }
 
 // MARK: Block list Store and Fetch
 
 extension DBManager {
     func saveBlocklist(data: [String: Any?]) {
-        let entity = NSEntityDescription.entity(forEntityName: "Block_List", in: DBManager.managedContext)!
-        let category = NSManagedObject(entity: entity, insertInto: DBManager.managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: "Block_List", in: DBManager.shared.managedContext)!
+        let category = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
         }
 
         do {
-            try DBManager.managedContext.save()
+            try DBManager.shared.managedContext.save()
         } catch let error as NSError {
             print("Could not save category. \(error), \(error.userInfo)")
         }
@@ -190,7 +202,7 @@ extension DBManager {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_List")
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Block_List.created_at, ascending: false)]
         do {
-            let block = try DBManager.managedContext.fetch(fetchRequest)
+            let block = try DBManager.shared.managedContext.fetch(fetchRequest)
             guard let blocklist = block as? [Block_List] else { return [] }
             return blocklist
         } catch let error as NSError {
@@ -207,7 +219,7 @@ extension DBManager {
     func checkDataIsPresent() -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
         do {
-            let results = try DBManager.managedContext.fetch(fetchRequest)
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
                 return true
             } else {
@@ -220,8 +232,8 @@ extension DBManager {
     }
 
     func saveCategory(data: [String: Any?], type: CategoryType) {
-        let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: DBManager.managedContext)!
-        let category = NSManagedObject(entity: entity, insertInto: DBManager.managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: DBManager.shared.managedContext)!
+        let category = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
@@ -229,7 +241,7 @@ extension DBManager {
 
         if type == .general {
             let setting_data: [String: Any?] = ["warning_before_schedule_session_start": true, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": 5, "for_every_time": 15]
-            let objGS = General_Settings(context: DBManager.managedContext)
+            let objGS = General_Settings(context: DBManager.shared.managedContext)
             for (key, value) in setting_data {
                 objGS.setValue(value, forKeyPath: key)
             }
@@ -237,7 +249,7 @@ extension DBManager {
         }
 
         do {
-            try DBManager.managedContext.save()
+            try DBManager.shared.managedContext.save()
         } catch let error as NSError {
             print("Could not save category. \(error), \(error.userInfo)")
         }
@@ -249,7 +261,7 @@ extension DBManager {
         fetchRequest.predicate = NSPredicate(format: "type = %d", CategoryType.system.rawValue)
 
         do {
-            let block = try DBManager.managedContext.fetch(fetchRequest)
+            let block = try DBManager.shared.managedContext.fetch(fetchRequest)
             guard let categories = block as? [Block_Category] else { return [] }
             return categories
         } catch let error as NSError {
@@ -263,7 +275,7 @@ extension DBManager {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
         fetchRequest.predicate = NSPredicate(format: "type = %d", CategoryType.general.rawValue)
         do {
-            let categories = try DBManager.managedContext.fetch(fetchRequest)
+            let categories = try DBManager.shared.managedContext.fetch(fetchRequest)
             guard let category = categories.first as? Block_Category else { return (nil, []) }
             return (category, category.sub_data?.allObjects as! [Block_SubCategory])
         } catch let error as NSError {
@@ -273,11 +285,25 @@ extension DBManager {
     }
 }
 
+extension DBManager {
+    func getGeneralSetting() -> General_Setting? {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "General_Setting")
+        do {
+            let generalSetting = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let generalSetting = generalSetting as? [General_Setting] else { return nil }
+            return generalSetting.first
+        } catch let error as NSError {
+            print("Could not fetch. categories \(error), \(error.userInfo)")
+        }
+        return nil
+    }
+}
+
 // Save Context
 extension DBManager {
     func saveContext() {
         do {
-            try DBManager.managedContext.save()
+            try DBManager.shared.managedContext.save()
         } catch let error as NSError {
             print("Update the context \(error), \(error.userInfo)")
         }

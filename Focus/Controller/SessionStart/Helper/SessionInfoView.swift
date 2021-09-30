@@ -83,4 +83,14 @@ extension SessionInfoView: BasicSetupType {
         border_width = 0.6
         border_color = .black
     }
+
+    func setupData() {
+        let objFocus = DBManager.shared.getCurrentBlockList().objFocus
+        let objB = DBManager.shared.getCurrentBlockList().objBl
+        let focus_length = Int(objFocus?.focus_length_time ?? 100).secondsToTime()
+
+        lblHoursV.stringValue = "\(focus_length.timeInHours) hr \(focus_length.timeInMinutes) minutes"
+        lblBlockV.stringValue = "\(objB?.name ?? "-")"
+        lblEndV.stringValue = (objFocus?.end_time ?? Date()).convertToTime()
+    }
 }

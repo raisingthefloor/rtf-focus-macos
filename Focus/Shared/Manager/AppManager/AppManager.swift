@@ -51,25 +51,26 @@ extension AppManager {
         guard let query = notification.object as? NSMetadataQuery else {
             return
         }
-
-        for result in query.results {
-            guard let item = result as? NSMetadataItem else {
+        if !DBManager.shared.checkAppsIsPresent() {
+            for result in query.results {
+                guard let item = result as? NSMetadataItem else {
 //                print("Result was not an NSMetadataItem, \(result)")
-                continue
-            }
+                    continue
+                }
 //            print("Spotlit Result: \(item.value(forAttribute: kMDItemIdentifier as String))")
 //            print("item \(item.values(forAttributes: [kMDItemDisplayName as String, kMDItemPath as String]))")
 
-            if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
-                if let bundleName = Bundle.bundleIDFor(appNamed: name) {
+                if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
+                    if let bundleName = Bundle.bundleIDFor(appNamed: name) {
 //                    print("\n")
 //                    print("bundleName: \(bundleName)")
-                    if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
+                        if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
 //                        print("path: \(path)")
-                        let icon = NSWorkspace.shared.icon(forFile: path)
+                            let icon = NSWorkspace.shared.icon(forFile: path)
 //                        print("icon: \(icon)")
-                        let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date()]
-                        DBManager.shared.saveApplicationlist(data: data)
+                            let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date()]
+                            DBManager.shared.saveApplicationlist(data: data)
+                        }
                     }
                 }
             }
@@ -113,39 +114,11 @@ extension AppManager {
             }
         } else if let application = app["NSWorkspaceApplicationKey"] as? NSRunningApplication {
             let identifier = application.bundleIdentifier
-            if let bundle_id = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier {
+            if let _ = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier {
                 application.forceTerminate()
                 kill(application.processIdentifier, SIGTERM)
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: application)
             }
         }
-    }
-
-    public static func authorizationStatus(promptIfNotAuthorized: Bool) -> Bool {
-        let value = AXIsProcessTrusted()
-//        let checkOptPrompt = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
-//        //set the options: false means it wont ask
-//        //true means it will popup and ask
-//        let options = [checkOptPrompt: true]
-//        //translate into boolean value
-//        let accessEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary?)
-//        return accessEnabled
-
-        // NOTE: kAXTrustedCheckOptionPrompt is a global variable (CFStringRef), so we need to capture an unretained copy
-        let axTrustedCheckOptionPromptAsCFString = kAXTrustedCheckOptionPrompt.takeUnretainedValue()
-
-        let optionsAsNSDictionary: NSDictionary = [
-            axTrustedCheckOptionPromptAsCFString: promptIfNotAuthorized,
-        ]
-        let optionsAsCFDictionary = optionsAsNSDictionary as CFDictionary
-
-        // NOTE: this function call also adds Morphic to the list of possible applications to authorize in the accessibility section
-        let response = AXIsProcessTrustedWithOptions(optionsAsCFDictionary)
-
-        // if we are not authorized (yet we just requested the pop-up to say we are not authorized), let our appdelegate know so we can show our a11y permissions helper overlay
-        if response == false && promptIfNotAuthorized == true {
-        }
-
-        return response
     }
 }

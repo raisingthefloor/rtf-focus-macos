@@ -54,7 +54,7 @@ class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput,
     func addAppWebData(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_SubCategory] = []
         for val in data {
-            let objSubWA = Block_SubCategory(context: DBManager.managedContext)
+            let objSubWA = Block_SubCategory(context: DBManager.shared.managedContext)
             for (key, value) in val {
                 objSubWA.setValue(value, forKeyPath: key)
             }

@@ -111,7 +111,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_App_Web] = []
         for val in data {
-            let objblockWA = Block_App_Web(context: DBManager.managedContext)
+            let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
             for (key, value) in val {
                 objblockWA.setValue(value, forKeyPath: key)
             }
@@ -126,7 +126,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Exception_App_Web] = []
         for val in data {
-            let objexceptionWA = Exception_App_Web(context: DBManager.managedContext)
+            let objexceptionWA = Exception_App_Web(context: DBManager.shared.managedContext)
             for (key, value) in val {
                 objexceptionWA.setValue(value, forKeyPath: key)
             }
@@ -141,7 +141,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func updateSelectedCategorylist(objCat: Block_Category, callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_List_Category] = []
         if objCat.is_selected {
-            let objCategory = Block_List_Category(context: DBManager.managedContext)
+            let objCategory = Block_List_Category(context: DBManager.shared.managedContext)
             objCategory.setValue(objCat.name, forKeyPath: "name")
             objCategory.setValue(objCat.id, forKeyPath: "id")
             objCategory.setValue(Date(), forKeyPath: "created_at")
@@ -152,7 +152,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             let arrCat = objBlocklist?.block_category?.allObjects as! [Block_List_Category]
             guard let obj = arrCat.filter({ $0.id == objCat.id }).compactMap({ $0 }).first else { return callback(false) }
             print(obj)
-            DBManager.managedContext.delete(obj)
+            DBManager.shared.managedContext.delete(obj)
         }
         DBManager.shared.saveContext()
         callback(true)
