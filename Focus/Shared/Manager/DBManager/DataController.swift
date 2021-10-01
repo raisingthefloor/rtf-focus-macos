@@ -36,7 +36,9 @@ class DataController: NSObject {
     func fetchPersistentContainer() -> NSPersistentContainer {
         let container = NSPersistentContainer(name: "Focus")
 
-        let dbURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus/Focus1.1")
+        let dbURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus/Focus")
+        
+        
         let description = NSPersistentStoreDescription(url: dbURL)
         description.shouldInferMappingModelAutomatically = true
         description.shouldMigrateStoreAutomatically = true
@@ -47,7 +49,8 @@ class DataController: NSObject {
         
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
-                self.clearAllFilesFromFolder()
+                print("Error ::: \(error)")
+                //self.clearAllFilesFromFolder()
                 return
             }
 

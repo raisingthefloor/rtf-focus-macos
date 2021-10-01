@@ -131,6 +131,7 @@
 		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F68A6C426C657A1003D5913 /* BrowserBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserBridge.swift; sourceTree = "<group>"; };
 		3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = BrowserBridge.applescript; sourceTree = "<group>"; };
+		3F6CAFF32706EC7100A5AD7F /* FocusV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FocusV2.xcdatamodel; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
 		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
 		3F7872CE26B803970076FA83 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
@@ -1044,6 +1045,7 @@
 		3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3F6CAFF32706EC7100A5AD7F /* FocusV2.xcdatamodel */,
 				3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */,
 			);
 			currentVersion = 3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */;

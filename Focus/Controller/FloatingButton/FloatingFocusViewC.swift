@@ -91,7 +91,9 @@ extension FloatingFocusViewC: BasicSetupType {
         btnFocus.activeButtonColor = Color.green_color
         btnFocus.textColor = .white
     }
+}
 
+extension FloatingFocusViewC {
     func setupObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: nil)
     }
@@ -118,6 +120,11 @@ extension FloatingFocusViewC: BasicSetupType {
             }
         }
     }
+
+    func startBlockingAppsWeb() {
+        AppManager.shared.addObserverToCheckAppLaunch()
+        WindowsManager.blockWebSite()
+    }
 }
 
 // TIMER Count Down
@@ -126,7 +133,7 @@ extension FloatingFocusViewC {
         guard let obj = viewModel.input.focusObj else { return }
         objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
         updateUI()
-        setUpdateCounterValue()
+        updateCounterValue()
         usedTime = 0
         countdowner = Countdowner(counter: remaininTimeInSeconds, obj: obj)
         handleTimer()
@@ -146,7 +153,7 @@ extension FloatingFocusViewC {
         }
     }
 
-    func setUpdateCounterValue() {
+    func updateCounterValue() {
         guard let obj = viewModel.input.focusObj else { return }
         remaininTimeInSeconds = Int(obj.remaining_time)
         let countdownerDetails = remaininTimeInSeconds.secondsToTime()
@@ -156,7 +163,6 @@ extension FloatingFocusViewC {
     func startTimer() {
         DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.countdownTimer = .scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-
             RunLoop.current.add(self.countdownTimer!, forMode: .default)
             RunLoop.current.run()
         })
@@ -165,16 +171,14 @@ extension FloatingFocusViewC {
     func pauseTimer() {
         DispatchQueue.main.async {
             self.countdownTimer?.invalidate()
-
             if self.remaininTimeInSeconds > 0 {
-                // Break Timer On
             }
         }
     }
 
     func resetTimer() {
         handleTimer()
-        setUpdateCounterValue()
+        updateCounterValue()
     }
 
     @objc func update() {
@@ -214,13 +218,6 @@ extension FloatingFocusViewC {
             obj.remaining_time = Double(seconds)
             DBManager.shared.saveContext()
         }
-    }
-}
-
-extension FloatingFocusViewC {
-    func startBlockingAppsWeb() {
-        AppManager.shared.addObserverToCheckAppLaunch()
-        WindowsManager.blockWebSite()
     }
 }
 
@@ -280,7 +277,7 @@ extension FloatingFocusViewC {
             let val = obj.remaining_time + Double(value)
             obj.remaining_time = val
             DBManager.shared.saveContext()
-            setUpdateCounterValue()
+            updateCounterValue()
             handleTimer()
 
         case .extent_break:
@@ -295,7 +292,7 @@ extension FloatingFocusViewC {
             if dialogueType == .short_break_alert {
                 // TODO: Perform the Break Timer and its functionality
             } else {
-                setUpdateCounterValue()
+                updateCounterValue()
                 handleTimer()
             }
         }

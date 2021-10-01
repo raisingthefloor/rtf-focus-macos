@@ -59,14 +59,14 @@
 "Home.untill_press_stop" = "Focus untill I press stop";
 "Home.stop_focus" = "Stop Focus";
 "Home.turn_on_dnd" = "Turn on 'Do Not Disturb' while focusing";
-"Home.turn_on_dnd_info" = "(turns off notifications and calls;";
+"Home.turn_on_dnd_info" = "(turns off notifications and calls)";
 "Home.provide_short_1" = "Provide short";
 "Home.provide_short_2" = "Breaks for every";
 "Home.provide_short_3" = "of Focus";
 "Home.provide_short_info" = "Use the dropdowns to change time";
 "Home.block_select_prog_web" = "Block select programs & websites which focusing";
 "Home.use_this_block_list" = "Use this blocklist: ";
-"Home.focus_lenght_title" = "Start a Focus session now for the following length of time \n(With the settings checked above;";
+"Home.focus_lenght_title" = "Start a Focus session now for the following length of time \n(With the settings checked above)";
 "Home.customize_setting" = "Customize Setting";
 "Home.show_edit_blocklist" = "Show or Edit Blocklist";
 "Home.customize_setting_info" = "Customize Focus or schedule automatic focus sessions";
@@ -77,9 +77,9 @@
 "Customize.focus_schedule" = "Focus Schedule";
 "Customize.today_schedule" = "Today's Schedule";
 "Customize.blocklists" = "Blocklists";
-"Customize.edit_view" = "(view & edit;";
+"Customize.edit_view" = "(view & edit)";
 "Customize.scheduler" = "Scheduler";
-"Customize.edit_view_active" = "(view, edit & activate;";
+"Customize.edit_view_active" = "(view, edit & activate)";
 
 
 "GS.behaviorTitle" = "Behavior during focus sessions:";
@@ -121,7 +121,7 @@
 
 
 "SS.title" = "Focus Schedule";
-"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.;";
+"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)";
 "SS.instruction" = "Instructions";
 
 "TS.title" = "Today’s Schedule";
