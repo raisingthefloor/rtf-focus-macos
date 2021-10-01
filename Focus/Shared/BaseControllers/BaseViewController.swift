@@ -40,48 +40,28 @@ class BaseViewController: NSViewController, ItemBody {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
-    // MARK: CollapseExpand Setup
-
-    lazy var headerContinerV: ItemContainerS? = {
-        let storyboard = NSStoryboard(name: "HeaderView", bundle: nil)
-        guard let headerViewC = storyboard.instantiateController(withIdentifier: "HeaderViewC") as? HeaderViewC else {
-            return .none
-        }
-        headerViewC.title = self.setTitle()
-        return ItemContainerS(header: headerViewC, body: self)
-    }()
 }
 
 extension BaseViewController {
     override func encodeRestorableState(with coder: NSCoder) {
-        if let container = headerContinerV {
-            coder.encode(container.state, forKey: String(describing: setTitle()))
-        }
         super.encodeRestorableState(with: coder)
     }
 
     override func restoreState(with coder: NSCoder) {
         super.restoreState(with: coder)
-        if let disclosureState = coder.decodeObject(forKey: setTitle()) as? NSControl.StateValue {
-            if let container = headerContinerV {
-                container.state = disclosureState
-                switch container.state {
-                case .on:
-                    container.body.show(animated: false)
-                case .off:
-                    container.body.hide(animated: false)
-                default: break
-                }
-                container.header.update(toDisclosureState: container.state)
-            }
-        }
     }
 }
 
 // MARK: - Alert
 
 extension BaseViewController {
+    @objc func openBrowser() {
+        guard let url = URL(string: "https://morphic.org/") else { return }
+        if NSWorkspace.shared.open(url) {
+            print("default browser was successfully opened")
+        }
+    }
+
     func promptToForInput(_ msg: String, _ information: String, completion: alertActionClosure) {
         let alert: NSAlert = NSAlert()
 

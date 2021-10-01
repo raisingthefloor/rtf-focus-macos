@@ -41,7 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         openFocus()
 
         setupStautsBarMenu()
-
         // Get All application from the system and store in DB
         AppManager.shared.doSpotlightQuery()
     }

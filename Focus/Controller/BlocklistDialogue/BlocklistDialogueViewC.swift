@@ -30,6 +30,7 @@ class BlocklistDialogueViewC: NSViewController {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var tblView: NSTableView!
     @IBOutlet var btnAdd: CustomButton!
+    @IBOutlet var btnClose: NSButton!
 
     var listType: ListDialogue = .category_list
     var categoryName: String = ""
@@ -85,6 +86,12 @@ extension BlocklistDialogueViewC: BasicSetupType {
     func bindData() {
         btnAdd.target = self
         btnAdd.action = #selector(btnAction(_:))
+        btnClose.target = self
+        btnClose.action = #selector(btnClose(_:))
+    }
+
+    @objc func btnClose(_ sender: NSButton) {
+        dismiss(nil)
     }
 
     @objc func btnAction(_ sender: NSButton) {

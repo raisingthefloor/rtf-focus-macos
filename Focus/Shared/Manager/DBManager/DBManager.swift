@@ -51,7 +51,7 @@ extension DBManager: DBMangerLogic {
 
             guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (objFocus, blocks, [], []) }
 
-            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface] {
+            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
                 // Category list here or merge into applist and weblist
 
                 var applist = arrBlocks.filter { obj in
@@ -71,6 +71,7 @@ extension DBManager: DBMangerLogic {
 
                 return (objFocus, blocks, applist, weblist)
             }
+            
             let weblist = arrBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
             let applist = arrBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
 

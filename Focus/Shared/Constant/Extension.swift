@@ -227,16 +227,13 @@ extension Date {
         return dayInWeek
     }
 
-    public func setTime(hour: Int, min: Int, sec: Int) -> Date? {
-        let x: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
-        let cal = Calendar.current
-        var components = cal.dateComponents(x, from: self)
-
-        components.hour = hour
-        components.minute = min
-        components.second = sec
-
-        return cal.date(from: components)
+    func adding(hour: Int, min: Int, sec: Int) -> Date {
+        var comps = DateComponents()
+        comps.hour = hour
+        comps.minute = min
+        comps.second = sec
+        let cal = NSCalendar.current
+        return cal.date(byAdding: comps, to: self) ?? Date()
     }
 
     func convertToTime() -> String {

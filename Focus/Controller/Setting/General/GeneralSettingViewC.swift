@@ -163,6 +163,23 @@ extension GeneralSettingViewC: BasicSetupType {
         popBreakTime.menu = Focus.BreakTime.breaktimes
         popBreakTime.target = self
         popBreakTime.action = #selector(breakTimeSelection(_:))
+        
+        disableControl()
+    }
+
+    func disableControl() {
+        guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
+
+        btnAddWeb.isEnabled = !objF.is_focusing
+        btnAddApp.isEnabled = !objF.is_focusing
+        tblView.isEnabled = !objF.is_focusing
+
+        checkBoxWarning.isEnabled = !objF.is_focusing
+        checkBoxEachBreak.isEnabled = !objF.is_focusing
+        checkBoxFocusTime.isEnabled = !objF.is_focusing
+        checkBoxShowTimer.isEnabled = !objF.is_focusing
+        popFocusTime.isEnabled = !objF.is_focusing
+        popBreakTime.isEnabled = !objF.is_focusing
     }
 }
 

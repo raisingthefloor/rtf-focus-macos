@@ -36,7 +36,7 @@ class DataController: NSObject {
     func fetchPersistentContainer() -> NSPersistentContainer {
         let container = NSPersistentContainer(name: "Focus")
 
-        let dbURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus/Focus")
+        let dbURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!.appendingPathComponent("Focus/Focus1.1")
         
         
         let description = NSPersistentStoreDescription(url: dbURL)

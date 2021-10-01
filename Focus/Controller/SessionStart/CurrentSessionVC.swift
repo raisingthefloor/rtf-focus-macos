@@ -39,7 +39,7 @@ class CurrentSessionVC: BaseViewController {
     @IBOutlet var lblWhy: NSTextField!
 
     var viewModel: MenuViewModelType?
-    var updateView: ((ButtonAction) -> Void)?
+    var updateView: ((Bool, ButtonAction) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +110,10 @@ extension CurrentSessionVC: BasicSetupType {
 
         btnOk.target = self
         btnOk.action = #selector(okAction(_:))
+
+        let gesture = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
+        gesture.numberOfClicksRequired = 1
+        lblWhy.addGestureRecognizer(gesture) // Need to set range click
     }
 
     func setFocusSessionView() {
@@ -144,7 +148,7 @@ extension CurrentSessionVC {
     @objc func stopAction(_ sender: NSButton) {
         let objBl = DBManager.shared.getCurrentBlockList().objBl
         if let anyTime = objBl?.stop_focus_session_anytime, anyTime {
-            updateView?(.stop_session)
+            updateView?(true, .stop_session)
             dismiss(nil)
             return
         }
@@ -152,7 +156,7 @@ extension CurrentSessionVC {
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = (objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
-            self.updateView?(focusStop)
+            self.updateView?(focusStop == .stop_session, focusStop)
             self.dismiss(nil)
         }
         presentAsSheet(controller)

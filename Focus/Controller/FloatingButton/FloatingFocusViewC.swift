@@ -104,8 +104,11 @@ extension FloatingFocusViewC {
         if obj.is_focusing {
             if let controller = WindowsManager.getVC(withIdentifier: "sidCurrentController", ofType: CurrentSessionVC.self) {
                 controller.viewModel = viewModel
-                controller.updateView = { [weak self] action in
-                    self?.updateViewnData(dialogueType: .none, action: action, value: 0)
+                controller.updateView = { [weak self] isStopSession, action in
+                    if isStopSession {
+                        self?.handleTimer()
+                        self?.updateViewnData(dialogueType: .none, action: action, value: 0)
+                    }
                 }
                 presentAsModalWindow(controller)
             }
@@ -122,8 +125,13 @@ extension FloatingFocusViewC {
     }
 
     func startBlockingAppsWeb() {
+        guard let obj = viewModel.input.focusObj else { return }
+
         AppManager.shared.addObserverToCheckAppLaunch()
         WindowsManager.blockWebSite()
+        if obj.is_dnd_mode {
+            WindowsManager.runDndCommand(cmd: "on")
+        }
     }
 }
 
@@ -267,7 +275,7 @@ extension FloatingFocusViewC {
     }
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int) {
-        guard let obj = viewModel.input.focusObj else { return }
+        guard let obj = viewModel.input.focusObj, let objSession = DBManager.shared.getCurrentBlockList().objBl else { return }
 
         switch action {
         case .extend_focus:
@@ -285,7 +293,11 @@ extension FloatingFocusViewC {
         case .stop_session:
             obj.is_focusing = false
             DBManager.shared.saveContext()
-            stopBlockingAction()
+//            if !objSession.blocked_all_break { //
+                stopBlockingAction()
+//            } else {
+//                defaultUI()
+//            }
         case .skip_session:
             break
         case .normal_ok:
@@ -303,6 +315,7 @@ extension FloatingFocusViewC {
             appDelegate?.browserBridge?.stopScript()
             AppManager.shared.removeObserver()
         }
+        WindowsManager.runDndCommand(cmd: "off")
         defaultUI()
     }
 }

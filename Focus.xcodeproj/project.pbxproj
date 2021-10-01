@@ -26,7 +26,6 @@
 		3F58B09226D6224900D730D9 /* SessionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F58B09026D6224900D730D9 /* SessionInfoView.swift */; };
 		3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F58B09126D6224900D730D9 /* SessionInfoView.xib */; };
 		3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B62689F8F4008C54A4 /* DBManager.swift */; };
-		3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */; };
 		3F68A6C526C657A1003D5913 /* BrowserBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F68A6C426C657A1003D5913 /* BrowserBridge.swift */; };
 		3F68A6C726C658BF003D5913 /* BrowserBridge.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */; };
 		3F6D0BD6269818F9002E6711 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6D0BD5269818F9002E6711 /* LabelCell.swift */; };
@@ -61,7 +60,6 @@
 		3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D47267CA9F0007826F3 /* Localizable.strings */; };
 		3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D4B267CB720007826F3 /* Main.storyboard */; };
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
-		3FAAF75D26B2C261009447F8 /* logout.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAAF75C26B2C261009447F8 /* logout.sh */; };
 		3FAD91F326B41E5A00698848 /* dnd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* dnd.sh */; };
 		3FAE26A52702F048005CF777 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAE26A42702F048005CF777 /* TimeManager.swift */; };
 		3FB01CE126FAF46B00828486 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE026FAF46B00828486 /* TableHeaderView.swift */; };
@@ -79,6 +77,7 @@
 		3FB1368626E8803800B34A01 /* BlockAppDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */; };
 		3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */; };
 		3FB1368926E8D07900B34A01 /* CustomSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */; };
+		3FBC4B692706FF810027D530 /* Focus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3FBC4B672706FF800027D530 /* Focus.xcdatamodeld */; };
 		3FC8108026A938D10058D1CF /* FocusDialogueViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */; };
 		3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */; };
 		3FC8108326A939520058D1CF /* FocusDialogueModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108226A939520058D1CF /* FocusDialogueModel .swift */; };
@@ -128,10 +127,8 @@
 		3F58B09026D6224900D730D9 /* SessionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionInfoView.swift; sourceTree = "<group>"; };
 		3F58B09126D6224900D730D9 /* SessionInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionInfoView.xib; sourceTree = "<group>"; };
 		3F5944B62689F8F4008C54A4 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
-		3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3F68A6C426C657A1003D5913 /* BrowserBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserBridge.swift; sourceTree = "<group>"; };
 		3F68A6C626C658BF003D5913 /* BrowserBridge.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = BrowserBridge.applescript; sourceTree = "<group>"; };
-		3F6CAFF32706EC7100A5AD7F /* FocusV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FocusV2.xcdatamodel; sourceTree = "<group>"; };
 		3F6D0BD5269818F9002E6711 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
 		3F6D0BD926984D5F002E6711 /* ComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboBoxCell.swift; sourceTree = "<group>"; };
 		3F7872CE26B803970076FA83 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
@@ -164,7 +161,6 @@
 		3FA51D47267CA9F0007826F3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		3FA51D4C267CB720007826F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		3FAAF75C26B2C261009447F8 /* logout.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = logout.sh; sourceTree = "<group>"; };
 		3FAD91F226B41E5200698848 /* dnd.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = dnd.sh; sourceTree = "<group>"; };
 		3FAE26A42702F048005CF777 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		3FB01CE026FAF46B00828486 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
@@ -182,6 +178,7 @@
 		3FB1368426E8803800B34A01 /* BlockAppDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAppDialogueViewC.swift; sourceTree = "<group>"; };
 		3FB1368526E8803800B34A01 /* BlockAppDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAppDialogueViewC.xib; sourceTree = "<group>"; };
 		3FB1368826E8D07900B34A01 /* CustomSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplitViewController.swift; sourceTree = "<group>"; };
+		3FBC4B682706FF800027D530 /* Focus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Focus.xcdatamodel; sourceTree = "<group>"; };
 		3FC8107E26A938D10058D1CF /* FocusDialogueViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusDialogueViewC.swift; sourceTree = "<group>"; };
 		3FC8107F26A938D10058D1CF /* FocusDialogueViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FocusDialogueViewC.xib; sourceTree = "<group>"; };
 		3FC8108226A939520058D1CF /* FocusDialogueModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusDialogueModel .swift"; sourceTree = "<group>"; };
@@ -353,7 +350,7 @@
 		3F5944B82689F957008C54A4 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */,
+				3FBC4B672706FF800027D530 /* Focus.xcdatamodeld */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -513,7 +510,6 @@
 		3FAAF75B26B2C261009447F8 /* Script */ = {
 			isa = PBXGroup;
 			children = (
-				3FAAF75C26B2C261009447F8 /* logout.sh */,
 				3FAD91F226B41E5200698848 /* dnd.sh */,
 			);
 			path = Script;
@@ -751,7 +747,6 @@
 				3FB01CF826FB400500828486 /* BlocklistDialogueViewC.xib in Resources */,
 				3FB01CF126FB0E9400828486 /* InputDialogueViewC.xib in Resources */,
 				3FB01CEA26FB014900828486 /* ErrorDialogueViewC.xib in Resources */,
-				3FAAF75D26B2C261009447F8 /* logout.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,9 +799,9 @@
 				3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */,
 				3FFC1E692680C13D0014216C /* Validator.swift in Sources */,
 				3FB01CE926FB014900828486 /* ErrorDialogueViewC.swift in Sources */,
-				3F5944BB2689F970008C54A4 /* Focus.xcdatamodeld in Sources */,
 				3F9CC4A6268B3D5800AC3026 /* BlockListViewC.swift in Sources */,
 				3F6D0BDA26984D5F002E6711 /* ComboBoxCell.swift in Sources */,
+				3FBC4B692706FF810027D530 /* Focus.xcdatamodeld in Sources */,
 				3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */,
 				3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */,
 				3FB01CE526FAFC6D00828486 /* CustomTableHeaderCell.swift in Sources */,
@@ -977,7 +972,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;
@@ -1002,7 +997,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;
@@ -1042,13 +1037,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3F5944B92689F970008C54A4 /* Focus.xcdatamodeld */ = {
+		3FBC4B672706FF800027D530 /* Focus.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3F6CAFF32706EC7100A5AD7F /* FocusV2.xcdatamodel */,
-				3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */,
+				3FBC4B682706FF800027D530 /* Focus.xcdatamodel */,
 			);
-			currentVersion = 3F5944BA2689F970008C54A4 /* Focus.xcdatamodel */;
+			currentVersion = 3FBC4B682706FF800027D530 /* Focus.xcdatamodel */;
 			path = Focus.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

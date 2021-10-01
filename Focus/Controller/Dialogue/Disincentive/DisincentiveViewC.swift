@@ -107,7 +107,7 @@ extension DisincentiveViewC: BasicSetupType {
         if let objB = DBManager.shared.getCurrentBlockList().objBl {
             let randomVal = objB.character_val
             lblCharacter.stringValue = String.randomString(length: randomVal)
-            txtCharacter.stringValue = lblCharacter.stringValue
+//            txtCharacter.stringValue = lblCharacter.stringValue
         }
     }
 }

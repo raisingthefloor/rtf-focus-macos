@@ -83,12 +83,14 @@ extension WindowsManager {
 // MARK: DND Functionality
 
 extension WindowsManager {
-    static func runDNDScript() {
-        let path = "/bin/bash"
+    static func runDndCommand(cmd: String) {
+        let pipe = Pipe()
+        let process = Process()
         let scriptPath = Bundle.main.path(forResource: "dnd", ofType: ".sh") ?? ""
-        let arguments = [scriptPath]
-        let task = Process.launchedProcess(launchPath: path, arguments: arguments)
-        task.waitUntilExit()
+        process.launchPath = "/bin/sh"
+        process.arguments = [scriptPath, String(format: "%@", cmd)]
+        process.standardOutput = pipe
+        process.launch()
     }
 
     static func enableDND() {

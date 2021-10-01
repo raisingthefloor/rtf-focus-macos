@@ -88,31 +88,27 @@ class EditBlockListViewC: BaseViewController {
     }
 
     override func scrollWheel(with event: NSEvent) {
-        if !event.momentumPhase.isEmpty || !event.phase.isEmpty {
-            // magic trackpad or magic mouse
-            super.scrollWheel(with: event)
-        } else if event.modifierFlags.contains(.option) {
-            // traditional mouse
-            if let centerPoint = scrollView.documentView?.convert(event.locationInWindow, from: nil) {
-                let linearVal = CGFloat(log2(scrollView.magnification))
-                var linearDeltaY = event.scrollingDeltaY * 0.01
-                if !event.hasPreciseScrollingDeltas {
-                    linearDeltaY *= scrollView.verticalLineScroll
-                }
-                scrollView.setMagnification(CGFloat(pow(2, linearVal + linearDeltaY)), centeredAt: centerPoint)
+        super.scrollWheel(with: event)
+//        if event.deltaY != 0 {
+//            super.scrollWheel(with: event)
+//        }
+
+        if scrollView.verticalScroller?.floatValue == 1.00 {
+            if event.deltaY < 0 {
+                nextResponder?.scrollWheel(with: event)
+            } else {
+                super.scrollWheel(with: event)
             }
         }
-    }
-
-    public class func scrollMouse(onPoint point: CGPoint, xLines: Int, yLines: Int) {
-        if #available(OSX 10.13, *) {
-            guard let scrollEvent = CGEvent(scrollWheelEvent2Source: nil, units: CGScrollEventUnit.line, wheelCount: 2, wheel1: Int32(yLines), wheel2: Int32(xLines), wheel3: 0) else {
-                return
+        // Top
+        else if scrollView.verticalScroller?.floatValue == 0.00 {
+            if event.deltaY > 0 {
+                nextResponder?.scrollWheel(with: event)
+            } else {
+                super.scrollWheel(with: event)
             }
-            scrollEvent.setIntegerValueField(CGEventField.eventSourceUserData, value: 1)
-            scrollEvent.post(tap: CGEventTapLocation.cghidEventTap)
         } else {
-            // scroll event is not supported for macOS older than 10.13
+            
         }
     }
 }
@@ -276,6 +272,33 @@ extension EditBlockListViewC: BasicSetupType {
         comboBlock.target = self
         comboBlock.action = #selector(handleBlockSelection(_:))
         txtCharacter.delegate = self
+
+        let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
+        g.numberOfClicksRequired = 1
+        lblSubTitle.addGestureRecognizer(g) // Need to set range click
+
+        disableControl()
+    }
+
+    func disableControl() {
+        guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
+
+        btnBAddApp.isEnabled = !objF.is_focusing
+        btnBAddWeb.isEnabled = !objF.is_focusing
+        btnNBAddApp.isEnabled = !objF.is_focusing
+        btnNBAddWeb.isEnabled = !objF.is_focusing
+        comboBlock.isEnabled = !objF.is_focusing
+        tblBlock.isEnabled = !objF.is_focusing
+        tblCategory.isEnabled = !objF.is_focusing
+        tblNotBlock.isEnabled = !objF.is_focusing
+
+        radioShortLongBreak.isEnabled = !objF.is_focusing
+        radioLongBreak.isEnabled = !objF.is_focusing
+        radioAllBreak.isEnabled = !objF.is_focusing
+
+        radioStopAnyTime.isEnabled = !objF.is_focusing
+        radioStopFocus.isEnabled = !objF.is_focusing
+        radioRestart.isEnabled = !objF.is_focusing
     }
 }
 

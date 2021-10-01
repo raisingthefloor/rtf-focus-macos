@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BlocklistDialogueViewC" customModule="Focus" customModuleProvider="target">
             <connections>
                 <outlet property="btnAdd" destination="KwQ-yT-TxM" id="Xh8-0J-sb2"/>
+                <outlet property="btnClose" destination="bpZ-TR-4zD" id="lIE-4c-Dya"/>
                 <outlet property="lblTitle" destination="351-0H-ehx" id="jNi-A2-D4b"/>
                 <outlet property="listContainerV" destination="4fx-uW-53B" id="Kpb-nt-vNA"/>
                 <outlet property="tblView" destination="2df-5W-Wch" id="MF2-Ak-PWV"/>
@@ -18,11 +19,32 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView misplaced="YES" id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="516" height="282"/>
+            <rect key="frame" x="0.0" y="0.0" width="565" height="316"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ZR-fe-U3X">
-                    <rect key="frame" x="12" y="15" width="503" height="254"/>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="P93-xi-34L">
+                    <rect key="frame" x="0.0" y="266" width="565" height="45"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bpZ-TR-4zD">
+                            <rect key="frame" x="527" y="6" width="31" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="25" id="OLw-Gf-ZF3"/>
+                            </constraints>
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jbd-Yo-hj7">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="bpZ-TR-4zD" secondAttribute="trailing" constant="10" id="Pjc-gV-mwJ"/>
+                        <constraint firstAttribute="height" constant="45" id="QRm-8L-Gu3"/>
+                        <constraint firstAttribute="bottom" secondItem="bpZ-TR-4zD" secondAttribute="bottom" constant="10" id="x8e-K4-Aox"/>
+                        <constraint firstItem="bpZ-TR-4zD" firstAttribute="top" secondItem="P93-xi-34L" secondAttribute="top" constant="10" id="yWZ-13-57O"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="7ZR-fe-U3X">
+                    <rect key="frame" x="18" y="18" width="529" height="240"/>
                     <subviews>
                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ULe-fE-2Ut">
                             <rect key="frame" x="0.0" y="0.0" width="529" height="240"/>
@@ -209,15 +231,19 @@
                 </customView>
             </subviews>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="P93-xi-34L" secondAttribute="trailing" id="Dzu-BD-msK"/>
                 <constraint firstAttribute="bottom" secondItem="7ZR-fe-U3X" secondAttribute="bottom" constant="18" id="Fph-yE-ITW"/>
                 <constraint firstAttribute="trailing" secondItem="7ZR-fe-U3X" secondAttribute="trailing" constant="18" id="HPK-wt-fr2"/>
                 <constraint firstItem="7ZR-fe-U3X" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="18" id="TFc-Wa-6Yc"/>
-                <constraint firstItem="7ZR-fe-U3X" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="18" id="n1B-pC-G5y"/>
+                <constraint firstItem="P93-xi-34L" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Yle-sl-H2C"/>
+                <constraint firstItem="7ZR-fe-U3X" firstAttribute="top" secondItem="P93-xi-34L" secondAttribute="bottom" constant="8" id="ZEW-sh-aH6"/>
+                <constraint firstItem="P93-xi-34L" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="d27-ls-CQy"/>
             </constraints>
-            <point key="canvasLocation" x="-26" y="130"/>
+            <point key="canvasLocation" x="-26.5" y="135.5"/>
         </customView>
     </objects>
     <resources>
+        <image name="NSStopProgressTemplate" width="15" height="13"/>
         <image name="external_link" width="12" height="13"/>
     </resources>
 </document>

@@ -301,6 +301,7 @@ extension MenuController {
         guard let obj = viewModel.input.focusObj else { return }
         obj.short_break_time = Focus.BreakTime.three.valueInSeconds
         obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
+        blockStackV.isHidden = !obj.is_block_programe_select
         let arrBlock = dataModel.input.getBlockList(cntrl: .main_menu).1
         if !arrBlock.isEmpty {
             obj.block_list_id = arrBlock[0].id
