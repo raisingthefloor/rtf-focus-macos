@@ -118,23 +118,10 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 }
 
-// extension FocusDialogueViewC {
-//    func setupStringValue() {
-//        if dialogueType == .launch_block_app_alert {
-//            let desc = String(format: dialogueType.description, viewModel.application?.localizedName as! CVarArg, viewModel.currentSession?.objBl?.name as! CVarArg)
-//
-//            let attString = NSMutableAttributedString.getAttributedString(fromString: desc)
-//            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.application?.localizedName ?? "-")
-//            attString.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: viewModel.currentSession?.objBl?.name ?? "-")
-//            lblDesc.attributedStringValue = attString
-//        }
-//    }
-// }
-
 extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
-        breakAction?(.extend_focus, extendVal)
+        breakAction?(dialogueType.action, extendVal)
         dismiss(nil)
     }
 
@@ -157,11 +144,5 @@ extension FocusDialogueViewC {
     @objc func topAction(_ sender: NSButton) {
         breakAction?(.normal_ok, 0)
         dismiss(nil)
-    }
-
-    func completeSession() {
-        let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
-        controller.dialogueType = .seession_completed_alert
-        presentAsSheet(controller)
     }
 }

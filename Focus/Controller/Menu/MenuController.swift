@@ -242,13 +242,6 @@ extension MenuController: BasicSetupType {
                 switch focusOption {
                 case .block_program_website:
                     self.blockStackV.isHidden = ((state as? NSControl.StateValue) == .on) ? false : true
-                case .dnd: break
-                // TODO: below DND code will perfor when focus start
-//                    if (state as? NSControl.StateValue) == .on {
-//                        WindowsManager.enableDND()
-//                    } else {
-//                        WindowsManager.disableDND()
-//                    }
                 default:
                     break
                 }
@@ -285,6 +278,7 @@ extension MenuController: BasicSetupType {
         guard let popup = sender as? NSPopUpButton else { return }
         let index = popup.selectedTag()
         viewModel.input.focusObj?.short_break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
+        viewModel.input.focusObj?.remaining_break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
         DBManager.shared.saveContext()
     }
 
@@ -300,6 +294,7 @@ extension MenuController {
     func preDataSetup() {
         guard let obj = viewModel.input.focusObj else { return }
         obj.short_break_time = Focus.BreakTime.three.valueInSeconds
+        obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
         obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
         blockStackV.isHidden = !obj.is_block_programe_select
         let arrBlock = dataModel.input.getBlockList(cntrl: .main_menu).1

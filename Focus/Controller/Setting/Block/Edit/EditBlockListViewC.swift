@@ -108,7 +108,6 @@ class EditBlockListViewC: BaseViewController {
                 super.scrollWheel(with: event)
             }
         } else {
-            
         }
     }
 }
@@ -287,7 +286,7 @@ extension EditBlockListViewC: BasicSetupType {
         btnBAddWeb.isEnabled = !objF.is_focusing
         btnNBAddApp.isEnabled = !objF.is_focusing
         btnNBAddWeb.isEnabled = !objF.is_focusing
-        comboBlock.isEnabled = !objF.is_focusing
+//        comboBlock.isEnabled = !objF.is_focusing
         tblBlock.isEnabled = !objF.is_focusing
         tblCategory.isEnabled = !objF.is_focusing
         tblNotBlock.isEnabled = !objF.is_focusing
@@ -501,6 +500,12 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Remove the Apps and Web Url from Also Block View
     @objc func deleteSetBlock(_ sender: NSButton) {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+            if objF.is_focusing {
+                return
+            }
+        }
+
         let arrBlock = dataModel.objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
         guard let objBlock = arrBlock?[sender.tag] as? Block_App_Web else { return }
         DBManager.shared.managedContext.delete(objBlock)
@@ -510,6 +515,11 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Remove the Apps and Web Url from Exceptions view
     @objc func deleteSetException(_ sender: NSButton) {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+            if objF.is_focusing {
+                return
+            }
+        }
         let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
         guard let objException = arrBlock?[sender.tag] as? Exception_App_Web else { return }
         DBManager.shared.managedContext.delete(objException)
@@ -519,6 +529,12 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Store the Categories as per selected blick list
     @objc func addCategoryAction(_ sender: NSButton) {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+            if objF.is_focusing {
+                return
+            }
+        }
+
         let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[sender.tag]
         obj.is_selected = !obj.is_selected
         DBManager.shared.saveContext()
@@ -529,6 +545,12 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+            if objF.is_focusing {
+                openErrorDialogue()
+                return
+            }
+        }
         let index = comboBlock.selectedTag()
         if index == -1 {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
@@ -611,5 +633,11 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         tblBlock.reloadData()
         tblNotBlock.reloadData()
         tblCategory.reloadData()
+    }
+
+    func openErrorDialogue() {
+        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+        errorDialog.errorType = .edit_blocklist_error
+        presentAsSheet(errorDialog)
     }
 }

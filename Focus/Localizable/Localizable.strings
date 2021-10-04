@@ -51,6 +51,7 @@
 "Button.skip_session" = "Skip this focus session";
 "Button.start_focus" = "Start focus session";
 "Button.start_in" = "start in %d min";
+"Button.Break" = "Break";
 
 "Home.title" = "Start a Focus Session";
 "Home.half_last" = "30 Min";
@@ -136,7 +137,7 @@
 "Alert.thirty_min" = "30 min";
 "Alert.block_message" = "%@ is blocked by the following blocklist,\n%@ \nwhich you selected for this focus session.";
 "Alert.session_completed" = "Focus Session Completed.";
-"Alert.session_completed_desc" = "You have been focusing for:\n%d hrs and %d min";
+"Alert.session_completed_desc" = "You have been focusing for:\n";
 "Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
 "Alert.warning_forced_pause_desc" = "You have been focusing for %d hours or more.";
 "Alert.warning_forced_pause_extend_title" = "Would you like to take a longer break?";
@@ -175,6 +176,7 @@
 "Session.title" = "Currently Running Focus Session(s)";
 "Session.start_focus_session" = "Start a 2nd focus session";
 "Session.why_do_this" = "Why do this?";
+"Session.ur_break_end" = "Your break ends in ";
 
 "Error.active_session_error" = "Changes cannot be made to an active Focus session";
 "Error.change_blocklist_error" = "Changes cannot be made to this Blocklist";

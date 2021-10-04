@@ -34,6 +34,7 @@ class SessionCompleteDialogueViewC: NSViewController {
     @IBOutlet var btnStackV: NSStackView!
 
     var dialogueType: FocusDialogue = .seession_completed_alert
+    var sessionDone: ((ButtonAction, Int) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +47,29 @@ class SessionCompleteDialogueViewC: NSViewController {
 
 extension SessionCompleteDialogueViewC: BasicSetupType {
     func setUpText() {
+        let objFocus = DBManager.shared.getCurrentBlockList().objFocus
+
         title = dialogueType.title
         lblTitle.stringValue = dialogueType.title
-        lblDesc.stringValue = dialogueType.description
+
+        var time = ""
+        let comp = Int(objFocus?.focus_length_time ?? 100).secondsToTime()
+        if comp.timeInHours != 0 {
+            time = "\(comp.timeInHours) Hours \(comp.timeInMinutes) minutes"
+        } else {
+            time = "\(comp.timeInMinutes) minutes"
+        }
+
+        let focusInfo = dialogueType.description + time
+
+        let attributedText = NSMutableAttributedString.getAttributedString(fromString: focusInfo)
+        attributedText.apply(color: Color.black_color, subString: focusInfo)
+        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: focusInfo)
+        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: time)
+        attributedText.alignment(alignment: .center, subString: time)
+
+        lblDesc.attributedStringValue = attributedText
+
         lblSubDesc.stringValue = dialogueType.sub_description
     }
 
@@ -83,30 +104,13 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     }
 
     @objc func extendTimeAction(_ sender: NSButton) {
-        if sender.tag == 0 {
-            blockAppDialogue()
-        } else if sender.tag == 1 {
-            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .long_break_alert
-            presentAsSheet(controller)
-        } else if sender.tag == 2 {
-            completeSession()
-        }
-    }
-
-    @objc func okAction(_ sender: NSButton) {
+        let extendVal = dialogueType.value[sender.tag]
+        sessionDone?(dialogueType.action, extendVal)
         dismiss(nil)
     }
 
-    func blockAppDialogue() {
-        let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
-        controller.dialogueType = .launch_block_app_alert
-        presentAsSheet(controller)
-    }
-
-    func completeSession() {
-        let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
-        controller.dialogueType = .seession_completed_alert
-        presentAsSheet(controller)
+    @objc func okAction(_ sender: NSButton) {
+        sessionDone?(.normal_ok, 0)
+        dismiss(nil)
     }
 }

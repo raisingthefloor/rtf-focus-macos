@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Application_List" representedClassName="Application_List" syncable="YES" codeGenerationType="class">
+        <attribute name="bundle_id" optional="YES" attributeType="String"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="path" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Block_App_Web" representedClassName="Block_App_Web" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="block_app_web" inverseEntity="Block_List"/>
+    </entity>
+    <entity name="Block_Category" representedClassName="Block_Category" syncable="YES" codeGenerationType="class">
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="General_Settings" inverseName="general_cat" inverseEntity="General_Settings"/>
+        <relationship name="sub_data" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block_SubCategory" inverseName="category" inverseEntity="Block_SubCategory"/>
+    </entity>
+    <entity name="Block_Interface" representedClassName="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="app_icon_path" optional="YES" attributeType="String"/>
+        <attribute name="app_identifier" optional="YES" attributeType="String"/>
+        <attribute name="block_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="ip_address" optional="YES" attributeType="String" defaultValueString="0.0.0.0"/>
+        <attribute name="is_deleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Block_List" representedClassName="Block_List" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="blocked_all_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="character_val" optional="YES" attributeType="Integer 64" defaultValueString="36" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="random_character" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="restart_computer" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="stop_focus_session_anytime" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="unblock_long_break_only" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="unblock_short_long_break" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <relationship name="block_app_web" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block_App_Web" inverseName="block_list" inverseEntity="Block_App_Web"/>
+        <relationship name="block_category" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block_List_Category" inverseName="block_list" inverseEntity="Block_List_Category"/>
+        <relationship name="exception_block" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Exception_App_Web" inverseName="block_list" inverseEntity="Exception_App_Web"/>
+    </entity>
+    <entity name="Block_List_Category" representedClassName="Block_List_Category" syncable="YES" codeGenerationType="class">
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="block_category" inverseEntity="Block_List"/>
+    </entity>
+    <entity name="Block_SubCategory" representedClassName="Block_SubCategory" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_Category" inverseName="sub_data" inverseEntity="Block_Category"/>
+    </entity>
+    <entity name="Exception_App_Web" representedClassName="Exception_App_Web" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="exception_block" inverseEntity="Block_List"/>
+    </entity>
+    <entity name="Focus_Block" representedClassName="Focus_Block" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <relationship name="focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="block_data" inverseEntity="Focuses"/>
+    </entity>
+    <entity name="Focus_Override_Block" representedClassName="Focus_Override_Block" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <relationship name="focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="override_block_data" inverseEntity="Focuses"/>
+    </entity>
+    <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
+        <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="break_lenght_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="extended_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="extended_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="focus_length_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="is_block_programe_select" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="is_break_time" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_focusing" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="remaining_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="remaining_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="short_break_time" optional="YES" attributeType="Double" defaultValueString="15" usesScalarValueType="YES"/>
+        <attribute name="stop_focus_after_time" optional="YES" attributeType="Double" defaultValueString="5" usesScalarValueType="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="block_data" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focus_Block" inverseName="focus" inverseEntity="Focus_Block"/>
+        <relationship name="override_block_data" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Focus_Override_Block" inverseName="focus" inverseEntity="Focus_Override_Block"/>
+    </entity>
+    <entity name="General_Settings" representedClassName="General_Settings" syncable="YES" codeGenerationType="class">
+        <attribute name="block_screen_first_min_each_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="break_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="for_every_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="provide_short_break_schedule_session" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="show_count_down_for_break_start_end" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="warning_before_schedule_session_start" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="general_cat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_Category" inverseName="general_setting" inverseEntity="Block_Category"/>
+    </entity>
+    <entity name="Override_Block" representedClassName="Override_Block" syncable="YES" codeGenerationType="class">
+        <attribute name="block_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bundle_id" optional="YES" attributeType="String"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="is_deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Application_List" positionX="-36" positionY="90" width="128" height="104"/>
+        <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
+        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="134"/>
+        <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="164"/>
+        <element name="Block_List" positionX="-18" positionY="72" width="128" height="194"/>
+        <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>
+        <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="59"/>
+        <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
+        <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
+        <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
+        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="314"/>
+        <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
+        <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
+    </elements>
+</model>

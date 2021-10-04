@@ -37,6 +37,7 @@ class FloatingFocusViewC: NSViewController {
     var runningTimer = false
 
     let viewModel: MenuViewModelType = MenuViewModel()
+    var breakTimerModel: TimerModelType = BreakTimerManager()
     var objGCategoey: Block_Category?
 
     override func viewDidLoad() {
@@ -50,6 +51,11 @@ class FloatingFocusViewC: NSViewController {
 extension FloatingFocusViewC: BasicSetupType {
     func setUpText() {
         btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
+        if let obj = viewModel.input.focusObj {
+            if obj.is_focusing && obj.is_break_time {
+                btnFocus.title = NSLocalizedString("Button.Break", comment: "Break")
+            }
+        }
     }
 
     func setUpViews() {
@@ -74,7 +80,7 @@ extension FloatingFocusViewC: BasicSetupType {
         setupObserver()
     }
 
-    func updateUI() {
+    func updateFocusButton() {
         if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
             lblTimeVal.isHidden = !isCountDownOn
         }
@@ -90,6 +96,7 @@ extension FloatingFocusViewC: BasicSetupType {
         btnFocus.buttonColor = Color.green_color
         btnFocus.activeButtonColor = Color.green_color
         btnFocus.textColor = .white
+        setUpText()
     }
 }
 
@@ -140,7 +147,7 @@ extension FloatingFocusViewC {
     func setupCountDown() {
         guard let obj = viewModel.input.focusObj else { return }
         objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
-        updateUI()
+        updateFocusButton()
         updateCounterValue()
         usedTime = 0
         countdowner = Countdowner(counter: remaininTimeInSeconds, obj: obj)
@@ -196,6 +203,13 @@ extension FloatingFocusViewC {
         print("usedTimeSeconds ::: \(usedTime)")
         print("Stop after This Min ::: \(Int(obj.stop_focus_after_time))")
 
+        if remaininTimeInSeconds <= 0 {
+            pauseTimer()
+            runningTimer = false
+            completeSession()
+            return
+        }
+
         if remaininTimeInSeconds > 0 {
             remaininTimeInSeconds -= 1
             usedTime += 1
@@ -249,7 +263,7 @@ extension FloatingFocusViewC {
     func showBreakDialogue(dialogueType: FocusDialogue) {
         // Start Break time timer and also display the Break Time Dialogue
         DispatchQueue.main.async {
-            if let isFirstMin = self.objGCategoey?.general_setting?.block_screen_first_min_each_break {
+            if let isFirstMin = self.objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
                 // Display Screen for one min
                 let controller = LockedScreenVC(nibName: "LockedScreenVC", bundle: nil)
                 controller.dismiss = { _ in
@@ -274,14 +288,24 @@ extension FloatingFocusViewC {
         }
     }
 
+    func completeSession() {
+        DispatchQueue.main.async {
+            let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
+            controller.dialogueType = .seession_completed_alert
+            controller.sessionDone = { action, value in
+                self.updateViewnData(dialogueType: .seession_completed_alert, action: action, value: value)
+            }
+            self.presentAsSheet(controller)
+        }
+    }
+
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int) {
         guard let obj = viewModel.input.focusObj, let objSession = DBManager.shared.getCurrentBlockList().objBl else { return }
-
+        usedTime = 0
         switch action {
         case .extend_focus:
-            usedTime = 0
             //                    obj.stop_focus_after_time = Double(value)
-            obj.extended_break_time = Double(value)
+            obj.extended_focus_time = Double(value)
             let val = obj.remaining_time + Double(value)
             obj.remaining_time = val
             DBManager.shared.saveContext()
@@ -289,24 +313,24 @@ extension FloatingFocusViewC {
             handleTimer()
 
         case .extent_break:
-            break
+            obj.extended_break_time = Double(value)
+            let val = obj.remaining_break_time + Double(value)
+            obj.remaining_break_time = val
+            DBManager.shared.saveContext()
+            breakTimerModel.input.handleTimer()
+
         case .stop_session:
             obj.is_focusing = false
+            obj.is_break_time = false
             DBManager.shared.saveContext()
-//            if !objSession.blocked_all_break { //
-                stopBlockingAction()
-//            } else {
-//                defaultUI()
-//            }
+            stopBlockingAction()
+            defaultUI()
         case .skip_session:
             break
         case .normal_ok:
-            if dialogueType == .short_break_alert {
-                // TODO: Perform the Break Timer and its functionality
-            } else {
-                updateCounterValue()
-                handleTimer()
-            }
+            updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession)
+        case .extend_reminder:
+            break
         }
     }
 
@@ -316,6 +340,50 @@ extension FloatingFocusViewC {
             AppManager.shared.removeObserver()
         }
         WindowsManager.runDndCommand(cmd: "off")
-        defaultUI()
+    }
+
+    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List) {
+        switch dialogueType {
+        case .end_break_alert:
+            obj.is_break_time = false
+            obj.remaining_break_time = obj.break_lenght_time
+            DBManager.shared.saveContext()
+            setUpText()
+            updateCounterValue()
+            handleTimer()
+        case .short_break_alert, .long_break_alert:
+            obj.is_break_time = true
+            DBManager.shared.saveContext()
+            if !objBl.blocked_all_break {
+                stopBlockingAction()
+            }
+            // TODO: Start Break Timer and Update the UI Information
+            startBreakTime()
+        case .seession_completed_alert:
+            obj.is_focusing = false
+            obj.is_break_time = false
+            DBManager.shared.saveContext()
+            stopBlockingAction()
+            defaultUI()
+        default:
+            updateCounterValue()
+            setUpText()
+            handleTimer()
+        }
+    }
+}
+
+// MARK: Break Time Section
+
+extension FloatingFocusViewC {
+    func startBreakTime() {
+        breakTimerModel.input.setupInitial()
+        setUpText()
+        breakTimerModel.updateUI = { dType, h, m, s in
+            if dType == .end_break_alert {
+                self.openBreakDialouge(dialogueType: dType)
+            }
+            self.updateTimeInfo(hours: h, minutes: m, seconds: s)
+        }
     }
 }

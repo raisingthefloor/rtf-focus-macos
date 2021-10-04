@@ -52,12 +52,14 @@ class CurrentSessionVC: BaseViewController {
 extension CurrentSessionVC: BasicSetupType {
     func setUpText() {
         let objFocus = viewModel?.input.focusObj
-        let break_time = Int(objFocus?.short_break_time ?? 100).secondsToTime()
+        let break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100).secondsToTime() : Int(objFocus?.short_break_time ?? 100).secondsToTime()
 
         title = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
-        let subTitle = NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ") + "\(break_time.timeInMinutes) minutes"
+        let subTitle_0 = (objFocus?.is_break_time ?? false) ? NSLocalizedString("Session.ur_break_end", comment: "Your break ends ") : NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ")
+
+        let subTitle = subTitle_0 + "\(break_time.timeInMinutes) minutes"
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
         attributedText.apply(color: Color.blue_color, subString: "\(break_time.timeInMinutes) minutes")
         attributedText.apply(color: Color.blue_color, subString: subTitle)

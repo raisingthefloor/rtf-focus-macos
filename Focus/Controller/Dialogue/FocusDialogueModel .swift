@@ -70,7 +70,7 @@ extension FocusDialogue {
         case .launch_block_app_alert, .notifiction_block_alert:
             return NSLocalizedString("Alert.block_message", comment: "%@ is blocked by the following blocklist,\n%@ \nwhich you selected for this focus session.")
         case .seession_completed_alert, .till_stop_alert:
-            let str = NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for:\n%d hrs and %d min")
+            let str = NSLocalizedString("Alert.session_completed_desc", comment: "You have been focusing for:\n")
             return String(format: str, 2, 2)
         case .schedule_reminded_without_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminded_without_blocklist_alert_desc", comment: "You asked to be reminded that you wanted to focus at this time")
@@ -229,6 +229,23 @@ extension FocusDialogue {
             return []
         }
     }
+
+    var action: ButtonAction {
+        switch self {
+        case .short_break_alert, .seession_completed_alert:
+            return .extend_focus
+        case .seession_completed_alert:
+            return .normal_ok
+        case .end_break_alert:
+            return .extent_break
+        case .launch_block_app_alert, .notifiction_block_alert:
+            return .normal_ok
+        case .long_break_alert:
+            return .extent_break
+        default:
+            return .normal_ok
+        }
+    }
 }
 
 enum ButtonPosition {
@@ -242,4 +259,5 @@ enum ButtonAction {
     case stop_session
     case skip_session
     case normal_ok
+    case extend_reminder
 }

@@ -94,6 +94,7 @@
 		3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FDC9135269F1E850021D3E3 /* Color.xcassets */; };
 		3FE6A38C26F9E54100435503 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE6A38A26F9E54100435503 /* ListView.swift */; };
 		3FE6A38D26F9E54100435503 /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FE6A38B26F9E54100435503 /* ListView.xib */; };
+		3FF51333270AC17200BBD964 /* BreakTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF51332270AC17200BBD964 /* BreakTimerManager.swift */; };
 		3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E4C2680C13D0014216C /* WindowsManager.swift */; };
 		3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E522680C13D0014216C /* UserDefault.swift */; };
 		3FFC1E682680C13D0014216C /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E552680C13D0014216C /* Enums.swift */; };
@@ -195,6 +196,8 @@
 		3FDC9135269F1E850021D3E3 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		3FE6A38A26F9E54100435503 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		3FE6A38B26F9E54100435503 /* ListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListView.xib; sourceTree = "<group>"; };
+		3FF51332270AC17200BBD964 /* BreakTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakTimerManager.swift; sourceTree = "<group>"; };
+		3FF51334270AC51800BBD964 /* FocusV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FocusV2.xcdatamodel; sourceTree = "<group>"; };
 		3FFC1E4C2680C13D0014216C /* WindowsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowsManager.swift; sourceTree = "<group>"; };
 		3FFC1E522680C13D0014216C /* UserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		3FFC1E552680C13D0014216C /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -519,6 +522,7 @@
 			isa = PBXGroup;
 			children = (
 				3FAE26A42702F048005CF777 /* TimeManager.swift */,
+				3FF51332270AC17200BBD964 /* BreakTimerManager.swift */,
 			);
 			path = TimeManager;
 			sourceTree = "<group>";
@@ -788,6 +792,7 @@
 				3F4DFA3E26835EDF0013BA0C /* CustomSettingController.swift in Sources */,
 				3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */,
 				3F4C335A269DBF350016F5E1 /* General_Setting.swift in Sources */,
+				3FF51333270AC17200BBD964 /* BreakTimerManager.swift in Sources */,
 				3FFC1E6B2680C13D0014216C /* Config.swift in Sources */,
 				3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */,
 				3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */,
@@ -1040,9 +1045,10 @@
 		3FBC4B672706FF800027D530 /* Focus.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3FF51334270AC51800BBD964 /* FocusV2.xcdatamodel */,
 				3FBC4B682706FF800027D530 /* Focus.xcdatamodel */,
 			);
-			currentVersion = 3FBC4B682706FF800027D530 /* Focus.xcdatamodel */;
+			currentVersion = 3FF51334270AC51800BBD964 /* FocusV2.xcdatamodel */;
 			path = Focus.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
