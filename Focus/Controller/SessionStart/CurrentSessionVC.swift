@@ -52,19 +52,26 @@ class CurrentSessionVC: BaseViewController {
 extension CurrentSessionVC: BasicSetupType {
     func setUpText() {
         let objFocus = viewModel?.input.focusObj
-        let break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100).secondsToTime() : Int(objFocus?.short_break_time ?? 100).secondsToTime()
+        let break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100).secondsToTime() : Int(objFocus?.stop_focus_after_time ?? 100).secondsToTime()
+
+        var time = ""
+        if break_time.timeInHours != 0 {
+            time = "\(break_time.timeInHours) Hours \(break_time.timeInMinutes) minutes"
+        } else {
+            time = "\(break_time.timeInMinutes) minutes"
+        }
 
         title = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
         let subTitle_0 = (objFocus?.is_break_time ?? false) ? NSLocalizedString("Session.ur_break_end", comment: "Your break ends ") : NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ")
 
-        let subTitle = subTitle_0 + "\(break_time.timeInMinutes) minutes"
+        let subTitle = subTitle_0 + time
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
-        attributedText.apply(color: Color.blue_color, subString: "\(break_time.timeInMinutes) minutes")
+        attributedText.apply(color: Color.blue_color, subString: time)
         attributedText.apply(color: Color.blue_color, subString: subTitle)
         attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: subTitle)
-        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: "\(break_time.timeInMinutes) minutes")
+        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: time)
         lblSubTitle.attributedStringValue = attributedText
 
         lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")

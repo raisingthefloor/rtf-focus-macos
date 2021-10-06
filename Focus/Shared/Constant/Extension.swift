@@ -247,7 +247,13 @@ extension Date {
 extension Int {
     func secondsToTime() -> (timeInHours: Int, timeInMinutes: Int, timeInSeconds: Int) {
         let hours = Int(Double((self / 60) / 60).rounded(.towardZero))
-        return (timeInHours: hours, timeInMinutes: self / 60, timeInSeconds: self % 60)
+        var min = self / 60
+        var sec = self % 60
+        if hours > 0 {
+            min = hours / 60
+            sec = hours % 60
+        }
+        return (timeInHours: hours, timeInMinutes: min, timeInSeconds: sec)
     }
 }
 

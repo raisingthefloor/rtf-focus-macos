@@ -37,11 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Setup the Focus button
         loadScript()
-
         openFocus()
-
-        setupStautsBarMenu()
-        // Get All application from the system and store in DB
         AppManager.shared.doSpotlightQuery()
     }
 
@@ -59,31 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 // MARK: Setup Status bar Menu
 
 extension AppDelegate {
-    func setupStautsBarMenu() {
-        guard let statusButton = statusBarItem.button else { return }
-        statusButton.title = "Focus"
-
-        let statusMenu: NSMenu = {
-            let menu = NSMenu()
-            let quitApplicationItem: NSMenuItem = {
-                let item = NSMenuItem(title: "Quit", action: #selector(terminate), keyEquivalent: "q")
-                item.target = self
-                item.tag = 2
-
-                return item
-            }()
-            menu.addItem(quitApplicationItem)
-            return menu
-        }()
-
-        statusBarItem.menu = statusMenu
-    }
-
-    @objc
-    func terminate(_ sender: NSMenuItem) {
-        NSApp.terminate(sender)
-    }
-
     func openFocus() {
         windowController = WindowsManager.getWindowC(withIdentifier: "sidWindowController", ofType: NSWindowController.self)
         windowController?.showWindow(self)

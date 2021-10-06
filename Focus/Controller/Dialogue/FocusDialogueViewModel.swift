@@ -27,7 +27,6 @@ import Cocoa
 import Foundation
 
 protocol FocusDialogueViewModelIntput {
-    func getCurrentSessionData()
 }
 
 protocol FocusDialogueViewModelOutput {
@@ -45,10 +44,4 @@ class FocusDialogueViewModel: FocusDialogueViewModelIntput, FocusDialogueViewMod
     var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
     var input: FocusDialogueViewModelIntput { return self }
     var output: FocusDialogueViewModelOutput { return self }
-}
-
-extension FocusDialogueViewModel {
-    func getCurrentSessionData() {
-        let objFocus = DBManager.shared.getCurrentSession()
-    }
 }

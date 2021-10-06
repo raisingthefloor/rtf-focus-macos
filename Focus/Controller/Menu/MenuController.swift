@@ -278,6 +278,7 @@ extension MenuController: BasicSetupType {
         guard let popup = sender as? NSPopUpButton else { return }
         let index = popup.selectedTag()
         viewModel.input.focusObj?.short_break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
+        viewModel.input.focusObj?.break_lenght_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
         viewModel.input.focusObj?.remaining_break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
         DBManager.shared.saveContext()
     }
@@ -294,6 +295,7 @@ extension MenuController {
     func preDataSetup() {
         guard let obj = viewModel.input.focusObj else { return }
         obj.short_break_time = Focus.BreakTime.three.valueInSeconds
+        obj.break_lenght_time = Focus.BreakTime.three.valueInSeconds
         obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
         obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
         blockStackV.isHidden = !obj.is_block_programe_select

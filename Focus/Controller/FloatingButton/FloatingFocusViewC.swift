@@ -113,7 +113,9 @@ extension FloatingFocusViewC {
                 controller.viewModel = viewModel
                 controller.updateView = { [weak self] isStopSession, action in
                     if isStopSession {
-                        self?.handleTimer()
+                        self?.pauseTimer()
+                        self?.runningTimer = false
+                        self?.breakTimerModel.input.stopTimer()
                         self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
                     }
                 }
@@ -199,9 +201,9 @@ extension FloatingFocusViewC {
     @objc func update() {
         guard let obj = viewModel.input.focusObj else { return }
 
-        print("remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
-        print("usedTimeSeconds ::: \(usedTime)")
-        print("Stop after This Min ::: \(Int(obj.stop_focus_after_time))")
+        print("Focus remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
+        print("Focus usedTimeSeconds ::: \(usedTime)")
+        print("Focus Stop after This Min ::: \(Int(obj.stop_focus_after_time))")
 
         if remaininTimeInSeconds <= 0 {
             pauseTimer()
@@ -216,7 +218,7 @@ extension FloatingFocusViewC {
             guard let countdownerDetails = countdowner?.update(counter: remaininTimeInSeconds, usedValue: usedTime) else { fatalError() }
             if countdownerDetails.popup == .none {
                 updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
-                updateRemaingTimeInDB(seconds: remaininTimeInSeconds)
+                updateRemaingTimeInDB(seconds: remaininTimeInSeconds, usedTime: usedTime)
             } else {
                 pauseTimer()
                 runningTimer = false
@@ -230,14 +232,15 @@ extension FloatingFocusViewC {
 
     func updateTimeInfo(hours: Int, minutes: Int, seconds: Int) {
         DispatchQueue.main.async {
-            self.lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", hours)):\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+            self.lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
         }
     }
 
-    func updateRemaingTimeInDB(seconds: Int) {
+    func updateRemaingTimeInDB(seconds: Int, usedTime: Int) {
         DispatchQueue.main.async {
             guard let obj = self.viewModel.input.focusObj else { return }
             obj.remaining_time = Double(seconds)
+            obj.used_focus_time = Double(usedTime)
             DBManager.shared.saveContext()
         }
     }
@@ -304,6 +307,7 @@ extension FloatingFocusViewC {
         usedTime = 0
         switch action {
         case .extend_focus:
+            // Focus Extend Here
             //                    obj.stop_focus_after_time = Double(value)
             obj.extended_focus_time = Double(value)
             let val = obj.remaining_time + Double(value)
@@ -314,6 +318,7 @@ extension FloatingFocusViewC {
             handleTimer()
 
         case .extent_break:
+            // Break Extend Here
             obj.extended_break_time = Double(value)
             let val = obj.remaining_break_time + Double(value)
             obj.remaining_break_time = val
@@ -338,7 +343,7 @@ extension FloatingFocusViewC {
         case .skip_session:
             break
         case .normal_ok:
-            updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession)
+            updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession, value: value, valueType: valueType)
         case .extend_reminder:
             break
         }
@@ -350,17 +355,17 @@ extension FloatingFocusViewC {
         case .end_break_alert:
             switch valueType {
             case .small: break
-              //  objEx.is_small_break = true
+            //  objEx.is_small_break = true
             case .mid:
                 objEx.is_mid_break = true
             case .long:
                 objEx.is_long_break = true
             default: break
             }
-        case .short_break_alert:
+        case .short_break_alert, .long_break_alert:
             switch valueType {
             case .small: break
-              //  objEx.is_small_focus = true
+            //  objEx.is_small_focus = true
             case .mid:
                 objEx.is_mid_focus = true
             case .long:
@@ -373,26 +378,54 @@ extension FloatingFocusViewC {
         }
     }
 
-    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List) {
+    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List, value: Int, valueType: ButtonValueType) {
         switch dialogueType {
         case .end_break_alert:
+            // Break End Here
             obj.is_break_time = false
             obj.remaining_break_time = obj.break_lenght_time
             DBManager.shared.saveContext()
             setUpText()
             updateCounterValue()
+            startBlockingAppsWeb()
             handleTimer()
-        case .short_break_alert, .long_break_alert:
+        case .short_break_alert:
+            // Break Start Here
             obj.is_break_time = true
             DBManager.shared.saveContext()
             if !objBl.blocked_all_break {
                 stopBlockingAction()
             }
-            // TODO: Start Break Timer and Update the UI Information
             startBreakTime()
+        case .long_break_alert:
+            // Long Break Start Here
+            obj.is_break_time = true
+            if value > 0 {
+                obj.extended_break_time = Double(value)
+                obj.remaining_break_time = Double(value)
+                updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
+            }
+            DBManager.shared.saveContext()
+            if !objBl.blocked_all_break {
+                stopBlockingAction()
+            }
+            startBreakTime()
+
         case .seession_completed_alert:
+            // Session Complete Here
+            // TODO: Define the Reset Focus object with default value
+            let objEx = obj.extended_value
             obj.is_focusing = false
             obj.is_break_time = false
+            obj.is_focusing = false
+            obj.is_break_time = false
+            objEx?.is_mid_focus = false
+            objEx?.is_small_focus = false
+            objEx?.is_long_focus = false
+            objEx?.is_mid_break = false
+            objEx?.is_small_break = false
+            objEx?.is_long_break = false
+
             DBManager.shared.saveContext()
             stopBlockingAction()
             defaultUI()

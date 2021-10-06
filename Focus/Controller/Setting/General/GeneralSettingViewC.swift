@@ -236,7 +236,7 @@ extension GeneralSettingViewC {
         let objCat = viewModel.input.getGeneralCategoryData().gCat
         if objCat != nil {
             let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
-            controller.listType = .system_app_list
+            controller.listType = .unblocking_list
             controller.addedSuccess = { [weak self] dataV in
                 self?.viewModel.input.addAppWebData(data: dataV) { isStore in
                     if isStore {

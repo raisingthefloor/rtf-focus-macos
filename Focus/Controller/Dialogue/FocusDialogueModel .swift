@@ -54,8 +54,8 @@ extension FocusDialogue {
         case .launch_block_app_alert, .notifiction_block_alert:
             return NSLocalizedString("Alert.block_app.is_blocked", comment: "%@ is blocked")
         case .long_break_alert:
-            let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %d hours or more.")
-            return String(format: str, 2)
+            let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %@ or more.")
+            return str
         case .schedule_reminded_without_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminder.title", comment: "Focus Session Reminder")
         case .schedule_reminded_with_blocklist_alert:
@@ -143,8 +143,8 @@ extension FocusDialogue {
             let btnString = NSLocalizedString("Button.ok", comment: "Ok") + " - " + NSLocalizedString("Button.done", comment: "Done")
             return ([btnString], .bottom)
         case .long_break_alert:
-            let str = NSLocalizedString("Alert.continue_with", comment: "Continue with") + " %@ " + NSLocalizedString("Alert.breaks", comment: "minute Breaks")
-            let btnString = String(format: str, "2")
+            let str = NSLocalizedString("Alert.continue_with", comment: "Continue with") + " %@ " + NSLocalizedString("Alert.breaks", comment: "Breaks")
+            let btnString = str
             return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), btnString], .bottom)
         case .till_stop_alert:
             return ([NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")], .bottom)
@@ -172,6 +172,10 @@ extension FocusDialogue {
 
     var light_green: NSColor {
         return Color.light_green_color
+    }
+
+    var stop_color: NSColor {
+        return Color.edit_bg_color
     }
 
     var mixedColor: NSColor {
@@ -239,7 +243,7 @@ extension FocusDialogue {
         case .launch_block_app_alert, .notifiction_block_alert:
             return .normal_ok
         case .long_break_alert:
-            return .extent_break
+            return .normal_ok
         default:
             return .normal_ok
         }

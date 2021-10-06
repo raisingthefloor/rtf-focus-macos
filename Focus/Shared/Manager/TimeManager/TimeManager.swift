@@ -42,7 +42,8 @@ class Countdowner {
 
         switch Double(usedValue) {
         case obj.stop_focus_after_time:
-            return (popup: .short_break_alert, hours: hours, minutes: minutes, seconds: seconds)
+            let popup: FocusDialogue = obj.focus_untill_stop ? .long_break_alert : .short_break_alert
+            return (popup: popup, hours: hours, minutes: minutes, seconds: seconds)
         default:
             return defaultState(counter: counter)
         }

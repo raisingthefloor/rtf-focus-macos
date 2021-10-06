@@ -34,6 +34,7 @@ class BlocklistDialogueViewC: NSViewController {
 
     var listType: ListDialogue = .category_list
     var categoryName: String = ""
+    var objCat: Block_Category?
     var addedSuccess: (([[String: Any?]]) -> Void)?
     var dataModel: DataModelType = DataModel()
 
@@ -53,6 +54,7 @@ class BlocklistDialogueViewC: NSViewController {
 
 extension BlocklistDialogueViewC: BasicSetupType {
     func setUpText() {
+        categoryName = objCat?.name ?? "-"
         btnAdd.title = listType.add_button_title
         lblTitle.stringValue = listType.title
     }
@@ -95,7 +97,7 @@ extension BlocklistDialogueViewC: BasicSetupType {
     }
 
     @objc func btnAction(_ sender: NSButton) {
-        if listType != .system_app_list {
+        if listType == .category_list {
             dismiss(sender)
         } else {
             if !listType.selectedData.isEmpty {
@@ -130,6 +132,9 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
+        if listType == .category_list {
+            return objCat?.sub_data?.count ?? 0
+        }
         return listType.arrData.count
     }
 
@@ -144,7 +149,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
                 cell.btnAddApp.target = self
                 cell.btnAddApp.tag = row
                 cell.btnAddApp.action = #selector(toggleUse(_:))
-                if listType == .system_app_list { // For temp
+                if listType != .category_list { // For temp
                     cell.btnAddApp.state = ((obj as? Application_List)?.is_selected ?? false) ? .on : .off
                 }
                 return cell
@@ -152,10 +157,11 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
         } else {
             if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
                 categoryCell.imgV.isHidden = !listType.isIconVisible
-                if listType == .system_app_list {
+                if listType != .category_list {
                     categoryCell.configApps(obj: obj as? Application_List)
                 } else {
-                    categoryCell.configCategory(val: obj as? String)
+                    let objSubCat = objCat?.sub_data?.allObjects[row] as? Block_SubCategory
+                    categoryCell.configSubCategory(obj: objSubCat)
                 }
                 return categoryCell
             }

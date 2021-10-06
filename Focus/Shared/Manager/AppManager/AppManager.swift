@@ -52,24 +52,17 @@ extension AppManager {
             return
         }
         if !DBManager.shared.checkAppsIsPresent() {
+            var i = 1
             for result in query.results {
                 guard let item = result as? NSMetadataItem else {
-//                print("Result was not an NSMetadataItem, \(result)")
                     continue
                 }
-//            print("Spotlit Result: \(item.value(forAttribute: kMDItemIdentifier as String))")
-//            print("item \(item.values(forAttributes: [kMDItemDisplayName as String, kMDItemPath as String]))")
-
                 if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
                     if let bundleName = Bundle.bundleIDFor(appNamed: name) {
-//                    print("\n")
-//                    print("bundleName: \(bundleName)")
                         if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
-//                        print("path: \(path)")
-                            let icon = NSWorkspace.shared.icon(forFile: path)
-//                        print("icon: \(icon)")
-                            let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date()]
+                            let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date(), "index": i]
                             DBManager.shared.saveApplicationlist(data: data)
+                            i = i + 1
                         }
                     }
                 }

@@ -51,7 +51,6 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     var input: DataModelIntput { return self }
     var output: DataModelOutput { return self }
 
-    let childeren: [String] = ["Facebook", "Intagram", "LinkedIn"]
     let categories = ["Calls & Chat", "Notification (Turns Do Not Disturb ON)", "Social Media", "Games", "News", "Shopping", "Video (apps and sites)", "Dating", "Gambling", "Communication", "Email", "Ads", "Proxies"]
 
     func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category]) {
@@ -94,9 +93,11 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
 
     func storeCategory() {
         if !DBManager.shared.checkDataIsPresent() {
+            var i = 1
             for val in categories {
-                let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue]
+                let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue, "index": i]
                 DBManager.shared.saveCategory(data: data, type: .system)
+                i = i + 1
             }
             let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
             DBManager.shared.saveCategory(data: data, type: .general)

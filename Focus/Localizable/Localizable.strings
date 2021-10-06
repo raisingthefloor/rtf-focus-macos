@@ -139,11 +139,11 @@
 "Alert.session_completed" = "Focus Session Completed.";
 "Alert.session_completed_desc" = "You have been focusing for:\n";
 "Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
-"Alert.warning_forced_pause_desc" = "You have been focusing for %d hours or more.";
+"Alert.warning_forced_pause_desc" = "You have been focusing for %@ or more.";
 "Alert.warning_forced_pause_extend_title" = "Would you like to take a longer break?";
 "Alert.one_hr" = "1 hr";
 "Alert.continue_with" = "Continue with";
-"Alert.breaks" = "min Breaks";
+"Alert.breaks" = "Breaks";
 "Alert.end_break" = "End of break!";
 "Alert.extend_break_title" = "Or, extend my break by...";
 "Alert.one_min" = "1 min";

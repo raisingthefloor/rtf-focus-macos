@@ -29,14 +29,6 @@ protocol TimerModelType {
 class BreakTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
 
-    func stopTimer() {
-        pauseTimer()
-        isBreaktimerOn = false
-    }
-
-    func updateUIInfo() {
-    }
-
     var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
     var output: TimerModelOutput { return self }
@@ -119,6 +111,11 @@ extension BreakTimerManager {
     func resetTimer() {
         handleTimer()
         updateCounterValue()
+    }
+
+    func stopTimer() {
+        pauseTimer()
+        isBreaktimerOn = false
     }
 
     @objc func update() {

@@ -197,6 +197,10 @@ extension Focus {
             return menus
         }
 
+        static var long_focus_stop_lenght: Double {
+            return 120 * 60
+        }
+
         static var key_name: String {
             return "stop_focus_after_time"
         }

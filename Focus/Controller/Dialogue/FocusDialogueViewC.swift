@@ -51,7 +51,19 @@ class FocusDialogueViewC: NSViewController {
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = dialogueType.title
+        if dialogueType == .long_break_alert {
+            let timeC = Int(viewModel.currentSession?.objFocus?.used_focus_time ?? 100).secondsToTime()
+            var time = ""
+            if timeC.timeInHours != 0 {
+                time = "\(timeC.timeInHours) Hours \(timeC.timeInMinutes) minutes"
+            } else {
+                time = "\(timeC.timeInMinutes) minutes"
+            }
+            lblTitle.stringValue = String(format: dialogueType.title, time)
+        } else {
+            lblTitle.stringValue = dialogueType.title
+        }
+
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
 
@@ -60,10 +72,22 @@ extension FocusDialogueViewC: BasicSetupType {
         let position = dialogueType.option_buttons.position
 
         btnStop.title = buttonsValue.first ?? "-"
+        if dialogueType == .long_break_alert {
+            let timeC = Int(viewModel.currentSession?.objFocus?.short_break_time ?? 100).secondsToTime()
+            var time = ""
+            if timeC.timeInHours != 0 {
+                time = "\(timeC.timeInHours) Hours \(timeC.timeInMinutes) minutes"
+            } else {
+                time = "\(timeC.timeInMinutes) minutes"
+            }
+            btnContinue.title = String(format: buttonsValue.last ?? "", time)
+        } else {
+            btnContinue.title = buttonsValue.last ?? ""
+        }
+
         btnTop.title = buttonsValue.last ?? ""
         btnTop.isHidden = (dialogueType != .long_break_alert) ? false : true
         btnContinue.isHidden = (dialogueType == .long_break_alert) ? false : true
-        btnContinue.title = buttonsValue.last ?? ""
     }
 
     func setUpViews() {
@@ -101,13 +125,20 @@ extension FocusDialogueViewC: BasicSetupType {
         btnTop.activeButtonColor = dialogueType.green
         btnTop.textColor = .white
 
-        btnStop.buttonColor = dialogueType.light_green
-        btnStop.activeButtonColor = dialogueType.light_green
+        btnStop.buttonColor = dialogueType.stop_color
+        btnStop.activeButtonColor = dialogueType.stop_color
         btnStop.textColor = Color.black_color
         btnStop.borderColor = Color.dark_grey_border
         btnStop.borderWidth = 0.6
+        
+        btnContinue.buttonColor = dialogueType.light_green
+        btnContinue.activeButtonColor = dialogueType.light_green
+        btnContinue.textColor = dialogueType.green
+        btnContinue.borderColor = dialogueType.green
+        btnContinue.borderWidth = 0.6
 
-        containerView.bgColor = Color.light_blue_color
+
+       // containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {
@@ -116,6 +147,9 @@ extension FocusDialogueViewC: BasicSetupType {
 
         btnTop.target = self
         btnTop.action = #selector(topAction(_:))
+
+        btnContinue.target = self
+        btnContinue.action = #selector(continueAction(_:))
     }
 }
 
@@ -143,6 +177,11 @@ extension FocusDialogueViewC {
     }
 
     @objc func topAction(_ sender: NSButton) {
+        breakAction?(.normal_ok, 0, .none)
+        dismiss(nil)
+    }
+
+    @objc func continueAction(_ sender: NSButton) {
         breakAction?(.normal_ok, 0, .none)
         dismiss(nil)
     }

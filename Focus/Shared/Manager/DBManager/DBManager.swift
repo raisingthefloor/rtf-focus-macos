@@ -62,29 +62,26 @@ extension DBManager: DBMangerLogic {
 
                 let arrSubCate = getCategoryData(ids: arrIds)
 
-                applist = applist.filter { obj in
-                    arrSubCate.contains { objEx in
-                        objEx.app_identifier != obj.app_identifier
-                    }
-                }
-
-                weblist = weblist.filter { obj in
-                    arrSubCate.contains { objEx in
-                        objEx.name != obj.name
-                    }
-                }
+                applist = applist + arrSubCate.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
+                weblist = weblist + arrSubCate.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
             }
 
             // General Setting App and Site List Filter
             if !generalCat.isEmpty {
+                let gCApp = generalCat
+                    .filter({ $0.block_type == BlockType.application.rawValue })
+                    .compactMap({ $0 })
+                    .filter({ $0.is_selected == true }).compactMap({ $0 })
+
                 applist = applist.filter { obj in
-                    generalCat.contains { objEx in
+                    gCApp.contains { objEx in
                         objEx.app_identifier != obj.app_identifier
                     }
                 }
 
+                let gCWeb = generalCat.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 }).filter({ $0.is_selected == true }).compactMap({ $0 })
                 weblist = weblist.filter { obj in
-                    generalCat.contains { objEx in
+                    gCWeb.contains { objEx in
                         objEx.name != obj.name
                     }
                 }
@@ -92,20 +89,22 @@ extension DBManager: DBMangerLogic {
 
             // Exception App and site List Filter
             if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
+                let gEApp = arrExceBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
                 applist = applist.filter { obj in
-                    arrExceBlocks.contains { objEx in
+                    gEApp.contains { objEx in
                         objEx.app_identifier != obj.app_identifier
                     }
                 }
 
+                let gEWeb = arrExceBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
                 weblist = weblist.filter { obj in
-                    arrExceBlocks.contains { objEx in
+                    gEWeb.contains { objEx in
                         objEx.name != obj.name
                     }
                 }
             }
-            print("applist : \(applist)")
-            print("weblist : \(weblist)")
+            print("Final applist : \(applist)")
+            print("Final weblist : \(weblist)")
             return (objFocus, blocks, applist, weblist)
 
         } catch let error as NSError {
@@ -184,7 +183,7 @@ extension DBManager {
 
     func getApplicationList() -> [Application_List] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Application_List")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Application_List.created_at, ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Application_List.index, ascending: true)]
 
         do {
             let block = try DBManager.shared.managedContext.fetch(fetchRequest)
@@ -271,10 +270,13 @@ extension DBManager {
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
         }
-        let sub_data = [["name": "Messages", "app_identifier": "com.apple.MobileSMS", "app_icon_path": "/System/Applications/Messages.app", "created_at": Date()], ["name": "www.instagram.com", "url": "www.instagram.com", "created_at": Date()]]
+
+        let sub_data = [["name": "Messages", "app_identifier": "com.apple.MobileSMS", "app_icon_path": "/System/Applications/Messages.app", "created_at": Date(), "block_type": BlockType.application.rawValue], ["name": "www.instagram.com", "url": "www.instagram.com", "created_at": Date(), "block_type": BlockType.web.rawValue]]
+
         var arrSD: [Block_SubCategory] = []
-        let objSC = Block_SubCategory(context: DBManager.shared.managedContext)
         for val in sub_data {
+            let objSC = Block_SubCategory(context: DBManager.shared.managedContext)
+
             for (key, value) in val {
                 objSC.setValue(value, forKeyPath: key)
             }
@@ -301,7 +303,7 @@ extension DBManager {
 
     func getCategories() -> [Block_Category] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_Category")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Block_Category.created_at, ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Block_Category.index, ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "type = %d", CategoryType.system.rawValue)
 
         do {

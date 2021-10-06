@@ -86,7 +86,7 @@
                                     </button>
                                     <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cin-g2-IFK">
                                         <rect key="frame" x="-2" y="23" width="94" height="16"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="1Rp-uX-lIf">
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="00:00" id="1Rp-uX-lIf">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -335,7 +335,7 @@
                                                         </buttonCell>
                                                     </button>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tu-6L-z8G">
-                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="27"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="260" height="27"/>
                                                         <subviews>
                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liH-U3-c4W">
                                                                 <rect key="frame" x="0.0" y="0.0" width="260" height="27"/>

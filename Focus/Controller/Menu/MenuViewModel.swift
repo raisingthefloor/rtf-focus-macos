@@ -68,6 +68,7 @@ extension MenuViewModel {
         case .untill_press_stop:
             print("untill_press_stop")
             focusObj?.is_focusing = true
+            focusObj?.stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
 
         case .stop_focus:
             focusObj?.is_focusing = false

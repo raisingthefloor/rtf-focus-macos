@@ -70,7 +70,6 @@ class EditBlockListViewC: BaseViewController {
     @IBOutlet var lblNote1: NSTextField!
     @IBOutlet var lblNote2: NSTextField!
 
-    let viewModel: BlockListViewModelType = BlockListViewModel()
     var dataModel: DataModelType = DataModel()
 
     override func viewDidLoad() {
@@ -388,7 +387,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[selectedRow]
                 let listDialogue = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
                 listDialogue.listType = .category_list
-                listDialogue.categoryName = objCat.name ?? "-"
+                listDialogue.objCat = objCat
                 presentAsSheet(listDialogue)
             }
         }
@@ -559,63 +558,83 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     }
 
     @IBAction func behaviorOptions(sender: NSButton) {
-        if radioShortLongBreak.state == .on {
-            radioLongBreak.state = .off
-            radioAllBreak.state = .off
+        let tag = sender.tag
 
-            dataModel.objBlocklist?.unblock_short_long_break = true
-            dataModel.objBlocklist?.unblock_long_break_only = false
-            dataModel.objBlocklist?.blocked_all_break = false
+        switch tag {
+        case 0:
+            if radioShortLongBreak.state == .on {
+                radioLongBreak.state = .off
+                radioAllBreak.state = .off
+
+                dataModel.objBlocklist?.unblock_short_long_break = true
+                dataModel.objBlocklist?.unblock_long_break_only = false
+                dataModel.objBlocklist?.blocked_all_break = false
+            }
+
+        case 1:
+            if radioLongBreak.state == .on {
+                radioShortLongBreak.state = .off
+                radioAllBreak.state = .off
+
+                dataModel.objBlocklist?.unblock_long_break_only = true
+                dataModel.objBlocklist?.unblock_short_long_break = false
+                dataModel.objBlocklist?.blocked_all_break = false
+            }
+
+        case 2:
+            if radioAllBreak.state == .on {
+                radioLongBreak.state = .off
+                radioShortLongBreak.state = .off
+
+                dataModel.objBlocklist?.blocked_all_break = true
+                dataModel.objBlocklist?.unblock_long_break_only = false
+                dataModel.objBlocklist?.unblock_short_long_break = false
+            }
+
+        default:
+            break
         }
-
-        if radioLongBreak.state == .on {
-            radioShortLongBreak.state = .off
-            radioAllBreak.state = .off
-
-            dataModel.objBlocklist?.unblock_long_break_only = true
-            dataModel.objBlocklist?.unblock_short_long_break = false
-            dataModel.objBlocklist?.blocked_all_break = false
-        }
-
-        if radioAllBreak.state == .on {
-            radioLongBreak.state = .off
-            radioShortLongBreak.state = .off
-
-            dataModel.objBlocklist?.blocked_all_break = true
-            dataModel.objBlocklist?.unblock_long_break_only = false
-            dataModel.objBlocklist?.unblock_short_long_break = false
-        }
-
         DBManager.shared.saveContext()
     }
 
     @IBAction func stopOptions(sender: NSButton) {
-        if radioStopAnyTime.state == .on {
-            radioStopFocus.state = .off
-            radioRestart.state = .off
+        let tag = sender.tag
 
-            dataModel.objBlocklist?.stop_focus_session_anytime = true
-            dataModel.objBlocklist?.random_character = false
-            dataModel.objBlocklist?.restart_computer = false
+        switch tag {
+        case 0:
+            if radioStopAnyTime.state == .on {
+                radioStopFocus.state = .off
+                radioRestart.state = .off
+
+                dataModel.objBlocklist?.stop_focus_session_anytime = true
+                dataModel.objBlocklist?.random_character = false
+                dataModel.objBlocklist?.restart_computer = false
+            }
+
+        case 1:
+            if radioStopFocus.state == .on {
+                radioStopAnyTime.state = .off
+                radioRestart.state = .off
+
+                dataModel.objBlocklist?.stop_focus_session_anytime = false
+                dataModel.objBlocklist?.random_character = true
+                dataModel.objBlocklist?.restart_computer = false
+            }
+
+        case 2:
+            if radioRestart.state == .on {
+                radioStopAnyTime.state = .off
+                radioStopFocus.state = .off
+
+                dataModel.objBlocklist?.stop_focus_session_anytime = false
+                dataModel.objBlocklist?.random_character = false
+                dataModel.objBlocklist?.restart_computer = true
+            }
+
+        default:
+            break
         }
 
-        if radioStopFocus.state == .on {
-            radioStopAnyTime.state = .off
-            radioRestart.state = .off
-
-            dataModel.objBlocklist?.stop_focus_session_anytime = false
-            dataModel.objBlocklist?.random_character = true
-            dataModel.objBlocklist?.restart_computer = false
-        }
-
-        if radioRestart.state == .on {
-            radioStopAnyTime.state = .off
-            radioStopFocus.state = .off
-
-            dataModel.objBlocklist?.stop_focus_session_anytime = false
-            dataModel.objBlocklist?.random_character = false
-            dataModel.objBlocklist?.restart_computer = true
-        }
         DBManager.shared.saveContext()
     }
 

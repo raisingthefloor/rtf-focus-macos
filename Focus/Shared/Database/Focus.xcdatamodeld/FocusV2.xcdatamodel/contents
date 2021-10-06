@@ -3,6 +3,7 @@
     <entity name="Application_List" representedClassName="Application_List" syncable="YES" codeGenerationType="class">
         <attribute name="bundle_id" optional="YES" attributeType="String"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="path" optional="YES" attributeType="String"/>
@@ -14,6 +15,7 @@
     <entity name="Block_Category" representedClassName="Block_Category" syncable="YES" codeGenerationType="class">
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -81,6 +83,7 @@
         <attribute name="extended_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="extended_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="focus_length_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="focus_untill_stop" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_block_programe_select" optional="YES" attributeType="Boolean" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="is_break_time" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -90,6 +93,7 @@
         <attribute name="remaining_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="short_break_time" optional="YES" attributeType="Double" defaultValueString="15" usesScalarValueType="YES"/>
         <attribute name="stop_focus_after_time" optional="YES" attributeType="Double" defaultValueString="5" usesScalarValueType="YES"/>
+        <attribute name="used_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="block_data" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focus_Block" inverseName="focus" inverseEntity="Focus_Block"/>
         <relationship name="extended_value" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Extended_FB_Value" inverseName="current_session" inverseEntity="Extended_FB_Value"/>
@@ -114,19 +118,19 @@
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Application_List" positionX="-36" positionY="90" width="128" height="104"/>
+        <element name="Application_List" positionX="-36" positionY="90" width="128" height="119"/>
         <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
-        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="134"/>
+        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="149"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="164"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="194"/>
         <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>
         <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="59"/>
         <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
+        <element name="Extended_FB_Value" positionX="-27" positionY="135" width="128" height="134"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
-        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="329"/>
+        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="359"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
-        <element name="Extended_FB_Value" positionX="-27" positionY="135" width="128" height="134"/>
     </elements>
 </model>

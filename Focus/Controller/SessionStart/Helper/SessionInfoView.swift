@@ -88,9 +88,15 @@ extension SessionInfoView: BasicSetupType {
         let objFocus = DBManager.shared.getCurrentBlockList().objFocus
         let objB = DBManager.shared.getCurrentBlockList().objBl
         let focus_length = Int(objFocus?.focus_length_time ?? 100).secondsToTime()
-        
 
-        lblHoursV.stringValue = "\(focus_length.timeInHours) hr \(focus_length.timeInMinutes) minutes"
+        var time = ""
+        if focus_length.timeInHours != 0 {
+            time = "\(focus_length.timeInHours) Hours \(focus_length.timeInMinutes) minutes"
+        } else {
+            time = "\(focus_length.timeInMinutes) minutes"
+        }
+
+        lblHoursV.stringValue = time
         lblBlockV.stringValue = "\(objB?.name ?? "-")"
         lblEndV.stringValue = (objFocus?.end_time ?? Date()).convertToTime()
     }
