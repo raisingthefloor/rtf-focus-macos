@@ -78,6 +78,8 @@ extension MenuViewModel {
         focusObj?.remaining_time = time.value
         let timecomp = Int(time.value).secondsToTime()
         focusObj?.end_time = focusObj?.created_date?.adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
+        let objExVal = Extended_FB_Value(context: DBManager.shared.managedContext)
+        focusObj?.extended_value = objExVal
         DBManager.shared.saveContext()
         callback(true, nil)
     }

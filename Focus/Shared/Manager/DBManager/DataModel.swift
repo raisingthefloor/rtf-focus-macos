@@ -23,7 +23,6 @@
  * Consumer Electronics Association Foundation
  */
 
-
 import Cocoa
 import Foundation
 

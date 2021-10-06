@@ -114,7 +114,7 @@ extension FloatingFocusViewC {
                 controller.updateView = { [weak self] isStopSession, action in
                     if isStopSession {
                         self?.handleTimer()
-                        self?.updateViewnData(dialogueType: .none, action: action, value: 0)
+                        self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
                     }
                 }
                 presentAsModalWindow(controller)
@@ -254,7 +254,7 @@ extension FloatingFocusViewC {
             controller.viewModel.application = app
             controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
             controller.updateView = { action in
-                self.updateViewnData(dialogueType: .launch_block_app_alert, action: action, value: 0)
+                self.updateViewnData(dialogueType: .launch_block_app_alert, action: action, value: 0, valueType: .none)
             }
             presentAsSheet(controller)
         }
@@ -281,8 +281,8 @@ extension FloatingFocusViewC {
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
             controller.dialogueType = dialogueType
             controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
-            controller.breakAction = { action, value in
-                self.updateViewnData(dialogueType: dialogueType, action: action, value: value)
+            controller.breakAction = { action, value, valueType in
+                self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType)
             }
             self.presentAsSheet(controller)
         }
@@ -293,13 +293,13 @@ extension FloatingFocusViewC {
             let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
             controller.dialogueType = .seession_completed_alert
             controller.sessionDone = { action, value in
-                self.updateViewnData(dialogueType: .seession_completed_alert, action: action, value: value)
+                self.updateViewnData(dialogueType: .seession_completed_alert, action: action, value: value, valueType: .none) // May be Required
             }
             self.presentAsSheet(controller)
         }
     }
 
-    func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int) {
+    func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj, let objSession = DBManager.shared.getCurrentBlockList().objBl else { return }
         usedTime = 0
         switch action {
@@ -308,6 +308,7 @@ extension FloatingFocusViewC {
             obj.extended_focus_time = Double(value)
             let val = obj.remaining_time + Double(value)
             obj.remaining_time = val
+            updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             updateCounterValue()
             handleTimer()
@@ -316,12 +317,21 @@ extension FloatingFocusViewC {
             obj.extended_break_time = Double(value)
             let val = obj.remaining_break_time + Double(value)
             obj.remaining_break_time = val
+            updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             breakTimerModel.input.handleTimer()
 
         case .stop_session:
+            let objEx = obj.extended_value
             obj.is_focusing = false
             obj.is_break_time = false
+            objEx?.is_mid_focus = false
+            objEx?.is_small_focus = false
+            objEx?.is_long_focus = false
+            objEx?.is_mid_break = false
+            objEx?.is_small_break = false
+            objEx?.is_long_break = false
+
             DBManager.shared.saveContext()
             stopBlockingAction()
             defaultUI()
@@ -334,12 +344,33 @@ extension FloatingFocusViewC {
         }
     }
 
-    func stopBlockingAction() {
-        DispatchQueue.global(qos: .userInteractive).async {
-            appDelegate?.browserBridge?.stopScript()
-            AppManager.shared.removeObserver()
+    func updateExtendedObject(dialogueType: FocusDialogue, valueType: ButtonValueType) {
+        guard let obj = viewModel.input.focusObj, let objEx = obj.extended_value else { return }
+        switch dialogueType {
+        case .end_break_alert:
+            switch valueType {
+            case .small: break
+              //  objEx.is_small_break = true
+            case .mid:
+                objEx.is_mid_break = true
+            case .long:
+                objEx.is_long_break = true
+            default: break
+            }
+        case .short_break_alert:
+            switch valueType {
+            case .small: break
+              //  objEx.is_small_focus = true
+            case .mid:
+                objEx.is_mid_focus = true
+            case .long:
+                objEx.is_long_focus = true
+            default: break
+            }
+        case .seession_completed_alert: break // Need to check
+
+        default: break
         }
-        WindowsManager.runDndCommand(cmd: "off")
     }
 
     func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List) {
@@ -370,6 +401,14 @@ extension FloatingFocusViewC {
             setUpText()
             handleTimer()
         }
+    }
+
+    func stopBlockingAction() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            appDelegate?.browserBridge?.stopScript()
+            AppManager.shared.removeObserver()
+        }
+        WindowsManager.runDndCommand(cmd: "off")
     }
 }
 

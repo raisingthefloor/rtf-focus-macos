@@ -234,8 +234,6 @@ extension FocusDialogue {
         switch self {
         case .short_break_alert, .seession_completed_alert:
             return .extend_focus
-        case .seession_completed_alert:
-            return .normal_ok
         case .end_break_alert:
             return .extent_break
         case .launch_block_app_alert, .notifiction_block_alert:
@@ -244,6 +242,23 @@ extension FocusDialogue {
             return .extent_break
         default:
             return .normal_ok
+        }
+    }
+
+    var is_extented_buttons: [Bool] {
+        guard let objExte = DBManager.shared.getCurrentSession()?.extended_value else { return [] }
+        switch self {
+        case .short_break_alert:
+            return [objExte.is_small_focus, objExte.is_mid_focus, objExte.is_long_focus]
+        case .long_break_alert:
+            return [objExte.is_small_focus, objExte.is_mid_focus, objExte.is_long_focus]
+        case .end_break_alert:
+            return [objExte.is_small_break, objExte.is_mid_break, objExte.is_long_break]
+        case .schedule_reminded_without_blocklist_alert: return []
+        case .seession_completed_alert: return []
+        case .schedule_reminded_with_blocklist_alert: return []
+        default:
+            return []
         }
     }
 }
@@ -260,4 +275,12 @@ enum ButtonAction {
     case skip_session
     case normal_ok
     case extend_reminder
+}
+
+enum ButtonValueType: Int {
+    case small
+    case mid
+    case long
+    case long_long
+    case none
 }

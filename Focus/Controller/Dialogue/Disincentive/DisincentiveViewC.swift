@@ -107,19 +107,17 @@ extension DisincentiveViewC: BasicSetupType {
         if let objB = DBManager.shared.getCurrentBlockList().objBl {
             let randomVal = objB.character_val
             lblCharacter.stringValue = String.randomString(length: randomVal)
-//            txtCharacter.stringValue = lblCharacter.stringValue
+            txtCharacter.stringValue = lblCharacter.stringValue // For testing purpose
         }
     }
 }
 
 extension DisincentiveViewC {
     @objc func openBlockList() {
-        // TODO: Open Block list View
-
-        let alert = NSAlert()
-        alert.alertStyle = .critical
-        alert.messageText = "In Progress, Which Screen we have to open?"
-        alert.runModal()
+        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
+            vc.selectOption = SettingOptions.block_setting
+            presentAsModalWindow(vc)
+        }
     }
 
     @objc func doneClick(_ sender: NSButton) {

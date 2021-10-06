@@ -73,12 +73,6 @@ class EditBlockListViewC: BaseViewController {
     let viewModel: BlockListViewModelType = BlockListViewModel()
     var dataModel: DataModelType = DataModel()
 
-    var webSites: [Override_Block] = []
-    var blockList = ["email", "slack", "Skype", "LinkedIn", "Yahoo"]
-
-    let cellIdentifier: String = "checkboxCellID"
-    let addCellIdentifier: String = "addCellID"
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()
@@ -89,10 +83,6 @@ class EditBlockListViewC: BaseViewController {
 
     override func scrollWheel(with event: NSEvent) {
         super.scrollWheel(with: event)
-//        if event.deltaY != 0 {
-//            super.scrollWheel(with: event)
-//        }
-
         if scrollView.verticalScroller?.floatValue == 1.00 {
             if event.deltaY < 0 {
                 nextResponder?.scrollWheel(with: event)
@@ -242,13 +232,13 @@ extension EditBlockListViewC: BasicSetupType {
             scrollView.verticalScroller?.floatValue = 0
         }
 
-        var newScrollOrigin: NSPoint = NSPoint(x: 0, y: 0)
-        if let isFlipped = scrollView.documentView?.isFlipped, isFlipped {
-            newScrollOrigin = NSMakePoint(0.0, 0.0)
-        } else {
-            newScrollOrigin = NSMakePoint(0.0, NSMaxY(scrollView.documentView?.frame ?? .zero) - NSHeight(scrollView.contentView.bounds))
-        }
-        scrollView.documentView?.scroll(newScrollOrigin)
+//        var newScrollOrigin: NSPoint = NSPoint(x: 0, y: 0)
+//        if let isFlipped = scrollView.documentView?.isFlipped, isFlipped {
+//            newScrollOrigin = NSMakePoint(0.0, 0.0)
+//        } else {
+//            newScrollOrigin = NSMakePoint(0.0, NSMaxY(scrollView.documentView?.frame ?? .zero) - NSHeight(scrollView.contentView.bounds))
+//        }
+//        scrollView.documentView?.scroll(newScrollOrigin)
     }
 
     func bindData() {

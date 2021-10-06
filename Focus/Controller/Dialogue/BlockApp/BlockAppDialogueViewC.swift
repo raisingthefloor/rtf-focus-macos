@@ -139,7 +139,6 @@ extension BlockAppDialogueViewC: BasicSetupType {
             dismiss(nil)
             return
         }
-        // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { isfocusStop in
@@ -150,17 +149,16 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     @objc func openBlockList() {
-        // TODO: Open Block list View
-        let alert = NSAlert()
-        alert.alertStyle = .critical
-        alert.messageText = "In Progress, Which Screen we have to open?"
-        alert.runModal()
+        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
+            vc.selectOption = SettingOptions.block_setting
+            presentAsModalWindow(vc)
+        }
     }
 
     @objc func tempAccess() {
-        // TODO: Open Block list View
-        let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
-        controller.dialogueType = .notifiction_block_alert
-        presentAsSheet(controller)
+        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
+            vc.selectOption = SettingOptions.general_setting
+            presentAsModalWindow(vc)
+        }
     }
 }

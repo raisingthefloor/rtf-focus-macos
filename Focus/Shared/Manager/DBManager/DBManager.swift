@@ -28,7 +28,7 @@ import Foundation
 class DBManager {
     static var shared: DBMangerLogic = DBManager()
     var managedContext: NSManagedObjectContext
-    
+
     init() {
         let container = DataController.shared.fetchPersistentContainer()
         managedContext = container.viewContext
@@ -38,6 +38,8 @@ class DBManager {
 // Block List
 extension DBManager: DBMangerLogic {
     func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
+        let generalCat = getGeneralCategoryData().subCat
+
         guard let objFocus = getCurrentSession() else { return (nil, nil, [], []) }
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
@@ -51,31 +53,61 @@ extension DBManager: DBMangerLogic {
 
             guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (objFocus, blocks, [], []) }
 
-            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
-                // Category list here or merge into applist and weblist
+            var applist: [Block_Interface] = arrBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
+            var weblist: [Block_Interface] = arrBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
 
-                var applist = arrBlocks.filter { obj in
+            // Category List Adding
+            if let arrCategory = blocks.block_category?.allObjects as? [Block_List_Category], !arrCategory.isEmpty {
+                let arrIds = arrCategory.compactMap({ $0.id })
+
+                let arrSubCate = getCategoryData(ids: arrIds)
+
+                applist = applist.filter { obj in
+                    arrSubCate.contains { objEx in
+                        objEx.app_identifier != obj.app_identifier
+                    }
+                }
+
+                weblist = weblist.filter { obj in
+                    arrSubCate.contains { objEx in
+                        objEx.name != obj.name
+                    }
+                }
+            }
+
+            // General Setting App and Site List Filter
+            if !generalCat.isEmpty {
+                applist = applist.filter { obj in
+                    generalCat.contains { objEx in
+                        objEx.app_identifier != obj.app_identifier
+                    }
+                }
+
+                weblist = weblist.filter { obj in
+                    generalCat.contains { objEx in
+                        objEx.name != obj.name
+                    }
+                }
+            }
+
+            // Exception App and site List Filter
+            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
+                applist = applist.filter { obj in
                     arrExceBlocks.contains { objEx in
                         objEx.app_identifier != obj.app_identifier
                     }
                 }
-                applist = applist.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
 
-                var weblist = arrBlocks.filter { obj in
+                weblist = weblist.filter { obj in
                     arrExceBlocks.contains { objEx in
                         objEx.name != obj.name
                     }
                 }
-
-                weblist = weblist.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
-
-                return (objFocus, blocks, applist, weblist)
             }
-            
-            let weblist = arrBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
-            let applist = arrBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
-
+            print("applist : \(applist)")
+            print("weblist : \(weblist)")
             return (objFocus, blocks, applist, weblist)
+
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -239,9 +271,20 @@ extension DBManager {
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
         }
+        let sub_data = [["name": "Messages", "app_identifier": "com.apple.MobileSMS", "app_icon_path": "/System/Applications/Messages.app", "created_at": Date()], ["name": "www.instagram.com", "url": "www.instagram.com", "created_at": Date()]]
+        var arrSD: [Block_SubCategory] = []
+        let objSC = Block_SubCategory(context: DBManager.shared.managedContext)
+        for val in sub_data {
+            for (key, value) in val {
+                objSC.setValue(value, forKeyPath: key)
+            }
+            arrSD.append(objSC)
+        }
+        (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
 
         if type == .general {
             let setting_data: [String: Any?] = ["warning_before_schedule_session_start": true, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": 5, "for_every_time": 15]
+
             let objGS = General_Settings(context: DBManager.shared.managedContext)
             for (key, value) in setting_data {
                 objGS.setValue(value, forKeyPath: key)
@@ -283,6 +326,21 @@ extension DBManager {
             print("Could not General Cat fetch. \(error), \(error.userInfo)")
         }
         return (nil, [])
+    }
+
+    func getCategoryData(ids: [UUID]) -> [Block_SubCategory] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
+        fetchRequest.predicate = NSPredicate(format: "ANY id IN %@", ids)
+        do {
+            let categories = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let category = categories as? [Block_Category] else { return [] }
+
+            let arrData = category.compactMap({ $0.sub_data?.allObjects })
+            return arrData.joined().compactMap({ $0 as? Block_SubCategory })
+        } catch let error as NSError {
+            print("Could not Category Sub Cat fetch. \(error), \(error.userInfo)")
+        }
+        return []
     }
 }
 

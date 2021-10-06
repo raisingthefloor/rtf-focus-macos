@@ -38,7 +38,7 @@ class FocusDialogueViewC: NSViewController {
     var dialogueType: FocusDialogue = .short_break_alert
     var viewModel: FocusDialogueViewModelType = FocusDialogueViewModel()
 
-    var breakAction: ((ButtonAction, Int) -> Void)?
+    var breakAction: ((ButtonAction, Int, ButtonValueType) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +64,6 @@ extension FocusDialogueViewC: BasicSetupType {
         btnTop.isHidden = (dialogueType != .long_break_alert) ? false : true
         btnContinue.isHidden = (dialogueType == .long_break_alert) ? false : true
         btnContinue.title = buttonsValue.last ?? ""
-
-//        setupStringValue()
     }
 
     func setUpViews() {
@@ -77,7 +75,7 @@ extension FocusDialogueViewC: BasicSetupType {
         lblSubTitle.isHidden = dialogueType.extented_title.isEmpty
         containerView.isHidden = dialogueType.extented_buttons.isEmpty
 
-        var i = 0 // for test
+        var i = 0
         for value in dialogueType.extented_buttons {
             let btn = CustomButton(title: value, target: self, action: #selector(extendTimeAction(_:)))
             btn.tag = i
@@ -85,6 +83,9 @@ extension FocusDialogueViewC: BasicSetupType {
             btn.activeButtonColor = dialogueType.light_green
             btn.textColor = dialogueType.green
             btn.borderColor = dialogueType.green
+            if !dialogueType.is_extented_buttons.isEmpty {
+                btn.isEnabled = !dialogueType.is_extented_buttons[i]
+            }
             btn.borderWidth = 0.5
             i = i + 1
             btnStackV.addArrangedSubview(btn)
@@ -121,13 +122,13 @@ extension FocusDialogueViewC: BasicSetupType {
 extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
-        breakAction?(dialogueType.action, extendVal)
+        breakAction?(dialogueType.action, extendVal, ButtonValueType(rawValue: sender.tag)!)
         dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
-            breakAction?(.stop_session, 0)
+            breakAction?(.stop_session, 0, .none)
             dismiss(nil)
             return
         }
@@ -135,14 +136,14 @@ extension FocusDialogueViewC {
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
-            self.breakAction?(focusStop, 0)
+            self.breakAction?(focusStop, 0, .none)
             self.dismiss(nil)
         }
         presentAsSheet(controller)
     }
 
     @objc func topAction(_ sender: NSButton) {
-        breakAction?(.normal_ok, 0)
+        breakAction?(.normal_ok, 0, .none)
         dismiss(nil)
     }
 }
