@@ -14,6 +14,7 @@ protocol TimerModelIntput {
     func handleTimer()
     func stopTimer()
     func pauseTimer()
+    func updateTimerStatus()
 }
 
 protocol TimerModelOutput {
@@ -71,6 +72,9 @@ extension BreakTimerManager {
 }
 
 extension BreakTimerManager {
+    func updateTimerStatus() {
+    }
+
     func handleTimer() {
         updateCounterValue()
         if !isBreaktimerOn {

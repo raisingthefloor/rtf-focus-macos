@@ -54,8 +54,8 @@
 		3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D47267CA9F0007826F3 /* Localizable.strings */; };
 		3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FA51D4B267CB720007826F3 /* Main.storyboard */; };
 		3FA51D4F267CB74E007826F3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA51D4E267CB74E007826F3 /* MenuController.swift */; };
+		3FA82F22270DEF4000D46788 /* FocusTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA82F21270DEF4000D46788 /* FocusTimerManager.swift */; };
 		3FAD91F326B41E5A00698848 /* dnd.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3FAD91F226B41E5200698848 /* dnd.sh */; };
-		3FAE26A52702F048005CF777 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAE26A42702F048005CF777 /* TimeManager.swift */; };
 		3FB01CE126FAF46B00828486 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE026FAF46B00828486 /* TableHeaderView.swift */; };
 		3FB01CE326FAF75700828486 /* CustomRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE226FAF75700828486 /* CustomRowView.swift */; };
 		3FB01CE526FAFC6D00828486 /* CustomTableHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */; };
@@ -150,8 +150,8 @@
 		3FA51D47267CA9F0007826F3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		3FA51D4C267CB720007826F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FA51D4E267CB74E007826F3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		3FA82F21270DEF4000D46788 /* FocusTimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusTimerManager.swift; sourceTree = "<group>"; };
 		3FAD91F226B41E5200698848 /* dnd.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = dnd.sh; sourceTree = "<group>"; };
-		3FAE26A42702F048005CF777 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		3FB01CE026FAF46B00828486 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
 		3FB01CE226FAF75700828486 /* CustomRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRowView.swift; sourceTree = "<group>"; };
 		3FB01CE426FAFC6D00828486 /* CustomTableHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableHeaderCell.swift; sourceTree = "<group>"; };
@@ -479,7 +479,7 @@
 		3FAE26A32702F030005CF777 /* TimeManager */ = {
 			isa = PBXGroup;
 			children = (
-				3FAE26A42702F048005CF777 /* TimeManager.swift */,
+				3FA82F21270DEF4000D46788 /* FocusTimerManager.swift */,
 				3FF51332270AC17200BBD964 /* BreakTimerManager.swift */,
 			);
 			path = TimeManager;
@@ -728,9 +728,9 @@
 				3FB01CF726FB400500828486 /* BlocklistDialogueViewC.swift in Sources */,
 				3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
-				3FAE26A52702F048005CF777 /* TimeManager.swift in Sources */,
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */,
+				3FA82F22270DEF4000D46788 /* FocusTimerManager.swift in Sources */,
 				3F68A6C526C657A1003D5913 /* BrowserBridge.swift in Sources */,
 				3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */,
 				3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */,

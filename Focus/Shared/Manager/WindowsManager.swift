@@ -72,6 +72,11 @@ extension WindowsManager {
             }
         }
     }
+    
+    static func stopBlockWebSite() {
+        appDelegate?.browserBridge?.stopScript()        
+    }
+
 
     static func launchMyapp() {
         DispatchQueue.global(qos: .userInteractive).async {

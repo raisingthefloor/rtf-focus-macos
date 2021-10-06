@@ -138,7 +138,7 @@ extension FocusDialogueViewC: BasicSetupType {
         btnContinue.borderWidth = 0.6
 
 
-       // containerView.bgColor = Color.light_blue_color
+        containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {
