@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         loadScript()
         openFocus()
         AppManager.shared.doSpotlightQuery()
+        DataModel.preAddSchedule()
     }
 
     func loadScript() {

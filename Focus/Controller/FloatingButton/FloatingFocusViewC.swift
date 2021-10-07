@@ -29,13 +29,6 @@ class FloatingFocusViewC: NSViewController {
     @IBOutlet var btnFocus: CustomButton!
     @IBOutlet var lblTimeVal: NSTextField!
 
-    var remaininTimeInSeconds = 0
-    var usedTime = 0
-
-    var countdownTimer: Timer?
-    var countdowner: Countdowner?
-    var runningTimer = false
-
     let viewModel: MenuViewModelType = MenuViewModel()
     var breakTimerModel: TimerModelType = BreakTimerManager()
     var focusTimerModel: TimerModelType = FocusTimerManager()
@@ -311,7 +304,7 @@ extension FloatingFocusViewC {
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj, let objSession = DBManager.shared.getCurrentBlockList().objBl else { return }
-        usedTime = 0
+        focusTimerModel.usedTime = 0
         switch action {
         case .extend_focus:
             // Focus Extend Here
@@ -322,6 +315,7 @@ extension FloatingFocusViewC {
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             startBlockingAppsWeb()
+            focusTimerModel.input.updateTimerStatus()
         case .extent_break:
             // Break Extend Here
             obj.extended_break_time = Double(value)
@@ -360,8 +354,8 @@ extension FloatingFocusViewC {
         switch dialogueType {
         case .end_break_alert:
             switch valueType {
-            case .small: break
-            //  objEx.is_small_break = true
+            case .small:
+                objEx.is_small_break = true
             case .mid:
                 objEx.is_mid_break = true
             case .long:
@@ -370,8 +364,8 @@ extension FloatingFocusViewC {
             }
         case .short_break_alert, .long_break_alert:
             switch valueType {
-            case .small: break
-            //  objEx.is_small_focus = true
+            case .small:
+                objEx.is_small_focus = true
             case .mid:
                 objEx.is_mid_focus = true
             case .long:
@@ -456,6 +450,9 @@ extension FloatingFocusViewC {
     }
 
     func startFocusTimer() {
+        let obj = viewModel.input.focusObj
+        let objEx = obj?.extended_value
+
         focusTimerModel.input.setupInitial()
         setUpText()
         focusTimerModel.updateUI = { dType, h, m, s in
@@ -464,6 +461,16 @@ extension FloatingFocusViewC {
                 self.completeSession()
             case .none:
                 self.updateTimeInfo(hours: h, minutes: m, seconds: s)
+            case .end_break_alert: 
+                guard let long = objEx?.is_long_break, long, let mid = objEx?.is_mid_break, mid, let small = objEx?.is_small_break, small else {
+                    self.showBreakDialogue(dialogueType: dType)
+                    return
+                }
+            case .short_break_alert:
+                guard let long = objEx?.is_long_focus, long, let mid = objEx?.is_mid_focus, mid, let small = objEx?.is_small_focus, small else {
+                    self.showBreakDialogue(dialogueType: dType)
+                    return
+                }
             default:
                 self.showBreakDialogue(dialogueType: dType)
             }

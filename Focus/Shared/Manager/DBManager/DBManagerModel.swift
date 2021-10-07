@@ -39,13 +39,16 @@ protocol DBMangerLogic {
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]
 
-    func checkDataIsPresent() -> Bool
+    func checkDataIsPresent(entityName: String) -> Bool
     func getCategories() -> [Block_Category]
     func saveCategory(data: [String: Any?], type: CategoryType)
 
     func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
 
     func getGeneralSetting() -> General_Setting?
+
+    func createPreSchedule(data: [String: Any?])
+    func getFocusSchedule() -> [Focus_Schedule]
 
     func saveContext()
 }

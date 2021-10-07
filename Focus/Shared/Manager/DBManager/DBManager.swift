@@ -73,35 +73,33 @@ extension DBManager: DBMangerLogic {
                     .compactMap({ $0 })
                     .filter({ $0.is_selected == true }).compactMap({ $0 })
 
-                applist = applist.filter { obj in
-                    gCApp.contains { objEx in
-                        objEx.app_identifier != obj.app_identifier
-                    }
+                gCApp.forEach { val in
+                    applist.removeAll(where: { $0.app_identifier == val.app_identifier })
                 }
+                print("Filter GC App : \(applist)")
 
                 let gCWeb = generalCat.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 }).filter({ $0.is_selected == true }).compactMap({ $0 })
-                weblist = weblist.filter { obj in
-                    gCWeb.contains { objEx in
-                        objEx.name != obj.name
-                    }
+
+                gCWeb.forEach { val in
+                    weblist.removeAll(where: { $0.name == val.name })
                 }
+//                print("Filter GC Web: \(weblist)")
             }
 
             // Exception App and site List Filter
             if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
                 let gEApp = arrExceBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
-                applist = applist.filter { obj in
-                    gEApp.contains { objEx in
-                        objEx.app_identifier != obj.app_identifier
-                    }
-                }
 
-                let gEWeb = arrExceBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
-                weblist = weblist.filter { obj in
-                    gEWeb.contains { objEx in
-                        objEx.name != obj.name
-                    }
+                gEApp.forEach { val in
+                    applist.removeAll(where: { $0.app_identifier == val.app_identifier })
                 }
+//                print("Filter Exception App: \(applist)")
+                let gEWeb = arrExceBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
+
+                gEWeb.forEach { val in
+                    weblist.removeAll(where: { $0.name == val.name })
+                }
+                print("Filter Exception Web: \(weblist)")
             }
             print("Final applist : \(applist)")
             print("Final weblist : \(weblist)")
@@ -248,8 +246,8 @@ extension DBManager {
 // MARK: Category Store and Fetch
 
 extension DBManager {
-    func checkDataIsPresent() -> Bool {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_Category")
+    func checkDataIsPresent(entityName: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
@@ -258,7 +256,7 @@ extension DBManager {
                 return false
             }
         } catch let error {
-            print("Could not Check data. categories \(error), \(error.localizedDescription)")
+            print("Could not Check data. \(entityName) \(error), \(error.localizedDescription)")
             return false
         }
     }
@@ -357,6 +355,35 @@ extension DBManager {
             print("Could not fetch. categories \(error), \(error.userInfo)")
         }
         return nil
+    }
+}
+
+extension DBManager {
+    func createPreSchedule(data: [String: Any?]) {
+        let entity = NSEntityDescription.entity(forEntityName: "Focus_Schedule", in: DBManager.shared.managedContext)!
+        let focus_schedule = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
+
+        for (key, value) in data {
+            focus_schedule.setValue(value, forKeyPath: key)
+        }
+
+        do {
+            try DBManager.shared.managedContext.save()
+        } catch let error as NSError {
+            print("Could not save category. \(error), \(error.userInfo)")
+        }
+    }
+
+    func getFocusSchedule() -> [Focus_Schedule] {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Focus_Schedule")
+        do {
+            let focusSchedule = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let focusSchedules = focusSchedule as? [Focus_Schedule] else { return [] }
+            return focusSchedules
+        } catch let error as NSError {
+            print("Could not fetch. categories \(error), \(error.userInfo)")
+        }
+        return []
     }
 }
 

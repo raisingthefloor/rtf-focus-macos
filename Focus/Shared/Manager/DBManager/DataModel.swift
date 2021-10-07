@@ -92,7 +92,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     }
 
     func storeCategory() {
-        if !DBManager.shared.checkDataIsPresent() {
+        if !DBManager.shared.checkDataIsPresent(entityName: "Block_Category") {
             var i = 1
             for val in categories {
                 let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue, "index": i]
@@ -159,6 +159,16 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     }
 
     func resetApplistSelection() {
+    }
+
+    static func preAddSchedule() {
+        if !DBManager.shared.checkDataIsPresent(entityName: "Focus_Schedule") {
+            for _ in 0 ..< 5 {
+                let dict: [String: Any?] = ["id": UUID(), "block_list_id": nil, "block_list_name": nil, "session_color": nil,
+                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date()]
+                DBManager.shared.createPreSchedule(data: dict)
+            }
+        }
     }
 }
 

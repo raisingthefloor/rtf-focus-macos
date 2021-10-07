@@ -299,7 +299,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
         tblBlock.delegate = self
         tblBlock.dataSource = self
-        tblNotBlock.usesAutomaticRowHeights = true
+        tblBlock.usesAutomaticRowHeights = true
         tblBlock.reloadData()
 
         tblNotBlock.delegate = self

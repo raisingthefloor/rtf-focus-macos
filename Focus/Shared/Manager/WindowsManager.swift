@@ -72,11 +72,10 @@ extension WindowsManager {
             }
         }
     }
-    
-    static func stopBlockWebSite() {
-        appDelegate?.browserBridge?.stopScript()        
-    }
 
+    static func stopBlockWebSite() {
+        appDelegate?.browserBridge?.stopScript()
+    }
 
     static func launchMyapp() {
         DispatchQueue.global(qos: .userInteractive).async {
@@ -96,29 +95,5 @@ extension WindowsManager {
         process.arguments = [scriptPath, String(format: "%@", cmd)]
         process.standardOutput = pipe
         process.launch()
-    }
-
-    static func enableDND() {
-        CFPreferencesSetValue("dndStart" as CFString, CGFloat(0) as CFPropertyList, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-
-        CFPreferencesSetValue("dndEnd" as CFString, CGFloat(1440) as CFPropertyList, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-
-        CFPreferencesSetValue("doNotDisturb" as CFString, true as CFPropertyList, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-
-        commitDNDChanges()
-    }
-
-    static func disableDND() {
-        CFPreferencesSetValue("dndStart" as CFString, nil, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-
-        CFPreferencesSetValue("dndEnd" as CFString, nil, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-
-        CFPreferencesSetValue("doNotDisturb" as CFString, false as CFPropertyList, "com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-        commitDNDChanges()
-    }
-
-    static func commitDNDChanges() {
-        CFPreferencesSynchronize("com.apple.notificationcenterui" as CFString, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost)
-        DistributedNotificationCenter.default().postNotificationName(NSNotification.Name(rawValue: "com.apple.notificationcenterui.dndprefs_changed"), object: nil, userInfo: nil, deliverImmediately: true)
     }
 }

@@ -75,6 +75,16 @@
     <entity name="Focus_Override_Block" representedClassName="Focus_Override_Block" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <relationship name="focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="override_block_data" inverseEntity="Focuses"/>
     </entity>
+    <entity name="Focus_Schedule" representedClassName="Focus_Schedule" syncable="YES" codeGenerationType="class">
+        <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="block_list_name" optional="YES" attributeType="String"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="is_active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="session_color" optional="YES" attributeType="String"/>
+        <attribute name="start_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
     <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="break_lenght_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -132,5 +142,6 @@
         <element name="Focuses" positionX="-63" positionY="-18" width="128" height="359"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
+        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="149"/>
     </elements>
 </model>
