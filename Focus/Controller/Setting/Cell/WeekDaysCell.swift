@@ -26,7 +26,6 @@
 import Cocoa
 
 class WeekDaysCell: NSTableCellView {
-    
     @IBOutlet var stackView: NSStackView!
     @IBOutlet var btnDay: NSButton!
     @IBOutlet var btnM: NSButton!
@@ -35,6 +34,9 @@ class WeekDaysCell: NSTableCellView {
     @IBOutlet var btnTh: NSButton!
     @IBOutlet var btnF: NSButton!
     @IBOutlet var btnS: NSButton!
+
+    var objFSchedule: Focus_Schedule?
+    var refreshTable: ((Bool) -> Void)?
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -63,56 +65,95 @@ extension WeekDaysCell: BasicSetupType {
         btnDay.target = target
         btnDay.tag = BlockType.application.rawValue
     }
-    
-    func configDays(){
-        for day in WeekDays.days {
-            let view = NSView(frame: NSRect(x: 0, y: 0, width: 14, height: 18))
+
+    func configDays(obj: Focus_Schedule?) {
+        objFSchedule = obj
+        let arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
+        var isSelected: Bool = false
+        var i = 0
+        let isActive = !(objFSchedule?.is_active ?? false)
+        let isSetBlock = (obj?.block_list_id != nil)
+        
+        stackView.removeSubviews()
+        for day in Calendar.current.veryShortWeekdaySymbols {
+            let view = NSView(frame: NSRect(x: 0, y: -2, width: 14, height: 18))
+
             let btn = CustomButton(frame: NSRect(x: 0, y: 0, width: 18, height: 18))
-            btn.tag = day.rawValue
+
+            btn.tag = i
+            btn.target = self
+            btn.action = #selector(toggleDay(_:))
+            if !arrDays.isEmpty {
+                isSelected = arrDays.compactMap({ Int($0) == i }).filter({ $0 }).first ?? false
+            }
+
+            //  btn.state = isSelected ? .on : .off
             btn.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-            btn.title = day.short_name
+            btn.title = day
             btn.alignment = .center
             btn.corner_radius = btn.frame.height / 2
-            btn.textColor = ((day.rawValue % 2) != 0) ? .black : .white
-            btn.buttonColor =  ((day.rawValue % 2) != 0) ? .white : .blue
-            btn.activeButtonColor = ((day.rawValue % 2) != 0) ? .white : .blue
+            btn.buttonColor = (isActive && isSetBlock) ? .darkGray : (isSelected ? .blue : .white)
+            btn.activeButtonColor = (isActive && isSetBlock) ? .darkGray : (isSelected ? .blue : .white)
+            btn.textColor = (isActive && isSetBlock) ? .white : (isSelected ? .white : .black)
             btn.borderWidth = 0.5
             btn.borderColor = .black
+            btn.isEnabled = (isActive && isSetBlock) ? false : true
             view.addSubview(btn)
+
             stackView.addArrangedSubview(view)
+            i = i + 1
         }
     }
 
-}
-
-
-enum WeekDays: Int, CaseIterable {
-    case mon = 0
-    case tue
-    case wed
-    case thu
-    case fri
-    case sat
-    case sun
-    
-    var short_name: String {
-        switch self {
-        case .mon:
-            return "M"
-        case .tue:
-            return "T"
-        case .wed:
-            return "W"
-        case .thu:
-            return "T"
-        case .fri:
-            return "F"
-        case .sat:
-            return "S"
-        case .sun:
-            return "S"
+    @objc func toggleDay(_ sender: NSButton) {
+        var arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
+        let tag = sender.tag
+        var isSelected = false
+        if !arrDays.isEmpty {
+            isSelected = arrDays.compactMap({ Int($0) == tag }).filter({ $0 }).first ?? false
         }
+
+        if isSelected {
+            if let index = arrDays.firstIndex(of: String(tag)) {
+                arrDays.remove(at: index)
+                objFSchedule?.days = arrDays.joined(separator: ",")
+            }
+        } else {
+            arrDays.append(String(tag))
+            objFSchedule?.days = arrDays.joined(separator: ",")
+        }
+        DBManager.shared.saveContext()
+        refreshTable?(true)
     }
-    
-    static var days: [WeekDays] = WeekDays.allCases
 }
+
+// enum WeekDays: Int, CaseIterable {
+//    case mon = 0
+//    case tue
+//    case wed
+//    case thu
+//    case fri
+//    case sat
+//    case sun
+//
+//    var short_name: String {
+//        switch self {
+//        case .mon:
+//            return "M"
+//        case .tue:
+//            return "T"
+//        case .wed:
+//            return "W"
+//        case .thu:
+//            return "T"
+//        case .fri:
+//            return "F"
+//        case .sat:
+//            return "S"
+//        case .sun:
+//            return "S"
+//        }
+//    }
+//
+//    static var days: [WeekDays] = WeekDays.allCases
+// }

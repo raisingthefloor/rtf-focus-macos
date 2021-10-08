@@ -81,11 +81,12 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             menus.addItem(menuItem)
             i = i + 1
         }
-        menus.addItem(.separator())
+        if cntrl != .schedule_session {
+            menus.addItem(.separator())
+        }
 
-        let title = (cntrl == .edit_blocklist) ? NSLocalizedString("BS.create_new_blocklist", comment: "Create new blocklist...") : NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist")
-
-        let showOption = NSMenuItem(title: title, action: nil, keyEquivalent: "c")
+        let title = cntrl.combolast_option_title
+        let showOption = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         showOption.tag = -1
         menus.addItem(showOption)
         return (menus, blocklist)
@@ -165,7 +166,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         if !DBManager.shared.checkDataIsPresent(entityName: "Focus_Schedule") {
             for _ in 0 ..< 5 {
                 let dict: [String: Any?] = ["id": UUID(), "block_list_id": nil, "block_list_name": nil, "session_color": nil,
-                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date()]
+                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date(), "days": nil, "type": ScheduleType.none.rawValue]
                 DBManager.shared.createPreSchedule(data: dict)
             }
         }
@@ -179,4 +180,17 @@ enum ViewCntrl: Int {
     case edit_blocklist
     case schedule_session
     case today_schedule
+
+    var combolast_option_title: String {
+        switch self {
+        case .main_menu:
+            return NSLocalizedString("Home.show_edit_blocklist", comment: "Show or Edit Blocklist")
+        case .edit_blocklist:
+            return NSLocalizedString("BS.create_new_blocklist", comment: "Create new blocklist...")
+        case .schedule_session:
+            return NSLocalizedString("SS.Reminder", comment: "Reminder")
+        default:
+            return ""
+        }
+    }
 }

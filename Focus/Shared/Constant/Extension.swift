@@ -242,6 +242,17 @@ extension Date {
         formatter.dateStyle = .none
         return formatter.string(from: self)
     }
+
+    func dayOfWeek() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: self).capitalized
+    }
+
+    func dayNumberOfWeek() -> Int {
+        let weekday: Int = Calendar.current.component(.weekday, from: self) - Calendar.current.firstWeekday
+        return weekday
+    }
 }
 
 extension Int {

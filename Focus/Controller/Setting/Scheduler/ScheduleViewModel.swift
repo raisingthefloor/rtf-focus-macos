@@ -36,16 +36,21 @@ protocol ScheduleViewModelOutput {
 protocol ScheduleViewModelType {
     var input: ScheduleViewModelIntput { get }
     var output: ScheduleViewModelOutput { get }
+    var arrFocusSchedule: [Focus_Schedule] { get set }
+    var arrTimes: [String] { get set }
 }
 
 class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, ScheduleViewModelType {
     var input: ScheduleViewModelIntput { return self }
     var output: ScheduleViewModelOutput { return self }
 
-    let session: [String] = ["Facebook", "Facebook1", "Facebook2"]
-    var arrSession: [String] = ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"]
+    var arrTimes: [String] = ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"]
 
-    
+    var arrFocusSchedule: [Focus_Schedule] = []
+
+    init() {
+        arrFocusSchedule = DBManager.shared.getFocusSchedule()
+    }
 
     func getSessionList() -> [ScheduleSession] {
         var scheduleS: [ScheduleSession] = []
@@ -72,8 +77,8 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
 //            }
 //        }
 
-        for i in 0 ..< arrSession.count {
-            switch arrSession[i] {
+        for i in 0 ..< arrTimes.count {
+            switch arrTimes[i] {
             case "5 AM":
                 let twel = ScheduleSession(id: i, time: "5 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
                 scheduleS.append(twel)
@@ -165,4 +170,10 @@ struct ScheduleSession {
     var fri: Bool
     var sat: Bool
     var session: Int
+}
+
+enum ScheduleType: Int {
+    case none
+    case reminder
+    case schedule_focus
 }

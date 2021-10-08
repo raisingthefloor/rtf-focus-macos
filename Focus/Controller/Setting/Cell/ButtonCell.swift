@@ -80,4 +80,18 @@ extension ButtonCell: BasicSetupType {
         btnAddApp.state = isSelected ? .on : .off
         btnAddApp.action = action
     }
+
+    func configScheduleActive(obj: Focus_Schedule?, row: Int, target: AnyObject?, action: Selector?, action_delete: Selector?) {
+        //Checkbox
+        btnAddApp.tag = row
+        btnAddApp.target = target
+        let is_active = obj?.is_active ?? false
+        btnAddApp.state = is_active ? .on : .off
+        btnAddApp.action = action
+        
+        //Delete
+        btnAddWeb.tag = row
+        btnAddWeb.target = target
+        btnAddWeb.action = action_delete
+    }
 }

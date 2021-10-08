@@ -29,9 +29,14 @@
 import Cocoa
 
 class ComboBoxCell: NSTableCellView {
-    @IBOutlet var popBreakTime: NSPopUpButton!
+    @IBOutlet var popBlocklist: NSPopUpButton!
+    @IBOutlet var comboTime: NSComboBox!
     @IBOutlet var statusV: NSView!
 
+    var modelV: DataModelType = DataModel()
+    var arrTimes: [String] = []
+    var objFSchedule: Focus_Schedule?
+    var refreshTable: ((Bool) -> Void)?
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -49,7 +54,91 @@ extension ComboBoxCell: BasicSetupType {
     }
 
     func setUpViews() {
-        popBreakTime.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        if popBlocklist != nil {
+            popBlocklist.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        }
+        if comboTime != nil {
+            comboTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        }
     }
 }
- 
+
+// Date time  Data Setup
+extension ComboBoxCell: NSComboBoxDataSource {
+    func configStartCell(obj: Focus_Schedule?, arrTimes: [String]) {
+        self.arrTimes = arrTimes
+        objFSchedule = obj
+        comboTime.removeAllItems()
+        comboTime.addItems(withObjectValues: arrTimes)
+        comboTime.tag = 1
+        comboTime.dataSource = self
+    }
+
+    func configEndCell(obj: Focus_Schedule?, arrTimes: [String]) {
+        self.arrTimes = arrTimes
+        objFSchedule = obj
+        comboTime.removeAllItems()
+        comboTime.addItems(withObjectValues: arrTimes)
+        comboTime.tag = 2
+        comboTime.dataSource = self
+    }
+
+    func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
+        print("SubString = \(string)")
+
+        for time in arrTimes {
+            // substring must have less characters then stings to search
+            if string.count < arrTimes.count {
+                // only use first part of the strings in the list with length of the search string
+                let statePartialStr = time.lowercased()[time.lowercased().startIndex ..< time.lowercased().index(time.lowercased().startIndex, offsetBy: string.count)]
+                if statePartialStr.range(of: string.lowercased()) != nil {
+                    updateTimeValue(comboBox, time: time)
+                    return time
+                }
+            }
+        }
+        return ""
+    }
+
+    func updateTimeValue(_ comboBox: NSComboBox, time: String) {
+        if comboBox.tag == 1 {
+            objFSchedule?.start_time = time
+        } else {
+            objFSchedule?.end_time = time
+        }
+        DBManager.shared.saveContext()
+    }
+}
+
+// Block list Data Setup
+extension ComboBoxCell {
+    func configScheduleCell(obj: Focus_Schedule?) {
+        objFSchedule = obj
+
+        popBlocklist.removeAllItems()
+        popBlocklist.menu = modelV.input.getBlockList(cntrl: .schedule_session).0
+        popBlocklist.target = self
+        popBlocklist.action = #selector(handleBlockSelection(_:))
+
+        let color = objFSchedule?.session_color ?? "#DCEFE6"
+        statusV.background_color = NSColor(color) ?? NSColor.random
+        popBlocklist.selectItem(withTitle: objFSchedule?.block_list_name ?? "")
+    }
+
+    @objc func handleBlockSelection(_ sender: Any) {
+        guard sender is NSPopUpButton else { return }
+        let index = popBlocklist.selectedTag()
+        if index == -1 {
+            objFSchedule?.block_list_name = ViewCntrl.schedule_session.combolast_option_title
+            objFSchedule?.block_list_id = UUID()
+            objFSchedule?.type = Int64(ScheduleType.reminder.rawValue)
+        } else {
+            objFSchedule?.block_list_name = modelV.input.getBlockList(cntrl: .schedule_session).1[index].name
+            objFSchedule?.block_list_id = modelV.input.getBlockList(cntrl: .schedule_session).1[index].id
+            objFSchedule?.type = Int64(ScheduleType.schedule_focus.rawValue)
+        }
+        objFSchedule?.is_active = true
+        DBManager.shared.saveContext()
+        refreshTable?(true)
+    }
+}

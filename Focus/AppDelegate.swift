@@ -57,6 +57,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate {
     func openFocus() {
+        print(Calendar.current.firstWeekday)
+        print(Calendar.current.shortWeekdaySymbols)
+        print(Calendar.current.veryShortWeekdaySymbols)
         windowController = WindowsManager.getWindowC(withIdentifier: "sidWindowController", ofType: NSWindowController.self)
         windowController?.showWindow(self)
     }

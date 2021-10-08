@@ -128,6 +128,7 @@
 "TS.title" = "Today’s Schedule";
 "TS.subTitle" = "These are the focus sessions you scheduled for today. You can edit today’s schedule, but you can only edit or disable a scheduled focus session before it starts.";
 "TS.change" = "Changes made on this page are one-time and will only affect your schedule TODAY.";
+"SS.Reminder" = "Reminder";
 
 
 "Alert.break_time" = "Time for a break!";

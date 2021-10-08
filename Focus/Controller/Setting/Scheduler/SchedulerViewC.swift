@@ -86,64 +86,60 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblSession.allowsColumnReordering = false
         tblSession.rowHeight = 20
 
-//        tblSchedule.tableColumns.forEach { column in
-//            column.headerCell.backgroundColor = Color.tbl_header_color
-//            column.headerCell.drawsBackground = true
-//            column.headerCell.isBordered = false
-//            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12)])
-//        }
+        tblSchedule.tableColumns.forEach { column in
+            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11)])
+        }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
-            return 5
+            return viewModel.arrFocusSchedule.count
         } else {
             return viewModel.input.getSessionList().count
         }
     }
-    
+
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         return setupCell(tableView: tableView, tableColumn: tableColumn, row: row)
     }
 
     func setupCell(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
-            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "statusIdentifier") {
-                if let cellStatus = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "statusId"), owner: nil) as? NSTableCellView {
-                    cellStatus.textField?.backgroundColor = NSColor.random
-                    return cellStatus
-                }
-            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
+            let obj = viewModel.arrFocusSchedule[row]
+            if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
                 if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "comboId"), owner: nil) as? ComboBoxCell {
-                    cellCombo.statusV.background_color = NSColor.random
+                    cellCombo.configScheduleCell(obj: obj)
+                    cellCombo.refreshTable = { isChange in
+                        if isChange {
+                            self.tblSchedule.reloadData()
+                        }
+                    }
                     return cellCombo
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? DateTimeCell {
-                    cell.setupSart(value: "11:00 PM")
-                    //   cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? ComboBoxCell {
+                    cell.configStartCell(obj: obj, arrTimes: viewModel.arrTimes)
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? DateTimeCell {
-                    cell.setupSart(value: "11:00 PM")
-                    //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? ComboBoxCell {
+                    cell.configEndCell(obj: obj, arrTimes: viewModel.arrTimes)
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "daysId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "weekdaysId"), owner: nil) as? WeekDaysCell {
-                    cell.configDays()
+                    cell.configDays(obj: obj)
+                    cell.refreshTable = { isChange in
+                        if isChange {
+                            self.tblSchedule.reloadData()
+                        }
+                    }
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
-                    //  cell.configScheduleActionCell(isPause: (row % 2) != 0)
+                    cell.configScheduleActive(obj: obj, row: row, target: self, action: #selector(toggleAction(_:)), action_delete: #selector(deleteSchedule(_:)))
                     return cell
-                }
-            } else {
-                if let cellText = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "deleteId"), owner: nil) as? ButtonCell {
-                    //  cellText.textField?.stringValue = "-"
-                    return cellText
                 }
             }
         } else {
@@ -155,31 +151,6 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cellTime.setupTime(value: arrSession[row].time ?? "-")
                     return cellTime
                 }
-//            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "sunIdentifier") {
-//                if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-//                    slotCell.configSlot(row: row,session: obj)
-//                    return slotCell
-//                }
-//            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "monIdentifier") {
-//                if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-//                    slotCell.configSlot(row: row,session: obj)
-//                    return slotCell
-//                }
-//            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "tueIdentifier") {
-//                if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-//                    slotCell.configSlot(row: row,session: obj)
-//                    return slotCell
-//                }
-//            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "thuIdentifier") {
-//                if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-//                    slotCell.configSlot(row: row,session: obj)
-//                    return slotCell
-//                }
-//            } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "friIdentifier") {
-//                if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-//                    slotCell.configSlot(row: row,session: obj)
-//                    return slotCell
-//                }
             } else {
                 if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
                     slotCell.configSlot(row: row, session: obj)
@@ -196,5 +167,28 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
             return view
         }
         return nil
+    }
+}
+
+extension SchedulerViewC {
+    // Active and Deactive the Schedule
+    @objc func toggleAction(_ sender: NSButton) {
+        let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
+        objFSchedule.is_active = !objFSchedule.is_active
+        DBManager.shared.saveContext()
+        tblSchedule.reloadData()
+    }
+
+    @objc func deleteSchedule(_ sender: NSButton) {
+        let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
+        objFSchedule.is_active = false
+        objFSchedule.session_color = nil
+        objFSchedule.block_list_id = nil
+        objFSchedule.block_list_name = nil
+        objFSchedule.days = nil
+        objFSchedule.start_time = nil
+        objFSchedule.end_time = nil
+        DBManager.shared.saveContext()
+        tblSchedule.reloadData()
     }
 }
