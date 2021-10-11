@@ -160,6 +160,7 @@ extension FloatingFocusViewC {
     @objc func appDidLaunch(_ notification: NSNotification) {
         focusTimerModel.input.stopTimer()
         if let app = notification.object as? NSRunningApplication {
+            let presentingCtrl = WindowsManager.getPresentingController()
             let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
             controller.dialogueType = .launch_block_app_alert
             controller.viewModel.application = app
@@ -167,7 +168,7 @@ extension FloatingFocusViewC {
             controller.updateView = { action in
                 self.updateViewnData(dialogueType: .launch_block_app_alert, action: action, value: 0, valueType: .none)
             }
-            presentAsSheet(controller)
+            presentingCtrl?.presentAsSheet(controller)
         }
     }
 
@@ -176,11 +177,12 @@ extension FloatingFocusViewC {
         DispatchQueue.main.async {
             if let isFirstMin = self.objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
                 // Display Screen for one min
+                let presentingCtrl = WindowsManager.getPresentingController()
                 let controller = LockedScreenVC(nibName: "LockedScreenVC", bundle: nil)
                 controller.dismiss = { _ in
                     self.openBreakDialouge(dialogueType: dialogueType)
                 }
-                self.presentAsSheet(controller)
+                presentingCtrl?.presentAsSheet(controller)
             } else {
                 self.openBreakDialouge(dialogueType: dialogueType)
             }
@@ -189,24 +191,26 @@ extension FloatingFocusViewC {
 
     func openBreakDialouge(dialogueType: FocusDialogue) {
         DispatchQueue.main.async {
+            let presentingCtrl = WindowsManager.getPresentingController()
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
             controller.dialogueType = dialogueType
             controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
             controller.breakAction = { action, value, valueType in
                 self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType)
             }
-            self.presentAsSheet(controller)
+            presentingCtrl?.presentAsSheet(controller)
         }
     }
 
     func completeSession() {
         DispatchQueue.main.async {
+            let presentingCtrl = WindowsManager.getPresentingController()
             let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
             controller.dialogueType = .seession_completed_alert
             controller.sessionDone = { action, value in
                 self.updateViewnData(dialogueType: .seession_completed_alert, action: action, value: value, valueType: .none) // May be Required
             }
-            self.presentAsSheet(controller)
+            presentingCtrl?.presentAsSheet(controller)
         }
     }
 
@@ -369,7 +373,7 @@ extension FloatingFocusViewC {
                 self.completeSession()
             case .none:
                 self.updateTimeInfo(hours: h, minutes: m, seconds: s)
-            case .end_break_alert: 
+            case .end_break_alert:
                 guard let long = objEx?.is_long_break, long, let mid = objEx?.is_mid_break, mid, let small = objEx?.is_small_break, small else {
                     self.showBreakDialogue(dialogueType: dType)
                     return

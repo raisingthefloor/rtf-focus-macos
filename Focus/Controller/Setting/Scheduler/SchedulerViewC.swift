@@ -111,7 +111,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cellCombo.configScheduleCell(obj: obj)
                     cellCombo.refreshTable = { isChange in
                         if isChange {
-                            self.tblSchedule.reloadData()
+                            //self.tblSchedule.reloadData()
                         }
                     }
                     return cellCombo
@@ -131,7 +131,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.configDays(obj: obj)
                     cell.refreshTable = { isChange in
                         if isChange {
-                            self.tblSchedule.reloadData()
+                           // self.tblSchedule.reloadData()
                         }
                     }
                     return cell
@@ -175,8 +175,13 @@ extension SchedulerViewC {
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
         objFSchedule.is_active = !objFSchedule.is_active
+        if objFSchedule.is_active {
+            viewModel.input.setReminder(obj: objFSchedule)
+        } else {
+            viewModel.input.removeReminder(obj: objFSchedule)
+        }
         DBManager.shared.saveContext()
-        tblSchedule.reloadData()
+        //tblSchedule.reloadData()
     }
 
     @objc func deleteSchedule(_ sender: NSButton) {

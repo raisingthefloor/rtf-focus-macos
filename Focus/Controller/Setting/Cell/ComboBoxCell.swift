@@ -37,6 +37,7 @@ class ComboBoxCell: NSTableCellView {
     var arrTimes: [String] = []
     var objFSchedule: Focus_Schedule?
     var refreshTable: ((Bool) -> Void)?
+    let comboDatasource: TimeCBDataSource = TimeCBDataSource()
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -64,14 +65,15 @@ extension ComboBoxCell: BasicSetupType {
 }
 
 // Date time  Data Setup
-extension ComboBoxCell: NSComboBoxDataSource {
+extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCellDataSource {
     func configStartCell(obj: Focus_Schedule?, arrTimes: [String]) {
         self.arrTimes = arrTimes
         objFSchedule = obj
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 1
-        comboTime.dataSource = self
+        comboTime.delegate = self
+        comboTime.selectItem(withObjectValue: obj?.start_time)
     }
 
     func configEndCell(obj: Focus_Schedule?, arrTimes: [String]) {
@@ -80,12 +82,11 @@ extension ComboBoxCell: NSComboBoxDataSource {
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 2
-        comboTime.dataSource = self
+        comboTime.delegate = self
+        comboTime.selectItem(withObjectValue: obj?.end_time)
     }
 
     func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
-        print("SubString = \(string)")
-
         for time in arrTimes {
             // substring must have less characters then stings to search
             if string.count < arrTimes.count {
@@ -100,7 +101,12 @@ extension ComboBoxCell: NSComboBoxDataSource {
         return ""
     }
 
-    func updateTimeValue(_ comboBox: NSComboBox, time: String) {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
+        let comboBox: NSComboBox = (notification.object as? NSComboBox)!
+        updateTimeValue(comboBox, time: comboBox.objectValueOfSelectedItem as? String)
+    }
+
+    func updateTimeValue(_ comboBox: NSComboBox, time: String?) {
         if comboBox.tag == 1 {
             objFSchedule?.start_time = time
         } else {

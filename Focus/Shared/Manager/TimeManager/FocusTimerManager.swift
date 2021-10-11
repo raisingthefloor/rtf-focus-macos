@@ -26,47 +26,6 @@
 import Cocoa
 import Foundation
 
-//class Countdowner {
-//    var counter: Int = 0
-//    var stop_focus_after_time: Double = 0
-//    var obj: Focuses!
-//
-//    init(counter: Int, obj: Focuses) {
-//        setSessionValue(counter: counter, obj: obj)
-//    }
-//
-//    func update(counter: Int, usedValue: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
-//        let hours = (counter / 60) / 60
-//        let minutes = counter / 60
-//        let seconds = counter % 60
-//
-//        switch Double(usedValue) {
-//        case obj.stop_focus_after_time:
-//            let popup: FocusDialogue = obj.focus_untill_stop ? .long_break_alert : .short_break_alert
-//            return (popup: popup, hours: hours, minutes: minutes, seconds: seconds)
-//        default:
-//            return defaultState(counter: counter)
-//        }
-//
-////        return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
-//    }
-//
-//    // TODO: Need to Set for Hours options
-//
-//    func defaultState(counter: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
-//        let hours = (counter / 60) / 60
-//        let minutes = counter / 60
-//        let seconds = counter % 60
-//        return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
-//    }
-//
-//    func setSessionValue(counter: Int, obj: Focuses) { // Need to set the break time and interval time to display controller
-//        self.counter = counter
-//        self.obj = obj
-//        stop_focus_after_time = obj.stop_focus_after_time
-//    }
-//}
-
 class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?

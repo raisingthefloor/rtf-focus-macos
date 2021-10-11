@@ -73,7 +73,7 @@ extension WeekDaysCell: BasicSetupType {
         var i = 0
         let isActive = !(objFSchedule?.is_active ?? false)
         let isSetBlock = (obj?.block_list_id != nil)
-        
+
         stackView.removeSubviews()
         for day in Calendar.current.veryShortWeekdaySymbols {
             let view = NSView(frame: NSRect(x: 0, y: -2, width: 14, height: 18))
@@ -105,7 +105,7 @@ extension WeekDaysCell: BasicSetupType {
         }
     }
 
-    @objc func toggleDay(_ sender: NSButton) {
+    @objc func toggleDay(_ sender: CustomButton) {
         var arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
         let tag = sender.tag
         var isSelected = false
@@ -123,37 +123,7 @@ extension WeekDaysCell: BasicSetupType {
             objFSchedule?.days = arrDays.joined(separator: ",")
         }
         DBManager.shared.saveContext()
-        refreshTable?(true)
+        configDays(obj: objFSchedule)
+//        refreshTable?(true)
     }
 }
-
-// enum WeekDays: Int, CaseIterable {
-//    case mon = 0
-//    case tue
-//    case wed
-//    case thu
-//    case fri
-//    case sat
-//    case sun
-//
-//    var short_name: String {
-//        switch self {
-//        case .mon:
-//            return "M"
-//        case .tue:
-//            return "T"
-//        case .wed:
-//            return "W"
-//        case .thu:
-//            return "T"
-//        case .fri:
-//            return "F"
-//        case .sat:
-//            return "S"
-//        case .sun:
-//            return "S"
-//        }
-//    }
-//
-//    static var days: [WeekDays] = WeekDays.allCases
-// }

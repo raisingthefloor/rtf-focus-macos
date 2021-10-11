@@ -25,6 +25,7 @@
 
 import AppleScriptObjC
 import Cocoa
+import UserNotifications
 
 let appDelegate = NSApplication.shared.delegate as? AppDelegate
 
@@ -36,6 +37,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Setup the Focus button
+        AppManager.shared.registerLocalNotification()
+
+        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
+            print("Registered Notification identifiers \(notifications.map({ $0.identifier }))")
+            print("Registered Notification  \(notifications)")
+        }
+        
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+
         loadScript()
         openFocus()
         AppManager.shared.doSpotlightQuery()

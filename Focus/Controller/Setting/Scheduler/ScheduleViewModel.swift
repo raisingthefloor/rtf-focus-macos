@@ -28,6 +28,8 @@ import Foundation
 
 protocol ScheduleViewModelIntput {
     func getSessionList() -> [ScheduleSession]
+    func setReminder(obj: Focus_Schedule?)
+    func removeReminder(obj: Focus_Schedule?)
 }
 
 protocol ScheduleViewModelOutput {
@@ -50,6 +52,30 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
 
     init() {
         arrFocusSchedule = DBManager.shared.getFocusSchedule()
+    }
+
+    func setReminder(obj: Focus_Schedule?) {
+        guard let objF = obj, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
+        var dateComponents = startTime.toDateComponent()
+        dateComponents.minute = 55
+        print("DateComponents : === \(dateComponents)")
+
+        let arrDays = objF.days?.components(separatedBy: ",") ?? []
+        let identifiers = arrDays.map({ (id + "_" + $0) })
+        NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
+        for i in arrDays {
+            let identifier = id + "_" + i
+            dateComponents.weekday = Int(i) ?? 0
+            NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, repeats: true))
+        }
+    }
+
+    func removeReminder(obj: Focus_Schedule?) {
+        guard let objF = obj, let id = objF.id?.uuidString else { return }
+        let arrDays = objF.days?.components(separatedBy: ",") ?? []
+        let identifiers = arrDays.map({ (id + "_" + $0) })
+        print("identifiers \(identifiers)")
+        NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
     }
 
     func getSessionList() -> [ScheduleSession] {

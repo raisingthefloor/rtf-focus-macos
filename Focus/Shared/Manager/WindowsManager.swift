@@ -52,6 +52,18 @@ struct WindowsManager {
         }
         return vc
     }
+    
+    static func getPresentingController() -> NSViewController? {
+        if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+            return presetFromCtrl
+        } else if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last {
+            return presetFromCtrl
+        } else {
+            let presetFromCtrl = appDelegate?.windowController?.contentViewController
+            return presetFromCtrl
+        }
+    }
+
 }
 
 // MARK: Block Web and Display Restart window Script Methods

@@ -1160,7 +1160,7 @@
                                                                                                                                                     <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                     <subviews>
                                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CmB-ds-UGD" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                            <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                                            <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                                             <constraints>
                                                                                                                                                                 <constraint firstAttribute="height" constant="25" id="8d6-AB-cif"/>
                                                                                                                                                             </constraints>
@@ -1170,7 +1170,7 @@
                                                                                                                                                             </buttonCell>
                                                                                                                                                         </button>
                                                                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f7Q-O1-EHb" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                            <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                                            <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                                             <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y7i-LL-3qk">
                                                                                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                 <font key="font" metaFont="system"/>
@@ -2341,8 +2341,8 @@
                                                                             </textFieldCell>
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                             <prototypeCellViews>
-                                                                                <tableCellView identifier="comboId" id="7Zp-6A-jg6" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
-                                                                                    <rect key="frame" x="5" y="0.0" width="140" height="24"/>
+                                                                                <tableCellView identifier="comboId" misplaced="YES" id="7Zp-6A-jg6" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
+                                                                                    <rect key="frame" x="5" y="0.0" width="137" height="24"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="-2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCX-61-x2R">
@@ -2363,7 +2363,7 @@
                                                                                                     </constraints>
                                                                                                     <popUpButtonCell key="cell" type="bevel" title="Item 1" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="oOX-Nj-1lx" id="rOb-ca-UhW">
                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                        <font key="font" metaFont="system"/>
+                                                                                                        <font key="font" metaFont="menu"/>
                                                                                                         <menu key="menu" id="2Hq-Z1-HGk">
                                                                                                             <items>
                                                                                                                 <menuItem title="Item 1" state="on" id="oOX-Nj-1lx"/>
@@ -2418,13 +2418,11 @@
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="23" id="BLs-ew-VsM"/>
                                                                                             </constraints>
-                                                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="5D9-Si-JZx">
+                                                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" drawsBackground="YES" numberOfVisibleItems="5" id="5D9-Si-JZx">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <objectValues>
-                                                                                                    <string>Item</string>
-                                                                                                    <string>Item</string>
                                                                                                     <string>Item</string>
                                                                                                 </objectValues>
                                                                                             </comboBoxCell>
@@ -2457,21 +2455,19 @@
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView identifier="endId" id="iUK-IG-tCf" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
-                                                                                    <rect key="frame" x="222" y="0.0" width="57" height="24"/>
+                                                                                    <rect key="frame" x="222" y="0.0" width="60" height="24"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sxb-Fu-ANe">
-                                                                                            <rect key="frame" x="0.0" y="-3" width="60" height="29"/>
+                                                                                            <rect key="frame" x="0.0" y="-3" width="63" height="29"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="23" id="0gj-az-nXm"/>
                                                                                             </constraints>
-                                                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="jcK-cg-Q2Z">
+                                                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" drawsBackground="YES" numberOfVisibleItems="5" id="jcK-cg-Q2Z">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <objectValues>
-                                                                                                    <string>Item 1</string>
-                                                                                                    <string>Item 2</string>
                                                                                                     <string>Item 3</string>
                                                                                                 </objectValues>
                                                                                             </comboBoxCell>
@@ -2605,21 +2601,21 @@
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView identifier="checkId" id="QQV-rR-D14" customClass="ButtonCell" customModule="Focus" customModuleProvider="target">
-                                                                                    <rect key="frame" x="452" y="0.0" width="63" height="24"/>
+                                                                                    <rect key="frame" x="452" y="0.0" width="61" height="24"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S7J-u7-wPU">
-                                                                                            <rect key="frame" x="0.0" y="2" width="63" height="20"/>
+                                                                                            <rect key="frame" x="0.0" y="2" width="61" height="20"/>
                                                                                             <subviews>
                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Ic-qY-4a1">
-                                                                                                    <rect key="frame" x="-2" y="1" width="32" height="18"/>
+                                                                                                    <rect key="frame" x="-2" y="1" width="30" height="18"/>
                                                                                                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" inset="2" id="Cnm-uM-Cc6">
                                                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                                         <font key="font" metaFont="system"/>
                                                                                                     </buttonCell>
                                                                                                 </button>
                                                                                                 <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ap7-K2-F7s">
-                                                                                                    <rect key="frame" x="48" y="3" width="15" height="16"/>
+                                                                                                    <rect key="frame" x="46" y="3" width="15" height="16"/>
                                                                                                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="trash.fill" catalog="system" imagePosition="only" inset="2" id="aip-QW-7nm">
                                                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                                         <font key="font" metaFont="system"/>
@@ -3348,6 +3344,7 @@
                     </connections>
                 </viewController>
                 <customObject id="ciU-3W-enh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Te0-a0-F9B" customClass="TimeCBDataSource" customModule="Focus" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="-3190" y="-997"/>
         </scene>

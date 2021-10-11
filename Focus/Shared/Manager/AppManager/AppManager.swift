@@ -36,6 +36,11 @@ class AppManager {
             }
         }
     }
+
+    func registerLocalNotification() {
+        appDelegate?.registerhLocalDelegate()
+        appDelegate?.registerLocalNotification()
+    }
 }
 
 extension AppManager {
@@ -51,7 +56,7 @@ extension AppManager {
         guard let query = notification.object as? NSMetadataQuery else {
             return
         }
-        if !DBManager.shared.checkAppsIsPresent() {
+        if DBManager.shared.checkAppsIsPresent() {
             var i = 1
             for result in query.results {
                 guard let item = result as? NSMetadataItem else {
