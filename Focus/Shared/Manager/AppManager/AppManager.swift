@@ -46,7 +46,7 @@ class AppManager {
 extension AppManager {
     public func doSpotlightQuery() {
         query = NSMetadataQuery()
-        let predicate = NSPredicate(format: "kMDItemContentType == 'com.apple.application-bundle'")
+        let predicate = NSPredicate(format: "kMDItemKind == 'Application'")
         NotificationCenter.default.addObserver(self, selector: #selector(queryDidFinish(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
         query?.predicate = predicate
         query?.start()
@@ -56,15 +56,16 @@ extension AppManager {
         guard let query = notification.object as? NSMetadataQuery else {
             return
         }
-        if DBManager.shared.checkAppsIsPresent() {
-            var i = 1
-            for result in query.results {
-                guard let item = result as? NSMetadataItem else {
-                    continue
-                }
-                if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
-                    if let bundleName = Bundle.bundleIDFor(appNamed: name) {
-                        if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
+
+        var i = 1
+        for result in query.results {
+            guard let item = result as? NSMetadataItem else {
+                continue
+            }
+            if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
+                if let bundleName = Bundle.bundleIDFor(appNamed: name) {
+                    if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
+                        if !DBManager.shared.checkAppsIsPresent(bundle_id: bundleName) {
                             let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date(), "index": i]
                             DBManager.shared.saveApplicationlist(data: data)
                             i = i + 1
@@ -73,6 +74,7 @@ extension AppManager {
                 }
             }
         }
+        print("Count \(i)")
     }
 }
 

@@ -125,11 +125,11 @@ extension BreakTimerManager {
     }
 
     func pauseTimer() {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.breakTimer?.invalidate()
             if self.remaininTimeInSeconds > 0 {
             }
-        }
+        })
     }
 
     func resetTimer() {

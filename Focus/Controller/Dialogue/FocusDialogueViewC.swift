@@ -130,13 +130,12 @@ extension FocusDialogueViewC: BasicSetupType {
         btnStop.textColor = Color.black_color
         btnStop.borderColor = Color.dark_grey_border
         btnStop.borderWidth = 0.6
-        
+
         btnContinue.buttonColor = dialogueType.light_green
         btnContinue.activeButtonColor = dialogueType.light_green
         btnContinue.textColor = dialogueType.green
         btnContinue.borderColor = dialogueType.green
         btnContinue.borderWidth = 0.6
-
 
         containerView.bgColor = Color.light_blue_color
     }
@@ -157,15 +156,16 @@ extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
         breakAction?(dialogueType.action, extendVal, ButtonValueType(rawValue: sender.tag)!)
-        dismiss(nil)
+        self.dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
             breakAction?(.stop_session, 0, .none)
-            dismiss(nil)
+            self.dismiss(nil)
             return
         }
+        let presentedCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
@@ -173,16 +173,16 @@ extension FocusDialogueViewC {
             self.breakAction?(focusStop, 0, .none)
             self.dismiss(nil)
         }
-        presentAsSheet(controller)
+        presentedCtrl?.presentAsSheet(controller)
     }
 
     @objc func topAction(_ sender: NSButton) {
         breakAction?(.normal_ok, 0, .none)
-        dismiss(nil)
+        self.dismiss(nil)
     }
 
     @objc func continueAction(_ sender: NSButton) {
         breakAction?(.normal_ok, 0, .none)
-        dismiss(nil)
+        self.dismiss(nil)
     }
 }

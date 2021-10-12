@@ -74,6 +74,12 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List]) {
         let menus = NSMenu()
         let blocklist = DBManager.shared.getBlockList()
+
+        if cntrl == .main_menu {
+            let showOption = NSMenuItem(title: "Select Group", action: nil, keyEquivalent: "")
+            showOption.tag = -2
+            menus.addItem(showOption)
+        }
         var i = 0
         for obj in blocklist {
             let menuItem = NSMenuItem(title: obj.name ?? "-", action: nil, keyEquivalent: "")
@@ -81,6 +87,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             menus.addItem(menuItem)
             i = i + 1
         }
+
         if cntrl != .schedule_session {
             menus.addItem(.separator())
         }

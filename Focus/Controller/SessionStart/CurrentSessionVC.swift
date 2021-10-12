@@ -147,11 +147,15 @@ extension CurrentSessionVC {
 
     @objc func startSession(_ sender: NSButton) {
         // Action perform for starting the session
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = "Underconstruction!!!"
+        alert.runModal()
     }
 
     @objc func okAction(_ sender: NSButton) {
         // Action perform for OK
-        dismiss(self)
+        dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
@@ -161,6 +165,8 @@ extension CurrentSessionVC {
             dismiss(nil)
             return
         }
+        
+//        let presentingCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = (objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert

@@ -87,7 +87,7 @@ extension SessionInfoView: BasicSetupType {
     func setupData() {
         let objFocus = DBManager.shared.getCurrentBlockList().objFocus
         let objB = DBManager.shared.getCurrentBlockList().objBl
-        let focus_length = Int(objFocus?.focus_length_time ?? 100).secondsToTime()
+        let focus_length = Int(objFocus?.remaining_time ?? 100).secondsToTime()
 
         var time = ""
         if focus_length.timeInHours != 0 {

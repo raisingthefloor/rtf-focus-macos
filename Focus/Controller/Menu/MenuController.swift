@@ -163,6 +163,7 @@ extension MenuController: BasicSetupType {
 
     func bindData() {
         popBlock.menu = dataModel.input.getBlockList(cntrl: .main_menu).0
+        popBlock.selectItem(at: 0)
 
         popFocusTime.menu = Focus.FocusTime.focustimes
         popBreakTime.menu = Focus.BreakTime.breaktimes
@@ -256,14 +257,16 @@ extension MenuController: BasicSetupType {
         let index = popBlock.selectedTag()
         if index == -1 {
             performSegue(withIdentifier: "segueSetting", sender: SettingOptions.block_setting)
+        } else if index == -2 {
+            viewModel.input.focusObj?.block_list_id = UUID() // fakeID
         } else {
             if !arrBlock.isEmpty {
                 let objBlockList = arrBlock[index]
 //                viewModel.input.focusObj.block_data = objBlockList
                 viewModel.input.focusObj?.block_list_id = objBlockList.id
-                DBManager.shared.saveContext()
             }
         }
+        DBManager.shared.saveContext()
         print("Selected block:", popBlock.titleOfSelectedItem ?? "")
     }
 

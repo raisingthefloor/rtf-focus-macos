@@ -86,7 +86,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
-            return 10
+            return 2
         } else {
             return viewModel.input.getSessionList().count
         }

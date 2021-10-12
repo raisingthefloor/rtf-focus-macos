@@ -89,11 +89,11 @@ extension FocusTimerManager {
     }
 
     func pauseTimer() {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.focusTimer?.invalidate()
             if self.remaininFocusTime > 0 {
             }
-        }
+        })
     }
 
     func resetTimer() {

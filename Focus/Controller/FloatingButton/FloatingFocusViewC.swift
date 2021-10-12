@@ -137,10 +137,14 @@ extension FloatingFocusViewC {
         }
     }
 
-    func stopBlockingAppsWeb() {
+    func stopBlockingAppsWeb(isRestart: Bool) {
         WindowsManager.stopBlockWebSite()
         AppManager.shared.removeObserver()
         WindowsManager.runDndCommand(cmd: "off")
+
+        if isRestart {
+            WindowsManager.openSystemLogoutDialog()
+        }
     }
 }
 
@@ -217,6 +221,7 @@ extension FloatingFocusViewC {
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj, let objSession = DBManager.shared.getCurrentBlockList().objBl else { return }
         focusTimerModel.usedTime = 0
+        let isRestart = objSession.restart_computer
         switch action {
         case .extend_focus:
             // Focus Extend Here
@@ -248,9 +253,8 @@ extension FloatingFocusViewC {
             objEx?.is_mid_break = false
             objEx?.is_small_break = false
             objEx?.is_long_break = false
-
             DBManager.shared.saveContext()
-            stopBlockingAppsWeb()
+            stopBlockingAppsWeb(isRestart: isRestart)
             defaultUI()
         case .skip_session:
             break
@@ -291,6 +295,8 @@ extension FloatingFocusViewC {
     }
 
     func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List, value: Int, valueType: ButtonValueType) {
+        let isRestart = objBl.restart_computer
+
         switch dialogueType {
         case .end_break_alert:
             // Break End Here
@@ -305,7 +311,7 @@ extension FloatingFocusViewC {
             obj.is_break_time = true
             DBManager.shared.saveContext()
             if !objBl.blocked_all_break {
-                stopBlockingAppsWeb()
+                stopBlockingAppsWeb(isRestart: false)
             }
             startBreakTime()
         case .long_break_alert:
@@ -318,7 +324,7 @@ extension FloatingFocusViewC {
             }
             DBManager.shared.saveContext()
             if !objBl.blocked_all_break {
-                stopBlockingAppsWeb()
+                stopBlockingAppsWeb(isRestart: false)
             }
             startBreakTime()
 
@@ -338,7 +344,7 @@ extension FloatingFocusViewC {
             objEx?.is_long_break = false
 
             DBManager.shared.saveContext()
-            stopBlockingAppsWeb()
+            stopBlockingAppsWeb(isRestart: isRestart)
             defaultUI()
         default:
             setUpText()

@@ -26,6 +26,7 @@ script BrowserBridge
     property parent : class "NSObject"
     property b_list : {}
     property app_list : {}
+    property isFocusing_status: boolean
     global isFocusing
     property block_url : "http://127.0.0.1"
     
@@ -39,7 +40,7 @@ script BrowserBridge
         repeat until isFocusing is false
             
                 if application "Safari" is running then
---                    log("isFocusing :::::::  " & isFocusing)
+                    log("isFocusing :::::::  " & isFocusing)
                     tell application "Safari"
                         set theWindows to windows
                         repeat with theWindow in theWindows
@@ -63,6 +64,7 @@ script BrowserBridge
                         end repeat
                     end tell
                 end if
+                log("Out Side IFFF isFocusing :::::::  " & isFocusing)
 --                if application "Google Chrome" is running then
 --                    tell application "Google Chrome"
 --                        set theWindows to windows
@@ -216,6 +218,7 @@ script BrowserBridge
     
     -- Method to Display Logout Dialogue
     on logoutAlert()
+        log("Logout")
         tell application "System Events" to log out
     end logoutAlert
         

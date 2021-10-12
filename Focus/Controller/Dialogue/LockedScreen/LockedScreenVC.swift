@@ -66,6 +66,5 @@ extension LockedScreenVC: BasicSetupType {
             self.dismiss?(true)
             self.dismiss(nil)
         }
-
     }
 }

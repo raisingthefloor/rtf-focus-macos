@@ -95,6 +95,7 @@ extension DisincentiveViewC: BasicSetupType {
     func bindData() {
         btnDone.target = self
         btnDone.action = #selector(doneClick(_:))
+        
         btnNever.target = self
         btnNever.action = #selector(neverClick(_:))
 
@@ -123,19 +124,16 @@ extension DisincentiveViewC {
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
             updateFocusStop?(.stop_session)
-            WindowsManager.openSystemLogoutDialog()
-            dismiss(nil)
+            self.dismiss(nil)
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {
                 updateFocusStop?(.stop_session)
                 dismiss(nil)
-            } else {
             }
         }
     }
 
-//    GwEUf45HBLDKSG56BNBFdbNBIV110nWI
     @objc func neverClick(_ sender: NSButton) {
         // Take back to previous window from where it opens
         updateFocusStop?(.normal_ok)

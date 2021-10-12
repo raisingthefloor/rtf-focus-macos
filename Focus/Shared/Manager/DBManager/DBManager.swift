@@ -76,7 +76,7 @@ extension DBManager: DBMangerLogic {
                 gCApp.forEach { val in
                     applist.removeAll(where: { $0.app_identifier == val.app_identifier })
                 }
-                print("Filter GC App : \(applist)")
+//                print("Filter GC App : \(applist)")
 
                 let gCWeb = generalCat.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 }).filter({ $0.is_selected == true }).compactMap({ $0 })
 
@@ -99,10 +99,10 @@ extension DBManager: DBMangerLogic {
                 gEWeb.forEach { val in
                     weblist.removeAll(where: { $0.name == val.name })
                 }
-                print("Filter Exception Web: \(weblist)")
+//                print("Filter Exception Web: \(weblist)")
             }
-            print("Final applist : \(applist)")
-            print("Final weblist : \(weblist)")
+//            print("Final applist : \(applist)")
+//            print("Final weblist : \(weblist)")
             return (objFocus, blocks, applist, weblist)
 
         } catch let error as NSError {
@@ -181,7 +181,8 @@ extension DBManager {
 
     func getApplicationList() -> [Application_List] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Application_List")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Application_List.index, ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "path BEGINSWITH[cd] '/Application' || path BEGINSWITH[cd] '/System/Applications/'")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Application_List.name, ascending: true)]
 
         do {
             let block = try DBManager.shared.managedContext.fetch(fetchRequest)
@@ -194,8 +195,10 @@ extension DBManager {
         return []
     }
 
-    func checkAppsIsPresent() -> Bool {
+    func checkAppsIsPresent(bundle_id: String) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Application_List")
+        fetchRequest.predicate = NSPredicate(format: "bundle_id = %@", bundle_id)
+
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {

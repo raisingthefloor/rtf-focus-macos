@@ -163,11 +163,16 @@ extension GeneralSettingViewC: BasicSetupType {
         popBreakTime.menu = Focus.BreakTime.breaktimes
         popBreakTime.target = self
         popBreakTime.action = #selector(breakTimeSelection(_:))
+
+        guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
+        btnAddWeb.isEnabled = !objF.is_focusing
+        btnAddApp.isEnabled = !objF.is_focusing
     }
 
     func disableControl() -> Bool {
         guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return false }
-
+        btnAddWeb.isEnabled = !objF.is_focusing
+        btnAddApp.isEnabled = !objF.is_focusing
         if objF.is_focusing {
             openErrorDialogue()
             setupData()
@@ -209,9 +214,9 @@ extension GeneralSettingViewC {
 
     @IBAction func checkBoxEventHandler(_ sender: NSButton) {
         print(" Check Box Event : \(sender.state) ::: \(sender.title)")
-        if disableControl() {
-            return
-        }
+//        if disableControl() {
+//            return
+//        }
         let isChecked = (sender.state == .on) ? true : false
         switch sender.tag {
         case 0:
@@ -259,7 +264,7 @@ extension GeneralSettingViewC {
         if objCat != nil {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_website
-            inputDialogueCntrl.addedSuccess = { [weak self] dataV in
+            inputDialogueCntrl.addedSuccess = { [weak self] dataV, _ in
                 self?.viewModel.input.addAppWebData(data: dataV) { isStore in
                     if isStore {
                         self?.tblView.reloadData()
@@ -286,10 +291,6 @@ extension GeneralSettingViewC {
 
     // Store the Categories as per selected blick list
     @objc func addSCategory(_ sender: NSButton) {
-        if disableControl() {
-            return
-        }
-
         let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
         guard let objBlock = arrSCat?[sender.tag] else { return }
         objBlock.is_selected = !objBlock.is_selected
@@ -338,7 +339,9 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSelectionDidChange(_ notification: Notification) {
         if let tblV = notification.object as? NSTableView {
             let selectedRow = tblV.selectedRow
-            let option = blockList[selectedRow]
+            if selectedRow != -1 {
+                let option = blockList[selectedRow]
+            }
         }
     }
 }

@@ -106,11 +106,11 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
         sessionDone?(dialogueType.action, extendVal)
-        dismiss(nil)
+        self.dismiss(nil)
     }
 
     @objc func okAction(_ sender: NSButton) {
         sessionDone?(.normal_ok, 0)
-        dismiss(nil)
+        self.dismiss(nil)
     }
 }

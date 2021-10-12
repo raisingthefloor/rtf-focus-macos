@@ -193,18 +193,18 @@
         <scene sceneID="W1z-sS-gLj">
             <objects>
                 <viewController storyboardIdentifier="GeneralSettingView" id="SAg-tH-avP" customClass="GeneralSettingViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="UWY-Li-Pog">
+                    <view key="view" id="UWY-Li-Pog">
                         <rect key="frame" x="0.0" y="0.0" width="529" height="500"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="CBU-5G-YCs">
-                                <rect key="frame" x="0.0" y="10" width="529" height="588"/>
+                                <rect key="frame" x="0.0" y="10" width="529" height="560"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hWn-zO-zrJ">
-                                        <rect key="frame" x="14" y="10" width="501" height="578"/>
+                                        <rect key="frame" x="14" y="10" width="501" height="550"/>
                                         <subviews>
                                             <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P4Y-2q-nxs">
-                                                <rect key="frame" x="0.0" y="504" width="501" height="74"/>
+                                                <rect key="frame" x="0.0" y="476" width="501" height="74"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E8b-Zi-ft1">
                                                         <rect key="frame" x="-2" y="27" width="505" height="21"/>
@@ -223,13 +223,13 @@
                                                 </constraints>
                                             </customView>
                                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="22" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nt5-XV-WUd">
-                                                <rect key="frame" x="0.0" y="0.0" width="501" height="504"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="501" height="476"/>
                                                 <subviews>
                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vjt-Ox-HWy" userLabel="behavior_focus">
-                                                        <rect key="frame" x="0.0" y="398" width="501" height="106"/>
+                                                        <rect key="frame" x="0.0" y="398" width="501" height="78"/>
                                                         <subviews>
                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mht-dq-IOy">
-                                                                <rect key="frame" x="-2" y="91" width="192" height="15"/>
+                                                                <rect key="frame" x="-2" y="63" width="192" height="15"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Behavior during focus sessions:" id="O31-BT-xdu">
                                                                     <font key="font" metaFont="systemSemibold" size="12"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -237,7 +237,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xfo-5Q-gLr">
-                                                                <rect key="frame" x="-2" y="69" width="434" height="18"/>
+                                                                <rect key="frame" x="-2" y="41" width="434" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Don't give me a 5 minute warning before scheduled focus sessions start" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="C4z-ph-mcR">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="cellTitle"/>
@@ -246,8 +246,8 @@
                                                                     <action selector="checkBoxEventHandler:" target="SAg-tH-avP" id="Bif-wa-xaa"/>
                                                                 </connections>
                                                             </button>
-                                                            <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KWF-Y1-IYA">
-                                                                <rect key="frame" x="0.0" y="42" width="486" height="23"/>
+                                                            <stackView hidden="YES" distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KWF-Y1-IYA">
+                                                                <rect key="frame" x="0.0" y="55" width="486" height="23"/>
                                                                 <subviews>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TeS-Pu-Ixz">
                                                                         <rect key="frame" x="-2" y="3" width="102" height="18"/>
@@ -328,7 +328,7 @@
                                                                 </customSpacing>
                                                             </stackView>
                                                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eaI-Fs-jNL">
-                                                                <rect key="frame" x="-2" y="90" width="428" height="16"/>
+                                                                <rect key="frame" x="-2" y="62" width="428" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title=" (To force me to take a break away from computer for at LEAST 1 min.)" id="xdS-23-zsh">
                                                                     <font key="font" metaFont="system"/>
                                                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -1646,7 +1646,7 @@
                                                                                                                                                     </tableCellView>
                                                                                                                                                 </prototypeCellViews>
                                                                                                                                             </tableColumn>
-                                                                                                                                            <tableColumn identifier="nameIdentifier2" width="175" minWidth="175" maxWidth="175" id="qSn-1F-3F7">
+                                                                                                                                            <tableColumn identifier="nameIdentifier2" width="170" minWidth="170" maxWidth="170" id="qSn-1F-3F7">
                                                                                                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                                                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>

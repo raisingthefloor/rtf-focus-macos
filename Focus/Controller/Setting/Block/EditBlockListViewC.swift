@@ -264,29 +264,38 @@ extension EditBlockListViewC: BasicSetupType {
         let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
         g.numberOfClicksRequired = 1
         lblSubTitle.addGestureRecognizer(g) // Need to set range click
-
-        disableControl()
     }
 
-    func disableControl() {
+    func disableControl(id: UUID?) {
         guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
 
-        btnBAddApp.isEnabled = !objF.is_focusing
-        btnBAddWeb.isEnabled = !objF.is_focusing
-        btnNBAddApp.isEnabled = !objF.is_focusing
-        btnNBAddWeb.isEnabled = !objF.is_focusing
-//        comboBlock.isEnabled = !objF.is_focusing
-        tblBlock.isEnabled = !objF.is_focusing
-        tblCategory.isEnabled = !objF.is_focusing
-        tblNotBlock.isEnabled = !objF.is_focusing
+        if objF.block_list_id == id {
+            btnBAddApp.isEnabled = !objF.is_focusing
+            btnBAddWeb.isEnabled = !objF.is_focusing
+            btnNBAddApp.isEnabled = !objF.is_focusing
+            btnNBAddWeb.isEnabled = !objF.is_focusing
 
-        radioShortLongBreak.isEnabled = !objF.is_focusing
-        radioLongBreak.isEnabled = !objF.is_focusing
-        radioAllBreak.isEnabled = !objF.is_focusing
+            radioShortLongBreak.isEnabled = !objF.is_focusing
+            radioLongBreak.isEnabled = !objF.is_focusing
+            radioAllBreak.isEnabled = !objF.is_focusing
 
-        radioStopAnyTime.isEnabled = !objF.is_focusing
-        radioStopFocus.isEnabled = !objF.is_focusing
-        radioRestart.isEnabled = !objF.is_focusing
+            radioStopAnyTime.isEnabled = !objF.is_focusing
+            radioStopFocus.isEnabled = !objF.is_focusing
+            radioRestart.isEnabled = !objF.is_focusing
+        } else {
+            btnBAddApp.isEnabled = true
+            btnBAddWeb.isEnabled = true
+            btnNBAddApp.isEnabled = true
+            btnNBAddWeb.isEnabled = true
+
+            radioShortLongBreak.isEnabled = true
+            radioLongBreak.isEnabled = true
+            radioAllBreak.isEnabled = true
+
+            radioStopAnyTime.isEnabled = true
+            radioStopFocus.isEnabled = true
+            radioRestart.isEnabled = true
+        }
     }
 }
 
@@ -414,6 +423,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
         dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1.first
         updateRadioOptions()
+        disableControl(id: dataModel.objBlocklist?.id)
         reloadTables()
     }
 
@@ -466,7 +476,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_website
             inputDialogueCntrl.dataModel.objBlocklist = dataModel.objBlocklist
-            inputDialogueCntrl.addedSuccess = { [weak self] dataV in
+            inputDialogueCntrl.addedSuccess = { [weak self] dataV, _ in
                 if sender.tag == BlockList.block_web_app.rawValue {
                     self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
                         if isStore {
@@ -489,8 +499,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Remove the Apps and Web Url from Also Block View
     @objc func deleteSetBlock(_ sender: NSButton) {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus, objF.block_list_id == dataModel.objBlocklist?.id {
             if objF.is_focusing {
+                openErrorDialogue()
                 return
             }
         }
@@ -504,8 +515,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Remove the Apps and Web Url from Exceptions view
     @objc func deleteSetException(_ sender: NSButton) {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus, objF.block_list_id == dataModel.objBlocklist?.id {
             if objF.is_focusing {
+                openErrorDialogue()
                 return
             }
         }
@@ -534,18 +546,15 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
-            if objF.is_focusing {
-                openErrorDialogue()
-                return
-            }
-        }
         let index = comboBlock.selectedTag()
         if index == -1 {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_block_list_name
-            inputDialogueCntrl.addedSuccess = { [weak self] _ in
+            inputDialogueCntrl.addedSuccess = { [weak self] _, isCalncel in
                 self?.updateBlocklistList()
+                if isCalncel {
+                    self?.comboBlock.selectItem(withTitle: self?.dataModel.objBlocklist?.name ?? "")
+                }
                 self?.reloadTables()
             }
 
@@ -553,6 +562,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         } else {
             dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1[index]
             updateRadioOptions()
+            disableControl(id: dataModel.objBlocklist?.id)
         }
         reloadTables()
     }

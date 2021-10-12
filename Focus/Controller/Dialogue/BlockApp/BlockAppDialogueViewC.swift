@@ -130,13 +130,13 @@ extension BlockAppDialogueViewC: BasicSetupType {
 
     @objc func okAction(_ sender: NSButton) {
         updateView?(.normal_ok)
-        dismiss(nil)
+        self.dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
             updateView?(.stop_session)
-            dismiss(nil)
+            self.dismiss(nil)
             return
         }
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)

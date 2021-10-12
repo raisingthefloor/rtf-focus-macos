@@ -52,7 +52,7 @@ struct WindowsManager {
         }
         return vc
     }
-    
+
     static func getPresentingController() -> NSViewController? {
         if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
             return presetFromCtrl
@@ -64,15 +64,23 @@ struct WindowsManager {
         }
     }
 
+    static func dismissController() {
+        if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+            presetFromCtrl.dismiss(nil)
+        } else if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last {
+            presetFromCtrl.dismiss(nil)
+        } else {
+            let presetFromCtrl = appDelegate?.windowController?.contentViewController
+            presetFromCtrl?.dismiss(nil)
+        }
+    }
 }
 
 // MARK: Block Web and Display Restart window Script Methods
 
 extension WindowsManager {
     static func openSystemLogoutDialog() {
-        DispatchQueue.global(qos: .userInteractive).async {
-            appDelegate?.browserBridge?.logoutAlert()
-        }
+        appDelegate?.browserBridge?.logoutAlert()
     }
 
     static func blockWebSite() {
