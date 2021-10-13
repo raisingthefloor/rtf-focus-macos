@@ -40,6 +40,7 @@ protocol ScheduleViewModelType {
     var output: ScheduleViewModelOutput { get }
     var arrFocusSchedule: [Focus_Schedule] { get set }
     var arrTimes: [String] { get set }
+    var objGCategory: Block_Category? { get set }
 }
 
 class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, ScheduleViewModelType {
@@ -49,24 +50,30 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
     var arrTimes: [String] = ["12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"]
 
     var arrFocusSchedule: [Focus_Schedule] = []
+    var objGCategory: Block_Category?
 
     init() {
         arrFocusSchedule = DBManager.shared.getFocusSchedule()
+        objGCategory = DBManager.shared.getGeneralCategoryData().gCat
     }
 
     func setReminder(obj: Focus_Schedule?) {
-        guard let objF = obj, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
+        guard let objF = obj, let uuid = objF.id, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
         var dateComponents = startTime.toDateComponent()
-        dateComponents.minute = 55
+        dateComponents.minute = 36
         print("DateComponents : === \(dateComponents)")
 
         let arrDays = objF.days?.components(separatedBy: ",") ?? []
+        print("Days : === \(arrDays)")
+
         let identifiers = arrDays.map({ (id + "_" + $0) })
+        print("identifiers : === \(identifiers)")
+
         NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
         for i in arrDays {
             let identifier = id + "_" + i
             dateComponents.weekday = Int(i) ?? 0
-            NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, repeats: true))
+            NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
         }
     }
 

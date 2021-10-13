@@ -58,8 +58,6 @@ class GeneralSettingViewC: BaseViewController {
 
     override func setTitle() -> String { return SettingOptions.general_setting.title }
 
-    var blockList = ["email", "slack", "Skype", "LinkedIn", "Yahoo"]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpText()
@@ -156,14 +154,6 @@ extension GeneralSettingViewC: BasicSetupType {
         btnAddApp.target = self
         btnAddApp.action = #selector(addAppAction(_:))
 
-        popFocusTime.menu = Focus.FocusTime.focustimes
-        popFocusTime.target = self
-        popFocusTime.action = #selector(foucsTimeSelection(_:))
-
-        popBreakTime.menu = Focus.BreakTime.breaktimes
-        popBreakTime.target = self
-        popBreakTime.action = #selector(breakTimeSelection(_:))
-
         guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
         btnAddWeb.isEnabled = !objF.is_focusing
         btnAddApp.isEnabled = !objF.is_focusing
@@ -196,20 +186,6 @@ extension GeneralSettingViewC {
         checkBoxEachBreak.state = (viewModel.objGCategory?.general_setting?.block_screen_first_min_each_break == true) ? .on : .off
         popBreakTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.break_time as! CVarArg)
         popFocusTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.for_every_time as! CVarArg)
-    }
-
-    @IBAction func foucsTimeSelection(_ sender: Any) {
-        guard let popup = sender as? NSPopUpButton, let val = popup.titleOfSelectedItem, let intVal = Int64(val) else { return }
-        print("Selected Focus Time:", popup.titleOfSelectedItem ?? "")
-        viewModel.objGCategory?.general_setting?.for_every_time = Int64(intVal)
-        DBManager.shared.saveContext()
-    }
-
-    @IBAction func breakTimeSelection(_ sender: Any) {
-        guard let popup = sender as? NSPopUpButton, let val = popup.titleOfSelectedItem, let intVal = Int64(val) else { return }
-        print("Selected Break Time:", popup.titleOfSelectedItem ?? "")
-        viewModel.objGCategory?.general_setting?.break_time = Int64(intVal)
-        DBManager.shared.saveContext()
     }
 
     @IBAction func checkBoxEventHandler(_ sender: NSButton) {
@@ -334,14 +310,5 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
         }
         return nil
-    }
-
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        if let tblV = notification.object as? NSTableView {
-            let selectedRow = tblV.selectedRow
-            if selectedRow != -1 {
-                let option = blockList[selectedRow]
-            }
-        }
     }
 }

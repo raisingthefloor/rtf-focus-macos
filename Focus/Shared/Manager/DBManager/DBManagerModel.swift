@@ -49,6 +49,7 @@ protocol DBMangerLogic {
 
     func createPreSchedule(data: [String: Any?])
     func getFocusSchedule() -> [Focus_Schedule]
+    func getScheduleFocus(id: UUID) -> Focus_Schedule?
 
     func saveContext()
 }

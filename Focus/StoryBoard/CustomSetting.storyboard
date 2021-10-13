@@ -194,7 +194,7 @@
             <objects>
                 <viewController storyboardIdentifier="GeneralSettingView" id="SAg-tH-avP" customClass="GeneralSettingViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="UWY-Li-Pog">
-                        <rect key="frame" x="0.0" y="0.0" width="529" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="529" height="570"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="CBU-5G-YCs">
@@ -380,7 +380,7 @@
                                                                 <rect key="frame" x="-2" y="30" width="402" height="15"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Allow me to temporarily unblock these items during focus sessions:" id="A4j-cR-gbG">
                                                                     <font key="font" metaFont="systemSemibold" size="12"/>
-                                                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="textColor" red="0.0" green="0.0039215686274509803" blue="0.0039215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
                                                             </textField>
@@ -1659,11 +1659,11 @@
                                                                                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                                                 <prototypeCellViews>
                                                                                                                                                     <tableCellView identifier="nameId" misplaced="YES" id="iNT-Ij-G0Z" customClass="ImageTextCell" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                        <rect key="frame" x="5" y="0.0" width="176" height="24"/>
+                                                                                                                                                        <rect key="frame" x="5" y="0.0" width="171" height="24"/>
                                                                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                                                         <subviews>
                                                                                                                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9nG-jy-x2N">
-                                                                                                                                                                <rect key="frame" x="2" y="2" width="172" height="32"/>
+                                                                                                                                                                <rect key="frame" x="2" y="2" width="167" height="32"/>
                                                                                                                                                                 <subviews>
                                                                                                                                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9fr-rT-tbO">
                                                                                                                                                                         <rect key="frame" x="0.0" y="0.0" width="20" height="32"/>
@@ -1673,7 +1673,7 @@
                                                                                                                                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSColorPanel" id="TdC-iy-tG3"/>
                                                                                                                                                                     </imageView>
                                                                                                                                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nPI-yN-F4n">
-                                                                                                                                                                        <rect key="frame" x="30" y="8" width="144" height="16"/>
+                                                                                                                                                                        <rect key="frame" x="30" y="8" width="139" height="16"/>
                                                                                                                                                                         <textFieldCell key="cell" title="Label" id="Bta-jr-5u7">
                                                                                                                                                                             <font key="font" metaFont="system"/>
                                                                                                                                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1716,7 +1716,7 @@
                                                                                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                                                                 <prototypeCellViews>
                                                                                                                                                     <tableCellView identifier="deleteID" id="U3e-vd-3FR" customClass="ButtonCell" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                        <rect key="frame" x="191" y="0.0" width="26" height="24"/>
+                                                                                                                                                        <rect key="frame" x="186" y="0.0" width="26" height="24"/>
                                                                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                                                         <subviews>
                                                                                                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ofw-Go-2rF">
@@ -2699,12 +2699,12 @@
                                                                             <constraint firstAttribute="height" constant="23" id="iz0-Aw-Y60"/>
                                                                             <constraint firstAttribute="width" constant="54" id="rpm-u3-deb"/>
                                                                         </constraints>
-                                                                        <popUpButtonCell key="cell" type="bevel" title="5" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="fEu-Wa-vmC" id="xXD-Ab-KSs">
+                                                                        <popUpButtonCell key="cell" type="bevel" title="5" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="fEu-Wa-vmC" id="xXD-Ab-KSs">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" size="12" name="HelveticaNeue"/>
                                                                             <menu key="menu" id="M1I-d4-iq2">
                                                                                 <items>
-                                                                                    <menuItem title="5" state="on" hidden="YES" id="fEu-Wa-vmC"/>
+                                                                                    <menuItem title="5" state="on" id="fEu-Wa-vmC"/>
                                                                                     <menuItem title="Item 2" id="tpt-Za-YoQ"/>
                                                                                     <menuItem title="Item 3" id="Uqc-Tl-csf"/>
                                                                                 </items>
@@ -2725,12 +2725,12 @@
                                                                             <constraint firstAttribute="width" constant="54" id="NEd-Wa-T8p"/>
                                                                             <constraint firstAttribute="height" constant="23" id="wgB-Ah-khp"/>
                                                                         </constraints>
-                                                                        <popUpButtonCell key="cell" type="bevel" title="25" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="YkD-XI-Znk" id="5vq-tv-M5p">
+                                                                        <popUpButtonCell key="cell" type="bevel" title="25" bezelStyle="regularSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="YkD-XI-Znk" id="5vq-tv-M5p">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" size="12" name="HelveticaNeue"/>
                                                                             <menu key="menu" id="tlM-Lc-IGL">
                                                                                 <items>
-                                                                                    <menuItem title="25" state="on" hidden="YES" id="YkD-XI-Znk"/>
+                                                                                    <menuItem title="25" state="on" id="YkD-XI-Znk"/>
                                                                                     <menuItem title="Item 2" id="iEs-dA-6Id"/>
                                                                                     <menuItem title="Item 3" id="gKQ-dT-tHC"/>
                                                                                 </items>

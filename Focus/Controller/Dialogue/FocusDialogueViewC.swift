@@ -107,9 +107,7 @@ extension FocusDialogueViewC: BasicSetupType {
             btn.activeButtonColor = dialogueType.light_green
             btn.textColor = dialogueType.green
             btn.borderColor = dialogueType.green
-            if !dialogueType.is_extented_buttons.isEmpty {
-                btn.isEnabled = !dialogueType.is_extented_buttons[i]
-            }
+            enableDisable(btn: btn)
             btn.borderWidth = 0.5
             i = i + 1
             btnStackV.addArrangedSubview(btn)
@@ -150,19 +148,40 @@ extension FocusDialogueViewC: BasicSetupType {
         btnContinue.target = self
         btnContinue.action = #selector(continueAction(_:))
     }
+
+    func enableDisable(btn: CustomButton) {
+        let obj = viewModel.reminderSchedule
+        if dialogueType == .schedule_reminded_without_blocklist_alert {
+            switch btn.tag {
+            case 0:
+                btn.isEnabled = !(obj?.extend_info?.is_extend_very_short ?? false)
+            case 1:
+                btn.isEnabled = !(obj?.extend_info?.is_extend_short ?? false)
+            case 2:
+                btn.isEnabled = !(obj?.extend_info?.is_extend_mid ?? false)
+            case 3:
+                btn.isEnabled = !(obj?.extend_info?.is_extend_long ?? false)
+            default: break
+            }
+        }
+
+        if !dialogueType.is_extented_buttons.isEmpty {
+            btn.isEnabled = !dialogueType.is_extented_buttons[btn.tag]
+        }
+    }
 }
 
 extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
         breakAction?(dialogueType.action, extendVal, ButtonValueType(rawValue: sender.tag)!)
-        self.dismiss(nil)
+        dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
             breakAction?(.stop_session, 0, .none)
-            self.dismiss(nil)
+            dismiss(nil)
             return
         }
         let presentedCtrl = WindowsManager.getPresentingController()
@@ -178,11 +197,11 @@ extension FocusDialogueViewC {
 
     @objc func topAction(_ sender: NSButton) {
         breakAction?(.normal_ok, 0, .none)
-        self.dismiss(nil)
+        dismiss(nil)
     }
 
     @objc func continueAction(_ sender: NSButton) {
         breakAction?(.normal_ok, 0, .none)
-        self.dismiss(nil)
+        dismiss(nil)
     }
 }

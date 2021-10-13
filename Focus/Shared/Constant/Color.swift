@@ -44,6 +44,12 @@ struct Color {
     static let edit_bg_color = NSColor("#F4F8FF") ?? .blue.withAlphaComponent(0.3)
     static let note_color = NSColor("#8C191B") ?? .brown
     static let tbl_header_color = NSColor("#EBF2FF") ?? .blue.withAlphaComponent(0.2)
+
+    static let schedule_one_color = NSColor("#662261") ?? .magenta.withAlphaComponent(0.2)
+    static let schedule_two_color = NSColor("#0080A8") ?? .systemYellow.withAlphaComponent(0.2)
+    static let schedule_three_color = NSColor("#002957") ?? .black.withAlphaComponent(0.2)
+    static let schedule_four_color = NSColor("#662261") ?? .magenta.withAlphaComponent(0.2)
+    static let schedule_five_color = NSColor("#008145") ?? .systemGreen.withAlphaComponent(0.2)
 }
 
 extension NSColor {

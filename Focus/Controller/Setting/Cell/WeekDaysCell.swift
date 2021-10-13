@@ -124,6 +124,6 @@ extension WeekDaysCell: BasicSetupType {
         }
         DBManager.shared.saveContext()
         configDays(obj: objFSchedule)
-//        refreshTable?(true)
+        refreshTable?(true)
     }
 }

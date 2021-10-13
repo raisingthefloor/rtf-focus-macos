@@ -213,25 +213,6 @@ extension MenuController: BasicSetupType {
             if isUpdate != nil {
                 self.focusStart?(true)
                 self.dismiss(nil)
-//                let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-//                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-//                switch focusTime {
-//                case .half_past:
-//                    controller.dialogueType = .short_break_alert
-//                    self.presentAsSheet(controller)
-//                case .one_hr:
-//                    errorDialog.errorType = .edit_blocklist_error
-//                    self.presentAsSheet(errorDialog)
-//                case .two_hr:
-//                    errorDialog.errorType = .focus_schedule_error
-//                    self.presentAsSheet(errorDialog)
-//                case .untill_press_stop:
-//                    errorDialog.errorType = .schedule_error
-//                    self.presentAsSheet(errorDialog)
-//                case .stop_focus:
-//                    controller.dialogueType = .till_stop_alert
-//                    self.presentAsSheet(controller)
-//                }
             }
         }
     }
@@ -267,7 +248,7 @@ extension MenuController: BasicSetupType {
             }
         }
         DBManager.shared.saveContext()
-        print("Selected block:", popBlock.titleOfSelectedItem ?? "")
+    //    print("Selected block:", popBlock.titleOfSelectedItem ?? "")
     }
 
     @IBAction func foucsTimeSelection(_ sender: Any) {

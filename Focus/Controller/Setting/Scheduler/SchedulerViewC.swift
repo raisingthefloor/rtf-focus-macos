@@ -71,6 +71,35 @@ extension SchedulerViewC: BasicSetupType {
     }
 
     func bindData() {
+        popFocusTime.menu = Focus.FocusTime.focustimes
+        popBreakTime.menu = Focus.BreakTime.breaktimes
+
+        popFocusTime.selectItem(at: 0)
+        popBreakTime.selectItem(at: 1)
+
+        popBreakTime.target = self
+        popBreakTime.action = #selector(breakTimeSelection(_:))
+
+        popFocusTime.target = self
+        popFocusTime.action = #selector(foucsTimeSelection(_:))
+
+        checkBoxFocusTime.target = self
+        checkBoxFocusTime.action = #selector(checkBoxEventHandler(_:))
+
+        let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
+        g.numberOfClicksRequired = 1
+        lblInstruction.addGestureRecognizer(g) // Need to set range click
+
+        setupData()
+    }
+
+    func setupData() {
+        checkBoxFocusTime.state = (viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session == true) ? .on : .off
+        let breaktime = Int(viewModel.objGCategory?.general_setting?.break_time ?? 0).secondsToTime().timeInMinutes
+        popBreakTime.selectItem(withTitle: "\(breaktime)")
+
+        let focustime = Int(viewModel.objGCategory?.general_setting?.for_every_time ?? 0).secondsToTime().timeInMinutes
+        popFocusTime.selectItem(withTitle: "\(focustime)")
     }
 }
 
@@ -111,7 +140,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cellCombo.configScheduleCell(obj: obj)
                     cellCombo.refreshTable = { isChange in
                         if isChange {
-                            //self.tblSchedule.reloadData()
+                            self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
                         }
                     }
                     return cellCombo
@@ -119,11 +148,23 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? ComboBoxCell {
                     cell.configStartCell(obj: obj, arrTimes: viewModel.arrTimes)
+                    cell.refreshTable = { isChange in
+                        if isChange {
+                            self.processReminderActiveInactive(objFSchedule: obj)
+                        }
+                    }
+
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? ComboBoxCell {
                     cell.configEndCell(obj: obj, arrTimes: viewModel.arrTimes)
+                    cell.refreshTable = { isChange in
+                        if isChange {
+                            self.processReminderActiveInactive(objFSchedule: obj)
+                        }
+                    }
+
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "daysId") {
@@ -131,7 +172,8 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.configDays(obj: obj)
                     cell.refreshTable = { isChange in
                         if isChange {
-                           // self.tblSchedule.reloadData()
+                            self.processReminderActiveInactive(objFSchedule: obj)
+                            self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
                         }
                     }
                     return cell
@@ -175,25 +217,49 @@ extension SchedulerViewC {
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
         objFSchedule.is_active = !objFSchedule.is_active
-        if objFSchedule.is_active {
-            viewModel.input.setReminder(obj: objFSchedule)
-        } else {
-            viewModel.input.removeReminder(obj: objFSchedule)
-        }
-        DBManager.shared.saveContext()
-        //tblSchedule.reloadData()
+        processReminderActiveInactive(objFSchedule: objFSchedule)
+        tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
     }
 
     @objc func deleteSchedule(_ sender: NSButton) {
         let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
         objFSchedule.is_active = false
-        objFSchedule.session_color = nil
         objFSchedule.block_list_id = nil
         objFSchedule.block_list_name = nil
         objFSchedule.days = nil
         objFSchedule.start_time = nil
         objFSchedule.end_time = nil
         DBManager.shared.saveContext()
-        tblSchedule.reloadData()
+        processReminderActiveInactive(objFSchedule: objFSchedule)
+        tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
+    }
+
+    @objc func foucsTimeSelection(_ sender: Any) {
+        guard let popup = sender as? NSPopUpButton else { return }
+        let index = popup.selectedTag()
+        viewModel.objGCategory?.general_setting?.for_every_time = Focus.FocusTime(rawValue: index)!.valueInSeconds
+        DBManager.shared.saveContext()
+    }
+
+    @objc func breakTimeSelection(_ sender: Any) {
+        guard let popup = sender as? NSPopUpButton else { return }
+        let index = popup.selectedTag()
+        viewModel.objGCategory?.general_setting?.break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
+        DBManager.shared.saveContext()
+    }
+
+    @objc func checkBoxEventHandler(_ sender: NSButton) {
+        let isChecked = (sender.state == .on) ? true : false
+        viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session = isChecked
+        DBManager.shared.saveContext()
+    }
+
+    func processReminderActiveInactive(objFSchedule: Focus_Schedule) {
+        if objFSchedule.is_active {
+            viewModel.input.setReminder(obj: objFSchedule)
+        } else {
+            viewModel.input.removeReminder(obj: objFSchedule)
+        }
+        DBManager.shared.saveContext()
     }
 }

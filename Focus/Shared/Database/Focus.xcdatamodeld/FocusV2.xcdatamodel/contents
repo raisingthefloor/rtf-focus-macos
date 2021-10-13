@@ -78,14 +78,17 @@
     <entity name="Focus_Schedule" representedClassName="Focus_Schedule" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="block_list_name" optional="YES" attributeType="String"/>
+        <attribute name="color_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="days" optional="YES" attributeType="String"/>
         <attribute name="end_time" optional="YES" attributeType="String"/>
+        <attribute name="extend_min_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="is_active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="session_color" optional="YES" attributeType="String"/>
         <attribute name="start_time" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="extend_info" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Schedule_Focus_Extend" inverseName="schedule_focus" inverseEntity="Schedule_Focus_Extend"/>
     </entity>
     <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -113,8 +116,8 @@
     </entity>
     <entity name="General_Settings" representedClassName="General_Settings" syncable="YES" codeGenerationType="class">
         <attribute name="block_screen_first_min_each_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="break_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="for_every_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="break_time" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="for_every_time" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="provide_short_break_schedule_session" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="show_count_down_for_break_start_end" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="warning_before_schedule_session_start" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -129,6 +132,13 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Schedule_Focus_Extend" representedClassName="Schedule_Focus_Extend" syncable="YES" codeGenerationType="class">
+        <attribute name="is_extend_long" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_extend_mid" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_extend_short" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_extend_very_short" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="schedule_focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focus_Schedule" inverseName="extend_info" inverseEntity="Focus_Schedule"/>
+    </entity>
     <elements>
         <element name="Application_List" positionX="-36" positionY="90" width="128" height="119"/>
         <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
@@ -141,9 +151,10 @@
         <element name="Extended_FB_Value" positionX="-27" positionY="135" width="128" height="134"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
-        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="179"/>
+        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="224"/>
         <element name="Focuses" positionX="-63" positionY="-18" width="128" height="359"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
+        <element name="Schedule_Focus_Extend" positionX="-27" positionY="144" width="128" height="104"/>
     </elements>
 </model>

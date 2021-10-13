@@ -39,6 +39,7 @@ struct LocalNotificationInfo {
     let body: String?
     let dateComponents: DateComponents
     let identifier: String
+    let uuid: UUID
     let repeats: Bool
 }
 
@@ -56,22 +57,13 @@ class NotificationManager: NotificationMangerLogic {
     }
 
     func validate(response: [AnyHashable: Any], completionHandler: ((UNNotificationPresentationOptions) -> Void)? = nil) {
-        guard let typeString = response["responseType"] as? String, let type = Int(typeString), let uuid = response["id"] as? String else { return }
+        guard let typeString = response["responseType"] as? String, let type = Int(typeString), let uuidStr = response["uuid"] as? String, let uuid = UUID(uuidString: uuidStr) else { return }
 
         print(uuid)
         let notificationType = Notification_Type(rawValue: type) ?? .none
-        let presentCtrl = WindowsManager.getPresentingController()
-
         switch notificationType {
         case .reminder:
-            let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .schedule_reminded_without_blocklist_alert
-            // set here reminder id = reminder_id
-            controller.breakAction = { _, _, _ in
-                // self.updateViewnData(dialogueType: .schedule_reminded_without_blocklist_alert, action: action, value: value, valueType: valueType)
-            }
-            presentCtrl?.presentAsSheet(controller)
-
+            displayScheduleReminder(scheduleId: uuid)
         default:
             if response["responseType"] != nil {
                 completionHandler?([.alert, .sound])
@@ -119,7 +111,7 @@ extension NotificationManager {
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = info.title
         notificationContent.body = info.body ?? ""
-        notificationContent.userInfo = ["responseType": String(format: "%d", Notification_Type.reminder.rawValue), "id": info.identifier]
+        notificationContent.userInfo = ["responseType": String(format: "%d", Notification_Type.reminder.rawValue), "id": info.identifier, "uuid": info.uuid.uuidString]
         notificationContent.sound = .default
         let trigger = UNCalendarNotificationTrigger(dateMatching: info.dateComponents, repeats: info.repeats)
         let request = UNNotificationRequest(identifier: info.identifier,
@@ -130,28 +122,94 @@ extension NotificationManager {
             if let error = error {
                 print("Notification Error: \(error)")
             } else {
-                #if DEV
-                    logInfo(" TITLE: \(info.body ?? "") \n Notification Set \(request)")
-                #endif
+                print(" TITLE: \(info.identifier) \n Notification Set \(request)")
             }
         }
     }
 
     func removePendingNotificationRequests(identifiers: [String]) {
-        #if DEV
-            logInfo("Notification identifiers Remove \(identifiers)")
-
-            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-                logInfo("Register Notification identifiers \(notifications.map({ $0.identifier }))")
-            }
-        #endif
-
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+    }
+}
 
-        #if DEV
-            UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-                logInfo("After Remove Notification identifiers \(notifications.map({ $0.identifier }))")
+extension NotificationManager {
+    func displayScheduleReminder(scheduleId: UUID) {
+        let presentCtrl = WindowsManager.getPresentingController()
+        guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId), let objEx = obj.extend_info else { return }
+        if objEx.is_extend_long, objEx.is_extend_mid, objEx.is_extend_short, objEx.is_extend_very_short {
+            return
+        }
+        let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
+        controller.dialogueType = .schedule_reminded_without_blocklist_alert
+        controller.viewModel.reminderSchedule = obj
+        controller.breakAction = { action, value, valueType in
+            self.updateViewnData(dialogueType: .schedule_reminded_without_blocklist_alert, action: action, value: value, valueType: valueType, scheduleId: scheduleId)
+        }
+        presentCtrl?.presentAsSheet(controller)
+    }
+
+    func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType, scheduleId: UUID) {
+        guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId) else { return }
+        switch action {
+        case .extend_reminder:
+            obj.extend_min_time = Int64(value)
+            updateExtendedObject(dialogueType: dialogueType, valueType: valueType, obj: obj)
+            DBManager.shared.saveContext()
+            updateReminder(obj: obj)
+        case .skip_session:
+            break
+        case .normal_ok:
+            redirectToMainMenu()
+        default: break
+        }
+    }
+
+    func updateExtendedObject(dialogueType: FocusDialogue, valueType: ButtonValueType, obj: Focus_Schedule) {
+        guard let objEx = obj.extend_info else { return }
+        switch dialogueType {
+        case .schedule_reminded_without_blocklist_alert:
+            if !objEx.is_extend_long {
+                objEx.is_extend_long = true
+            } else if !objEx.is_extend_mid {
+                objEx.is_extend_mid = true
+            } else if !objEx.is_extend_short {
+                objEx.is_extend_short = true
+            } else if !objEx.is_extend_very_short {
+                objEx.is_extend_very_short = true
             }
-        #endif
+        default: break
+        }
+    }
+
+    func redirectToMainMenu() {
+        if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+            let presentCtrl = WindowsManager.getPresentingController()
+            controller.focusStart = { [weak self] isStarted in
+                if isStarted {
+                    // self?.setupCountDown() Set there the Observer to start Countdown
+                }
+            }
+            presentCtrl?.presentAsModalWindow(controller)
+        }
+    }
+
+    func updateReminder(obj: Focus_Schedule?) {
+        guard let objF = obj, let uuid = objF.id, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
+        var dateComponents = startTime.toDateComponent()
+        dateComponents.minute = (Date().currentDateComponent().minute ?? 0) + Int(obj?.extend_min_time ?? 15)
+        print("DateComponents : === \(dateComponents)")
+
+        let arrDays = objF.days?.components(separatedBy: ",") ?? []
+        print("Days : === \(arrDays)")
+
+        let identifiers = arrDays.map({ (id + "_" + $0) })
+        print("identifiers : === \(identifiers)")
+
+        NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
+        for i in arrDays {
+            let identifier = id + "_" + i
+            dateComponents.weekday = Int(i) ?? 0
+            NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
+        }
     }
 }

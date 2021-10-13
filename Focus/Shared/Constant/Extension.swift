@@ -261,6 +261,10 @@ extension Date {
         let weekday: Int = Calendar.current.component(.weekday, from: self) - Calendar.current.firstWeekday
         return weekday
     }
+
+    func currentDateComponent() -> DateComponents {
+        return Calendar.current.dateComponents([.hour, .minute, .second, .weekday], from: self)
+    }
 }
 
 extension Int {

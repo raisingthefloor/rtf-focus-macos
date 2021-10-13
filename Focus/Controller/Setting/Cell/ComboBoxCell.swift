@@ -60,6 +60,7 @@ extension ComboBoxCell: BasicSetupType {
         }
         if comboTime != nil {
             comboTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+            comboTime.alignment = .center
         }
     }
 }
@@ -69,21 +70,27 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
     func configStartCell(obj: Focus_Schedule?, arrTimes: [String]) {
         self.arrTimes = arrTimes
         objFSchedule = obj
+        let is_active = objFSchedule?.is_active ?? false
+
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 1
         comboTime.delegate = self
         comboTime.selectItem(withObjectValue: obj?.start_time)
+        comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
     }
 
     func configEndCell(obj: Focus_Schedule?, arrTimes: [String]) {
         self.arrTimes = arrTimes
         objFSchedule = obj
+        let is_active = objFSchedule?.is_active ?? false
+
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 2
         comboTime.delegate = self
         comboTime.selectItem(withObjectValue: obj?.end_time)
+        comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
     }
 
     func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
@@ -113,6 +120,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
             objFSchedule?.end_time = time
         }
         DBManager.shared.saveContext()
+        refreshTable?(true)
     }
 }
 
@@ -121,14 +129,24 @@ extension ComboBoxCell {
     func configScheduleCell(obj: Focus_Schedule?) {
         objFSchedule = obj
 
+        let color = objFSchedule?.session_color ?? "#DCEFE6"
+        let is_active = objFSchedule?.is_active ?? false
+        let color_type = ColorType(rawValue: Int(objFSchedule?.color_type ?? 1))
+
         popBlocklist.removeAllItems()
         popBlocklist.menu = modelV.input.getBlockList(cntrl: .schedule_session).0
         popBlocklist.target = self
         popBlocklist.action = #selector(handleBlockSelection(_:))
 
-        let color = objFSchedule?.session_color ?? "#DCEFE6"
-        statusV.background_color = NSColor(color) ?? NSColor.random
+        statusV.background_color = is_active ? (NSColor(color) ?? NSColor.random) : Color.list_bg_color
+        if color_type == .hollow {
+            statusV.background_color = Color.list_bg_color
+            statusV.border_color = is_active ? (NSColor(color) ?? Color.light_blue_color) : .clear
+            statusV.border_width = 2.5
+        }
+
         popBlocklist.selectItem(withTitle: objFSchedule?.block_list_name ?? "")
+        popBlocklist.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
     }
 
     @objc func handleBlockSelection(_ sender: Any) {

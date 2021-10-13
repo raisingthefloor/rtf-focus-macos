@@ -29,7 +29,7 @@ protocol DismissViewCDelegate: AnyObject {
     func dismissViewC()
 }
 
-class BaseViewController: NSViewController, ItemBody {
+class BaseViewController: NSViewController {
     typealias alertActionClosure = (_ value: String, _ action: Bool) -> Void
 
     //  header title.
@@ -55,32 +55,11 @@ extension BaseViewController {
 // MARK: - Alert
 
 extension BaseViewController {
-    @objc func openBrowser() {
-        guard let url = URL(string: "https://morphic.org/") else { return }
+    @objc func openBrowser(urlString: String = "https://morphic.org/") {
+        guard let url = URL(string: urlString) else { return }
         if NSWorkspace.shared.open(url) {
             print("default browser was successfully opened")
         }
-    }
-
-    func promptToForInput(_ msg: String, _ information: String, completion: alertActionClosure) {
-        let alert: NSAlert = NSAlert()
-
-        alert.addButton(withTitle: "OK")
-        alert.addButton(withTitle: "Cancel")
-        alert.messageText = msg
-        alert.informativeText = information
-
-        let txtField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
-        txtField.stringValue = ""
-        txtField.placeholderString = "Enter Url"
-        alert.accessoryView = txtField
-        let response: NSApplication.ModalResponse = alert.runModal()
-
-        var actionState = false
-        if response == NSApplication.ModalResponse.alertFirstButtonReturn {
-            actionState = true
-        }
-        completion(txtField.stringValue, actionState)
     }
 
     func systemAlert(title: String, description: String, btnOk: String) {

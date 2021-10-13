@@ -286,7 +286,7 @@ extension DBManager {
         (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
 
         if type == .general {
-            let setting_data: [String: Any?] = ["warning_before_schedule_session_start": true, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": 5, "for_every_time": 15]
+            let setting_data: [String: Any?] = ["warning_before_schedule_session_start": true, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
 
             let objGS = General_Settings(context: DBManager.shared.managedContext)
             for (key, value) in setting_data {
@@ -370,6 +370,14 @@ extension DBManager {
             focus_schedule.setValue(value, forKeyPath: key)
         }
 
+        let extend: [String: Any?] = ["is_extend_very_short": false, "is_extend_short": false, "is_extend_mid": false, "is_extend_long": false]
+        let objSCE = Schedule_Focus_Extend(context: DBManager.shared.managedContext)
+
+        for (key, value) in extend {
+            objSCE.setValue(value, forKeyPath: key)
+        }
+        (focus_schedule as? Focus_Schedule)?.extend_info = objSCE
+
         do {
             try DBManager.shared.managedContext.save()
         } catch let error as NSError {
@@ -387,6 +395,20 @@ extension DBManager {
             print("Could not fetch. categories \(error), \(error.userInfo)")
         }
         return []
+    }
+
+    func getScheduleFocus(id: UUID) -> Focus_Schedule? {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Focus_Schedule")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+
+        do {
+            let focusSchedule = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let focusSchedules = focusSchedule as? [Focus_Schedule] else { return nil }
+            return focusSchedules.first
+        } catch let error as NSError {
+            print("Could not fetch. SF \(error), \(error.userInfo)")
+        }
+        return nil
     }
 }
 

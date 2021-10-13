@@ -43,13 +43,13 @@ class HeaderViewC: NSViewController {
     }
 }
 
-extension HeaderViewC: BasicSetupType, ItemHeader {
+extension HeaderViewC: BasicSetupType {
     func setUpText() {
         lblTitle.stringValue = title!
     }
 
     func setUpViews() {
-       // headerView.layer?.backgroundColor = .black
+        // headerView.layer?.backgroundColor = .black
     }
 
     func bindData() {

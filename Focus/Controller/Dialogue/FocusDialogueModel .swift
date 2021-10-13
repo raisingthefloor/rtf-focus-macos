@@ -250,15 +250,16 @@ extension FocusDialogue {
     }
 
     var is_extented_buttons: [Bool] {
-        guard let objExte = DBManager.shared.getCurrentSession()?.extended_value else { return [] }
+        let objExte = DBManager.shared.getCurrentSession()?.extended_value
         switch self {
         case .short_break_alert:
-            return [objExte.is_small_focus, objExte.is_mid_focus, objExte.is_long_focus]
+            return [objExte?.is_small_focus ?? false, objExte?.is_mid_focus ?? false, objExte?.is_long_focus ?? false]
         case .long_break_alert:
-            return [objExte.is_small_focus, objExte.is_mid_focus, objExte.is_long_focus]
+            return [objExte?.is_small_focus ?? false, objExte?.is_mid_focus ?? false, objExte?.is_long_focus ?? false]
         case .end_break_alert:
-            return [objExte.is_small_break, objExte.is_mid_break, objExte.is_long_break]
-        case .schedule_reminded_without_blocklist_alert: return []
+            return [objExte?.is_small_break ?? false, objExte?.is_mid_break ?? false, objExte?.is_long_break ?? false]
+        case .schedule_reminded_without_blocklist_alert:
+            return []
         case .seession_completed_alert: return []
         case .schedule_reminded_with_blocklist_alert: return []
         default:

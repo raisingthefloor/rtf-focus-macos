@@ -171,10 +171,14 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
 
     static func preAddSchedule() {
         if !DBManager.shared.checkDataIsPresent(entityName: "Focus_Schedule") {
-            for _ in 0 ..< 5 {
-                let dict: [String: Any?] = ["id": UUID(), "block_list_id": nil, "block_list_name": nil, "session_color": nil,
-                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date(), "days": nil, "type": ScheduleType.none.rawValue]
+            let colors: [String] = [Color.schedule_one_color.hex, Color.schedule_two_color.hex, Color.schedule_three_color.hex, Color.schedule_four_color.hex, Color.schedule_five_color.hex]
+            var i = 0
+            for color in colors {
+                let color_type = (i == 3 || i == 4) ? ColorType.hollow.rawValue : ColorType.solid.rawValue
+                let dict: [String: Any?] = ["id": UUID(), "block_list_id": nil, "block_list_name": nil, "session_color": color,
+                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date(), "days": nil, "type": ScheduleType.none.rawValue, "color_type": color_type]
                 DBManager.shared.createPreSchedule(data: dict)
+                i = i + 1
             }
         }
     }
@@ -200,4 +204,9 @@ enum ViewCntrl: Int {
             return ""
         }
     }
+}
+
+enum ColorType: Int {
+    case solid = 1
+    case hollow
 }
