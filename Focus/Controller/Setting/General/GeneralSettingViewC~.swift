@@ -164,9 +164,9 @@ extension GeneralSettingViewC: BasicSetupType {
         btnAddWeb.isEnabled = !objF.is_focusing
         btnAddApp.isEnabled = !objF.is_focusing
 
-//        checkBoxWarning.isEnabled = !objF.is_focusing
-//        checkBoxShowTimer.isEnabled = !objF.is_focusing
-//        checkBoxEachBreak.isEnabled = !objF.is_focusing
+        checkBoxWarning.isEnabled = !objF.is_focusing
+        checkBoxShowTimer.isEnabled = !objF.is_focusing
+        checkBoxEachBreak.isEnabled = !objF.is_focusing
 
         if objF.is_focusing {
             openErrorDialogue()

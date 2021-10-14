@@ -117,7 +117,7 @@ extension InputDialogueViewC: BasicSetupType {
                 addedSuccess?([], false)
                 dismiss(sender)
             } else {
-                if txtField.stringValue.isValidUrl {
+                if !txtField.stringValue.isValidUrl {
                     lblError.isHidden = false
                     lblError.stringValue = inputType.error_message
                     return
