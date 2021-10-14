@@ -38,7 +38,7 @@ class InputDialogueViewC: NSViewController {
     @IBOutlet var btnCancel: CustomButton!
 
     var inputType: InputDialogue = .add_website
-    var addedSuccess: (([[String: Any?]],Bool) -> Void)?
+    var addedSuccess: (([[String: Any?]], Bool) -> Void)?
     var dataModel: DataModelType = DataModel()
 
     override func viewDidLoad() {
@@ -117,13 +117,15 @@ extension InputDialogueViewC: BasicSetupType {
                 addedSuccess?([], false)
                 dismiss(sender)
             } else {
+                if txtField.stringValue.isValidUrl {
+                    lblError.isHidden = false
+                    lblError.stringValue = inputType.error_message
+                    return
+                }
+                lblError.isHidden = true
                 let data: [String: Any?] = ["url": txtField.stringValue, "name": txtField.stringValue, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue, "id": UUID()]
-//                dataModel.input.updateSelectedBlocklist(data: [data]) { isStore in
-//                    if isStore {
                 addedSuccess?([data], false)
                 dismiss(sender)
-//                    }
-//                }
             }
         }
     }
@@ -135,13 +137,18 @@ extension InputDialogueViewC: BasicSetupType {
 
     @objc func testUrlAction(_ sender: NSButton) {
         lblError.isHidden = !txtField.stringValue.isEmpty
-        guard !txtField.stringValue.isEmpty else {
+        var url = txtField.stringValue
+        guard !url.isEmpty else {
             lblError.stringValue = inputType.error_message
             return
         }
-        guard let url = URL(string: txtField.stringValue) else { return }
-        if NSWorkspace.shared.open(url) {
-            print("default browser was successfully opened")
+
+        if url.isValidUrl {
+            url = "http://" + url
+            guard let urlV = URL(string: url) else { return }
+            if NSWorkspace.shared.open(urlV) {
+                print("default browser was successfully opened")
+            }
         }
     }
 }

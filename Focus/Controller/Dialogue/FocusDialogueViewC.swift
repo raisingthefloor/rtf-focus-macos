@@ -179,6 +179,11 @@ extension FocusDialogueViewC {
     }
 
     @objc func stopAction(_ sender: NSButton) {
+        if dialogueType == .schedule_reminded_without_blocklist_alert || dialogueType == .schedule_reminded_with_blocklist_alert {
+            breakAction?(.skip_session, 0, .none)
+            dismiss(nil)
+            return
+        }
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
             breakAction?(.stop_session, 0, .none)
             dismiss(nil)

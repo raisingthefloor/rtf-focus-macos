@@ -54,11 +54,13 @@ class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput,
     func addAppWebData(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_SubCategory] = []
         for val in data {
-            let objSubWA = Block_SubCategory(context: DBManager.shared.managedContext)
-            for (key, value) in val {
-                objSubWA.setValue(value, forKeyPath: key)
+            if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_SubCategory", name: val["name"] as? String) {
+                let objSubWA = Block_SubCategory(context: DBManager.shared.managedContext)
+                for (key, value) in val {
+                    objSubWA.setValue(value, forKeyPath: key)
+                }
+                arrObj.append(objSubWA)
             }
-            arrObj.append(objSubWA)
         }
         arrObj = arrObj + (objGCategory?.sub_data?.allObjects as! [Block_SubCategory])
         objGCategory?.sub_data = NSSet(array: arrObj)

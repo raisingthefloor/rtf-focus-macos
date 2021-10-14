@@ -82,7 +82,11 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         }
         var i = 0
         for obj in blocklist {
-            let menuItem = NSMenuItem(title: obj.name ?? "-", action: nil, keyEquivalent: "")
+            var title = obj.name ?? "-"
+            if obj.restart_computer || obj.random_character {
+                title = "🔒" + " " + title
+            }
+            let menuItem = NSMenuItem(title: title, action: nil, keyEquivalent: "")
             menuItem.tag = i
             menus.addItem(menuItem)
             i = i + 1
@@ -119,11 +123,13 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_App_Web] = []
         for val in data {
-            let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
-            for (key, value) in val {
-                objblockWA.setValue(value, forKeyPath: key)
+            if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_App_Web", name: val["name"] as? String) {
+                let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
+                for (key, value) in val {
+                    objblockWA.setValue(value, forKeyPath: key)
+                }
+                arrObj.append(objblockWA)
             }
-            arrObj.append(objblockWA)
         }
         arrObj = arrObj + (objBlocklist?.block_app_web?.allObjects as! [Block_App_Web])
         objBlocklist?.block_app_web = NSSet(array: arrObj)
@@ -134,11 +140,13 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Exception_App_Web] = []
         for val in data {
-            let objexceptionWA = Exception_App_Web(context: DBManager.shared.managedContext)
-            for (key, value) in val {
-                objexceptionWA.setValue(value, forKeyPath: key)
+            if !DBManager.shared.checkAppWebIsPresent(entityName: "Exception_App_Web", name: val["name"] as? String) {
+                let objexceptionWA = Exception_App_Web(context: DBManager.shared.managedContext)
+                for (key, value) in val {
+                    objexceptionWA.setValue(value, forKeyPath: key)
+                }
+                arrObj.append(objexceptionWA)
             }
-            arrObj.append(objexceptionWA)
         }
         arrObj = arrObj + (objBlocklist?.exception_block?.allObjects as! [Exception_App_Web])
         objBlocklist?.exception_block = NSSet(array: arrObj)
@@ -159,7 +167,6 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         } else {
             let arrCat = objBlocklist?.block_category?.allObjects as! [Block_List_Category]
             guard let obj = arrCat.filter({ $0.id == objCat.id }).compactMap({ $0 }).first else { return callback(false) }
-            print(obj)
             DBManager.shared.managedContext.delete(obj)
         }
         DBManager.shared.saveContext()

@@ -228,7 +228,7 @@ extension FocusDialogue {
         case .end_break_alert:
             return [1 * 60, 5 * 60, 15 * 60]
         case .schedule_reminded_without_blocklist_alert:
-            return [5 * 60, 15 * 60, 30 * 60, 60 * 60]
+            return [5, 15, 30, 60]
         case .none:
             return []
         }
@@ -244,6 +244,8 @@ extension FocusDialogue {
             return .normal_ok
         case .long_break_alert:
             return .normal_ok
+        case .schedule_reminded_without_blocklist_alert, .schedule_reminded_with_blocklist_alert:
+            return .extend_reminder
         default:
             return .normal_ok
         }

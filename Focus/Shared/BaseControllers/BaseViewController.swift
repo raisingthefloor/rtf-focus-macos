@@ -55,7 +55,8 @@ extension BaseViewController {
 // MARK: - Alert
 
 extension BaseViewController {
-    @objc func openBrowser(urlString: String = "https://morphic.org/") {
+    @objc func openBrowser() {
+        let urlString = "https://morphic.org/"
         guard let url = URL(string: urlString) else { return }
         if NSWorkspace.shared.open(url) {
             print("default browser was successfully opened")

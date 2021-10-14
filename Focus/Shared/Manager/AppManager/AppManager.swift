@@ -23,6 +23,7 @@
  * Consumer Electronics Association Foundation
  */
 
+import AppleScriptObjC
 import Cocoa
 import Foundation
 
@@ -37,13 +38,41 @@ class AppManager {
         }
     }
 
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    var browserBridge: AppleScriptProtocol?
+    var reminderModel: ReminderModelType = ReminderTimerManager()
+
     func registerLocalNotification() {
-        appDelegate?.registerhLocalDelegate()
-        appDelegate?.registerLocalNotification()
+        appDelegate.registerhLocalDelegate()
+        appDelegate.registerLocalNotification()
+    }
+
+    func initialSetup() {
+        NotificationCenter.default.addObserver(self, selector: #selector(calendarDayDidChange), name: .NSCalendarDayChanged, object: nil)
+        loadScript()
+        doSpotlightQuery()
+        DataModel.preAddSchedule()
+        startCheckingReminder()
+    }
+
+    func loadScript() {
+        BrowserScript.load()
+        guard let bridgeScript = BrowserScript.loadScript() as? AppleScriptProtocol else { return }
+        browserBridge = bridgeScript
+    }
+
+    func startCheckingReminder() {
+        reminderModel.input.setupInitial()
     }
 }
 
 extension AppManager {
+    @objc func calendarDayDidChange() {
+        let arrSubCat = DBManager.shared.getGeneralCategoryData().subCat
+        _ = arrSubCat.map({ $0.is_selected = false })
+        DBManager.shared.saveContext()
+    }
+
     public func doSpotlightQuery() {
         query = NSMetadataQuery()
         let predicate = NSPredicate(format: "kMDItemKind == 'Application'")

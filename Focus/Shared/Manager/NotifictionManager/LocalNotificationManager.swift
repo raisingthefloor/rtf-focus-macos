@@ -59,7 +59,7 @@ class NotificationManager: NotificationMangerLogic {
     func validate(response: [AnyHashable: Any], completionHandler: ((UNNotificationPresentationOptions) -> Void)? = nil) {
         guard let typeString = response["responseType"] as? String, let type = Int(typeString), let uuidStr = response["uuid"] as? String, let uuid = UUID(uuidString: uuidStr) else { return }
 
-        print(uuid)
+        print("Validate Notification Response: \(uuid)")
         let notificationType = Notification_Type(rawValue: type) ?? .none
         switch notificationType {
         case .reminder:
@@ -92,7 +92,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        NSLog("**** didReceive response: UNNotificationResponse \(NotificationManager.shared)")
+        print("**** didReceive response: UNNotificationResponse \(NotificationManager.shared)")
         NotificationManager.shared.validate(response: response.notification.request.content.userInfo,
                                             completionHandler: nil)
     }
@@ -100,7 +100,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        NSLog("#### willPresent notification: UNNotification \(notification.request.content.userInfo)")
+        print("#### willPresent notification: UNNotification \(notification.request.content.userInfo)")
         NotificationManager.shared.validate(response: notification.request.content.userInfo,
                                             completionHandler: completionHandler)
     }
@@ -137,6 +137,7 @@ extension NotificationManager {
         let presentCtrl = WindowsManager.getPresentingController()
         guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId), let objEx = obj.extend_info else { return }
         if objEx.is_extend_long, objEx.is_extend_mid, objEx.is_extend_short, objEx.is_extend_very_short {
+            redirectToMainMenu()
             return
         }
         let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
@@ -184,6 +185,16 @@ extension NotificationManager {
     func redirectToMainMenu() {
         if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
             let presentCtrl = WindowsManager.getPresentingController()
+
+            if presentCtrl is CustomSettingController {
+                presentCtrl?.dismiss(nil)
+                return
+            }
+
+            if presentCtrl is MenuController {
+                return
+            }
+
             controller.focusStart = { [weak self] isStarted in
                 if isStarted {
                     // self?.setupCountDown() Set there the Observer to start Countdown
@@ -199,17 +210,19 @@ extension NotificationManager {
         dateComponents.minute = (Date().currentDateComponent().minute ?? 0) + Int(obj?.extend_min_time ?? 15)
         print("DateComponents : === \(dateComponents)")
 
-        let arrDays = objF.days?.components(separatedBy: ",") ?? []
-        print("Days : === \(arrDays)")
+        var arrDays = objF.days?.components(separatedBy: ",") ?? []
+        arrDays = arrDays.filter({ $0 != "" }).compactMap({ $0 })
+        if !arrDays.isEmpty {
+            print("Days : === \(arrDays)")
+            let identifiers = arrDays.map({ (id + "_" + $0) })
+            print("identifiers : === \(identifiers)")
 
-        let identifiers = arrDays.map({ (id + "_" + $0) })
-        print("identifiers : === \(identifiers)")
-
-        NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
-        for i in arrDays {
-            let identifier = id + "_" + i
-            dateComponents.weekday = Int(i) ?? 0
-            NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
+            NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
+            for i in arrDays {
+                let identifier = id + "_" + i
+                dateComponents.weekday = Int(i) ?? 0
+                NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
+            }
         }
     }
 }

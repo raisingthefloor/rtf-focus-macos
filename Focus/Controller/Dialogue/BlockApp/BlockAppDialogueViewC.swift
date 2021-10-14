@@ -53,8 +53,13 @@ class BlockAppDialogueViewC: NSViewController {
 
 extension BlockAppDialogueViewC: BasicSetupType {
     func setUpText() {
+        guard let objBl = viewModel.currentSession?.objBl else { return }
         let appName = ((dialogueType == .notifiction_block_alert) ? "Notifiction" : viewModel.application?.localizedName) ?? "-"
-        let list_name = viewModel.currentSession?.objBl?.name ?? "-"
+        var list_name = objBl.name ?? "-"
+        if objBl.restart_computer || objBl.random_character {
+            list_name = "🔒" + " " + list_name
+        }
+
         let titleV = String(format: dialogueType.title, appName as! CVarArg)
         lblTitle.stringValue = titleV
 
@@ -130,13 +135,13 @@ extension BlockAppDialogueViewC: BasicSetupType {
 
     @objc func okAction(_ sender: NSButton) {
         updateView?(.normal_ok)
-        self.dismiss(nil)
+        dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
         if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
             updateView?(.stop_session)
-            self.dismiss(nil)
+            dismiss(nil)
             return
         }
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)

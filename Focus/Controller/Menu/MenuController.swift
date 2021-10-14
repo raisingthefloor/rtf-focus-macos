@@ -296,7 +296,6 @@ extension MenuController {
                 detailVC.selectOption = sender as? SettingOptions ?? SettingOptions.general_setting
                 detailVC.updateView = { [weak self] _ in
                     self?.popBlock.menu = self?.dataModel.input.getBlockList(cntrl: .main_menu).0
-
                     if let arrBlock = self?.dataModel.input.getBlockList(cntrl: .main_menu).1,!arrBlock.isEmpty {
                         guard let obj = self?.viewModel.input.focusObj else { return }
                         obj.block_list_id = arrBlock[0].id

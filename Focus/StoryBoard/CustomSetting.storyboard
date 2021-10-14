@@ -238,7 +238,7 @@
                                                             </textField>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xfo-5Q-gLr">
                                                                 <rect key="frame" x="-2" y="41" width="434" height="18"/>
-                                                                <buttonCell key="cell" type="check" title="Don't give me a 5 minute warning before scheduled focus sessions start" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="C4z-ph-mcR">
+                                                                <buttonCell key="cell" type="check" title="Don't give me a 5 minute warning before scheduled focus sessions start" bezelStyle="regularSquare" imagePosition="left" inset="2" id="C4z-ph-mcR">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="cellTitle"/>
                                                                 </buttonCell>
@@ -337,7 +337,7 @@
                                                             </textField>
                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0cH-Bv-HN4">
                                                                 <rect key="frame" x="-2" y="20" width="354" height="18"/>
-                                                                <buttonCell key="cell" type="check" title="Show count down timer in minutes for break start and end" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="sP4-Sy-4hs">
+                                                                <buttonCell key="cell" type="check" title="Show count down timer in minutes for break start and end" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sP4-Sy-4hs">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="cellTitle"/>
                                                                 </buttonCell>

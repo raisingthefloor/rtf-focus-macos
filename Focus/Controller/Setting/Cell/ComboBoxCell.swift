@@ -78,6 +78,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.delegate = self
         comboTime.selectItem(withObjectValue: obj?.start_time)
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
+        print("Start date : \(obj?.start_time)")
     }
 
     func configEndCell(obj: Focus_Schedule?, arrTimes: [String]) {
@@ -91,6 +92,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.delegate = self
         comboTime.selectItem(withObjectValue: obj?.end_time)
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
+        print("End date : \(obj?.end_time)")
     }
 
     func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {

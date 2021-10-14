@@ -97,7 +97,13 @@ extension SessionInfoView: BasicSetupType {
         }
 
         lblHoursV.stringValue = time
-        lblBlockV.stringValue = "\(objB?.name ?? "-")"
+
+        var list_name = objB?.name ?? "-"
+        if objB?.restart_computer ?? false || objB?.random_character ?? false {
+            list_name = "🔒" + " " + list_name
+        }
+
+        lblBlockV.stringValue = list_name
         lblEndV.stringValue = (objFocus?.end_time ?? Date()).convertToTime()
     }
 }

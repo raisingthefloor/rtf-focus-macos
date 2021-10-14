@@ -35,6 +35,7 @@
 		3F7FCEF426C12F76003BC19A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */; };
 		3F8A231926D757D100D575F7 /* ExAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A231826D757D100D575F7 /* ExAttributedString.swift */; };
 		3F8A8B00268C53FD007A36DC /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A8AFF268C53FD007A36DC /* WindowController.swift */; };
+		3F8FE326271855EA00F8CE2A /* ReminderTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8FE325271855EA00F8CE2A /* ReminderTimerManager.swift */; };
 		3F9111E9268D95A200706B51 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111E8268D95A200706B51 /* CheckBoxCell.swift */; };
 		3F9111F1268DBD0D00706B51 /* HKNibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F0268DBD0D00706B51 /* HKNibView.swift */; };
 		3F9111F3268DD78600706B51 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9111F2268DD78500706B51 /* ButtonCell.swift */; };
@@ -132,6 +133,7 @@
 		3F7FCEF326C12F76003BC19A /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		3F8A231826D757D100D575F7 /* ExAttributedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExAttributedString.swift; sourceTree = "<group>"; };
 		3F8A8AFF268C53FD007A36DC /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
+		3F8FE325271855EA00F8CE2A /* ReminderTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTimerManager.swift; sourceTree = "<group>"; };
 		3F9111E8268D95A200706B51 /* CheckBoxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxCell.swift; sourceTree = "<group>"; };
 		3F9111F0268DBD0D00706B51 /* HKNibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKNibView.swift; sourceTree = "<group>"; };
 		3F9111F2268DD78500706B51 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
@@ -492,6 +494,7 @@
 			children = (
 				3FA82F21270DEF4000D46788 /* FocusTimerManager.swift */,
 				3FF51332270AC17200BBD964 /* BreakTimerManager.swift */,
+				3F8FE325271855EA00F8CE2A /* ReminderTimerManager.swift */,
 			);
 			path = TimeManager;
 			sourceTree = "<group>";
@@ -732,6 +735,7 @@
 				3F1AA87B26EB56D4007BDA37 /* EditBlockListViewC.swift in Sources */,
 				3F58B09226D6224900D730D9 /* SessionInfoView.swift in Sources */,
 				3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */,
+				3F8FE326271855EA00F8CE2A /* ReminderTimerManager.swift in Sources */,
 				3FB01CFA26FB475200828486 /* BlocklistDialogueViewModel.swift in Sources */,
 				3F4C3358269D56AD0016F5E1 /* GeneralSettingModel.swift in Sources */,
 				3F34ADBF271412DC00471323 /* LocalNotificationManager.swift in Sources */,
@@ -941,7 +945,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;
@@ -966,7 +970,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Focus/Info.plist;

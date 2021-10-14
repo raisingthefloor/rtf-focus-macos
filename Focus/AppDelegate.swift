@@ -27,35 +27,15 @@ import AppleScriptObjC
 import Cocoa
 import UserNotifications
 
-let appDelegate = NSApplication.shared.delegate as? AppDelegate
-
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    var browserBridge: AppleScriptProtocol?
     var windowController: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Setup the Focus button
-        AppManager.shared.registerLocalNotification()
-
-        UNUserNotificationCenter.current().getPendingNotificationRequests { notifications in
-            print("Registered Notification identifiers \(notifications.map({ $0.identifier }))")
-            print("Registered Notification  \(notifications)")
-        }
-        
-//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-
-        loadScript()
+        AppManager.shared.initialSetup()
         openFocus()
-        AppManager.shared.doSpotlightQuery()
-        DataModel.preAddSchedule()
-    }
-
-    func loadScript() {
-        BrowserScript.load()
-        guard let bridgeScript = BrowserScript.loadScript() as? AppleScriptProtocol else { return }
-        browserBridge = bridgeScript
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

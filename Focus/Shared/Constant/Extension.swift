@@ -54,9 +54,16 @@ extension String {
         return String((0 ..< length).map { _ in letters.randomElement()! })
     }
 
+//    var isValidUrl: Bool {
+//        let urlRegEx = "((?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
+//        return NSPredicate(format: "SELF MATCHES %@", urlRegEx).evaluate(with: self)
+//    }
+
     var isValidUrl: Bool {
-        let urlRegEx = "((?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
-        return NSPredicate(format: "SELF MATCHES %@", urlRegEx).evaluate(with: self)
+        let urlRegEx = "((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let urlTest = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
+        let result = urlTest.evaluate(with: self)
+        return result
     }
 
     func toDateComponent() -> DateComponents {
@@ -254,6 +261,12 @@ extension Date {
     func dayOfWeek() -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: self).capitalized
+    }
+
+    func currentTime() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: self).capitalized
     }
 

@@ -114,6 +114,23 @@ extension DBManager: DBMangerLogic {
 
 // Focus Create
 extension DBManager {
+    func checkAppWebIsPresent(entityName: String, name: String?) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetchRequest.predicate = NSPredicate(format: "name = %@", name ?? "")
+
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch let error {
+            print("Could not Check data. categories \(error), \(error.localizedDescription)")
+            return false
+        }
+    }
+
     func createFocus(data: [String: Any]) {
         let entity = NSEntityDescription.entity(forEntityName: Focus.entity_name, in: DBManager.shared.managedContext)!
         let block = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
@@ -286,7 +303,7 @@ extension DBManager {
         (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
 
         if type == .general {
-            let setting_data: [String: Any?] = ["warning_before_schedule_session_start": true, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
+            let setting_data: [String: Any?] = ["warning_before_schedule_session_start": false, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
 
             let objGS = General_Settings(context: DBManager.shared.managedContext)
             for (key, value) in setting_data {
@@ -361,6 +378,7 @@ extension DBManager {
     }
 }
 
+// Customize Focus Schedule
 extension DBManager {
     func createPreSchedule(data: [String: Any?]) {
         let entity = NSEntityDescription.entity(forEntityName: "Focus_Schedule", in: DBManager.shared.managedContext)!
@@ -409,6 +427,26 @@ extension DBManager {
             print("Could not fetch. SF \(error), \(error.userInfo)")
         }
         return nil
+    }
+}
+
+extension DBManager {
+    func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
+        fetchRequest.predicate = NSPredicate(format: "days CONTAINS[c] %@ && start_time = %@ && type = %d && is_active = true", day, time, type.rawValue)
+
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                let objFS = results.first as? Focus_Schedule
+                return (true, objFS)
+            } else {
+                return (false, nil)
+            }
+        } catch let error {
+            print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
+            return (false, nil)
+        }
     }
 }
 

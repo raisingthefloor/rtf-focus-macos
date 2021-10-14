@@ -36,6 +36,7 @@ protocol DBMangerLogic {
     func getApplicationList() -> [Application_List]
     func checkAppsIsPresent(bundle_id: String) -> Bool
 
+    func checkAppWebIsPresent(entityName: String, name: String?) -> Bool
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]
 
@@ -50,6 +51,7 @@ protocol DBMangerLogic {
     func createPreSchedule(data: [String: Any?])
     func getFocusSchedule() -> [Focus_Schedule]
     func getScheduleFocus(id: UUID) -> Focus_Schedule?
+    func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?)
 
     func saveContext()
 }

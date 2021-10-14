@@ -163,6 +163,11 @@ extension GeneralSettingViewC: BasicSetupType {
         guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return false }
         btnAddWeb.isEnabled = !objF.is_focusing
         btnAddApp.isEnabled = !objF.is_focusing
+
+        checkBoxWarning.isEnabled = !objF.is_focusing
+        checkBoxShowTimer.isEnabled = !objF.is_focusing
+        checkBoxEachBreak.isEnabled = !objF.is_focusing
+
         if objF.is_focusing {
             openErrorDialogue()
             setupData()
@@ -181,18 +186,18 @@ extension GeneralSettingViewC {
     func setupData() {
         _ = viewModel.input.getGeneralCategoryData()
         checkBoxWarning.state = (viewModel.objGCategory?.general_setting?.warning_before_schedule_session_start == true) ? .on : .off
-        checkBoxFocusTime.state = (viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session == true) ? .on : .off
+//        checkBoxFocusTime.state = (viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session == true) ? .on : .off
         checkBoxShowTimer.state = (viewModel.objGCategory?.general_setting?.show_count_down_for_break_start_end == true) ? .on : .off
         checkBoxEachBreak.state = (viewModel.objGCategory?.general_setting?.block_screen_first_min_each_break == true) ? .on : .off
-        popBreakTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.break_time as! CVarArg)
-        popFocusTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.for_every_time as! CVarArg)
+//        popBreakTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.break_time as! CVarArg)
+//        popFocusTime.title = String(format: "%d", viewModel.objGCategory?.general_setting?.for_every_time as! CVarArg)
     }
 
     @IBAction func checkBoxEventHandler(_ sender: NSButton) {
         print(" Check Box Event : \(sender.state) ::: \(sender.title)")
-//        if disableControl() {
-//            return
-//        }
+        if disableControl() {
+            return
+        }
         let isChecked = (sender.state == .on) ? true : false
         switch sender.tag {
         case 0:

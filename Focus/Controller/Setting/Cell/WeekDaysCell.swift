@@ -70,7 +70,7 @@ extension WeekDaysCell: BasicSetupType {
         objFSchedule = obj
         let arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
         var isSelected: Bool = false
-        var i = 0
+        var i = 1
         let isActive = !(objFSchedule?.is_active ?? false)
         let isSetBlock = (obj?.block_list_id != nil)
 

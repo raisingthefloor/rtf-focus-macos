@@ -59,21 +59,26 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
 
     func setReminder(obj: Focus_Schedule?) {
         guard let objF = obj, let uuid = objF.id, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
-        var dateComponents = startTime.toDateComponent()
-        dateComponents.minute = 36
-        print("DateComponents : === \(dateComponents)")
 
-        let arrDays = objF.days?.components(separatedBy: ",") ?? []
-        print("Days : === \(arrDays)")
+        var arrDays: [String] = objF.days?.components(separatedBy: ",") ?? []
+        arrDays = arrDays.filter({ $0 != "" }).compactMap({ $0 })
+        if !arrDays.isEmpty {
+            print("Set Reminder")
+            var dateComponents = startTime.toDateComponent()
+            dateComponents.minute = (Date().currentDateComponent().minute ?? 0) + 2
+            print("DateComponents : === \(dateComponents)")
 
-        let identifiers = arrDays.map({ (id + "_" + $0) })
-        print("identifiers : === \(identifiers)")
+            print("Days : === \(arrDays)")
 
-        NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
-        for i in arrDays {
-            let identifier = id + "_" + i
-            dateComponents.weekday = Int(i) ?? 0
-            NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
+            let identifiers = arrDays.map({ (id + "_" + $0) })
+            print("identifiers : === \(identifiers)")
+
+            NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
+            for i in arrDays {
+                let identifier = id + "_" + i
+                dateComponents.weekday = Int(i) ?? 0
+                NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
+            }
         }
     }
 
@@ -81,7 +86,7 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
         guard let objF = obj, let id = objF.id?.uuidString else { return }
         let arrDays = objF.days?.components(separatedBy: ",") ?? []
         let identifiers = arrDays.map({ (id + "_" + $0) })
-        print("identifiers \(identifiers)")
+        print("Remove identifiers \(identifiers)")
         NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
     }
 

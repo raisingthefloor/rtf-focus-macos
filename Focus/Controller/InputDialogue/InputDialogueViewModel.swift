@@ -65,6 +65,11 @@ enum InputDialogue: Int {
             return NSLocalizedString("Input.add_website.error", comment: "URL is missing")
         }
     }
+    
+    /*
+     Invalid URL message: “This link does not appear to work.”
+     Missing URL message: “Website link is missing.”
+     */
 
     var isTestUrlVisible: Bool {
         switch self {

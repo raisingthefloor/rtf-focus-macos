@@ -102,13 +102,9 @@ extension BlocklistDialogueViewC: BasicSetupType {
         } else {
             if !listType.selectedData.isEmpty {
                 guard let dataV = listType.selectedData as? [[String: Any?]] else { return }
-//                dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
-//                    if isStore {
                 listType.resetSelection
                 addedSuccess?(dataV)
                 dismiss(sender)
-//                    }
-//                }
             } else {
                 addedSuccess?([])
                 dismiss(sender)

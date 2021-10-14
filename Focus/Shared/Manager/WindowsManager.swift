@@ -54,23 +54,23 @@ struct WindowsManager {
     }
 
     static func getPresentingController() -> NSViewController? {
-        if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+        if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
             return presetFromCtrl
-        } else if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last {
+        } else if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last {
             return presetFromCtrl
         } else {
-            let presetFromCtrl = appDelegate?.windowController?.contentViewController
+            let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController
             return presetFromCtrl
         }
     }
 
     static func dismissController() {
-        if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+        if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
             presetFromCtrl.dismiss(nil)
-        } else if let presetFromCtrl = appDelegate?.windowController?.contentViewController?.presentedViewControllers?.last {
+        } else if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last {
             presetFromCtrl.dismiss(nil)
         } else {
-            let presetFromCtrl = appDelegate?.windowController?.contentViewController
+            let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController
             presetFromCtrl?.dismiss(nil)
         }
     }
@@ -80,26 +80,26 @@ struct WindowsManager {
 
 extension WindowsManager {
     static func openSystemLogoutDialog() {
-        appDelegate?.browserBridge?.logoutAlert()
+        AppManager.shared.browserBridge?.logoutAlert()
     }
 
     static func blockWebSite() {
         let arrWeb = DBManager.shared.getCurrentBlockList().webs
         if !arrWeb.isEmpty {
             DispatchQueue.global(qos: .userInteractive).async {
-                appDelegate?.browserBridge?.b_list = arrWeb.compactMap({ $0.url })
-                appDelegate?.browserBridge?.runBlockBrowser()
+                AppManager.shared.browserBridge?.b_list = arrWeb.compactMap({ $0.url })
+                AppManager.shared.browserBridge?.runBlockBrowser()
             }
         }
     }
 
     static func stopBlockWebSite() {
-        appDelegate?.browserBridge?.stopScript()
+        AppManager.shared.browserBridge?.stopScript()
     }
 
     static func launchMyapp() {
         DispatchQueue.global(qos: .userInteractive).async {
-            appDelegate?.browserBridge?.launchMyApp()
+            AppManager.shared.browserBridge?.launchMyApp()
         }
     }
 }
