@@ -28,6 +28,7 @@ import Cocoa
 class SessionInfoView: NSView, NibView {
     @IBOutlet var mainView: NSView?
 
+    @IBOutlet var titleV: NSView?
     @IBOutlet var lblTitle: NSTextField!
 
     @IBOutlet var lblHours: NSTextField!
@@ -76,22 +77,27 @@ extension SessionInfoView: BasicSetupType {
         btnStop.borderColor = Color.dark_grey_border
         btnStop.borderWidth = 0.6
         btnStop.font = NSFont.systemFont(ofSize: 12, weight: .bold)
-        lblHoursV.font = NSFont.systemFont(ofSize: 12, weight: .bold)
-        lblBlockV.font = NSFont.systemFont(ofSize: 12, weight: .bold)
-        lblEndV.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        lblHoursV.font = NSFont.systemFont(ofSize: 11, weight: .bold)
+        lblBlockV.font = NSFont.systemFont(ofSize: 11, weight: .bold)
+        lblEndV.font = NSFont.systemFont(ofSize: 11, weight: .bold)
 
         border_width = 0.6
         border_color = .black
     }
 
-    func setupData() {
+    func setupSingleData() {
+        titleV?.isHidden = true
+        lblHours.alignment = .right
+        lblBlock.alignment = .right
+        lblEnd.alignment = .right
+
         let objFocus = DBManager.shared.getCurrentBlockList().objFocus
         let objB = DBManager.shared.getCurrentBlockList().objBl
         let focus_length = Int(objFocus?.remaining_time ?? 100).secondsToTime()
 
         var time = ""
         if focus_length.timeInHours != 0 {
-            time = "\(focus_length.timeInHours) Hours \(focus_length.timeInMinutes) minutes"
+            time = "\(focus_length.timeInHours) hrs \(focus_length.timeInMinutes) minutes"
         } else {
             time = "\(focus_length.timeInMinutes) minutes"
         }
@@ -104,6 +110,8 @@ extension SessionInfoView: BasicSetupType {
         }
 
         lblBlockV.stringValue = list_name
-        lblEndV.stringValue = (objFocus?.end_time ?? Date()).convertToTime()
+
+        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (objFocus?.end_time ?? Date()).convertToTime()
+        lblEndV.stringValue = endValue
     }
 }

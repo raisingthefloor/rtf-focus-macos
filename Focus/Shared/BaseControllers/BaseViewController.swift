@@ -35,6 +35,8 @@ class BaseViewController: NSViewController {
     //  header title.
     func setTitle() -> String { return "" }
 
+    var urllink: String = Config.block_list
+
     // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
@@ -56,7 +58,7 @@ extension BaseViewController {
 
 extension BaseViewController {
     @objc func openBrowser() {
-        let urlString = "https://morphic.org/"
+        let urlString = urllink
         guard let url = URL(string: urlString) else { return }
         if NSWorkspace.shared.open(url) {
             print("default browser was successfully opened")

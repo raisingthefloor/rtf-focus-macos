@@ -33,7 +33,7 @@
 "Button.cancel" = "Cancel";
 "Button.send" = "Send";
 "Button.remove" = "Remove";
-"Button.ok" = "Ok";
+"Button.ok" = "OK";
 "Button.want_stop_focusing" = "I want to Stop Focusing";
 "Button.stop_focusing" = "Stop Focusing";
 "Button.continue_focusing" = "Continue Focusing";
@@ -54,24 +54,24 @@
 "Button.Break" = "Break";
 
 "Home.title" = "Start a Focus Session";
-"Home.half_last" = "30 Min";
-"Home.one_hr" = "1 Hr";
-"Home.two_hr" = "2 Hr";
+"Home.half_last" = "30 min";
+"Home.one_hr" = "1 hr";
+"Home.two_hr" = "2 hrs";
 "Home.untill_press_stop" = "Focus untill I press stop";
 "Home.stop_focus" = "Stop Focus";
 "Home.turn_on_dnd" = "Turn on 'Do Not Disturb' while focusing";
-"Home.turn_on_dnd_info" = "(turns off notifications and calls)";
+"Home.turn_on_dnd_info" = "(Turns off notifications and calls)";
 "Home.provide_short_1" = "Provide short";
-"Home.provide_short_2" = "Breaks for every";
+"Home.provide_short_2" = "breaks for every";
 "Home.provide_short_3" = "of Focus";
 "Home.provide_short_info" = "Use the dropdowns to change time";
 "Home.block_select_prog_web" = "Block select programs & websites which focusing";
 "Home.use_this_block_list" = "Use this blocklist: ";
 "Home.focus_lenght_title" = "Start a Focus session now for the following length of time \n(With the settings checked above)";
-"Home.customize_setting" = "Customize Foucs";
+"Home.customize_setting" = "Customize Focus";
 "Home.show_edit_blocklist" = "Show or Edit Blocklist";
 "Home.customize_setting_info" = "Customize Focus or schedule automatic focus sessions";
-"Home.customize_focus" = "Customize Foucs";
+"Home.customize_focus" = "Customize Focus";
 
 "Customize.general_settings" = "General Settings";
 "Customize.edit_blocklists" = "Edit Blocklists";
@@ -160,7 +160,7 @@
 "Alert.disincentive.show_blocklist" = "Show me the blocklist that requires this ...";
 "Applications" = "Applications";
 "Alert.session_complete_subdesc" = "I want to focus a little longer.\nExtend focus session for:";
-"Alert.block_app.show_blocklist" = "Show me the blocklist that is blocking  this ...";
+"Alert.block_app.show_blocklist" = "Show me the blocklist that is blocking this ...";
 "Alert.block_app.temp_access" = "Tell me how to allow temporary access to apps or websites...";
 "Alert.block_app.is_blocked" = "%@ is blocked";
 "Alert.block_app.notification" = "Turning off <Do Not Disturb/Focus Assistance> would \nallow notifications, so it cannot be turned off while \nthis blocklist is being used.";
@@ -189,6 +189,9 @@
 "Error.active_focus_error_desc" = "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.";
 "Error.Info" = "< include “stop task” message if there is as stop task>";
 
+"Error.restart_computer_info" = "NOTE: You set the blocklist (currently being used) to require you \nto restart your computer in order to stop the focus suession.";
+"Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type \n<# set in the Edit Blocklists settings panel> random characters in order to stop the focus session.";
+
 "ID.test_url" = "Test URL";
 
 "Input.add_block_list_name.title" = "Name blocklist:";
@@ -201,5 +204,5 @@
 
 "List.category.title" = "Apps and websites blocked by the category:";
 "List.unblocking_list.title" = "Select apps and websites from your blocklists to allow yourself to temporarily unblock.";
-"List.add_item" = "Add items";
+"List.add_item" = "Add App";
 "List.system_app_list.title" = "Select apps from your system app list to allow yourself to block.";

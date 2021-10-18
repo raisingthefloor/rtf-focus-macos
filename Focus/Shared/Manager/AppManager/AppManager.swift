@@ -38,13 +38,13 @@ class AppManager {
         }
     }
 
-    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+//    let appDelegate = NSApplication.shared.delegate as! AppDelegate
     var browserBridge: AppleScriptProtocol?
     var reminderModel: ReminderModelType = ReminderTimerManager()
 
     func registerLocalNotification() {
-        appDelegate.registerhLocalDelegate()
-        appDelegate.registerLocalNotification()
+        Config.delegate.registerhLocalDelegate()
+        Config.delegate.registerLocalNotification()
     }
 
     func initialSetup() {
@@ -53,6 +53,9 @@ class AppManager {
         doSpotlightQuery()
         DataModel.preAddSchedule()
         startCheckingReminder()
+        if !UserDefaults.standard.bool(forKey: "pre_added_blocklist") {
+            DBManager.shared.systemPreAddedBlocklist()
+        }
     }
 
     func loadScript() {

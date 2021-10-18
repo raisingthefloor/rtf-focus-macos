@@ -75,11 +75,11 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         let menus = NSMenu()
         let blocklist = DBManager.shared.getBlockList()
 
-        if cntrl == .main_menu {
-            let showOption = NSMenuItem(title: "Select Group", action: nil, keyEquivalent: "")
-            showOption.tag = -2
-            menus.addItem(showOption)
-        }
+//        if cntrl == .main_menu {
+//            let showOption = NSMenuItem(title: "Starter Blocklist", action: nil, keyEquivalent: "")
+//            showOption.tag = -2
+//            menus.addItem(showOption)
+//        }
         var i = 0
         for obj in blocklist {
             var title = obj.name ?? "-"

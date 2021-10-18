@@ -56,7 +56,7 @@ extension CurrentSessionVC: BasicSetupType {
 
         var time = ""
         if break_time.timeInHours != 0 {
-            time = "\(break_time.timeInHours) Hours \(break_time.timeInMinutes) minutes"
+            time = "\(break_time.timeInHours) hrs \(break_time.timeInMinutes) minutes"
         } else {
             time = "\(break_time.timeInMinutes) minutes"
         }
@@ -120,6 +120,7 @@ extension CurrentSessionVC: BasicSetupType {
         btnOk.target = self
         btnOk.action = #selector(okAction(_:))
 
+        urllink = Config.why_do_this_link
         let gesture = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
         gesture.numberOfClicksRequired = 1
         lblWhy.addGestureRecognizer(gesture) // Need to set range click
@@ -127,8 +128,11 @@ extension CurrentSessionVC: BasicSetupType {
 
     func setFocusSessionView() {
         // TODO: With Two Sesison Data setup Dynamically pending
+        let objFocus = viewModel?.input.focusObj
+        lblSubTitle.isHidden = (objFocus?.focus_untill_stop ?? false) ? true : false
+
         let sessionV = SessionInfoView()
-        sessionV.setupData()
+        sessionV.setupSingleData()
         sessionV.btnStop.target = self
         sessionV.btnStop.action = #selector(stopAction(_:))
         sessionStack.addArrangedSubview(sessionV)
@@ -159,17 +163,22 @@ extension CurrentSessionVC {
     }
 
     @objc func stopAction(_ sender: NSButton) {
-        let objBl = DBManager.shared.getCurrentBlockList().objBl
-        if let anyTime = objBl?.stop_focus_session_anytime, anyTime {
+        guard let objBl = DBManager.shared.getCurrentBlockList().objBl else {
             updateView?(true, .stop_session)
             dismiss(nil)
             return
         }
-        
+
+        if objBl.stop_focus_session_anytime {
+            updateView?(true, .stop_session)
+            dismiss(nil)
+            return
+        }
+
 //        let presentingCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = (objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.dialogueType = (objBl.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
             self.updateView?(focusStop == .stop_session, focusStop)
             self.dismiss(nil)

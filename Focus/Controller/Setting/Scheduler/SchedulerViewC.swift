@@ -86,6 +86,7 @@ extension SchedulerViewC: BasicSetupType {
         checkBoxFocusTime.target = self
         checkBoxFocusTime.action = #selector(checkBoxEventHandler(_:))
 
+        self.urllink = Config.focus_schedule_link
         let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
         g.numberOfClicksRequired = 1
         lblInstruction.addGestureRecognizer(g) // Need to set range click

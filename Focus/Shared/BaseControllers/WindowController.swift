@@ -54,9 +54,8 @@ class WindowController: NSWindowController, NSWindowRestoration {
         var restoreWindow: NSWindow?
         if identifier == "WindowController" { // This is the identifier for the NSWindow.
             // We didn't create the window, it was created from the storyboard.
-            restoreWindow = AppManager.shared.appDelegate.windowController?.window
+            restoreWindow = Config.delegate.windowController?.window
         }
         completionHandler(restoreWindow, nil)
     }
 }
-

@@ -107,6 +107,7 @@ extension FocusDialogueViewC: BasicSetupType {
             btn.activeButtonColor = dialogueType.light_green
             btn.textColor = dialogueType.green
             btn.borderColor = dialogueType.green
+            btn.font = NSFont.systemFont(ofSize: 12, weight: .bold)
             enableDisable(btn: btn)
             btn.borderWidth = 0.5
             i = i + 1
@@ -122,20 +123,23 @@ extension FocusDialogueViewC: BasicSetupType {
         btnTop.buttonColor = dialogueType.green
         btnTop.activeButtonColor = dialogueType.green
         btnTop.textColor = .white
-
+        btnTop.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        
         btnStop.buttonColor = dialogueType.stop_color
         btnStop.activeButtonColor = dialogueType.stop_color
         btnStop.textColor = Color.black_color
         btnStop.borderColor = Color.dark_grey_border
         btnStop.borderWidth = 0.6
+        btnStop.font = NSFont.systemFont(ofSize: 12, weight: .bold)
 
         btnContinue.buttonColor = dialogueType.light_green
         btnContinue.activeButtonColor = dialogueType.light_green
         btnContinue.textColor = dialogueType.green
         btnContinue.borderColor = dialogueType.green
         btnContinue.borderWidth = 0.6
+        btnContinue.font = NSFont.systemFont(ofSize: 12, weight: .bold)
 
-        containerView.bgColor = Color.light_blue_color
+        //containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {
@@ -184,15 +188,23 @@ extension FocusDialogueViewC {
             dismiss(nil)
             return
         }
-        if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
+
+        guard let objBl = viewModel.currentSession?.objBl else {
             breakAction?(.stop_session, 0, .none)
             dismiss(nil)
             return
         }
+
+        if objBl.stop_focus_session_anytime {
+            breakAction?(.stop_session, 0, .none)
+            dismiss(nil)
+            return
+        }
+
         let presentedCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
             self.breakAction?(focusStop, 0, .none)
             self.dismiss(nil)

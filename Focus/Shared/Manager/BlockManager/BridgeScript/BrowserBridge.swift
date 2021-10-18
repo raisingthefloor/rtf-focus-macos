@@ -28,7 +28,6 @@ import Foundation
     var b_list: [String] { get set }
     var app_list: [String] { get set }
     var isFocusing: Bool { get set }
-    var isFocusing_status: Bool { get set }
     func runBlockBrowser()
     func stopScript()
     func runUnblockBrowser()

@@ -28,8 +28,9 @@ import Foundation
 
 let colors: [NSColor] = [.blue, .red, .orange, .yellow, .brown, .black, .green, .purple, .gray, .cyan]
 class Config {
-    static var db = ""
-    static var db_context: NSManagedObjectContext!
-    static var db_memory_context: NSManagedObjectContext!
     static var delegate = NSApplication.shared.delegate as! AppDelegate
+    static let why_do_this_link = "https://morphic.org/why-2-focus-sessions"
+    static let focus_schedule_link = "https://morphic.org/focus-schedules"
+    static let block_list = "https://morphic.org/blocklists"
+    static let website_blocked_link = "https://morphic.org/websiteblocked"
 }

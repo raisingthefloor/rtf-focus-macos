@@ -139,13 +139,19 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     @objc func stopAction(_ sender: NSButton) {
-        if let anyTime = viewModel.currentSession?.objBl?.stop_focus_session_anytime, anyTime {
+        guard let objBl = viewModel.currentSession?.objBl else {
+            updateView?(.stop_session)
+            dismiss(nil)
+            return
+        }
+
+        if objBl.stop_focus_session_anytime {
             updateView?(.stop_session)
             dismiss(nil)
             return
         }
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = (viewModel.currentSession?.objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { isfocusStop in
             self.updateView?(isfocusStop)
             self.dismiss(nil)

@@ -36,6 +36,7 @@ protocol DBMangerLogic {
     func getApplicationList() -> [Application_List]
     func checkAppsIsPresent(bundle_id: String) -> Bool
 
+    func systemPreAddedBlocklist()
     func checkAppWebIsPresent(entityName: String, name: String?) -> Bool
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]

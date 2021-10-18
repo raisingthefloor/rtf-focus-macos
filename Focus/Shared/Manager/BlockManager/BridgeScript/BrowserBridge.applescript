@@ -28,7 +28,7 @@ script BrowserBridge
     property app_list : {}
     property isFocusing_status: boolean
     global isFocusing
-    property block_url : "http://127.0.0.1"
+    property block_url : "https://morphic.org/websiteblocked"
     
     -- block the blocklist page in browser
     on runBlockBrowser()
@@ -40,7 +40,7 @@ script BrowserBridge
         repeat until isFocusing is false
             
                 if application "Safari" is running then
-                    log("isFocusing :::::::  " & isFocusing)
+--                    log("isFocusing :::::::  " & isFocusing)
                     tell application "Safari"
                         set theWindows to windows
                         repeat with theWindow in theWindows
@@ -64,7 +64,7 @@ script BrowserBridge
                         end repeat
                     end tell
                 end if
-                log("Out Side IFFF isFocusing :::::::  " & isFocusing)
+--                log("Out Side IFFF isFocusing :::::::  " & isFocusing)
 --                if application "Google Chrome" is running then
 --                    tell application "Google Chrome"
 --                        set theWindows to windows

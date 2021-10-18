@@ -54,23 +54,23 @@ struct WindowsManager {
     }
 
     static func getPresentingController() -> NSViewController? {
-        if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+        if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
             return presetFromCtrl
-        } else if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last {
+        } else if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
             return presetFromCtrl
         } else {
-            let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController
+            let presetFromCtrl = Config.delegate.windowController?.contentViewController
             return presetFromCtrl
         }
     }
 
     static func dismissController() {
-        if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+        if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
             presetFromCtrl.dismiss(nil)
-        } else if let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController?.presentedViewControllers?.last {
+        } else if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
             presetFromCtrl.dismiss(nil)
         } else {
-            let presetFromCtrl = AppManager.shared.appDelegate.windowController?.contentViewController
+            let presetFromCtrl = Config.delegate.windowController?.contentViewController
             presetFromCtrl?.dismiss(nil)
         }
     }

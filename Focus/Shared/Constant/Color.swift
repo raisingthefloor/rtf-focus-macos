@@ -50,6 +50,7 @@ struct Color {
     static let schedule_three_color = NSColor("#002957") ?? .black.withAlphaComponent(0.2)
     static let schedule_four_color = NSColor("#662261") ?? .magenta.withAlphaComponent(0.2)
     static let schedule_five_color = NSColor("#008145") ?? .systemGreen.withAlphaComponent(0.2)
+    static let main_bg_color = NSColor("#FCFDFF") ?? .blue.withAlphaComponent(0.3)
 }
 
 extension NSColor {

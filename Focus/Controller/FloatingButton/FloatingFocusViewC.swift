@@ -55,6 +55,7 @@ extension FloatingFocusViewC: BasicSetupType {
     func setUpViews() {
         lblTimeVal.font = NSFont.systemFont(ofSize: 13, weight: .bold)
         lblTimeVal.textColor = .black
+        btnFocus.font = NSFont.systemFont(ofSize: 14, weight: .bold)
 
         // If in GS Coundt down is on then show timer It appears below button else
         // If focus is running then Show "FOCUS"

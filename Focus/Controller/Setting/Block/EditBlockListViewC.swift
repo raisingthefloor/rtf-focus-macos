@@ -260,7 +260,8 @@ extension EditBlockListViewC: BasicSetupType {
         comboBlock.target = self
         comboBlock.action = #selector(handleBlockSelection(_:))
         txtCharacter.delegate = self
-
+        
+        self.urllink = Config.block_list
         let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
         g.numberOfClicksRequired = 1
         lblSubTitle.addGestureRecognizer(g) // Need to set range click
@@ -657,6 +658,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     func openErrorDialogue() {
         let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
         errorDialog.errorType = .edit_blocklist_error
+        errorDialog.objBl = dataModel.objBlocklist
         presentAsSheet(errorDialog)
     }
 }

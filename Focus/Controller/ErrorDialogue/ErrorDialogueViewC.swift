@@ -32,6 +32,7 @@ class ErrorDialogueViewC: NSViewController {
     @IBOutlet var btnOk: CustomButton!
 
     var errorType: ErrorDialogue = .edit_blocklist_error
+    var objBl: Block_List?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,12 +46,18 @@ class ErrorDialogueViewC: NSViewController {
 extension ErrorDialogueViewC: BasicSetupType {
     func setUpText() {
         lblTitle.stringValue = errorType.title
-        lblDesc.stringValue = errorType.description
-        lblInfo.stringValue = errorType.link
 
-       // lblInfo.isHidden = !errorType.islinkVisible
-
+        let attributedValue = NSMutableAttributedString.getAttributedString(fromString: errorType.description)
+        attributedValue.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: errorType.description)
+        attributedValue.alignment(alignment: .natural, lineSpace: 8, subString: errorType.description)
+        lblDesc.attributedStringValue = attributedValue
+        
         btnOk.title = NSLocalizedString("Button.ok", comment: "OK").uppercased()
+        
+        guard let obj = objBl else { return }
+        
+        lblInfo.stringValue = obj.random_character ?  errorType.info_random_charcter : errorType.info_restart_computer
+        lblInfo.isHidden = obj.stop_focus_session_anytime
     }
 
     func setUpViews() {

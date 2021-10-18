@@ -26,6 +26,7 @@
 import Cocoa
 
 class MenuController: BaseViewController {
+    @IBOutlet var containerView: NSView!
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var btnInfo: NSButton!
 
@@ -63,13 +64,12 @@ class MenuController: BaseViewController {
     @IBOutlet var lblSetting: NSTextField!
 
     let viewModel: MenuViewModelType = MenuViewModel()
-    let dataModel: DataModelType = DataModel()
 
     var focusStart: ((Bool) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataModel.input.storeCategory() // Store first time only
+        viewModel.model.input.storeCategory() // Store first time only
         setUpText()
         setUpViews()
         bindData()
@@ -96,7 +96,7 @@ class MenuController: BaseViewController {
 extension MenuController: BasicSetupType {
     func setUpText() {
         // btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
-        lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
+        lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Focus")
         lblTitle.stringValue = NSLocalizedString("Home.title", comment: "Start a Focus Session")
         title = NSLocalizedString("Home.title", comment: "Start a Focus Session")
 
@@ -144,14 +144,21 @@ extension MenuController: BasicSetupType {
     }
 
     func themeSetUp() {
+        containerView.background_color = Color.main_bg_color
+
         lblDnDInfo.textColor = Focus.Options.info_color
         lblFocusTInfo.textColor = Focus.Options.info_color
         lblFocusLength.textColor = Focus.Options.info_color
         lblCustomeInfo.textColor = Focus.Options.info_color
         lblSetting.textColor = .white
-        lblSetting.font = NSFont.systemFont(ofSize: 15, weight: .medium)
+
+        lblSetting.font = NSFont.systemFont(ofSize: 14, weight: .medium)
 
         lblDnDInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        btn1Hr.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        btn2Hr.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        btn30m.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        btnUntillI.font = NSFont.systemFont(ofSize: 12, weight: .bold)
 
         lblDnDInfo.textColor = .clear
         lblFocusTInfo.textColor = .clear
@@ -162,7 +169,7 @@ extension MenuController: BasicSetupType {
     }
 
     func bindData() {
-        popBlock.menu = dataModel.input.getBlockList(cntrl: .main_menu).0
+        popBlock.menu = viewModel.model.input.getBlockList(cntrl: .main_menu).0
         popBlock.selectItem(at: 0)
 
         popFocusTime.menu = Focus.FocusTime.focustimes
@@ -234,12 +241,10 @@ extension MenuController: BasicSetupType {
     // Block list selection
     @IBAction func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
-        let arrBlock = dataModel.input.getBlockList(cntrl: .main_menu).1
+        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).1
         let index = popBlock.selectedTag()
         if index == -1 {
             performSegue(withIdentifier: "segueSetting", sender: SettingOptions.block_setting)
-        } else if index == -2 {
-            viewModel.input.focusObj?.block_list_id = UUID() // fakeID
         } else {
             if !arrBlock.isEmpty {
                 let objBlockList = arrBlock[index]
@@ -248,7 +253,7 @@ extension MenuController: BasicSetupType {
             }
         }
         DBManager.shared.saveContext()
-    //    print("Selected block:", popBlock.titleOfSelectedItem ?? "")
+        //    print("Selected block:", popBlock.titleOfSelectedItem ?? "")
     }
 
     @IBAction func foucsTimeSelection(_ sender: Any) {
@@ -283,7 +288,7 @@ extension MenuController {
         obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
         obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
         blockStackV.isHidden = !obj.is_block_programe_select
-        let arrBlock = dataModel.input.getBlockList(cntrl: .main_menu).1
+        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).1
         if !arrBlock.isEmpty {
             obj.block_list_id = arrBlock[0].id
         }
@@ -295,8 +300,8 @@ extension MenuController {
             if let detailVC = segue.destinationController as? CustomSettingController {
                 detailVC.selectOption = sender as? SettingOptions ?? SettingOptions.general_setting
                 detailVC.updateView = { [weak self] _ in
-                    self?.popBlock.menu = self?.dataModel.input.getBlockList(cntrl: .main_menu).0
-                    if let arrBlock = self?.dataModel.input.getBlockList(cntrl: .main_menu).1,!arrBlock.isEmpty {
+                    self?.popBlock.menu = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).0
+                    if let arrBlock = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).1,!arrBlock.isEmpty {
                         guard let obj = self?.viewModel.input.focusObj else { return }
                         obj.block_list_id = arrBlock[0].id
                         DBManager.shared.saveContext()

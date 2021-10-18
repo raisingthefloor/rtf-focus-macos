@@ -38,6 +38,7 @@ protocol MenuViewModelOutput {
 protocol MenuViewModelType {
     var input: MenuViewModelIntput { get }
     var output: MenuViewModelOutput { get }
+    var model: DataModelType { get set }
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
@@ -47,11 +48,14 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
 
     var input: MenuViewModelIntput { return self }
     var output: MenuViewModelOutput { return self }
+    var model: DataModelType = DataModel()
 }
 
 extension MenuViewModel {
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void)) {
         // update focus time value
+        focusObj?.focus_untill_stop = false
+    
         switch time {
         case .half_past:
             print("half_past")
@@ -69,6 +73,7 @@ extension MenuViewModel {
             print("untill_press_stop")
             focusObj?.is_focusing = true
             focusObj?.stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
+            focusObj?.focus_untill_stop = true
 
         case .stop_focus:
             focusObj?.is_focusing = false
@@ -97,6 +102,8 @@ extension MenuViewModel {
         case .block_program_website:
             print("block_program_website ::: \(state)")
             focusObj?.is_block_programe_select = (state == .on) ? true : false
+            let arrBlock = model.input.getBlockList(cntrl: .main_menu).1
+            focusObj?.block_list_id = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
         default:
             print("default ::: \(state)")
         }

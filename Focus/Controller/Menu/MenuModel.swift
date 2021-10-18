@@ -133,7 +133,8 @@ extension Focus {
         static var breaktimes: NSMenu {
             let menus = NSMenu()
             for time in BreakTime.allCases {
-                let menuItem = NSMenuItem(title: String(time.value), action: nil, keyEquivalent: "")
+                let val = String(time.value) + " min"
+                let menuItem = NSMenuItem(title: val, action: nil, keyEquivalent: "")
                 menuItem.tag = time.rawValue
                 menus.addItem(menuItem)
             }
@@ -190,7 +191,8 @@ extension Focus {
         static var focustimes: NSMenu {
             let menus = NSMenu()
             for time in FocusTime.allCases {
-                let menuItem = NSMenuItem(title: String(time.value), action: nil, keyEquivalent: "")
+                let val = String(time.value) + " min"
+                let menuItem = NSMenuItem(title: val, action: nil, keyEquivalent: "")
                 menuItem.tag = time.rawValue
                 menus.addItem(menuItem)
             }
@@ -222,7 +224,7 @@ extension Focus {
             case .focus_break:
                 return NSLocalizedString("Home.provide_short_1", comment: "Provide short")
             case .focus_break_1:
-                return NSLocalizedString("Home.provide_short_2", comment: "min Breaks for every")
+                return NSLocalizedString("Home.provide_short_2", comment: "min breaks for every")
             case .focus_break_2:
                 return NSLocalizedString("Home.provide_short_3", comment: "min of Focus")
             case .block_program_website:

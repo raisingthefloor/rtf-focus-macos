@@ -198,7 +198,7 @@ extension DBManager {
 
     func getApplicationList() -> [Application_List] {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Application_List")
-        fetchRequest.predicate = NSPredicate(format: "path BEGINSWITH[cd] '/Application' || path BEGINSWITH[cd] '/System/Applications/'")
+        fetchRequest.predicate = NSPredicate(format: "path BEGINSWITH[cd] '/Application' || path BEGINSWITH[cd] '/System/Applications/' && NOT (path CONTAINS '/System/Applications/Utilities/')")
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Application_List.name, ascending: true)]
 
         do {
@@ -261,6 +261,55 @@ extension DBManager {
 
         return []
     }
+
+    func systemPreAddedBlocklist() {
+        let data: [String: Any?] = ["name": "Starter Blocklist", "id": UUID(), "created_at": Date()]
+        let entity = NSEntityDescription.entity(forEntityName: "Block_List", in: DBManager.shared.managedContext)!
+        let blist = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext) as? Block_List
+
+        for (key, value) in data {
+            blist?.setValue(value, forKeyPath: key)
+        }
+
+        blist?.random_character = false
+        blist?.restart_computer = false
+        blist?.stop_focus_session_anytime = true
+
+        blist?.blocked_all_break = false
+        blist?.unblock_short_long_break = true
+        blist?.unblock_long_break_only = false
+
+        var arrObj: [Block_App_Web] = []
+        let siteData: [String: Any?] = ["url": "www.facebook.com", "name": "www.facebook.com", "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue, "id": UUID()]
+
+        if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_App_Web", name: siteData["name"] as? String) {
+            let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
+            for (key, value) in siteData {
+                objblockWA.setValue(value, forKeyPath: key)
+            }
+            arrObj.append(objblockWA)
+        }
+        arrObj = arrObj + (blist?.block_app_web?.allObjects as! [Block_App_Web])
+
+        let appData: [String: Any?] = ["url": "/System/Applications/Books.app", "name": "Books", "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.application.rawValue, "id": UUID(), "app_identifier": "com.apple.iBooksX", "app_icon_path": "/System/Applications/Books.app"]
+
+        if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_App_Web", name: siteData["name"] as? String) {
+            let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
+            for (key, value) in appData {
+                objblockWA.setValue(value, forKeyPath: key)
+            }
+            arrObj.append(objblockWA)
+        }
+        arrObj = arrObj + (blist?.block_app_web?.allObjects as! [Block_App_Web])
+        blist?.block_app_web = NSSet(array: arrObj)
+
+        do {
+            try DBManager.shared.managedContext.save()
+        } catch let error as NSError {
+            print("Could not save category. \(error), \(error.userInfo)")
+        }
+        UserDefaults.standard.set(true, forKey: "pre_added_blocklist")
+    }
 }
 
 // MARK: Category Store and Fetch
@@ -288,7 +337,7 @@ extension DBManager {
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
         }
-
+        if type != .general {
         let sub_data = [["name": "Messages", "app_identifier": "com.apple.MobileSMS", "app_icon_path": "/System/Applications/Messages.app", "created_at": Date(), "block_type": BlockType.application.rawValue], ["name": "www.instagram.com", "url": "www.instagram.com", "created_at": Date(), "block_type": BlockType.web.rawValue]]
 
         var arrSD: [Block_SubCategory] = []
@@ -301,7 +350,7 @@ extension DBManager {
             arrSD.append(objSC)
         }
         (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
-
+        }
         if type == .general {
             let setting_data: [String: Any?] = ["warning_before_schedule_session_start": false, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
 

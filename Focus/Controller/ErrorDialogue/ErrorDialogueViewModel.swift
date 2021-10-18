@@ -31,7 +31,7 @@ enum ErrorDialogue: Int {
     case edit_blocklist_error
     case schedule_error
     case general_setting_error
-    
+
     var title: String {
         switch self {
         case .focus_schedule_error:
@@ -57,17 +57,26 @@ enum ErrorDialogue: Int {
             return NSLocalizedString("Error.active_focus_error_desc", comment: "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.")
         }
     }
-    
-    var link: String {
+
+    var info_random_charcter: String {
         switch self {
         case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
-            return NSLocalizedString("Error.Info", comment: "< include “stop task” message if there is as stop task>")
+            return NSLocalizedString("Error.random_character_info", comment: "< include “stop task” message if there is as stop task>")
         case .schedule_error:
             return ""
         }
     }
 
-    var islinkVisible: Bool {
+    var info_restart_computer: String {
+        switch self {
+        case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
+            return NSLocalizedString("Error.restart_computer_info", comment: "< include “stop task” message if there is as stop task>")
+        case .schedule_error:
+            return ""
+        }
+    }
+
+    var islinkVisible: Bool {         
         switch self {
         case .schedule_error:
             return false
