@@ -99,6 +99,17 @@ extension FocusDialogue {
         }
     }
 
+    var subdesc_font: NSFont {
+        switch self {
+        case .disincentive_xx_character_alert:
+            return NSFont.systemFont(ofSize: 12, weight: .regular)
+        case .disincentive_signout_signin_alert:
+            return NSFont.systemFont(ofSize: 12, weight: .regular) // Italic
+        default:
+            return NSFont.systemFont(ofSize: 12, weight: .regular)
+        }
+    }
+
     var extented_title: String {
         switch self {
         case .short_break_alert:
@@ -149,7 +160,7 @@ extension FocusDialogue {
         case .till_stop_alert:
             return ([NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")], .bottom)
         case .end_break_alert: // Option  top n bottom
-            let btnString = NSLocalizedString("Button.ok", comment: "Ok") + ", " + NSLocalizedString("Button.back_to_focus", comment: "Back To Focus")
+            let btnString = NSLocalizedString("Button.ok", comment: "Ok") + ", " + NSLocalizedString("Button.back_to_focus", comment: "back to focus")
             return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), btnString], .up_down)
         case .schedule_reminded_without_blocklist_alert:
             return ([NSLocalizedString("Button.skip_session", comment: "Skip this focus session"), NSLocalizedString("Button.start_focus", comment: "Start focus session")], .up_down)
@@ -175,7 +186,7 @@ extension FocusDialogue {
     }
 
     var stop_color: NSColor {
-        return Color.edit_bg_color
+        return Color.very_light_grey
     }
 
     var mixedColor: NSColor {

@@ -97,7 +97,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     func themeSetUp() {
-        lblTitle.font = NSFont.systemFont(ofSize: 20, weight: .medium)
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .black)
 
         let bg_color = dialogueType.option_buttons_theme.bg_color
         let b_color = dialogueType.option_buttons_theme.border_color
@@ -109,12 +109,20 @@ extension BlockAppDialogueViewC: BasicSetupType {
         btnStop.textColor = font_color.last ?? .white
         btnStop.borderColor = b_color.last ?? Color.green_color
         btnStop.borderWidth = bwidth
+        btnOk.font = NSFont.systemFont(ofSize: 13, weight: .bold)
 
         btnOk.buttonColor = bg_color.first ?? Color.light_green_color
         btnOk.activeButtonColor = bg_color.first ?? Color.light_green_color
         btnOk.textColor = font_color.first ?? .white
         btnOk.borderColor = b_color.first ?? Color.green_color
         btnOk.borderWidth = bwidth
+        btnOk.font = NSFont.systemFont(ofSize: 13, weight: .bold)
+        
+        view.border_color = Color.green_color
+        view.border_width = 1
+        view.background_color = Color.dialogue_bg_color
+        view.corner_radius = 10
+
     }
 
     func bindData() {

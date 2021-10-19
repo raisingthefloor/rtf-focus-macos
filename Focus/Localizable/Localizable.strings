@@ -9,13 +9,13 @@
 
    The R&D leading to these results received funding from the:
  * Rehabilitation Services Administration, US Dept. of Education under
-   grant H421A150006 (APCP;
+   grant H421A150006 (APCP)
  * National Institute on Disability, Independent Living, and
-   Rehabilitation Research (NIDILRR;
+   Rehabilitation Research (NIDILRR)
  * Administration for Independent Living & Dept. of Education under grants
-   H133E080022 (RERC-IT; and H133E130028/90RE5003-01-00 (UIITA-RERC;
+   H133E080022 (RERC-IT; and H133E130028/90RE5003-01-00 (UIITA-RERC)
  * European Union's Seventh Framework Programme (FP7/2007-2013; grant
-   agreement nos. 289016 (Cloud4all; and 610510 (Prosperity4All;
+   agreement nos. 289016 (Cloud4all) and 610510 (Prosperity4All)
  * William and Flora Hewlett Foundation
  * Ontario Ministry of Research and Innovation
  * Canadian Foundation for Innovation
@@ -42,7 +42,7 @@
 "Button.cancel_session" = "Cancel Focus Session";
 "Button.never_mind" = "Nevermind, go back";
 "Button.take_me_signout" = "OK, I’ll restart the computer";
-"Button.back_to_focus" = "Back To Focus";
+"Button.back_to_focus" = "back to focus";
 "Button.Focus" = "Focus";
 "Button.add_app" = "Add App";
 "Button.add_website" = "Add Website";
@@ -85,7 +85,7 @@
 
 "GS.behaviorTitle" = "Behavior during focus sessions:";
 "GS.before_warning" = "Don't give me a 5 minute warning before scheduled focus sessions start";
-"GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.;";
+"GS.lock_computer_info" = "(To force me to take a break away from computer for at LEAST 1 min.)";
 "GS.countdown_timer" = "Show count down timer in minutes for break start and end";
 "GS.block_screen_each" = "Block screen for the first minute of each break to encourage me to stand up and \nstretch";
 "GS.unblockingtitle" = "Allow me to temporarily unblock these items during focus sessions:";
@@ -114,7 +114,7 @@
 "BS.early_title" = "Discourage me from stopping early:";
 "BS.stop_any_time" = "No, let me stop the focus session at any time";
 "BS.stop_focus_session" = "Yes, make me type to stop the focus session:";
-"BS.random_chracter" = "random characters";
+"BS.random_chracter" = " random characters";
 "BS.restart" = "Yes, make me restart my computer to stop the focus session";
 "BS.note_one" = "Note: You cannot change a \nblocklist while it is in use in an \nactive focus session.";
 "BS.note_two" = "Any changes made will not take \neffect until the next focus session \nwhere the blocklist is used.";
@@ -132,7 +132,7 @@
 
 
 "Alert.break_time" = "Time for a break!";
-"Alert.break_time_extented_title" = "I want to focus a little longer. Remind me to break again in:";
+"Alert.break_time_extented_title" = "I want to focus a little longer.\nRemind me to break again in:";
 "Alert.five_min" = "5 min";
 "Alert.fifteen_min" = "15 min";
 "Alert.thirty_min" = "30 min";
@@ -155,8 +155,8 @@
 "Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in:";
 "Alert.disincentive_xx_character_sub_desc" = "Type the following characters in the space below:";
 "Alert.disincentive_signout_signin_alert_sub_desc" = "If you still want to stop the focus session, \nsave your work and then restart your computer.";
-"Alert.disincentive_signout_signin_alert_desc" = "You set the blocklist (currently being used; to \nrequire you to complete the task below in order to \nstop the focus session.";
-"Alert.disincentive_xx_character_alert_desc" = "You set the blocklist (currently being used; to \nrequire you to complete the task below in order to \nstop the focus session.";
+"Alert.disincentive_signout_signin_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
+"Alert.disincentive_xx_character_alert_desc" = "You set the blocklist (currently being used) to \nrequire you to complete the task below in order to \nstop the focus session.";
 "Alert.disincentive.show_blocklist" = "Show me the blocklist that requires this ...";
 "Applications" = "Applications";
 "Alert.session_complete_subdesc" = "I want to focus a little longer.\nExtend focus session for:";
@@ -191,6 +191,7 @@
 
 "Error.restart_computer_info" = "NOTE: You set the blocklist (currently being used) to require you \nto restart your computer in order to stop the focus suession.";
 "Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type \n<# set in the Edit Blocklists settings panel> random characters in order to stop the focus session.";
+"Error.random_character_invalid" = "Character mismatched.Try Again.";
 
 "ID.test_url" = "Test URL";
 

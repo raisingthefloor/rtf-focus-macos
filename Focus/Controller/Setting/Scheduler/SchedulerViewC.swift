@@ -256,11 +256,11 @@ extension SchedulerViewC {
     }
 
     func processReminderActiveInactive(objFSchedule: Focus_Schedule) {
-        if objFSchedule.is_active {
-            viewModel.input.setReminder(obj: objFSchedule)
-        } else {
-            viewModel.input.removeReminder(obj: objFSchedule)
-        }
+//        if objFSchedule.is_active {
+//            viewModel.input.setReminder(obj: objFSchedule)
+//        } else {
+//            viewModel.input.removeReminder(obj: objFSchedule)
+//        }
         DBManager.shared.saveContext()
     }
 }

@@ -84,6 +84,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
             btn.activeButtonColor = dialogueType.light_green
             btn.textColor = dialogueType.green
             btn.borderColor = dialogueType.green
+            btn.font = NSFont.systemFont(ofSize: 13, weight: .bold)
             btn.borderWidth = 0.5
             i = i + 1
             btnStackV.addArrangedSubview(btn)
@@ -91,11 +92,17 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     }
 
     func themeSetUp() {
-        lblTitle.font = NSFont.systemFont(ofSize: 20, weight: .medium)
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .bold)
 
         btnOk.buttonColor = dialogueType.green
         btnOk.activeButtonColor = dialogueType.green
         btnOk.textColor = .white
+        btnOk.font = NSFont.systemFont(ofSize: 13, weight: .bold)
+
+        view.border_color = Color.green_color
+        view.border_width = 1
+        view.background_color = Color.dialogue_bg_color
+        view.corner_radius = 10
     }
 
     func bindData() {
@@ -106,11 +113,11 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
         sessionDone?(dialogueType.action, extendVal)
-        self.dismiss(nil)
+        dismiss(nil)
     }
 
     @objc func okAction(_ sender: NSButton) {
         sessionDone?(.normal_ok, 0)
-        self.dismiss(nil)
+        dismiss(nil)
     }
 }

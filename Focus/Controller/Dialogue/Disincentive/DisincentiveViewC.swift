@@ -30,6 +30,7 @@ class DisincentiveViewC: NSViewController {
     @IBOutlet var lblDesc: NSTextField!
     @IBOutlet var lblSubDesc: NSTextField!
     @IBOutlet var lblCharacter: NSTextField!
+    @IBOutlet var lblError: NSTextField!
     @IBOutlet var txtCharacter: NSTextField!
     @IBOutlet var btnNever: CustomButton!
     @IBOutlet var btnDone: CustomButton!
@@ -57,7 +58,8 @@ extension DisincentiveViewC: BasicSetupType {
         let buttonsV = dialogueType.option_buttons.titles
         btnDone.title = buttonsV.last ?? ""
         btnNever.title = buttonsV.first ?? ""
-
+        lblError.stringValue = NSLocalizedString("Error.random_character_invalid", comment: "Character mismatched.Try Again.")
+        lblError.textColor = Color.red_color
         let subTitle = NSLocalizedString("Alert.disincentive.show_blocklist", comment: "Show me the blocklist that requires this ...")
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
         attributedText.underLine(subString: subTitle)
@@ -67,6 +69,8 @@ extension DisincentiveViewC: BasicSetupType {
     func setUpViews() {
         lblCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         txtCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
+        lblSubDesc.font = dialogueType.subdesc_font
+        txtCharacter.delegate = self
         themeSetUp()
     }
 
@@ -81,21 +85,29 @@ extension DisincentiveViewC: BasicSetupType {
         btnNever.textColor = font_color.first ?? .white
         btnNever.borderColor = b_color.first ?? Color.green_color
         btnNever.borderWidth = bwidth
+        btnNever.font = NSFont.systemFont(ofSize: 13, weight: .bold)
 
         btnDone.buttonColor = bg_color.last ?? Color.light_green_color
         btnDone.activeButtonColor = bg_color.last ?? Color.light_green_color
         btnDone.textColor = font_color.last ?? .white
         btnDone.borderColor = b_color.last ?? Color.green_color
         btnDone.borderWidth = bwidth
+        btnDone.font = NSFont.systemFont(ofSize: 13, weight: .bold)
 
         lblSubDesc.textColor = (dialogueType == .disincentive_xx_character_alert) ? .black : Color.blue_color
         lblBlock.textColor = Color.blue_color
+
+        view.border_color = Color.green_color
+        view.border_width = 1
+        view.background_color = Color.dialogue_bg_color
+        view.corner_radius = 10
+        btnDone.isEnabled = false
     }
 
     func bindData() {
         btnDone.target = self
         btnDone.action = #selector(doneClick(_:))
-        
+
         btnNever.target = self
         btnNever.action = #selector(neverClick(_:))
 
@@ -108,12 +120,16 @@ extension DisincentiveViewC: BasicSetupType {
         if let objB = DBManager.shared.getCurrentBlockList().objBl {
             let randomVal = objB.character_val
             lblCharacter.stringValue = String.randomString(length: randomVal)
-            txtCharacter.stringValue = lblCharacter.stringValue // For testing purpose
         }
     }
 }
 
-extension DisincentiveViewC {
+extension DisincentiveViewC: NSTextFieldDelegate {
+    func controlTextDidChange(_ notification: Notification) {
+        guard let textView = notification.object as? NSTextField else { return }
+        btnDone.isEnabled = !textView.stringValue.isEmpty
+    }
+
     @objc func openBlockList() {
         if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
             vc.selectOption = SettingOptions.block_setting
@@ -124,12 +140,15 @@ extension DisincentiveViewC {
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
             updateFocusStop?(.stop_session)
-            self.dismiss(nil)
+            dismiss(nil)
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {
+                lblError.isHidden = true
                 updateFocusStop?(.stop_session)
                 dismiss(nil)
+            } else {
+                lblError.isHidden = false
             }
         }
     }

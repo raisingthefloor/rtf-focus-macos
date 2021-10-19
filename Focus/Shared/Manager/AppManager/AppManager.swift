@@ -53,6 +53,9 @@ class AppManager {
         doSpotlightQuery()
         DataModel.preAddSchedule()
         startCheckingReminder()
+        let appleEventManager: NSAppleEventManager = NSAppleEventManager.shared()
+        appleEventManager.setEventHandler(self, andSelector: #selector(handleQuitEvent(event:withReplyEvent:)), forEventClass: kCoreEventClass, andEventID: kAEQuitApplication)
+
         if !UserDefaults.standard.bool(forKey: "pre_added_blocklist") {
             DBManager.shared.systemPreAddedBlocklist()
         }
@@ -66,6 +69,24 @@ class AppManager {
 
     func startCheckingReminder() {
         reminderModel.input.setupInitial()
+    }
+
+    @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
+        let obj = DBManager.shared.getCurrentSession()
+
+        let objEx = obj?.extended_value
+        obj?.is_focusing = false
+        obj?.is_break_time = false
+        obj?.is_focusing = false
+        obj?.is_break_time = false
+        objEx?.is_mid_focus = false
+        objEx?.is_small_focus = false
+        objEx?.is_long_focus = false
+        objEx?.is_mid_break = false
+        objEx?.is_small_break = false
+        objEx?.is_long_break = false
+        DBManager.shared.saveContext()  //TODO: Define the Method for resetting the focus.
+        NSApplication.shared.terminate(self)
     }
 }
 

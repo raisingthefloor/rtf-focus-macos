@@ -99,6 +99,7 @@ extension FloatingFocusViewC: BasicSetupType {
 extension FloatingFocusViewC {
     func setupObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: nil)
+        
     }
 
     @objc func openMenuViewC() {
@@ -220,9 +221,10 @@ extension FloatingFocusViewC {
     }
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
-        guard let obj = viewModel.input.focusObj, let objSession = DBManager.shared.getCurrentBlockList().objBl else { return }
+        guard let obj = viewModel.input.focusObj else { return }
+        let objSession = DBManager.shared.getCurrentBlockList().objBl
         focusTimerModel.usedTime = 0
-        let isRestart = objSession.restart_computer
+        let isRestart = objSession?.restart_computer ?? false
         switch action {
         case .extend_focus:
             // Focus Extend Here
@@ -295,8 +297,8 @@ extension FloatingFocusViewC {
         }
     }
 
-    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List, value: Int, valueType: ButtonValueType) {
-        let isRestart = objBl.restart_computer
+    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List?, value: Int, valueType: ButtonValueType) {
+        let isRestart = objBl?.restart_computer ?? false
 
         switch dialogueType {
         case .end_break_alert:
@@ -311,7 +313,7 @@ extension FloatingFocusViewC {
             // Break Start Here
             obj.is_break_time = true
             DBManager.shared.saveContext()
-            if !objBl.blocked_all_break {
+            if !(objBl?.blocked_all_break ?? false) {
                 stopBlockingAppsWeb(isRestart: false)
             }
             startBreakTime()
@@ -324,13 +326,13 @@ extension FloatingFocusViewC {
                 updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             }
             DBManager.shared.saveContext()
-            if !objBl.blocked_all_break {
+            if !(objBl?.blocked_all_break ?? false) {
                 stopBlockingAppsWeb(isRestart: false)
             }
             startBreakTime()
 
         case .seession_completed_alert:
-            // Session Complete Here
+            // Session Complete Here   (NEED TO RESET THE FOCUSE DATA)
             // TODO: Define the Reset Focus object with default value
             let objEx = obj.extended_value
             obj.is_focusing = false

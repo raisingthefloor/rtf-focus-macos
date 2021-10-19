@@ -57,6 +57,7 @@ extension ComboBoxCell: BasicSetupType {
     func setUpViews() {
         if popBlocklist != nil {
             popBlocklist.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+            popBlocklist.alignment = .left
         }
         if comboTime != nil {
             comboTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)

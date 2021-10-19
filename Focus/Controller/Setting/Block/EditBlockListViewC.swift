@@ -230,14 +230,7 @@ extension EditBlockListViewC: BasicSetupType {
         if scrollView.hasVerticalScroller {
             scrollView.verticalScroller?.floatValue = 0
         }
-
-//        var newScrollOrigin: NSPoint = NSPoint(x: 0, y: 0)
-//        if let isFlipped = scrollView.documentView?.isFlipped, isFlipped {
-//            newScrollOrigin = NSMakePoint(0.0, 0.0)
-//        } else {
-//            newScrollOrigin = NSMakePoint(0.0, NSMaxY(scrollView.documentView?.frame ?? .zero) - NSHeight(scrollView.contentView.bounds))
-//        }
-//        scrollView.documentView?.scroll(newScrollOrigin)
+        comboBlock.alignment = .left
     }
 
     func bindData() {
@@ -260,8 +253,8 @@ extension EditBlockListViewC: BasicSetupType {
         comboBlock.target = self
         comboBlock.action = #selector(handleBlockSelection(_:))
         txtCharacter.delegate = self
-        
-        self.urllink = Config.block_list
+
+        urllink = Config.block_list
         let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
         g.numberOfClicksRequired = 1
         lblSubTitle.addGestureRecognizer(g) // Need to set range click
@@ -610,7 +603,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     @IBAction func stopOptions(sender: NSButton) {
         let tag = sender.tag
-
+        
         switch tag {
         case 0:
             if radioStopAnyTime.state == .on {
@@ -645,8 +638,8 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         default:
             break
         }
-
         DBManager.shared.saveContext()
+        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
     }
 
     func reloadTables() {

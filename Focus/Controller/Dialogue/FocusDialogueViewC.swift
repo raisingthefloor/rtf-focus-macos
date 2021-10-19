@@ -107,7 +107,7 @@ extension FocusDialogueViewC: BasicSetupType {
             btn.activeButtonColor = dialogueType.light_green
             btn.textColor = dialogueType.green
             btn.borderColor = dialogueType.green
-            btn.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+            btn.font = NSFont.systemFont(ofSize: 13, weight: .bold)
             enableDisable(btn: btn)
             btn.borderWidth = 0.5
             i = i + 1
@@ -118,28 +118,33 @@ extension FocusDialogueViewC: BasicSetupType {
     func themeSetUp() {
         lblSubTitle.textColor = .black
 
-        lblTitle.font = NSFont.systemFont(ofSize: 20, weight: .bold)
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .bold)
 
         btnTop.buttonColor = dialogueType.green
         btnTop.activeButtonColor = dialogueType.green
         btnTop.textColor = .white
-        btnTop.font = NSFont.systemFont(ofSize: 12, weight: .bold)
-        
+        btnTop.font = NSFont.systemFont(ofSize: 13, weight: .bold)
+
         btnStop.buttonColor = dialogueType.stop_color
         btnStop.activeButtonColor = dialogueType.stop_color
         btnStop.textColor = Color.black_color
         btnStop.borderColor = Color.dark_grey_border
         btnStop.borderWidth = 0.6
-        btnStop.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        btnStop.font = NSFont.systemFont(ofSize: 13, weight: .bold)
 
         btnContinue.buttonColor = dialogueType.light_green
         btnContinue.activeButtonColor = dialogueType.light_green
         btnContinue.textColor = dialogueType.green
         btnContinue.borderColor = dialogueType.green
         btnContinue.borderWidth = 0.6
-        btnContinue.font = NSFont.systemFont(ofSize: 12, weight: .bold)
+        btnContinue.font = NSFont.systemFont(ofSize: 13, weight: .bold)
 
-        //containerView.bgColor = Color.light_blue_color
+        view.border_color = Color.green_color
+        view.border_width = 1
+        view.background_color = Color.dialogue_bg_color
+        view.corner_radius = 10
+
+        // containerView.bgColor = Color.light_blue_color
     }
 
     func bindData() {

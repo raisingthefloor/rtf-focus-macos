@@ -68,7 +68,9 @@ extension CustomSettingController: BasicSetupType {
         tblMenu.backgroundColor = Color.green_color
         leftView.background_color = Color.green_color
         righView.background_color = .white
+
         lblTitle.textColor = .white
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .bold)
     }
 
     func bindData() {

@@ -53,7 +53,7 @@ extension ErrorDialogueViewC: BasicSetupType {
         lblDesc.attributedStringValue = attributedValue
         
         btnOk.title = NSLocalizedString("Button.ok", comment: "OK").uppercased()
-        
+        lblInfo.isHidden = true
         guard let obj = objBl else { return }
         
         lblInfo.stringValue = obj.random_character ?  errorType.info_random_charcter : errorType.info_restart_computer

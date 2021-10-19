@@ -171,6 +171,7 @@ extension MenuController: BasicSetupType {
     func bindData() {
         popBlock.menu = viewModel.model.input.getBlockList(cntrl: .main_menu).0
         popBlock.selectItem(at: 0)
+        popBlock.alignment = .left
 
         popFocusTime.menu = Focus.FocusTime.focustimes
         popBreakTime.menu = Focus.BreakTime.breaktimes

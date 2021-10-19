@@ -58,11 +58,16 @@ extension LockedScreenVC: BasicSetupType {
         lblInfo.textColor = Color.blue_color
 
 //        containerView.bgColor = Color.light_blue_color
+
+        view.border_color = Color.green_color
+        view.border_width = 1
+        view.background_color = Color.dialogue_bg_color
+        view.corner_radius = 10
     }
 
     func bindData() {
         _ = Timer.scheduledTimer(withTimeInterval: 60, repeats: false) {
-            (_) in
+            _ in
             self.dismiss?(true)
             self.dismiss(nil)
         }
