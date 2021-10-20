@@ -139,13 +139,13 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCell(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let obj = listType.arrData[row]
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
                 cell.btnAddApp.target = self
                 cell.btnAddApp.tag = row
                 cell.btnAddApp.action = #selector(toggleUse(_:))
                 if listType != .category_list { // For temp
+                    let obj = listType.arrData[row]
                     cell.btnAddApp.state = ((obj as? Application_List)?.is_selected ?? false) ? .on : .off
                 }
                 return cell
@@ -154,6 +154,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
             if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
                 categoryCell.imgV.isHidden = !listType.isIconVisible
                 if listType != .category_list {
+                    let obj = listType.arrData[row]
                     categoryCell.configApps(obj: obj as? Application_List)
                 } else {
                     let objSubCat = objCat?.sub_data?.allObjects[row] as? Block_SubCategory

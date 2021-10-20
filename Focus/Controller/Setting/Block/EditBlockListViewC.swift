@@ -368,10 +368,12 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             guard selectedRow != -1 else { return }
             if tblV.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
                 let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[selectedRow]
-                let listDialogue = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
-                listDialogue.listType = .category_list
-                listDialogue.objCat = objCat
-                presentAsSheet(listDialogue)
+                if objCat.show_link {
+                    let listDialogue = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
+                    listDialogue.listType = .category_list
+                    listDialogue.objCat = objCat
+                    presentAsSheet(listDialogue)
+                }
             }
         }
     }
@@ -583,7 +585,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     @IBAction func stopOptions(sender: NSButton) {
         let tag = sender.tag
-        
+
         switch tag {
         case 0:
             if radioStopAnyTime.state == .on {

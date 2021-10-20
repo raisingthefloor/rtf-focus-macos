@@ -71,17 +71,18 @@ extension ImageTextCell: BasicSetupType {
 
     func configSubCategory(obj: Block_SubCategory?) {
         guard let model = obj else { return }
+        imgV.isHidden = true
         if model.block_type == BlockType.web.rawValue {
             let name = model.name ?? "-"
             let categoryStr = NSMutableAttributedString.getAttributedString(fromString: name)
             categoryStr.underLine(subString: name)
             categoryStr.apply(color: Color.blue_color, subString: name)
             lblTitle.attributedStringValue = categoryStr
-            imgV.isHidden = true
         } else {
             lblTitle.stringValue = model.name ?? "-"
+            guard let path = model.app_icon_path, !path.isEmpty else { return }
             imgV.isHidden = false
-            let icon = NSWorkspace.shared.icon(forFile: model.app_icon_path ?? "")
+            let icon = NSWorkspace.shared.icon(forFile: path)
             imgV.image = icon
         }
     }

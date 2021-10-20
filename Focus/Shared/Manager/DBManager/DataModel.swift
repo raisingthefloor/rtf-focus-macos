@@ -51,7 +51,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     var input: DataModelIntput { return self }
     var output: DataModelOutput { return self }
 
-    let categories = ["Calls & Chat", "Notification (Turns Do Not Disturb ON)", "Social Media", "Games", "News", "Shopping", "Video (apps and sites)", "Dating", "Gambling", "Communication", "Email", "Ads", "Proxies"]
+//    let categories = ["Calls & Chat", "Notification (Turns Do Not Disturb ON)", "Social Media", "Games", "News", "Shopping", "Video (apps and sites)", "Dating", "Gambling", "Communication", "Email", "Ads", "Proxies"]
 
     func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category]) {
         let menus = NSMenu()
@@ -106,13 +106,13 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     func storeCategory() {
         if !DBManager.shared.checkDataIsPresent(entityName: "Block_Category") {
             var i = 1
-            for val in categories {
-                let data: [String: Any?] = ["name": val, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue, "index": i]
-                DBManager.shared.saveCategory(data: data, type: .system)
+            for val in Categories.arrCategories {
+                let data: [String: Any?] = ["name": val.name, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue, "index": i, "show_link": val.show_link]
+                DBManager.shared.saveCategory(data: data, type: .system, cat: val)
                 i = i + 1
             }
             let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
-            DBManager.shared.saveCategory(data: data, type: .general)
+            DBManager.shared.saveCategory(data: data, type: .general, cat: .general)
         }
     }
 
@@ -216,4 +216,63 @@ enum ViewCntrl: Int {
 enum ColorType: Int {
     case solid = 1
     case hollow
+}
+
+enum Categories: String {
+    // "Calls & Chat", "Ads" not in provided doc
+    case notification
+    case email
+    case communication
+    case games
+    case proxies
+    case videos
+    case social_media
+    case shopping
+    case porn
+    case news
+    case gambling
+    case dating
+    case general
+
+    var name: String {
+        switch self {
+        case .notification:
+            return "Notification (Turns Do Not Disturb ON)"
+        case .email:
+            return "Email"
+        case .communication:
+            return "Communication"
+        case .games:
+            return "Games"
+        case .proxies:
+            return "Proxies"
+        case .videos:
+            return "Video (apps and sites)"
+        case .social_media:
+            return "Social Media"
+        case .shopping:
+            return "Shopping"
+        case .porn:
+            return "Porn"
+        case .news:
+            return "News"
+        case .gambling:
+            return "Gambling"
+        case .dating:
+            return "Dating"
+        case .general:
+            return "General"
+        }
+    }
+
+    var show_link: Bool {
+        switch self {
+        case .porn, .notification, .general:
+            return false
+        default:
+            return true
+        }
+    }
+
+    static var arrCategories: [Categories] = [.notification, .social_media, .games, .news, .shopping, .videos, .dating, .gambling, .communication, .email, .porn, .proxies]
 }

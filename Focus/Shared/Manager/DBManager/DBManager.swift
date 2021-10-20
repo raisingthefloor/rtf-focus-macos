@@ -330,26 +330,31 @@ extension DBManager {
         }
     }
 
-    func saveCategory(data: [String: Any?], type: CategoryType) {
+    func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories) {
         let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: DBManager.shared.managedContext)!
         let category = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
         for (key, value) in data {
             category.setValue(value, forKeyPath: key)
         }
-        if type != .general {
-        let sub_data = [["name": "Messages", "app_identifier": "com.apple.MobileSMS", "app_icon_path": "/System/Applications/Messages.app", "created_at": Date(), "block_type": BlockType.application.rawValue], ["name": "www.instagram.com", "url": "www.instagram.com", "created_at": Date(), "block_type": BlockType.web.rawValue]]
+        if type != .general || cat != .notification {
+            var arrSD: [Block_SubCategory] = []
 
-        var arrSD: [Block_SubCategory] = []
-        for val in sub_data {
-            let objSC = Block_SubCategory(context: DBManager.shared.managedContext)
+            let file_name_site = cat.rawValue + "_site"
+            var sub_data = CSVParser.shared.getDataInDictionary(fileName: file_name_site, fileType: "csv")
 
-            for (key, value) in val {
-                objSC.setValue(value, forKeyPath: key)
+            let file_name_app = cat.rawValue + "_app"
+            sub_data = sub_data + CSVParser.shared.getDataInDictionary(fileName: file_name_app, fileType: "csv")
+
+            for val in sub_data {
+                let objSC = Block_SubCategory(context: DBManager.shared.managedContext)
+
+                for (key, value) in val {
+                    objSC.setValue(value, forKeyPath: key)
+                }
+                arrSD.append(objSC)
             }
-            arrSD.append(objSC)
-        }
-        (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
+            (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
         }
         if type == .general {
             let setting_data: [String: Any?] = ["warning_before_schedule_session_start": false, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]

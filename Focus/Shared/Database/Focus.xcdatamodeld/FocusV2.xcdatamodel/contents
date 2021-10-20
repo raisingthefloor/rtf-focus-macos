@@ -18,6 +18,7 @@
         <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="show_link" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="General_Settings" inverseName="general_cat" inverseEntity="General_Settings"/>
         <relationship name="sub_data" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block_SubCategory" inverseName="category" inverseEntity="Block_SubCategory"/>
@@ -142,7 +143,7 @@
     <elements>
         <element name="Application_List" positionX="-36" positionY="90" width="128" height="119"/>
         <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
-        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="149"/>
+        <element name="Block_Category" positionX="-18" positionY="81" width="128" height="164"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="164"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="194"/>
         <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>

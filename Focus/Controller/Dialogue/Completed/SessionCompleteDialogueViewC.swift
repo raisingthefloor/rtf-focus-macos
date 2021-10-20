@@ -67,8 +67,9 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
         attributedText.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: focusInfo)
         attributedText.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: time)
         attributedText.alignment(alignment: .center, subString: focusInfo)
-
         lblDesc.attributedStringValue = attributedText
+        lblDesc.alignment = .center
+        
         lblSubDesc.stringValue = dialogueType.sub_description
     }
 

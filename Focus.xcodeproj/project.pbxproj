@@ -81,6 +81,9 @@
 		3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */; };
 		3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */; };
 		3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */; };
+		3FCF604F27072D0C009A047C /* email_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3FCF604E27072D0C009A047C /* email_site.csv */; };
+		3FCF605227203BEF009A047C /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCF605127203BEF009A047C /* CSVParser.swift */; };
+		3FCF605427204C9C009A047C /* email_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3FCF605327204C9C009A047C /* email_app.csv */; };
 		3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */; };
 		3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */; };
 		3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA602682083200C9D82D /* BaseViewController.swift */; };
@@ -179,6 +182,9 @@
 		3FC8108726A977BD0058D1CF /* DisincentiveViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisincentiveViewC.swift; sourceTree = "<group>"; };
 		3FC8108826A977BD0058D1CF /* DisincentiveViewC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisincentiveViewC.xib; sourceTree = "<group>"; };
 		3FCC9C2026EF7DFC00BC43B5 /* WeekDaysCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDaysCell.swift; sourceTree = "<group>"; };
+		3FCF604E27072D0C009A047C /* email_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = email_site.csv; sourceTree = "<group>"; };
+		3FCF605127203BEF009A047C /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
+		3FCF605327204C9C009A047C /* email_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = email_app.csv; sourceTree = "<group>"; };
 		3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3FD0CA602682083200C9D82D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -562,6 +568,23 @@
 			path = Disincentive;
 			sourceTree = "<group>";
 		};
+		3FCF604D27072CE3009A047C /* CategoryData */ = {
+			isa = PBXGroup;
+			children = (
+				3FCF605327204C9C009A047C /* email_app.csv */,
+				3FCF604E27072D0C009A047C /* email_site.csv */,
+			);
+			path = CategoryData;
+			sourceTree = "<group>";
+		};
+		3FCF605027203BD3009A047C /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				3FCF605127203BEF009A047C /* CSVParser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
 		3FD0CA5C2681FB4A00C9D82D /* Handler */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +615,7 @@
 		3FFC1E4A2680C13D0014216C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				3FCF604D27072CE3009A047C /* CategoryData */,
 				3FAAF75B26B2C261009447F8 /* Script */,
 				3F5944B82689F957008C54A4 /* Database */,
 				3F1F265026845B06007D9878 /* ControllerAnimation */,
@@ -607,6 +631,7 @@
 		3FFC1E4B2680C13D0014216C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				3FCF605027203BD3009A047C /* Parser */,
 				3F34ADBD271412BE00471323 /* NotifictionManager */,
 				3FAE26A32702F030005CF777 /* TimeManager */,
 				3F7872CD26B803730076FA83 /* AppManager */,
@@ -708,8 +733,10 @@
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
 				3FE6A38D26F9E54100435503 /* ListView.xib in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
+				3FCF604F27072D0C009A047C /* email_site.csv in Resources */,
 				3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
+				3FCF605427204C9C009A047C /* email_app.csv in Resources */,
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
 				3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */,
 				3FA0490D2705CC150074BEB1 /* LockedScreenVC.xib in Resources */,
@@ -744,6 +771,7 @@
 				3FB01CF726FB400500828486 /* BlocklistDialogueViewC.swift in Sources */,
 				3FCC9C2126EF7DFC00BC43B5 /* WeekDaysCell.swift in Sources */,
 				3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */,
+				3FCF605227203BEF009A047C /* CSVParser.swift in Sources */,
 				3FFC1E712680C13D0014216C /* CustomButtom.swift in Sources */,
 				3FC8108926A977BD0058D1CF /* DisincentiveViewC.swift in Sources */,
 				3FA82F22270DEF4000D46788 /* FocusTimerManager.swift in Sources */,

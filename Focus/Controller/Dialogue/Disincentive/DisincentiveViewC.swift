@@ -31,8 +31,10 @@ class DisincentiveViewC: NSViewController {
     @IBOutlet var lblDesc: NSTextField!
     @IBOutlet var lblSubDesc: NSTextField!
     @IBOutlet var lblCharacter: NSTextField!
+    @IBOutlet var randomSV: NSStackView!
     @IBOutlet var lblError: NSTextField!
     @IBOutlet var txtCharacter: NSTextField!
+
     @IBOutlet var btnNever: CustomButton!
     @IBOutlet var btnDone: CustomButton!
 
@@ -70,7 +72,7 @@ extension DisincentiveViewC: BasicSetupType {
 
     func setUpViews() {
         lblCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
-        txtCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
+        randomSV.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         lblSubDesc.font = dialogueType.subdesc_font
         txtCharacter.delegate = self
         themeSetUp()
@@ -79,6 +81,7 @@ extension DisincentiveViewC: BasicSetupType {
     func themeSetUp() {
         lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .bold)
         lblDesc.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblCharacter.font = NSFont.systemFont(ofSize: 12, weight: .bold)
 
         let bg_color = dialogueType.option_buttons_theme.bg_color
         let b_color = dialogueType.option_buttons_theme.border_color
@@ -106,7 +109,7 @@ extension DisincentiveViewC: BasicSetupType {
         view.border_width = 1
         view.background_color = Color.dialogue_bg_color
         view.corner_radius = 10
-        btnDone.isEnabled = false
+        btnDone.isEnabled = (dialogueType == .disincentive_xx_character_alert) ? false : true
     }
 
     func bindData() {
@@ -144,6 +147,7 @@ extension DisincentiveViewC: NSTextFieldDelegate {
 
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
+            WindowsManager.openSystemLogoutDialog()
 //            updateFocusStop?(.stop_session)
 //            dismiss(nil)
         } else {

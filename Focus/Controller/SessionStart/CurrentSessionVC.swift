@@ -178,7 +178,7 @@ extension CurrentSessionVC {
 //        let presentingCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = (objBl.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.dialogueType = (objBl.random_character) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
             self.updateView?(focusStop == .stop_session, focusStop)
             self.dismiss(nil)
