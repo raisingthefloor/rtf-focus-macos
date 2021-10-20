@@ -63,11 +63,22 @@ extension SchedulerViewC: BasicSetupType {
         attributedText.apply(color: Color.blue_color, subString: instruction)
         attributedText.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: instruction)
         lblInstruction.attributedStringValue = attributedText
+
+        checkBoxFocusTime.title = NSLocalizedString("GS.provide_focus_time", comment: "Provide short")
+        lblBrekInfo.stringValue = NSLocalizedString("GS.break_for", comment: "breaks for every")
+        lblFocusInfo.stringValue = NSLocalizedString("GS.schedule_session", comment: "of scheduled Focus sessions")
     }
 
     func setUpViews() {
         lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .semibold)
         lblTitle.textColor = .black
+
+        checkBoxFocusTime.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+
+        lblBrekInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblBrekInfo.textColor = .black
+//        lblFocusInfo.font = NSFont.systemFont(ofSize: 12, weight: .semibold) // Italic
+        lblFocusInfo.textColor = .black
     }
 
     func bindData() {
@@ -86,7 +97,7 @@ extension SchedulerViewC: BasicSetupType {
         checkBoxFocusTime.target = self
         checkBoxFocusTime.action = #selector(checkBoxEventHandler(_:))
 
-        self.urllink = Config.focus_schedule_link
+        urllink = Config.focus_schedule_link
         let g = NSClickGestureRecognizer(target: self, action: #selector(openBrowser))
         g.numberOfClicksRequired = 1
         lblInstruction.addGestureRecognizer(g) // Need to set range click

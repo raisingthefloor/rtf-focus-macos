@@ -99,7 +99,6 @@ extension FloatingFocusViewC: BasicSetupType {
 extension FloatingFocusViewC {
     func setupObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: nil)
-        
     }
 
     @objc func openMenuViewC() {
@@ -139,13 +138,15 @@ extension FloatingFocusViewC {
         }
     }
 
-    func stopBlockingAppsWeb(isRestart: Bool) {
-        WindowsManager.stopBlockWebSite()
-        AppManager.shared.removeObserver()
-        WindowsManager.runDndCommand(cmd: "off")
+    func stopBlockingAppsWeb(isRestart: Bool, dialogueType: FocusDialogue) {
+        if dialogueType != .disincentive_signout_signin_alert {
+            AppManager.shared.stopScriptObserver()
+        }
 
         if isRestart {
-            WindowsManager.openSystemLogoutDialog()
+            if dialogueType == .disincentive_signout_signin_alert {
+                WindowsManager.openSystemLogoutDialog()
+            }
         }
     }
 }
@@ -246,18 +247,8 @@ extension FloatingFocusViewC {
             breakTimerModel.input.handleTimer()
 
         case .stop_session:
-            // Prepare the Method in Model to reset the value and set default values
-            let objEx = obj.extended_value
-            obj.is_focusing = false
-            obj.is_break_time = false
-            objEx?.is_mid_focus = false
-            objEx?.is_small_focus = false
-            objEx?.is_long_focus = false
-            objEx?.is_mid_break = false
-            objEx?.is_small_break = false
-            objEx?.is_long_break = false
-            DBManager.shared.saveContext()
-            stopBlockingAppsWeb(isRestart: isRestart)
+            AppManager.shared.resetFocusSession()
+            stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
             defaultUI()
         case .skip_session:
             break
@@ -314,7 +305,7 @@ extension FloatingFocusViewC {
             obj.is_break_time = true
             DBManager.shared.saveContext()
             if !(objBl?.blocked_all_break ?? false) {
-                stopBlockingAppsWeb(isRestart: false)
+                stopBlockingAppsWeb(isRestart: false, dialogueType: dialogueType)
             }
             startBreakTime()
         case .long_break_alert:
@@ -327,27 +318,14 @@ extension FloatingFocusViewC {
             }
             DBManager.shared.saveContext()
             if !(objBl?.blocked_all_break ?? false) {
-                stopBlockingAppsWeb(isRestart: false)
+                stopBlockingAppsWeb(isRestart: false, dialogueType: dialogueType)
             }
             startBreakTime()
 
         case .seession_completed_alert:
-            // Session Complete Here   (NEED TO RESET THE FOCUSE DATA)
-            // TODO: Define the Reset Focus object with default value
-            let objEx = obj.extended_value
-            obj.is_focusing = false
-            obj.is_break_time = false
-            obj.is_focusing = false
-            obj.is_break_time = false
-            objEx?.is_mid_focus = false
-            objEx?.is_small_focus = false
-            objEx?.is_long_focus = false
-            objEx?.is_mid_break = false
-            objEx?.is_small_break = false
-            objEx?.is_long_break = false
-
-            DBManager.shared.saveContext()
-            stopBlockingAppsWeb(isRestart: isRestart)
+            // Session Complete Heres
+            AppManager.shared.resetFocusSession()
+            stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
             defaultUI()
         default:
             setUpText()

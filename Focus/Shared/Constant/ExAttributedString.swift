@@ -92,7 +92,7 @@ extension NSMutableAttributedString {
 
     // Underline string on given range
     func underLine(onRange: NSRange) {
-        addAttributes([NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue],
+        addAttributes([NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.underlineColor: Color.blue_color],
                       range: onRange)
     }
 

@@ -60,7 +60,7 @@ extension FocusDialogue {
             return NSLocalizedString("Alert.schedule_reminder.title", comment: "Focus Session Reminder")
         case .schedule_reminded_with_blocklist_alert:
             let str = NSLocalizedString("Alert.schedule_session_list.title", comment: "Your scheduled focus session starts in %@ min.")
-            return String(format: str, 2)
+            return String(format: str, 5)
         default: return ""
         }
     }
@@ -131,7 +131,7 @@ extension FocusDialogue {
 
     var extented_buttons: [String] {
         switch self {
-        case .short_break_alert, .seession_completed_alert, .schedule_reminded_with_blocklist_alert:
+        case .short_break_alert, .seession_completed_alert:
             return [NSLocalizedString("Alert.five_min", comment: "5 min"), NSLocalizedString("Alert.fifteen_min", comment: "15 min"), NSLocalizedString("Alert.thirty_min", comment: "30 min")]
         case .launch_block_app_alert, .till_stop_alert, .disincentive_xx_character_alert, .disincentive_signout_signin_alert, .notifiction_block_alert:
             return []
@@ -141,39 +141,41 @@ extension FocusDialogue {
             return [NSLocalizedString("Alert.one_min", comment: "1 min"), NSLocalizedString("Alert.five_min", comment: "5 min"), NSLocalizedString("Alert.fifteen_min", comment: "15 min")]
         case .schedule_reminded_without_blocklist_alert:
             return [NSLocalizedString("Alert.five_min", comment: "5 min"), NSLocalizedString("Alert.fifteen_min", comment: "15 min"), NSLocalizedString("Alert.thirty_min", comment: "30 min"), NSLocalizedString("Alert.sixty_min", comment: "60 min")]
+        case .schedule_reminded_with_blocklist_alert:
+            return [NSLocalizedString("Alert.Now", comment: "Now"), NSLocalizedString("Alert.ten_min", comment: "10 min"), NSLocalizedString("Alert.fifteen_min", comment: "15 min")]
         case .none:
             return []
         }
     }
 
-    var option_buttons: (titles: [String], position: ButtonPosition) {
+    var option_buttons: [String] {
         switch self {
         case .short_break_alert, .launch_block_app_alert, .notifiction_block_alert:
-            return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), NSLocalizedString("Button.ok", comment: "Ok")], .bottom)
+            return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), NSLocalizedString("Button.ok", comment: "Ok")])
         case .seession_completed_alert:
             let btnString = NSLocalizedString("Button.ok", comment: "Ok") + " - " + NSLocalizedString("Button.done", comment: "Done")
-            return ([btnString], .bottom)
+            return ([btnString])
         case .long_break_alert:
             let str = NSLocalizedString("Alert.continue_with", comment: "Continue with") + " %@ " + NSLocalizedString("Alert.breaks", comment: "Breaks")
             let btnString = str
-            return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), btnString], .bottom)
+            return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), btnString])
         case .till_stop_alert:
-            return ([NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")], .bottom)
+            return ([NSLocalizedString("Button.continue_focusing", comment: "Continue Focusing"), NSLocalizedString("Button.stop_focusing", comment: "Stop Focusing")])
         case .end_break_alert: // Option  top n bottom
             let btnString = NSLocalizedString("Button.ok", comment: "Ok") + ", " + NSLocalizedString("Button.back_to_focus", comment: "back to focus")
-            return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), btnString], .up_down)
+            return ([NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session"), btnString])
         case .schedule_reminded_without_blocklist_alert:
-            return ([NSLocalizedString("Button.skip_session", comment: "Skip this focus session"), NSLocalizedString("Button.start_focus", comment: "Start focus session")], .up_down)
+            return ([NSLocalizedString("Button.skip_session", comment: "Skip this focus session"), NSLocalizedString("Button.start_focus", comment: "Start focus session")])
         case .schedule_reminded_with_blocklist_alert:
 
-            let btnString = NSLocalizedString("Button.ok", comment: "Ok") + ", " + String(format: NSLocalizedString("Button.start_in", comment: "start in %d min"), 2)
-            return ([NSLocalizedString("Button.skip_session", comment: "Skip this focus session"), btnString], .up_down)
+            let btnString = NSLocalizedString("Button.ok", comment: "Ok") + ", " + String(format: NSLocalizedString("Button.start_in", comment: "start in %d min"), 5)
+            return ([NSLocalizedString("Button.skip_session", comment: "Skip this focus session"), btnString])
         case .disincentive_xx_character_alert:
-            return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session")], .bottom)
+            return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session")])
         case .disincentive_signout_signin_alert:
-            return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.take_me_signout", comment: "OK, I’ll restart the computer")], .bottom)
+            return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.take_me_signout", comment: "OK, I’ll restart the computer")])
         case .none:
-            return ([], .bottom)
+            return ([])
         }
     }
 
@@ -230,7 +232,7 @@ extension FocusDialogue {
 
     var value: [Int] {
         switch self {
-        case .short_break_alert, .seession_completed_alert, .schedule_reminded_with_blocklist_alert:
+        case .short_break_alert, .seession_completed_alert:
             return [5 * 60, 15 * 60, 30 * 60]
         case .launch_block_app_alert, .till_stop_alert, .disincentive_xx_character_alert, .disincentive_signout_signin_alert, .notifiction_block_alert:
             return []
@@ -240,6 +242,8 @@ extension FocusDialogue {
             return [1 * 60, 5 * 60, 15 * 60]
         case .schedule_reminded_without_blocklist_alert:
             return [5, 15, 30, 60]
+        case .schedule_reminded_with_blocklist_alert:
+            return [0, 10, 15]
         case .none:
             return []
         }

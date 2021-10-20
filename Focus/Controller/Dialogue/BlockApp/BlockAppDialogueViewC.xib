@@ -53,7 +53,7 @@ which you selected for this focus session.</string>
                                 <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ec-yg-pdk">
                                     <rect key="frame" x="-2" y="226" width="263" height="45"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" id="Umr-Ww-2H1">
-                                        <font key="font" metaFont="system" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <string key="title">Discord is blocked by the following blocklist, 
 All Games Blocklist
 which you selected for this focus session.</string>

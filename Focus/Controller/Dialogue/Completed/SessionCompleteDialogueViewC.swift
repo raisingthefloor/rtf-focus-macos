@@ -64,12 +64,11 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
 
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: focusInfo)
         attributedText.apply(color: Color.black_color, subString: focusInfo)
-        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: focusInfo)
-        attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: time)
-        attributedText.alignment(alignment: .center, subString: time)
+        attributedText.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: focusInfo)
+        attributedText.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: time)
+        attributedText.alignment(alignment: .center, subString: focusInfo)
 
         lblDesc.attributedStringValue = attributedText
-
         lblSubDesc.stringValue = dialogueType.sub_description
     }
 
@@ -93,6 +92,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
 
     func themeSetUp() {
         lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .bold)
+        lblSubDesc.font = NSFont.systemFont(ofSize: 12, weight: .regular)
 
         btnOk.buttonColor = dialogueType.green
         btnOk.activeButtonColor = dialogueType.green

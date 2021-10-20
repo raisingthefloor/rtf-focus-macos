@@ -68,17 +68,16 @@ extension FocusDialogueViewC: BasicSetupType {
         lblSubDesc.stringValue = dialogueType.sub_description
 
         lblSubTitle.stringValue = dialogueType.extented_title
-        let buttonsValue = dialogueType.option_buttons.titles
-        let position = dialogueType.option_buttons.position
+        let buttonsValue = dialogueType.option_buttons
 
         btnStop.title = buttonsValue.first ?? "-"
         if dialogueType == .long_break_alert {
             let timeC = Int(viewModel.currentSession?.objFocus?.short_break_time ?? 100).secondsToTime()
             var time = ""
             if timeC.timeInHours != 0 {
-                time = "\(timeC.timeInHours) Hours \(timeC.timeInMinutes) minutes"
+                time = "\(timeC.timeInHours) hrs \(timeC.timeInMinutes) minute"
             } else {
-                time = "\(timeC.timeInMinutes) minutes"
+                time = "\(timeC.timeInMinutes) minute"
             }
             btnContinue.title = String(format: buttonsValue.last ?? "", time)
         } else {
@@ -103,10 +102,10 @@ extension FocusDialogueViewC: BasicSetupType {
         for value in dialogueType.extented_buttons {
             let btn = CustomButton(title: value, target: self, action: #selector(extendTimeAction(_:)))
             btn.tag = i
-            btn.buttonColor = dialogueType.light_green
-            btn.activeButtonColor = dialogueType.light_green
-            btn.textColor = dialogueType.green
-            btn.borderColor = dialogueType.green
+            btn.buttonColor = (dialogueType == .long_break_alert) ? dialogueType.green : dialogueType.light_green
+            btn.activeButtonColor = (dialogueType == .long_break_alert) ? dialogueType.green : dialogueType.light_green
+            btn.textColor = (dialogueType == .long_break_alert) ? .white : dialogueType.green
+            btn.borderColor = (dialogueType == .long_break_alert) ? .white : dialogueType.green
             btn.font = NSFont.systemFont(ofSize: 13, weight: .bold)
             enableDisable(btn: btn)
             btn.borderWidth = 0.5

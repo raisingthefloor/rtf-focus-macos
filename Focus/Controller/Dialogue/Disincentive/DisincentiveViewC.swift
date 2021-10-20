@@ -27,6 +27,7 @@ import Carbon.HIToolbox
 import Cocoa
 
 class DisincentiveViewC: NSViewController {
+    @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var lblDesc: NSTextField!
     @IBOutlet var lblSubDesc: NSTextField!
     @IBOutlet var lblCharacter: NSTextField!
@@ -55,7 +56,8 @@ extension DisincentiveViewC: BasicSetupType {
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description
         lblCharacter.stringValue = String.randomString(length: 30)
-        let buttonsV = dialogueType.option_buttons.titles
+
+        let buttonsV = dialogueType.option_buttons
         btnDone.title = buttonsV.last ?? ""
         btnNever.title = buttonsV.first ?? ""
         lblError.stringValue = NSLocalizedString("Error.random_character_invalid", comment: "Character mismatched.Try Again.")
@@ -75,6 +77,9 @@ extension DisincentiveViewC: BasicSetupType {
     }
 
     func themeSetUp() {
+        lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .bold)
+        lblDesc.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+
         let bg_color = dialogueType.option_buttons_theme.bg_color
         let b_color = dialogueType.option_buttons_theme.border_color
         let bwidth = dialogueType.option_buttons_theme.border_width
@@ -139,8 +144,8 @@ extension DisincentiveViewC: NSTextFieldDelegate {
 
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
-            updateFocusStop?(.stop_session)
-            dismiss(nil)
+//            updateFocusStop?(.stop_session)
+//            dismiss(nil)
         } else {
             // Match the random value and complete the session
             if lblCharacter.stringValue == txtCharacter.stringValue {

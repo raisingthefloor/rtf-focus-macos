@@ -72,20 +72,8 @@ class AppManager {
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
-        let obj = DBManager.shared.getCurrentSession()
-
-        let objEx = obj?.extended_value
-        obj?.is_focusing = false
-        obj?.is_break_time = false
-        obj?.is_focusing = false
-        obj?.is_break_time = false
-        objEx?.is_mid_focus = false
-        objEx?.is_small_focus = false
-        objEx?.is_long_focus = false
-        objEx?.is_mid_break = false
-        objEx?.is_small_break = false
-        objEx?.is_long_break = false
-        DBManager.shared.saveContext()  //TODO: Define the Method for resetting the focus.
+        resetFocusSession()
+        stopScriptObserver()
         NSApplication.shared.terminate(self)
     }
 }
@@ -173,5 +161,29 @@ extension AppManager {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: application)
             }
         }
+    }
+}
+
+extension AppManager {
+    func resetFocusSession() {
+        let obj = DBManager.shared.getCurrentSession()
+        let objEx = obj?.extended_value
+        obj?.is_focusing = false
+        obj?.is_break_time = false
+        obj?.is_focusing = false
+        obj?.is_break_time = false
+        objEx?.is_mid_focus = false
+        objEx?.is_small_focus = false
+        objEx?.is_long_focus = false
+        objEx?.is_mid_break = false
+        objEx?.is_small_break = false
+        objEx?.is_long_break = false
+        DBManager.shared.saveContext() // TODO: Define the Method for resetting the focus.
+    }
+
+    func stopScriptObserver() {
+        WindowsManager.stopBlockWebSite()
+        removeObserver()
+        WindowsManager.runDndCommand(cmd: "off")
     }
 }

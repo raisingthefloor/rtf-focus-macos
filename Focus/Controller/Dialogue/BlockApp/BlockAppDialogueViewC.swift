@@ -65,10 +65,10 @@ extension BlockAppDialogueViewC: BasicSetupType {
 
         let titleDesc = String(format: dialogueType.description, appName as! CVarArg, list_name as! CVarArg)
         let attributedDesc = NSMutableAttributedString.getAttributedString(fromString: titleDesc)
-        attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: titleDesc)
+        attributedDesc.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: titleDesc)
         attributedDesc.alignment(alignment: .center, subString: titleDesc)
-        attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .semibold), subString: appName)
-        attributedDesc.apply(font: NSFont.systemFont(ofSize: 13, weight: .semibold), subString: list_name)
+        attributedDesc.apply(font: NSFont.systemFont(ofSize: 12, weight: .semibold), subString: appName)
+        attributedDesc.apply(font: NSFont.systemFont(ofSize: 12, weight: .semibold), subString: list_name)
 
         lblDesc.attributedStringValue = attributedDesc
         lblDesc.alignment = .center
@@ -76,7 +76,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
         lblSubDesc.stringValue = dialogueType.sub_description
         lblSubDesc.isHidden = dialogueType.sub_description.isEmpty
 
-        let buttonsV = dialogueType.option_buttons.titles
+        let buttonsV = dialogueType.option_buttons
         btnOk.title = buttonsV.last ?? ""
         btnStop.title = buttonsV.first ?? ""
 
@@ -84,12 +84,14 @@ extension BlockAppDialogueViewC: BasicSetupType {
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
         attributedText.underLine(subString: subTitle)
         lblBottomInfo.attributedStringValue = attributedText
+        lblBottomInfo.textColor = Color.blue_color
 
         let bottomInfo = NSLocalizedString("Alert.block_app.temp_access", comment: "Tell me how to allow temporary access to apps or websites...")
         let attributedStr = NSMutableAttributedString.getAttributedString(fromString: bottomInfo)
         attributedStr.underLine(subString: bottomInfo)
         lblBottomInfo1.attributedStringValue = attributedStr
         lblBottomInfo1.isHidden = (dialogueType == .notifiction_block_alert) ? true : false
+        lblBottomInfo1.textColor = Color.blue_color
     }
 
     func setUpViews() {
@@ -98,6 +100,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
 
     func themeSetUp() {
         lblTitle.font = NSFont.systemFont(ofSize: 18, weight: .black)
+        lblSubDesc.font = NSFont.systemFont(ofSize: 12, weight: .regular)
 
         let bg_color = dialogueType.option_buttons_theme.bg_color
         let b_color = dialogueType.option_buttons_theme.border_color
@@ -117,12 +120,11 @@ extension BlockAppDialogueViewC: BasicSetupType {
         btnOk.borderColor = b_color.first ?? Color.green_color
         btnOk.borderWidth = bwidth
         btnOk.font = NSFont.systemFont(ofSize: 13, weight: .bold)
-        
+
         view.border_color = Color.green_color
         view.border_width = 1
         view.background_color = Color.dialogue_bg_color
         view.corner_radius = 10
-
     }
 
     func bindData() {

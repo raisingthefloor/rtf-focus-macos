@@ -140,16 +140,16 @@
 "Alert.session_completed" = "Focus Session Completed.";
 "Alert.session_completed_desc" = "You have been focusing for:\n";
 "Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
-"Alert.warning_forced_pause_desc" = "You have been focusing for %@ or more.";
+"Alert.warning_forced_pause_desc" = "You have been focusing for \n%@ or more.";
 "Alert.warning_forced_pause_extend_title" = "Would you like to take a longer break?";
 "Alert.one_hr" = "1 hr";
 "Alert.continue_with" = "Continue with";
-"Alert.breaks" = "Breaks";
+"Alert.breaks" = "breaks";
 "Alert.end_break" = "End of break!";
 "Alert.extend_break_title" = "Or, extend my break by...";
 "Alert.one_min" = "1 min";
 "Alert.sixty_min" = "60 min";
-"Alert.schedule_reminded_with_blocklist_alert_desc" = "You scheduled a focus session for this time using the blocklist: \nMorning Meditation";
+"Alert.schedule_reminded_with_blocklist_alert_desc" = "You scheduled a focus session \nfor this time using the blocklist: \nMorning Meditation";
 "Alert.schedule_reminded_with_blocklist_alert_title" = "No, instead start session:";
 "Alert.schedule_reminded_without_blocklist_alert_desc" = "You asked to be reminded to focus at this time.";
 "Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in:";
@@ -165,7 +165,9 @@
 "Alert.block_app.is_blocked" = "%@ is blocked";
 "Alert.block_app.notification" = "Turning off <Do Not Disturb/Focus Assistance> would \nallow notifications, so it cannot be turned off while \nthis blocklist is being used.";
 "Alert.schedule_reminder.title" = "Focus Session Reminder";
-"Alert.schedule_session_list.title" = "Your scheduled focus session starts in %d min.";
+"Alert.schedule_session_list.title" = "Your scheduled focus \nsession starts in %d min.";
+"Alert.Now" = "Now";
+"Alert.ten_min" = "10 min";
 
 
 "Session.focus_session" = "Focus Session";
