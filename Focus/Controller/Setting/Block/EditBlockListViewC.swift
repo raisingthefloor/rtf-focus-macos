@@ -79,26 +79,6 @@ class EditBlockListViewC: BaseViewController {
         bindData()
         tableViewSetup()
     }
-
-    override func scrollWheel(with event: NSEvent) {
-        super.scrollWheel(with: event)
-        if scrollView.verticalScroller?.floatValue == 1.00 {
-            if event.deltaY < 0 {
-                nextResponder?.scrollWheel(with: event)
-            } else {
-                super.scrollWheel(with: event)
-            }
-        }
-        // Top
-        else if scrollView.verticalScroller?.floatValue == 0.00 {
-            if event.deltaY > 0 {
-                nextResponder?.scrollWheel(with: event)
-            } else {
-                super.scrollWheel(with: event)
-            }
-        } else {
-        }
-    }
 }
 
 extension EditBlockListViewC: BasicSetupType {

@@ -40,7 +40,7 @@
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aHC-2y-X0n">
                                     <rect key="frame" x="50" y="151" width="152" height="30"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" id="HRI-3k-O7j">
-                                        <font key="font" metaFont="system" size="12"/>
+                                        <font key="font" metaFont="cellTitle"/>
                                         <string key="title">You’ve been focusing for:
 2 hours 15 minutes</string>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -79,7 +79,7 @@
                                         <textField verticalHuggingPriority="749" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="E3o-jj-kHV">
                                             <rect key="frame" x="41" y="35" width="171" height="30"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="9VU-gF-KCM">
-                                                <font key="font" metaFont="system" size="12"/>
+                                                <font key="font" metaFont="cellTitle"/>
                                                 <string key="title">I want to focus a little longer.
 Extend focus session for:</string>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
