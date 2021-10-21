@@ -205,15 +205,16 @@ extension FocusDialogueViewC {
             return
         }
 
-        let presentedCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
-            self.breakAction?(focusStop, 0, .none)
-            self.dismiss(nil)
+            if focusStop == .stop_session {
+                self.breakAction?(focusStop, 0, .none)
+                self.dismiss(nil)
+            }
         }
-        presentedCtrl?.presentAsSheet(controller)
+        presentAsSheet(controller)
     }
 
     @objc func topAction(_ sender: NSButton) {

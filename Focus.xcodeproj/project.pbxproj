@@ -50,6 +50,24 @@
 		3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC49F268B2C9B00AC3026 /* HeaderViewC.swift */; };
 		3F9CC4A3268B3C8F00AC3026 /* GeneralSettingViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC4A2268B3C8F00AC3026 /* GeneralSettingViewC.swift */; };
 		3F9CC4A9268B3DA000AC3026 /* SchedulerViewC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC4A8268B3DA000AC3026 /* SchedulerViewC.swift */; };
+		3F9F493927076AC8003E9E7F /* porn_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492727076AC7003E9E7F /* porn_site.csv */; };
+		3F9F493A27076AC8003E9E7F /* dating_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492827076AC7003E9E7F /* dating_app.csv */; };
+		3F9F493B27076AC8003E9E7F /* social_media_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492927076AC7003E9E7F /* social_media_site.csv */; };
+		3F9F493C27076AC8003E9E7F /* gambling_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492A27076AC7003E9E7F /* gambling_app.csv */; };
+		3F9F493D27076AC8003E9E7F /* Main_Category.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492B27076AC7003E9E7F /* Main_Category.csv */; };
+		3F9F493E27076AC8003E9E7F /* games_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492C27076AC7003E9E7F /* games_site.csv */; };
+		3F9F493F27076AC8003E9E7F /* games_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492D27076AC7003E9E7F /* games_app.csv */; };
+		3F9F494027076AC8003E9E7F /* videos_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492E27076AC7003E9E7F /* videos_site.csv */; };
+		3F9F494127076AC8003E9E7F /* gambling_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F492F27076AC7003E9E7F /* gambling_site.csv */; };
+		3F9F494227076AC8003E9E7F /* shopping_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493027076AC7003E9E7F /* shopping_site.csv */; };
+		3F9F494327076AC8003E9E7F /* proxies_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493127076AC7003E9E7F /* proxies_site.csv */; };
+		3F9F494427076AC8003E9E7F /* social_media_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493227076AC7003E9E7F /* social_media_app.csv */; };
+		3F9F494527076AC8003E9E7F /* videos_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493327076AC7003E9E7F /* videos_app.csv */; };
+		3F9F494627076AC8003E9E7F /* communication_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493427076AC7003E9E7F /* communication_site.csv */; };
+		3F9F494727076AC8003E9E7F /* news_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493527076AC7003E9E7F /* news_app.csv */; };
+		3F9F494827076AC8003E9E7F /* dating_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493627076AC7003E9E7F /* dating_site.csv */; };
+		3F9F494927076AC8003E9E7F /* communication_app.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493727076AC7003E9E7F /* communication_app.csv */; };
+		3F9F494A27076AC8003E9E7F /* news_site.csv in Resources */ = {isa = PBXBuildFile; fileRef = 3F9F493827076AC8003E9E7F /* news_site.csv */; };
 		3FA0490C2705CC150074BEB1 /* LockedScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA0490A2705CC150074BEB1 /* LockedScreenVC.swift */; };
 		3FA0490D2705CC150074BEB1 /* LockedScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FA0490B2705CC150074BEB1 /* LockedScreenVC.xib */; };
 		3FA4AAFB26CE68D900344B56 /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA4AAFA26CE68D900344B56 /* AppleScriptObjC.framework */; };
@@ -151,6 +169,24 @@
 		3F9CC49F268B2C9B00AC3026 /* HeaderViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewC.swift; sourceTree = "<group>"; };
 		3F9CC4A2268B3C8F00AC3026 /* GeneralSettingViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingViewC.swift; sourceTree = "<group>"; };
 		3F9CC4A8268B3DA000AC3026 /* SchedulerViewC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerViewC.swift; sourceTree = "<group>"; };
+		3F9F492727076AC7003E9E7F /* porn_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = porn_site.csv; sourceTree = "<group>"; };
+		3F9F492827076AC7003E9E7F /* dating_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dating_app.csv; sourceTree = "<group>"; };
+		3F9F492927076AC7003E9E7F /* social_media_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = social_media_site.csv; sourceTree = "<group>"; };
+		3F9F492A27076AC7003E9E7F /* gambling_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gambling_app.csv; sourceTree = "<group>"; };
+		3F9F492B27076AC7003E9E7F /* Main_Category.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Main_Category.csv; sourceTree = "<group>"; };
+		3F9F492C27076AC7003E9E7F /* games_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = games_site.csv; sourceTree = "<group>"; };
+		3F9F492D27076AC7003E9E7F /* games_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = games_app.csv; sourceTree = "<group>"; };
+		3F9F492E27076AC7003E9E7F /* videos_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = videos_site.csv; sourceTree = "<group>"; };
+		3F9F492F27076AC7003E9E7F /* gambling_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gambling_site.csv; sourceTree = "<group>"; };
+		3F9F493027076AC7003E9E7F /* shopping_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shopping_site.csv; sourceTree = "<group>"; };
+		3F9F493127076AC7003E9E7F /* proxies_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = proxies_site.csv; sourceTree = "<group>"; };
+		3F9F493227076AC7003E9E7F /* social_media_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = social_media_app.csv; sourceTree = "<group>"; };
+		3F9F493327076AC7003E9E7F /* videos_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = videos_app.csv; sourceTree = "<group>"; };
+		3F9F493427076AC7003E9E7F /* communication_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = communication_site.csv; sourceTree = "<group>"; };
+		3F9F493527076AC7003E9E7F /* news_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = news_app.csv; sourceTree = "<group>"; };
+		3F9F493627076AC7003E9E7F /* dating_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dating_site.csv; sourceTree = "<group>"; };
+		3F9F493727076AC7003E9E7F /* communication_app.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = communication_app.csv; sourceTree = "<group>"; };
+		3F9F493827076AC8003E9E7F /* news_site.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = news_site.csv; sourceTree = "<group>"; };
 		3FA0490A2705CC150074BEB1 /* LockedScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedScreenVC.swift; sourceTree = "<group>"; };
 		3FA0490B2705CC150074BEB1 /* LockedScreenVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockedScreenVC.xib; sourceTree = "<group>"; };
 		3FA4AAFA26CE68D900344B56 /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
@@ -571,6 +607,24 @@
 		3FCF604D27072CE3009A047C /* CategoryData */ = {
 			isa = PBXGroup;
 			children = (
+				3F9F493727076AC7003E9E7F /* communication_app.csv */,
+				3F9F493427076AC7003E9E7F /* communication_site.csv */,
+				3F9F492827076AC7003E9E7F /* dating_app.csv */,
+				3F9F493627076AC7003E9E7F /* dating_site.csv */,
+				3F9F492A27076AC7003E9E7F /* gambling_app.csv */,
+				3F9F492F27076AC7003E9E7F /* gambling_site.csv */,
+				3F9F492D27076AC7003E9E7F /* games_app.csv */,
+				3F9F492C27076AC7003E9E7F /* games_site.csv */,
+				3F9F492B27076AC7003E9E7F /* Main_Category.csv */,
+				3F9F493527076AC7003E9E7F /* news_app.csv */,
+				3F9F493827076AC8003E9E7F /* news_site.csv */,
+				3F9F492727076AC7003E9E7F /* porn_site.csv */,
+				3F9F493127076AC7003E9E7F /* proxies_site.csv */,
+				3F9F493027076AC7003E9E7F /* shopping_site.csv */,
+				3F9F493227076AC7003E9E7F /* social_media_app.csv */,
+				3F9F492927076AC7003E9E7F /* social_media_site.csv */,
+				3F9F493327076AC7003E9E7F /* videos_app.csv */,
+				3F9F492E27076AC7003E9E7F /* videos_site.csv */,
 				3FCF605327204C9C009A047C /* email_app.csv */,
 				3FCF604E27072D0C009A047C /* email_site.csv */,
 			);
@@ -729,24 +783,42 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F9F494127076AC8003E9E7F /* gambling_site.csv in Resources */,
+				3F9F494727076AC8003E9E7F /* news_app.csv in Resources */,
+				3F9F493F27076AC8003E9E7F /* games_app.csv in Resources */,
+				3F9F494A27076AC8003E9E7F /* news_site.csv in Resources */,
+				3F9F494327076AC8003E9E7F /* proxies_site.csv in Resources */,
 				3F9147CC26E648B000449D4B /* SessionCompleteDialogueViewC.xib in Resources */,
+				3F9F494827076AC8003E9E7F /* dating_site.csv in Resources */,
 				3F4DFA3C26835EB30013BA0C /* CustomSetting.storyboard in Resources */,
 				3FE6A38D26F9E54100435503 /* ListView.xib in Resources */,
 				3FC8108126A938D10058D1CF /* FocusDialogueViewC.xib in Resources */,
 				3FCF604F27072D0C009A047C /* email_site.csv in Resources */,
+				3F9F493D27076AC8003E9E7F /* Main_Category.csv in Resources */,
+				3F9F494227076AC8003E9E7F /* shopping_site.csv in Resources */,
+				3F9F493A27076AC8003E9E7F /* dating_app.csv in Resources */,
 				3F58B09326D6224900D730D9 /* SessionInfoView.xib in Resources */,
 				3F9CC49D268B2BE800AC3026 /* HeaderView.storyboard in Resources */,
 				3FCF605427204C9C009A047C /* email_app.csv in Resources */,
+				3F9F494427076AC8003E9E7F /* social_media_app.csv in Resources */,
 				3FA51D4D267CB720007826F3 /* Main.storyboard in Resources */,
 				3FC8108A26A977BD0058D1CF /* DisincentiveViewC.xib in Resources */,
+				3F9F493E27076AC8003E9E7F /* games_site.csv in Resources */,
+				3F9F494527076AC8003E9E7F /* videos_app.csv in Resources */,
+				3F9F494927076AC8003E9E7F /* communication_app.csv in Resources */,
+				3F9F493927076AC8003E9E7F /* porn_site.csv in Resources */,
 				3FA0490D2705CC150074BEB1 /* LockedScreenVC.xib in Resources */,
+				3F9F494027076AC8003E9E7F /* videos_site.csv in Resources */,
+				3F9F494627076AC8003E9E7F /* communication_site.csv in Resources */,
 				3FA51D48267CA9F0007826F3 /* Localizable.strings in Resources */,
 				3FDC9136269F1E850021D3E3 /* Color.xcassets in Resources */,
 				3FAD91F326B41E5A00698848 /* dnd.sh in Resources */,
 				3F44CFD62679FAAD00122B1B /* Assets.xcassets in Resources */,
 				3FB1368726E8803800B34A01 /* BlockAppDialogueViewC.xib in Resources */,
 				3FB01CF826FB400500828486 /* BlocklistDialogueViewC.xib in Resources */,
+				3F9F493B27076AC8003E9E7F /* social_media_site.csv in Resources */,
 				3FB01CF126FB0E9400828486 /* InputDialogueViewC.xib in Resources */,
+				3F9F493C27076AC8003E9E7F /* gambling_app.csv in Resources */,
 				3FB01CEA26FB014900828486 /* ErrorDialogueViewC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

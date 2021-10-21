@@ -38,27 +38,58 @@ class CurrentSessionVC: BaseViewController {
     @IBOutlet var btnStart: CustomButton!
     @IBOutlet var lblWhy: NSTextField!
 
+    let sessionV_1 = SessionInfoView()
+    let sessionV_2 = SessionInfoView()
+
+    var timer: Timer?
     var viewModel: MenuViewModelType?
     var updateView: ((Bool, ButtonAction) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpText()
         setUpViews()
         bindData()
+        startTimer()
+    }
+
+    func startTimer() {
+        if timer == nil {
+            DispatchQueue.global(qos: .background).async(execute: { () -> Void in
+                self.timer = .scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateInformation), userInfo: nil, repeats: true)
+                RunLoop.current.add(self.timer!, forMode: .default)
+                RunLoop.current.run()
+            })
+        }
+    }
+
+    @objc func updateInformation() {
+        DispatchQueue.main.async {
+            self.setUpText()
+            self.sessionV_1.setupSingleData()
+        }
+    }
+
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
 extension CurrentSessionVC: BasicSetupType {
     func setUpText() {
         let objFocus = viewModel?.input.focusObj
-        let break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100).secondsToTime() : Int(objFocus?.stop_focus_after_time ?? 100).secondsToTime()
+
+        var remaing_break_time = Int(objFocus?.stop_focus_after_time ?? 100)
+
+        remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.used_focus_time ?? 10))
+
+        let break_time = (objFocus?.is_break_time ?? false) ? remaing_break_time.secondsToTime() : remaing_break_time.secondsToTime()
 
         var time = ""
         if break_time.timeInHours != 0 {
             time = "\(break_time.timeInHours) hrs \(break_time.timeInMinutes) minutes"
         } else {
-            time = "\(break_time.timeInMinutes) minutes"
+            time = "\(break_time.timeInMinutes) minutes \(break_time.timeInSeconds) sec"
         }
 
         title = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
@@ -131,11 +162,10 @@ extension CurrentSessionVC: BasicSetupType {
         let objFocus = viewModel?.input.focusObj
         lblSubTitle.isHidden = (objFocus?.focus_untill_stop ?? false) ? true : false
 
-        let sessionV = SessionInfoView()
-        sessionV.setupSingleData()
-        sessionV.btnStop.target = self
-        sessionV.btnStop.action = #selector(stopAction(_:))
-        sessionStack.addArrangedSubview(sessionV)
+        sessionV_1.setupSingleData()
+        sessionV_1.btnStop.target = self
+        sessionV_1.btnStop.action = #selector(stopAction(_:))
+        sessionStack.addArrangedSubview(sessionV_1)
 //        let sessionV1 = SessionInfoView()
 //        sessionStack.addArrangedSubview(sessionV1)
     }
@@ -143,9 +173,14 @@ extension CurrentSessionVC: BasicSetupType {
 
 extension CurrentSessionVC {
     @objc func openCustomSetting() {
-        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
-            vc.selectOption = SettingOptions.general_setting
-            presentAsModalWindow(vc)
+        stopTimer()
+        if let controller = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
+            controller.selectOption = SettingOptions.general_setting
+            controller.updateView = { [weak self] _ in
+                self?.startTimer()
+            }
+
+            presentAsModalWindow(controller)
         }
     }
 
@@ -159,10 +194,12 @@ extension CurrentSessionVC {
 
     @objc func okAction(_ sender: NSButton) {
         // Action perform for OK
+        stopTimer()
         dismiss(nil)
     }
 
     @objc func stopAction(_ sender: NSButton) {
+        stopTimer()
         guard let objBl = DBManager.shared.getCurrentBlockList().objBl else {
             updateView?(true, .stop_session)
             dismiss(nil)
@@ -178,7 +215,7 @@ extension CurrentSessionVC {
 //        let presentingCtrl = WindowsManager.getPresentingController()
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = (objBl.random_character) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
             self.updateView?(focusStop == .stop_session, focusStop)
             self.dismiss(nil)

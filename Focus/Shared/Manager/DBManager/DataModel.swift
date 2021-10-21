@@ -107,7 +107,8 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         if !DBManager.shared.checkDataIsPresent(entityName: "Block_Category") {
             var i = 1
             for val in Categories.arrCategories {
-                let data: [String: Any?] = ["name": val.name, "id": UUID(), "created_at": Date(), "type": CategoryType.system.rawValue, "index": i, "show_link": val.show_link]
+                let data: [String: Any?] = ["name": val.name, "id": UUID(), "created_at": Date(),
+                                            "type": CategoryType.system.rawValue, "index": i, "show_link": val.show_link]
                 DBManager.shared.saveCategory(data: data, type: .system, cat: val)
                 i = i + 1
             }

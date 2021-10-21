@@ -22,7 +22,7 @@ class CSVParser {
             return []
         }
         // now split that string into an array of "rows" of data.  Each row is a string.
-        var rows = contents.components(separatedBy: "\n")
+        let rows = contents.components(separatedBy: "\n")
 
         // if you have a header row, remove it here
 //        rows.removeFirst()

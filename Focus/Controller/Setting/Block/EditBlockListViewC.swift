@@ -121,7 +121,6 @@ extension EditBlockListViewC: BasicSetupType {
         lblNote1.stringValue = NSLocalizedString("BS.note_one", comment: "Note: You cannot change a blocklist while it is in use in an active focus session.")
 
         lblNote2.stringValue = NSLocalizedString("BS.note_two", comment: "Any changes made will not take effect until the next focus session where the blocklist is used.")
-        txtCharacter.stringValue = "30"
     }
 
     func setUpViews() {

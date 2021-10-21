@@ -80,16 +80,21 @@ extension BlockAppDialogueViewC: BasicSetupType {
         btnOk.title = buttonsV.last ?? ""
         btnStop.title = buttonsV.first ?? ""
 
-        let subTitle = NSLocalizedString("Alert.block_app.show_blocklist", comment: "Show me the blocklist that is blocking  this ...")
+        let subTitle = NSLocalizedString("Alert.block_app.show_blocklist", comment: "Show me the blocklist that is blocking this ...")
         let attributedText = NSMutableAttributedString.getAttributedString(fromString: subTitle)
+        attributedText.apply(font: NSFont.systemFont(ofSize: 10, weight: .regular), subString: subTitle)
         attributedText.underLine(subString: subTitle)
+        attributedText.alignment(alignment: .center, subString: subTitle)
         lblBottomInfo.attributedStringValue = attributedText
         lblBottomInfo.textColor = Color.blue_color
 
         let bottomInfo = NSLocalizedString("Alert.block_app.temp_access", comment: "Tell me how to allow temporary access to apps or websites...")
         let attributedStr = NSMutableAttributedString.getAttributedString(fromString: bottomInfo)
         attributedStr.underLine(subString: bottomInfo)
+        attributedStr.apply(font: NSFont.systemFont(ofSize: 10, weight: .regular), subString: bottomInfo)
+        attributedStr.alignment(alignment: .center, subString: bottomInfo)
         lblBottomInfo1.attributedStringValue = attributedStr
+
         lblBottomInfo1.isHidden = (dialogueType == .notifiction_block_alert) ? true : false
         lblBottomInfo1.textColor = Color.blue_color
     }
@@ -162,9 +167,11 @@ extension BlockAppDialogueViewC: BasicSetupType {
         }
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
-        controller.updateFocusStop = { isfocusStop in
-            self.updateView?(isfocusStop)
-            self.dismiss(nil)
+        controller.updateFocusStop = { focusStop in
+            if focusStop == .stop_session {
+                self.updateView?(focusStop)
+                self.dismiss(nil)
+            }
         }
         presentAsSheet(controller)
     }

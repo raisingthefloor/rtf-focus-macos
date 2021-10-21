@@ -22,17 +22,17 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView misplaced="YES" id="s4B-pI-AiM">
-            <rect key="frame" x="0.0" y="0.0" width="355" height="324"/>
+            <rect key="frame" x="0.0" y="0.0" width="360" height="311"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="ltr-c1-OJw">
-                    <rect key="frame" x="20" y="20" width="315" height="271"/>
+                    <rect key="frame" x="20" y="20" width="320" height="271"/>
                     <subviews>
                         <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="25" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11X-ef-Cxk">
-                            <rect key="frame" x="20" y="0.0" width="275" height="271"/>
+                            <rect key="frame" x="10" y="0.0" width="300" height="271"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2lN-ah-t8r">
-                                    <rect key="frame" x="55" y="250" width="166" height="21"/>
+                                    <rect key="frame" x="67" y="250" width="166" height="21"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Discord is blocked" id="7Zu-RX-ATX">
                                         <font key="font" metaFont="systemBold" size="18"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -40,7 +40,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8xI-GM-WTc">
-                                    <rect key="frame" x="-2" y="177" width="279" height="48"/>
+                                    <rect key="frame" x="10" y="177" width="281" height="48"/>
                                     <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" id="EAa-27-qQo">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <string key="title">Discord is blocked by the following blocklist, 
@@ -62,7 +62,7 @@ which you selected for this focus session.</string>
                                     </textFieldCell>
                                 </textField>
                                 <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1Y-uw-xmS">
-                                    <rect key="frame" x="71" y="61" width="134" height="91"/>
+                                    <rect key="frame" x="83" y="61" width="134" height="91"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ejx-kx-S5i" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
                                             <rect key="frame" x="-7" y="59" width="148" height="37"/>
@@ -84,7 +84,7 @@ DQ
                                             </userDefinedRuntimeAttributes>
                                         </button>
                                         <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fw9-pE-jpC">
-                                            <rect key="frame" x="29" y="43" width="75" height="5"/>
+                                            <rect key="frame" x="30" y="43" width="75" height="5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="75" id="DcC-ZV-EIJ"/>
                                             </constraints>
@@ -120,19 +120,19 @@ DQ
                                     </customSpacing>
                                 </stackView>
                                 <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cF7-dK-rsU">
-                                    <rect key="frame" x="0.0" y="0.0" width="275" height="36"/>
+                                    <rect key="frame" x="2" y="0.0" width="297" height="36"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X2r-es-6wp">
-                                            <rect key="frame" x="28" y="23" width="220" height="13"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Show me the blocklist that is blocking this ..." id="8S2-zU-5qe">
+                                            <rect key="frame" x="36" y="23" width="224" height="13"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Show me the blocklist that is blocking this ..." id="8S2-zU-5qe">
                                                 <font key="font" metaFont="system" size="10"/>
                                                 <color key="textColor" name="linkColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7b0-XA-aeh">
-                                            <rect key="frame" x="-2" y="0.0" width="279" height="13"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Tell me how to allow temporary access to apps or websites..." id="6It-9V-iJd">
+                                            <rect key="frame" x="-2" y="0.0" width="301" height="13"/>
+                                            <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Tell me how to allow temporary access to apps or websites..." id="6It-9V-iJd">
                                                 <font key="font" metaFont="system" size="10"/>
                                                 <color key="textColor" name="linkColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -166,11 +166,11 @@ DQ
                         </stackView>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="11X-ef-Cxk" secondAttribute="trailing" constant="20" id="IWw-6I-VsM"/>
+                        <constraint firstAttribute="trailing" secondItem="11X-ef-Cxk" secondAttribute="trailing" constant="10" id="IWw-6I-VsM"/>
                         <constraint firstItem="11X-ef-Cxk" firstAttribute="top" secondItem="ltr-c1-OJw" secondAttribute="top" id="JLj-HV-s0h"/>
                         <constraint firstAttribute="bottom" secondItem="11X-ef-Cxk" secondAttribute="bottom" id="o1Y-uZ-HCH"/>
-                        <constraint firstAttribute="width" constant="315" id="upQ-Pb-Ym8"/>
-                        <constraint firstItem="11X-ef-Cxk" firstAttribute="leading" secondItem="ltr-c1-OJw" secondAttribute="leading" constant="20" id="wnS-Ha-Alj"/>
+                        <constraint firstAttribute="width" constant="320" id="upQ-Pb-Ym8"/>
+                        <constraint firstItem="11X-ef-Cxk" firstAttribute="leading" secondItem="ltr-c1-OJw" secondAttribute="leading" constant="10" id="wnS-Ha-Alj"/>
                     </constraints>
                 </customView>
             </subviews>
