@@ -486,8 +486,9 @@ extension DBManager {
 
 extension DBManager {
     func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?) {
+        let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
-        fetchRequest.predicate = NSPredicate(format: "days CONTAINS[c] %@ && start_time = %@ && type = %d && is_active = true", day, time, type.rawValue)
+        fetchRequest.predicate = NSPredicate(format: "days CONTAINS[c] %@ && start_time = %@ && type = %d && is_active = true", day, timeV, type.rawValue)
 
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
@@ -500,6 +501,24 @@ extension DBManager {
         } catch let error {
             print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
             return (false, nil)
+        }
+    }
+
+    func getScheduleFocus(time: String) -> [Focus_Schedule] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
+        fetchRequest.predicate = NSPredicate(format: "start_time = %@ && is_active = true", time, time)
+
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                let arrFS = results as! [Focus_Schedule]
+                return arrFS
+            } else {
+                return []
+            }
+        } catch let error {
+            print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
+            return []
         }
     }
 }

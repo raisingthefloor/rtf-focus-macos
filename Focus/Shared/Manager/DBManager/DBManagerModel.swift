@@ -53,6 +53,8 @@ protocol DBMangerLogic {
     func getFocusSchedule() -> [Focus_Schedule]
     func getScheduleFocus(id: UUID) -> Focus_Schedule?
     func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?)
+    
+    func getScheduleFocus(time: String) -> [Focus_Schedule]
 
     func saveContext()
 }

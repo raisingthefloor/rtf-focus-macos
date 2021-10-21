@@ -41,6 +41,7 @@ class SchedulerViewC: BaseViewController {
 
     @IBOutlet var tblSession: NSTableView!
     let viewModel: ScheduleViewModelType = ScheduleViewModel()
+    var arrSession: [ScheduleSession] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +113,8 @@ extension SchedulerViewC: BasicSetupType {
 
         let focustime = Int(viewModel.objGCategory?.general_setting?.for_every_time ?? 0).secondsToTime().timeInMinutes
         popFocusTime.selectItem(withTitle: "\(focustime)")
+
+        arrSession = viewModel.input.getSessionList()
     }
 }
 
@@ -136,7 +139,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
             return viewModel.arrFocusSchedule.count
         } else {
-            return viewModel.input.getSessionList().count
+            return arrSession.count
         }
     }
 
@@ -163,6 +166,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
+                            self.tblSession.reloadData()
                         }
                     }
 
@@ -174,6 +178,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
+                            self.tblSession.reloadData()
                         }
                     }
 
@@ -186,6 +191,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
                             self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
+                            self.tblSession.reloadData()
                         }
                     }
                     return cell
@@ -197,17 +203,15 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             }
         } else {
-            let arrSession = viewModel.input.getSessionList()
             let obj = arrSession[row]
-
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
-                    cellTime.setupTime(value: arrSession[row].time ?? "-")
+                    cellTime.setupTime(value: obj.time ?? "-")
                     return cellTime
                 }
             } else {
                 if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-                    slotCell.configSlot(row: row, session: obj)
+                    slotCell.configSlot(row: row, session: obj, tableColumn: tableColumn)
                     return slotCell
                 }
             }

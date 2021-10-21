@@ -92,106 +92,74 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
 
     func getSessionList() -> [ScheduleSession] {
         var scheduleS: [ScheduleSession] = []
-
-//        for day in WeekDays.days {
-//            switch day {
-//            case .mon:
-//                let seven = ScheduleSession(id: day.rawValue, time: "7 AM", sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sat: true, session: 1)
-//                scheduleS.append(seven)
-//                let twel = ScheduleSession(id: day.rawValue, time: "9 PM", sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sat: true, session: 1)
-//                scheduleS.append(twel)
-//            case .tue:
-//
-//            case .wed:
-//                <#code#>
-//            case .thu:
-//                <#code#>
-//            case .fri:
-//                <#code#>
-//            case .sat:
-//                <#code#>
-//            case .sun:
-//                <#code#>
-//            }
-//        }
-
         for i in 0 ..< arrTimes.count {
-            switch arrTimes[i] {
-            case "5 AM":
-                let twel = ScheduleSession(id: i, time: "5 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
+            let arrFS = DBManager.shared.getScheduleFocus(time: arrTimes[i])
+            var twel = ScheduleSession(id: i, time: arrTimes[i], sun: (false, 0), mon: (false, 0), tue: (false, 0),
+                                       wed: (false, 0), thu: (false, 0), fri: (false, 0), sat: (false, 0), session: arrFS.count, color: [.clear, .clear], color_type: [1, 1])
+            if arrFS.isEmpty {
                 scheduleS.append(twel)
-            case "6 AM":
-                let twel = ScheduleSession(id: i, time: "6 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "7 AM":
-                let seven = ScheduleSession(id: i, time: "7 AM", sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sat: true, session: 1)
-                scheduleS.append(seven)
-            case "8 AM":
-                let twel = ScheduleSession(id: i, time: "8 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "9 AM":
-                let twel = ScheduleSession(id: i, time: "9 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "10 AM":
-                let twel = ScheduleSession(id: i, time: "10 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "11 AM":
-                let twel = ScheduleSession(id: i, time: "11 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "12 PM":
-                let twel = ScheduleSession(id: i, time: "12 PM", sun: true, mon: false, tue: false, wed: false, thu: false, fri: true, sat: true, session: 1)
-                scheduleS.append(twel)
-            case "1 PM":
-                let twel = ScheduleSession(id: i, time: "1 PM", sun: true, mon: false, tue: true, wed: true, thu: false, fri: true, sat: true, session: 1)
-                scheduleS.append(twel)
-            case "2 PM":
-                let twel = ScheduleSession(id: i, time: "2 PM", sun: true, mon: false, tue: true, wed: true, thu: false, fri: true, sat: true, session: 1)
-                scheduleS.append(twel)
-            case "3 PM":
-                let twel = ScheduleSession(id: i, time: "3 PM", sun: true, mon: false, tue: true, wed: true, thu: false, fri: true, sat: true, session: 2)
-                scheduleS.append(twel)
-            case "4 PM":
-                let twel = ScheduleSession(id: i, time: "4 PM", sun: true, mon: false, tue: true, wed: true, thu: false, fri: true, sat: true, session: 2)
-                scheduleS.append(twel)
-            case "5 PM":
-                let twel = ScheduleSession(id: i, time: "5 PM", sun: true, mon: false, tue: true, wed: true, thu: false, fri: true, sat: true, session: 2)
-                scheduleS.append(twel)
-            case "6 PM":
-                let twel = ScheduleSession(id: i, time: "6 PM", sun: true, mon: false, tue: false, wed: false, thu: false, fri: true, sat: true, session: 1)
-                scheduleS.append(twel)
-            case "7 PM":
-                let twel = ScheduleSession(id: i, time: "7 PM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "8 PM":
-                let twel = ScheduleSession(id: i, time: "8 PM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "9 PM":
-                let twel = ScheduleSession(id: i, time: "9 PM", sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sat: true, session: 1)
-                scheduleS.append(twel)
-            case "10 PM":
-                let twel = ScheduleSession(id: i, time: "10 PM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "11 PM":
-                let twel = ScheduleSession(id: i, time: "11 PM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "12 AM":
-                let twel = ScheduleSession(id: i, time: "12 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "1 AM":
-                let twel = ScheduleSession(id: i, time: "1 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "2 AM":
-                let twel = ScheduleSession(id: i, time: "2 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "3 AM":
-                let twel = ScheduleSession(id: i, time: "3 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            case "4 AM":
-                let twel = ScheduleSession(id: i, time: "4 AM", sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sat: false, session: 0)
-                scheduleS.append(twel)
-            default:
-                break
+                continue
             }
+
+            let arrDay = arrFS.compactMap({ $0.days })
+            let arrDays = arrDay.joined(separator: ",").components(separatedBy: ",")
+            let duplicates = Array(Set(arrDays.filter({ (i: String) in arrDays.filter({ $0 == i }).count > 1 })))
+            let intersectData = Array(Set(arrDays.filter({ (i: String) in arrDays.filter({ $0 != i }).count > 1 })))
+
+            twel.color = arrFS.compactMap({ NSColor($0.session_color ?? "#DCEFE6") })
+            twel.color_type = arrFS.compactMap({ Int($0.color_type) })
+
+            if !duplicates.isEmpty {
+                for day in duplicates {
+                    let d = Int(day) ?? 0
+                    let day_e = Days(rawValue: d)
+                    switch day_e {
+                    case .sun:
+                        twel.sun = (true, 2)
+                    case .mon:
+                        twel.mon = (true, 2)
+                    case .tue:
+                        twel.tue = (true, 2)
+                    case .wed:
+                        twel.wed = (true, 2)
+                    case .thu:
+                        twel.thu = (true, 2)
+                    case .fri:
+                        twel.fri = (true, 2)
+                    case .sat:
+                        twel.sat = (true, 2)
+                    case .none:
+                        break
+                    }
+                }
+            }
+
+            if !intersectData.isEmpty {
+                for day in intersectData {
+                    let d = Int(day) ?? 0
+                    let day_e = Days(rawValue: d)
+                    switch day_e {
+                    case .sun:
+                        twel.sun = (true, 1)
+                    case .mon:
+                        twel.mon = (true, 1)
+                    case .tue:
+                        twel.tue = (true, 1)
+                    case .wed:
+                        twel.wed = (true, 1)
+                    case .thu:
+                        twel.thu = (true, 1)
+                    case .fri:
+                        twel.fri = (true, 1)
+                    case .sat:
+                        twel.sat = (true, 1)
+                    case .none:
+                        break
+                    }
+                }
+            }
+
+            scheduleS.append(twel)
         }
         return scheduleS
     }
@@ -200,18 +168,30 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
 struct ScheduleSession {
     var id: Int?
     var time: String?
-    var sun: Bool
-    var mon: Bool
-    var tue: Bool
-    var wed: Bool
-    var thu: Bool
-    var fri: Bool
-    var sat: Bool
+    var sun: (Bool, Int)
+    var mon: (Bool, Int)
+    var tue: (Bool, Int)
+    var wed: (Bool, Int)
+    var thu: (Bool, Int)
+    var fri: (Bool, Int)
+    var sat: (Bool, Int)
     var session: Int
+    var color: [NSColor]
+    var color_type: [Int]
 }
 
 enum ScheduleType: Int {
     case none
     case reminder
     case schedule_focus
+}
+
+enum Days: Int {
+    case sun = 1
+    case mon
+    case tue
+    case wed
+    case thu
+    case fri
+    case sat
 }

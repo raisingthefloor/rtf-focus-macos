@@ -37,7 +37,6 @@ class ComboBoxCell: NSTableCellView {
     var arrTimes: [String] = []
     var objFSchedule: Focus_Schedule?
     var refreshTable: ((Bool) -> Void)?
-    let comboDatasource: TimeCBDataSource = TimeCBDataSource()
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -117,10 +116,17 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
     }
 
     func updateTimeValue(_ comboBox: NSComboBox, time: String?) {
+        guard let time = time else { return }
         if comboBox.tag == 1 {
             objFSchedule?.start_time = time
         } else {
             objFSchedule?.end_time = time
+        }
+
+        if let start_time = objFSchedule?.start_time, let end_time = objFSchedule?.end_time {
+            guard !start_time.isEmpty, !end_time.isEmpty else { return }
+            let total_sec = findDateDiff(time1Str: start_time, time2Str: end_time)
+            objFSchedule?.time_interval = total_sec
         }
         DBManager.shared.saveContext()
         refreshTable?(true)
@@ -148,7 +154,10 @@ extension ComboBoxCell {
             statusV.border_width = 2.5
         }
 
-        popBlocklist.selectItem(withTitle: objFSchedule?.block_list_name ?? "")
+        let lock = (objFSchedule?.has_block_list_stop ?? false) ? "🔒" + " " : ""
+        let listname = lock + (objFSchedule?.block_list_name ?? "")
+
+        popBlocklist.selectItem(withTitle: listname)
         popBlocklist.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
     }
 
@@ -159,13 +168,30 @@ extension ComboBoxCell {
             objFSchedule?.block_list_name = ViewCntrl.schedule_session.combolast_option_title
             objFSchedule?.block_list_id = UUID()
             objFSchedule?.type = Int64(ScheduleType.reminder.rawValue)
+            objFSchedule?.has_block_list_stop = false
         } else {
             objFSchedule?.block_list_name = modelV.input.getBlockList(cntrl: .schedule_session).1[index].name
             objFSchedule?.block_list_id = modelV.input.getBlockList(cntrl: .schedule_session).1[index].id
             objFSchedule?.type = Int64(ScheduleType.schedule_focus.rawValue)
+            objFSchedule?.has_block_list_stop = modelV.input.getBlockList(cntrl: .schedule_session).1[index].stop_focus_session_anytime ? false : true
         }
         objFSchedule?.is_active = true
         DBManager.shared.saveContext()
         refreshTable?(true)
+    }
+
+    func findDateDiff(time1Str: String, time2Str: String) -> Double {
+        let timeformatter = DateFormatter()
+        timeformatter.dateFormat = "h a"
+
+        guard let time1 = timeformatter.date(from: time1Str),
+              let time2 = timeformatter.date(from: time2Str) else { return 0 }
+
+        let interval = time2.timeIntervalSince(time1)
+        let hour = interval / 3600
+        let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
+        let intervalInt = Int(interval)
+        print("\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes")
+        return interval
     }
 }

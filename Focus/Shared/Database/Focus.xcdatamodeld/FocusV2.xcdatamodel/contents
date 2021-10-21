@@ -84,10 +84,12 @@
         <attribute name="days" optional="YES" attributeType="String"/>
         <attribute name="end_time" optional="YES" attributeType="String"/>
         <attribute name="extend_min_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="has_block_list_stop" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="is_active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="session_color" optional="YES" attributeType="String"/>
         <attribute name="start_time" optional="YES" attributeType="String"/>
+        <attribute name="time_interval" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="extend_info" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Schedule_Focus_Extend" inverseName="schedule_focus" inverseEntity="Schedule_Focus_Extend"/>
     </entity>
@@ -152,7 +154,7 @@
         <element name="Extended_FB_Value" positionX="-27" positionY="135" width="128" height="134"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
-        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="224"/>
+        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="254"/>
         <element name="Focuses" positionX="-63" positionY="-18" width="128" height="359"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>

@@ -106,6 +106,7 @@ extension ReminderTimerManager {
             let presentCtrl = WindowsManager.getPresentingController()
             guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId), let objEx = obj.extend_info else { return }
             if objEx.is_extend_long, objEx.is_extend_mid, objEx.is_extend_short, objEx.is_extend_very_short {
+                self.resetExtendFlags(objEx: objEx)
                 self.redirectToMainMenu()
                 return
             }
@@ -126,8 +127,11 @@ extension ReminderTimerManager {
             obj.extend_min_time = Int64(value)
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType, obj: obj)
             DBManager.shared.saveContext()
-            //Reminder Extend functionality (Timer)
-            
+            // Reminder Extend functionality (Timer)
+            _ = Timer.scheduledTimer(withTimeInterval: Double(value), repeats: false) { [weak self] _ in
+                self?.displayScheduleReminder(scheduleId: scheduleId)
+            }
+
         case .skip_session:
             break
         case .normal_ok:
@@ -195,5 +199,13 @@ extension ReminderTimerManager {
                 NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
             }
         }
+    }
+
+    func resetExtendFlags(objEx: Schedule_Focus_Extend) {
+        objEx.is_extend_long = false
+        objEx.is_extend_mid = false
+        objEx.is_extend_short = false
+        objEx.is_extend_very_short = false
+        DBManager.shared.saveContext()
     }
 }

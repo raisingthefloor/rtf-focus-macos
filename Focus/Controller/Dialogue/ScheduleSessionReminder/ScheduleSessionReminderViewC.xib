@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ScheduleSessionReminderViewC" customModule="Focus" customModuleProvider="target">
+            <connections>
+                <outlet property="btnStackV" destination="SAz-Lz-3Hg" id="6yy-Ki-QIo"/>
+                <outlet property="btnStop" destination="GYw-Op-fcf" id="lV2-NW-V40"/>
+                <outlet property="btnTop" destination="Sa9-j6-ycL" id="kvr-wx-Jov"/>
+                <outlet property="containerView" destination="wgg-YU-Vkc" id="bEP-RO-7a7"/>
+                <outlet property="lblDesc" destination="atd-Fj-5lH" id="HE1-Qc-Ko0"/>
+                <outlet property="lblSubDesc" destination="0bY-ta-awq" id="dmT-S1-pJV"/>
+                <outlet property="lblSubTitle" destination="h9K-7u-QM0" id="scE-gD-59X"/>
+                <outlet property="lblTitle" destination="AxX-e2-JBu" id="xlu-Pp-okj"/>
+                <outlet property="view" destination="eVO-cZ-vNw" id="IAd-EN-K4z"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView misplaced="YES" id="eVO-cZ-vNw">
+            <rect key="frame" x="0.0" y="0.0" width="270" height="417"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="wgg-YU-Vkc">
+                    <rect key="frame" x="20" y="18" width="349" height="381"/>
+                    <subviews>
+                        <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="25" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cs6-PG-nhA">
+                            <rect key="frame" x="0.0" y="10" width="349" height="361"/>
+                            <subviews>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AxX-e2-JBu">
+                                    <rect key="frame" x="90" y="345" width="169" height="16"/>
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="Focus Session Completed." id="6Ty-AU-gXd">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="atd-Fj-5lH">
+                                    <rect key="frame" x="35" y="304" width="279" height="16"/>
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="You have been focusing for  2 hrs and 15 min" id="jmk-iI-3W9">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0bY-ta-awq">
+                                    <rect key="frame" x="137" y="263" width="75" height="16"/>
+                                    <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="&lt;blocklist&gt;" id="2aZ-XZ-2TK">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sa9-j6-ycL" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                    <rect key="frame" x="95" y="206" width="159" height="37"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="25" id="BxK-2f-ey9"/>
+                                        <constraint firstAttribute="width" constant="145" id="jRT-rc-tCv"/>
+                                    </constraints>
+                                    <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ugm-Hk-yNt">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                            <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="6"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </button>
+                                <stackView distribution="fillEqually" orientation="vertical" alignment="centerX" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tdy-Sx-xsu">
+                                    <rect key="frame" x="0.0" y="0.0" width="349" height="188"/>
+                                    <subviews>
+                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="YXH-cr-sIr">
+                                            <rect key="frame" x="0.0" y="66" width="349" height="122"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c8g-pF-4JV">
+                                                    <rect key="frame" x="15" y="5" width="319" height="112"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="h9K-7u-QM0">
+                                                            <rect key="frame" x="-2" y="45" width="323" height="67"/>
+                                                            <textFieldCell key="cell" lineBreakMode="charWrapping" alignment="center" title="I want to finish something Extend focus session for  " id="f1Y-m4-qdN">
+                                                                <font key="font" usesAppearanceFont="YES"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAz-Lz-3Hg">
+                                                            <rect key="frame" x="60" y="0.0" width="200" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="25" id="C7H-bD-sIP"/>
+                                                            </constraints>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="c8g-pF-4JV" firstAttribute="centerY" secondItem="YXH-cr-sIr" secondAttribute="centerY" id="0Ta-u0-frL"/>
+                                                <constraint firstAttribute="trailing" secondItem="c8g-pF-4JV" secondAttribute="trailing" constant="15" id="3vf-WB-b64"/>
+                                                <constraint firstItem="c8g-pF-4JV" firstAttribute="leading" secondItem="YXH-cr-sIr" secondAttribute="leading" constant="15" id="DkE-Ih-Yu0"/>
+                                                <constraint firstItem="c8g-pF-4JV" firstAttribute="centerX" secondItem="YXH-cr-sIr" secondAttribute="centerX" id="F1B-5z-4BT"/>
+                                                <constraint firstAttribute="bottom" secondItem="c8g-pF-4JV" secondAttribute="bottom" constant="5" id="W8S-k0-QdD"/>
+                                                <constraint firstItem="c8g-pF-4JV" firstAttribute="top" secondItem="YXH-cr-sIr" secondAttribute="top" constant="5" id="tot-sF-q7f"/>
+                                            </constraints>
+                                        </customView>
+                                        <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="LL7-fj-Q2E">
+                                            <rect key="frame" x="127" y="43" width="96" height="5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="96" id="nWA-Qt-RTs"/>
+                                            </constraints>
+                                        </box>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GYw-Op-fcf" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                            <rect key="frame" x="99" y="-4" width="151" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="25" id="qPp-Ld-GMF"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="145" id="rtI-eK-yxH"/>
+                                            </constraints>
+                                            <buttonCell key="cell" type="bevel" title="Stop Focus Session" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vFE-sT-pCU">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                                    <color key="value" red="0.1047465861" green="0.44329137909999999" blue="0.1165825705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="6"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                    <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="activeButtonColor">
+                                                    <color key="value" red="0.0" green="0.62352941179999999" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                    </subviews>
+                                    <visibilityPriorities>
+                                        <integer value="1000"/>
+                                        <integer value="1000"/>
+                                        <integer value="1000"/>
+                                    </visibilityPriorities>
+                                    <customSpacing>
+                                        <real value="3.4028234663852886e+38"/>
+                                        <real value="3.4028234663852886e+38"/>
+                                        <real value="3.4028234663852886e+38"/>
+                                    </customSpacing>
+                                </stackView>
+                            </subviews>
+                            <visibilityPriorities>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                            </visibilityPriorities>
+                            <customSpacing>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                            </customSpacing>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="cs6-PG-nhA" firstAttribute="leading" secondItem="wgg-YU-Vkc" secondAttribute="leading" id="4H1-EQ-Awo"/>
+                        <constraint firstAttribute="trailing" secondItem="cs6-PG-nhA" secondAttribute="trailing" id="RQN-iv-B7f"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="ZSn-hd-69h"/>
+                        <constraint firstAttribute="bottom" secondItem="cs6-PG-nhA" secondAttribute="bottom" constant="10" id="vnC-S6-mT0"/>
+                        <constraint firstItem="cs6-PG-nhA" firstAttribute="top" secondItem="wgg-YU-Vkc" secondAttribute="top" constant="10" id="yvr-1t-ytR"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="wgg-YU-Vkc" secondAttribute="trailing" constant="20" symbolic="YES" id="0Du-Yw-Qui"/>
+                <constraint firstItem="wgg-YU-Vkc" firstAttribute="top" secondItem="eVO-cZ-vNw" secondAttribute="top" constant="18" id="545-JO-ePC"/>
+                <constraint firstAttribute="bottom" secondItem="wgg-YU-Vkc" secondAttribute="bottom" constant="18" id="bBM-ma-2EL"/>
+                <constraint firstItem="wgg-YU-Vkc" firstAttribute="leading" secondItem="eVO-cZ-vNw" secondAttribute="leading" constant="20" symbolic="YES" id="dnU-Om-Sez"/>
+            </constraints>
+            <point key="canvasLocation" x="-71" y="184.5"/>
+        </customView>
+    </objects>
+</document>

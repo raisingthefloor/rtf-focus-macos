@@ -34,7 +34,7 @@ class SlotViewCell: NSTableCellView {
         super.draw(dirtyRect)
     }
 
-    func configSlot(row: Int, session: ScheduleSession) {
+    func configSlot(row: Int, session: ScheduleSession, tableColumn: NSTableColumn?) {
         leftV.background_color = .clear
         rightV.background_color = .clear
         print(session.time)
@@ -44,82 +44,90 @@ class SlotViewCell: NSTableCellView {
         print(session.wed)
         print(session.thu)
         print(session.fri)
-        
-        if session.sun == true, session.mon == true, session.tue == true, session.wed == true, session.thu == true, session.fri == true, session.sat == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
-            }
-        }
 
-        if session.sun == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
-            }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
-        }
+//        if session.sun.0 == true, session.mon.0 == true, session.tue.0 == true, session.wed.0 == true, session.thu.0 == true, session.fri.0 == true, session.sat.0 == true {
+//            if session.session != 0 {
+//                leftV.background_color = session.color.first
+//                rightV.background_color = (session.sun.1 == 1) ? .clear : session.color.last
+//            }
+//        }
 
-        if session.mon == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
+        if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "sunIdentifier") {
+            if session.sun.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.sun.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
             }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
-        }
-        
-        if session.tue == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "monIdentifier") {
+            if session.mon.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.mon.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
             }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
-        }
-        
-        if session.wed == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "tueIdentifier") {
+            if session.tue.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.tue.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
             }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
-        }
-        
-        if session.thu == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "wedIdentifier") {
+            if session.wed.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.wed.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
             }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
-        }
-        
-        if session.fri == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "thuIdentifier") {
+            if session.thu.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.thu.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
             }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
-        }
-        
-        if session.sat == true {
-            if session.session != 0 {
-                leftV.background_color = Color.dark_grey_border
-                rightV.background_color = (session.session == 1) ? .clear : Color.blue_color
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "friIdentifier") {
+            if session.fri.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.fri.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
             }
-        } else {
-            leftV.background_color = .clear
-            rightV.background_color = .clear
+
+        } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "satIdentifier") {
+            if session.sat.0 == true {
+                if session.session != 0 {
+                    leftV.background_color = session.color.first
+                    rightV.background_color = (session.sat.1 == 1) ? .clear : session.color.last
+                }
+            } else {
+                leftV.background_color = .clear
+                rightV.background_color = .clear
+            }
         }
     }
 }

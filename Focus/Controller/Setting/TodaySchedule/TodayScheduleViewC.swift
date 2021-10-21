@@ -129,7 +129,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             } else {
                 if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-                    slotCell.configSlot(row: row, session: obj)
+                    slotCell.configSlot(row: row, session: obj, tableColumn: tableColumn)
                     return slotCell
                 }
             }
