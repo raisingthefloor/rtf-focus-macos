@@ -49,7 +49,6 @@ extension LabelCell: BasicSetupType {
 
     func setUpViews() {
         if lblTitle != nil {
-            
         }
     }
 }
@@ -60,15 +59,27 @@ extension LabelCell {
         lblTitle.stringValue = value
         lblTitle.textColor = .white
     }
-    
+
     func setupTime(value: String) {
         lblTitle.stringValue = value
-        lblTitle.font = NSFont.systemFont(ofSize: 9, weight: .regular)
-    }
-    
-    func setupSart(value: String) {
-        lblTitle.stringValue = value
-        lblTitle.font = NSFont.systemFont(ofSize: 9, weight: .regular)
+        lblTitle.font = NSFont.systemFont(ofSize: 10, weight: .regular)
     }
 
+    func setupSart(value: String) {
+        lblTitle.stringValue = value
+        lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+    }
+
+    func setupColor(objFS: Focus_Schedule) {
+        let color_type = ColorType(rawValue: Int(objFS.color_type))
+        let color = NSColor(objFS.session_color ?? "#DCEFE6")
+
+        lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+        lblTitle.textColor = .black
+        lblTitle.stringValue = objFS.block_list_name ?? "-"
+
+        view.background_color = ((color_type == .hollow) ? Color.list_bg_color : color)
+        view.border_color = ((color_type == .hollow) ? color : .clear)
+        view.border_width = 2.5
+    }
 }

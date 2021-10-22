@@ -26,7 +26,7 @@
 import Cocoa
 import Foundation
 
-class RowView: NSTableRowView {
+class SettingRowView: NSTableRowView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 

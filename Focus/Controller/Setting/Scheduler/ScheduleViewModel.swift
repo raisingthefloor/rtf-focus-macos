@@ -27,7 +27,7 @@ import Cocoa
 import Foundation
 
 protocol ScheduleViewModelIntput {
-    func getSessionList() -> [ScheduleSession]
+    func getSessionList(day: String?) -> ([ScheduleSession], [Focus_Schedule])
     func setReminder(obj: Focus_Schedule?)
     func removeReminder(obj: Focus_Schedule?)
 }
@@ -56,7 +56,88 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
         arrFocusSchedule = DBManager.shared.getFocusSchedule()
         objGCategory = DBManager.shared.getGeneralCategoryData().gCat
     }
+}
 
+// Methods for Displaying the data on Calendar view.
+extension ScheduleViewModel {
+    func getSessionList(day: String?) -> ([ScheduleSession], [Focus_Schedule]) {
+        var scheduleS: [ScheduleSession] = []
+        let arrFS: [Focus_Schedule] = DBManager.shared.getScheduleFocus(time: "", day: day)
+        for i in 0 ..< arrTimes.count {
+            let arrFS = DBManager.shared.getScheduleFocus(time: arrTimes[i], day: day)
+            var twel = ScheduleSession(id: i, time: arrTimes[i], sun: (false, 0), mon: (false, 0), tue: (false, 0),
+                                       wed: (false, 0), thu: (false, 0), fri: (false, 0), sat: (false, 0), session: arrFS.count, color: [.clear, .clear], color_type: [.solid, .solid])
+            if arrFS.isEmpty {
+                scheduleS.append(twel)
+                continue
+            }
+
+            let arrDay = arrFS.compactMap({ $0.days })
+            let arrDays = arrDay.joined(separator: ",").components(separatedBy: ",")
+            let intersectData = Array(Set(arrDays.filter({ (i: String) in arrDays.filter({ $0 == i }).count > 1 })))
+            let differentVals = Array(Set(intersectData).symmetricDifference(Set(arrDays)))
+
+            twel.color = arrFS.compactMap({ NSColor($0.session_color ?? "#DCEFE6") })
+            twel.color_type = arrFS.compactMap({ ColorType(rawValue: Int($0.color_type)) })
+
+            if !intersectData.isEmpty {
+                for day in intersectData {
+                    let d = Int(day) ?? 0
+                    let day_e = Days(rawValue: d)
+                    switch day_e {
+                    case .sun:
+                        twel.sun = (true, 2)
+                    case .mon:
+                        twel.mon = (true, 2)
+                    case .tue:
+                        twel.tue = (true, 2)
+                    case .wed:
+                        twel.wed = (true, 2)
+                    case .thu:
+                        twel.thu = (true, 2)
+                    case .fri:
+                        twel.fri = (true, 2)
+                    case .sat:
+                        twel.sat = (true, 2)
+                    case .none:
+                        break
+                    }
+                }
+            }
+
+            if !differentVals.isEmpty {
+                for day in differentVals {
+                    let d = Int(day) ?? 0
+                    let day_e = Days(rawValue: d)
+                    switch day_e {
+                    case .sun:
+                        twel.sun = (true, 1)
+                    case .mon:
+                        twel.mon = (true, 1)
+                    case .tue:
+                        twel.tue = (true, 1)
+                    case .wed:
+                        twel.wed = (true, 1)
+                    case .thu:
+                        twel.thu = (true, 1)
+                    case .fri:
+                        twel.fri = (true, 1)
+                    case .sat:
+                        twel.sat = (true, 1)
+                    case .none:
+                        break
+                    }
+                }
+            }
+
+            scheduleS.append(twel)
+        }
+        return (scheduleS, arrFS)
+    }
+}
+
+// Not Used the For Now as its Localnotification Methods to perform the reminder
+extension ScheduleViewModel {
     func setReminder(obj: Focus_Schedule?) {
         guard let objF = obj, let uuid = objF.id, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
 
@@ -89,80 +170,6 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
         print("Remove identifiers \(identifiers)")
         NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
     }
-
-    func getSessionList() -> [ScheduleSession] {
-        var scheduleS: [ScheduleSession] = []
-        for i in 0 ..< arrTimes.count {
-            let arrFS = DBManager.shared.getScheduleFocus(time: arrTimes[i])
-            var twel = ScheduleSession(id: i, time: arrTimes[i], sun: (false, 0), mon: (false, 0), tue: (false, 0),
-                                       wed: (false, 0), thu: (false, 0), fri: (false, 0), sat: (false, 0), session: arrFS.count, color: [.clear, .clear], color_type: [1, 1])
-            if arrFS.isEmpty {
-                scheduleS.append(twel)
-                continue
-            }
-
-            let arrDay = arrFS.compactMap({ $0.days })
-            let arrDays = arrDay.joined(separator: ",").components(separatedBy: ",")
-            let duplicates = Array(Set(arrDays.filter({ (i: String) in arrDays.filter({ $0 == i }).count > 1 })))
-            let intersectData = Array(Set(arrDays.filter({ (i: String) in arrDays.filter({ $0 != i }).count > 1 })))
-
-            twel.color = arrFS.compactMap({ NSColor($0.session_color ?? "#DCEFE6") })
-            twel.color_type = arrFS.compactMap({ Int($0.color_type) })
-
-            if !duplicates.isEmpty {
-                for day in duplicates {
-                    let d = Int(day) ?? 0
-                    let day_e = Days(rawValue: d)
-                    switch day_e {
-                    case .sun:
-                        twel.sun = (true, 2)
-                    case .mon:
-                        twel.mon = (true, 2)
-                    case .tue:
-                        twel.tue = (true, 2)
-                    case .wed:
-                        twel.wed = (true, 2)
-                    case .thu:
-                        twel.thu = (true, 2)
-                    case .fri:
-                        twel.fri = (true, 2)
-                    case .sat:
-                        twel.sat = (true, 2)
-                    case .none:
-                        break
-                    }
-                }
-            }
-
-            if !intersectData.isEmpty {
-                for day in intersectData {
-                    let d = Int(day) ?? 0
-                    let day_e = Days(rawValue: d)
-                    switch day_e {
-                    case .sun:
-                        twel.sun = (true, 1)
-                    case .mon:
-                        twel.mon = (true, 1)
-                    case .tue:
-                        twel.tue = (true, 1)
-                    case .wed:
-                        twel.wed = (true, 1)
-                    case .thu:
-                        twel.thu = (true, 1)
-                    case .fri:
-                        twel.fri = (true, 1)
-                    case .sat:
-                        twel.sat = (true, 1)
-                    case .none:
-                        break
-                    }
-                }
-            }
-
-            scheduleS.append(twel)
-        }
-        return scheduleS
-    }
 }
 
 struct ScheduleSession {
@@ -177,7 +184,7 @@ struct ScheduleSession {
     var sat: (Bool, Int)
     var session: Int
     var color: [NSColor]
-    var color_type: [Int]
+    var color_type: [ColorType]
 }
 
 enum ScheduleType: Int {

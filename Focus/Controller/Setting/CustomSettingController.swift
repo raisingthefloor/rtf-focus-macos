@@ -52,7 +52,7 @@ class CustomSettingController: NSViewController, NSWindowDelegate {
 
 extension CustomSettingController: BasicSetupType {
     func setUpText() {
-        title = NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
+        title = "" //NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
         lblTitle.stringValue = NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
     }
 
@@ -110,7 +110,7 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-        let customView = RowView()
+        let customView = SettingRowView()
         return customView
     }
 

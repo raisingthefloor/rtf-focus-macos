@@ -92,7 +92,7 @@ extension CurrentSessionVC: BasicSetupType {
             time = "\(break_time.timeInMinutes) minutes \(break_time.timeInSeconds) sec"
         }
 
-        title = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
+        title = "" //NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
         let subTitle_0 = (objFocus?.is_break_time ?? false) ? NSLocalizedString("Session.ur_break_end", comment: "Your break ends ") : NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ")
@@ -212,8 +212,6 @@ extension CurrentSessionVC {
             return
         }
 
-//        let presentingCtrl = WindowsManager.getPresentingController()
-        // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in

@@ -81,7 +81,7 @@ enum ListDialogue: Int {
     var arrData: [Any] {
         switch self {
         case .category_list:
-            return ["www.facebook.com", "www.classmates.com", "www.linkedin.com"]
+            return []
         case .system_app_list, .unblocking_list:
             return DBManager.shared.getApplicationList()
         }
@@ -90,7 +90,7 @@ enum ListDialogue: Int {
     var selectedData: [Any] {
         switch self {
         case .category_list:
-            return ["www. facebook.com"]
+            return []
         case .system_app_list, .unblocking_list:
             guard var selectedVal = arrData as? [Application_List] else { return [] }
             selectedVal = selectedVal.filter({ $0.is_selected }).compactMap({ $0 })

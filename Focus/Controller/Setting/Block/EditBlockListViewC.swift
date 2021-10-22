@@ -278,16 +278,19 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblCategory.dataSource = self
         tblCategory.rowHeight = 25
         tblCategory.reloadData()
+        tblCategory.selectionHighlightStyle = .none
 
         tblBlock.delegate = self
         tblBlock.dataSource = self
         tblBlock.usesAutomaticRowHeights = true
         tblBlock.reloadData()
+        tblBlock.selectionHighlightStyle = .none
 
         tblNotBlock.delegate = self
         tblNotBlock.dataSource = self
         tblNotBlock.usesAutomaticRowHeights = true
         tblNotBlock.reloadData()
+        tblNotBlock.selectionHighlightStyle = .none
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -305,6 +308,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        // Category list
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
             let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
@@ -320,6 +324,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             }
             return nil
+            // Block list
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
             let arrBlock = dataModel.objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
             let objBlock = arrBlock?[row] as? Block_Interface
@@ -337,6 +342,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             }
             return nil
+            // Exception list
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "exceptionIdentifier") {
             let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
             let objBlock = arrBlock?[row] as? Block_Interface
@@ -375,11 +381,6 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             }
         }
-    }
-
-    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-        let view = LightRowView()
-        return view
     }
 }
 
@@ -505,8 +506,10 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Store the Categories as per selected blick list
     @objc func addCategoryAction(_ sender: NSButton) {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus, objF.block_list_id == dataModel.objBlocklist?.id {
             if objF.is_focusing {
+                reloadTables()
+                openErrorDialogue()
                 return
             }
         }

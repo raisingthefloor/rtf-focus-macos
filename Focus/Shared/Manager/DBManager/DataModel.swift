@@ -179,6 +179,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
 
     static func preAddSchedule() {
         if !DBManager.shared.checkDataIsPresent(entityName: "Focus_Schedule") {
+            UserDefaults.standard.set(false, forKey: "pre_added_blocklist") // TODO: Remove this Its Temp pre_added_blocklist
             let colors: [String] = [Color.schedule_one_color.hex, Color.schedule_two_color.hex, Color.schedule_three_color.hex, Color.schedule_four_color.hex, Color.schedule_five_color.hex]
             var i = 0
             for color in colors {

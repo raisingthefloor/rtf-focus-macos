@@ -37,3 +37,22 @@ class CheckBoxCell: NSTableCellView {
         super.draw(dirtyRect)
     }
 }
+
+extension CheckBoxCell {
+    func configScheduleActive(obj: Focus_Schedule?, row: Int, target: AnyObject?, action: Selector?, action_delete: Selector?) {
+        // Checkbox
+        checkBox.tag = row
+        checkBox.target = target
+        checkBox.action = action
+
+        let is_active = obj?.is_active ?? false
+        checkBox.state = is_active ? .on : .off
+
+        if btnDelete != nil {
+            // Delete
+            btnDelete.tag = row
+            btnDelete.target = target
+            btnDelete.action = action_delete
+        }
+    }
+}

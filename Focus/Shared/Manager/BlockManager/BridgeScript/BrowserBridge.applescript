@@ -38,24 +38,28 @@ script BrowserBridge
         set isFocusing to true
         
         repeat until isFocusing is false
-            
+--            log("urls :::::::  " & urls)
+--            log("isFocusing :::::::  " & isFocusing)
                 if application "Safari" is running then
---                    log("isFocusing :::::::  " & isFocusing)
+                    log("isFocusing :::::::  " & isFocusing)
                     tell application "Safari"
                         set theWindows to windows
                         repeat with theWindow in theWindows
                             set theTabs to tabs of theWindow
+--                            log("theTabs :::::::  " & theTabs)
                             repeat with t_info in theTabs
                                 set url_name to URL of t_info
-                                --                                set domainName to (do shell script "echo  " & url_name & " | cut -d'/' -f3")
-                                --                                set domainName to split(url_name, "/")
+--                                                                set domainName to (do shell script "echo  " & url_name & " | cut -d'/' -f3")
+--                                                                set domainName to split(url_name, "/")
+--                                log("t_info :::::::  " & url_name)
+                                
                                 set AppleScript's text item delimiters to "/"
                                 set split_item to url_name's text items
                                 set AppleScript's text item delimiters to {""} --> restore delimiters to default value
                                 set domainName to split_item's item 3
---                                log("Domain Name :::::::  " & domainName)
+--                                log("domainName :::::::  " & domainName)
                                 repeat with b_url in urls
-                                    if b_url contains domainName then
+                                    if domainName contains b_url then
                                         set (URL of every tab of every window where URL contains (url_name)) to block_url
                                         exit repeat
                                     end if

@@ -504,10 +504,17 @@ extension DBManager {
         }
     }
 
-    func getScheduleFocus(time: String) -> [Focus_Schedule] {
+    func getScheduleFocus(time: String, day: String?) -> [Focus_Schedule] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
-        fetchRequest.predicate = NSPredicate(format: "start_time = %@ && is_active = true", time, time)
-
+        if day == nil {
+            fetchRequest.predicate = NSPredicate(format: "start_time = %@ && is_active = true", time)
+        } else {
+            if time.isEmpty || time == "" {
+                fetchRequest.predicate = NSPredicate(format: "days contains %@", day!)
+            } else {
+                fetchRequest.predicate = NSPredicate(format: "start_time = %@ && days contains %@ && is_active = true", time, day!)
+            }
+        }
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
@@ -519,6 +526,23 @@ extension DBManager {
         } catch let error {
             print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
             return []
+        }
+    }
+
+    func checkScheduleSession(time: String, day: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
+        fetchRequest.predicate = NSPredicate(format: "start_time = %@ && days contains %@ && is_active = true", time, day)
+
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if results.count > 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch let error {
+            print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
+            return false
         }
     }
 }

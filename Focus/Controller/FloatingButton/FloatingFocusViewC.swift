@@ -130,7 +130,6 @@ extension FloatingFocusViewC {
 
     func startBlockingAppsWeb() {
         guard let obj = viewModel.input.focusObj else { return }
-
         AppManager.shared.addObserverToCheckAppLaunch()
         WindowsManager.blockWebSite()
         if obj.is_dnd_mode {

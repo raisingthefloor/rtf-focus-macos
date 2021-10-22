@@ -83,15 +83,22 @@
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="days" optional="YES" attributeType="String"/>
         <attribute name="end_time" optional="YES" attributeType="String"/>
+        <attribute name="end_time_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="extend_min_time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="has_block_list_stop" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="is_active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="session_color" optional="YES" attributeType="String"/>
         <attribute name="start_time" optional="YES" attributeType="String"/>
+        <attribute name="start_time_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="time_interval" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="days_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Focus_Schedule_Days" inverseName="focus_schedule" inverseEntity="Focus_Schedule_Days"/>
         <relationship name="extend_info" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Schedule_Focus_Extend" inverseName="schedule_focus" inverseEntity="Schedule_Focus_Extend"/>
+    </entity>
+    <entity name="Focus_Schedule_Days" representedClassName="Focus_Schedule_Days" syncable="YES" codeGenerationType="class">
+        <attribute name="day" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="focus_schedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focus_Schedule" inverseName="days_" inverseEntity="Focus_Schedule"/>
     </entity>
     <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -154,10 +161,11 @@
         <element name="Extended_FB_Value" positionX="-27" positionY="135" width="128" height="134"/>
         <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
         <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
-        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="254"/>
+        <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="299"/>
         <element name="Focuses" positionX="-63" positionY="-18" width="128" height="359"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
         <element name="Schedule_Focus_Extend" positionX="-27" positionY="144" width="128" height="104"/>
+        <element name="Focus_Schedule_Days" positionX="-27" positionY="144" width="128" height="59"/>
     </elements>
 </model>

@@ -26,9 +26,7 @@
 import Cocoa
 
 class ButtonCell: NSTableCellView {
-    // TODO: Need to update the name of the buttons as it previously define as per the old design
     @IBOutlet var btnAddApp: NSButton!
-    @IBOutlet var btnAddWeb: NSButton!
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -48,24 +46,8 @@ extension ButtonCell: BasicSetupType {
     func setUpViews() {
     }
 
-    func configBlockCell() {
-        btnAddApp.title = BlockType.application.title
-        btnAddWeb.title = BlockType.web.title
-    }
-
-    func bindTarget(target: AnyObject?) {
-        btnAddApp.target = target
-        btnAddWeb.target = target
-        btnAddApp.tag = BlockType.application.rawValue
-        btnAddWeb.tag = BlockType.web.rawValue
-    }
-
-    func configScheduleActionCell(isPause: Bool) {
-        btnAddApp.title = isPause ? "🚫" : "⏸"
-    }
-
     func configCategoryCell(row: Int, objCat: Block_Category, objBlocklist: Block_List?, target: AnyObject?, action: Selector?) {
-        let arrCate = objBlocklist?.block_category?.allObjects as? [Block_List_Category]
+        let arrCate = objBlocklist?.block_category?.allObjects as? [Block_List_Category]        
         btnAddApp.tag = row
         btnAddApp.target = target
         let isSelected = arrCate?.compactMap({ $0.id == objCat.id }).filter({ $0 }).first ?? false
@@ -79,19 +61,5 @@ extension ButtonCell: BasicSetupType {
         let isSelected = objSubCat?.is_selected ?? false
         btnAddApp.state = isSelected ? .on : .off
         btnAddApp.action = action
-    }
-
-    func configScheduleActive(obj: Focus_Schedule?, row: Int, target: AnyObject?, action: Selector?, action_delete: Selector?) {
-        //Checkbox
-        btnAddApp.tag = row
-        btnAddApp.target = target
-        let is_active = obj?.is_active ?? false
-        btnAddApp.state = is_active ? .on : .off
-        btnAddApp.action = action
-        
-        //Delete
-        btnAddWeb.tag = row
-        btnAddWeb.target = target
-        btnAddWeb.action = action_delete
     }
 }

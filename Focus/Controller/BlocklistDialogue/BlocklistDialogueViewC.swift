@@ -35,6 +35,8 @@ class BlocklistDialogueViewC: NSViewController {
     var listType: ListDialogue = .category_list
     var categoryName: String = ""
     var objCat: Block_Category?
+    var arrAppsWeb: [Block_SubCategory] = []
+
     var addedSuccess: (([[String: Any?]]) -> Void)?
     var dataModel: DataModelType = DataModel()
 
@@ -90,6 +92,10 @@ extension BlocklistDialogueViewC: BasicSetupType {
         btnAdd.action = #selector(btnAction(_:))
         btnClose.target = self
         btnClose.action = #selector(btnClose(_:))
+        if listType == .category_list {
+            arrAppsWeb = objCat?.sub_data?.allObjects as! [Block_SubCategory]
+            arrAppsWeb = arrAppsWeb.sorted(by: ({ $0.block_type < $1.block_type }))
+        }
     }
 
     @objc func btnClose(_ sender: NSButton) {
@@ -118,6 +124,8 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblView.delegate = self
         tblView.dataSource = self
         tblView.rowHeight = 23
+        tblView.selectionHighlightStyle = .none
+        
         if listType == .category_list {
             tblView.tableColumns.forEach { column in
                 if column.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
@@ -129,7 +137,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         if listType == .category_list {
-            return objCat?.sub_data?.count ?? 0
+            return arrAppsWeb.count
         }
         return listType.arrData.count
     }
@@ -157,7 +165,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
                     let obj = listType.arrData[row]
                     categoryCell.configApps(obj: obj as? Application_List)
                 } else {
-                    let objSubCat = objCat?.sub_data?.allObjects[row] as? Block_SubCategory
+                    let objSubCat = arrAppsWeb[row] as? Block_SubCategory
                     categoryCell.configSubCategory(obj: objSubCat)
                 }
                 return categoryCell

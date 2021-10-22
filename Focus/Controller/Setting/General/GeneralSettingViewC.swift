@@ -288,6 +288,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblView.dataSource = self
         tblView.usesAutomaticRowHeights = true
         tblView.reloadData()
+        tblView.selectionHighlightStyle = .none
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {

@@ -80,7 +80,9 @@ struct WindowsManager {
 
 extension WindowsManager {
     static func openSystemLogoutDialog() {
-        AppManager.shared.browserBridge?.logoutAlert()
+        DispatchQueue.global(qos: .userInteractive).async {
+            AppManager.shared.browserBridge?.logoutAlert()
+        }
     }
 
     static func blockWebSite() {

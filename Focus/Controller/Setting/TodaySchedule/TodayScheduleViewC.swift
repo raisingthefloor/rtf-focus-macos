@@ -38,6 +38,8 @@ class TodayScheduleViewC: BaseViewController {
     @IBOutlet var tblSession: NSTableView!
 
     let viewModel: ScheduleViewModelType = ScheduleViewModel()
+    var arrSession: [ScheduleSession] = []
+    var arrFocusS: [Focus_Schedule] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +63,9 @@ extension TodayScheduleViewC: BasicSetupType {
     }
 
     func bindData() {
+        let result = viewModel.input.getSessionList(day: String(format: "%d", Date().currentDateComponent().weekday as! CVarArg))
+        arrSession = result.0
+        arrFocusS = result.1
     }
 }
 
@@ -69,26 +74,34 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblSchedule.delegate = self
         tblSchedule.dataSource = self
         tblSchedule.usesAutomaticRowHeights = true
-        tblSchedule.allowsColumnReordering = false
+        tblSchedule.selectionHighlightStyle = .none
 
         tblSession.delegate = self
         tblSession.dataSource = self
         tblSession.allowsColumnReordering = false
         tblSession.rowHeight = 15
+        tblSession.selectionHighlightStyle = .none
+
+        tblSchedule.tableColumns.forEach { column in
+            column.headerCell.attributedStringValue = NSAttributedString(string: column.title.uppercased(), attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .semibold)])
+        }
 
         tblSession.tableColumns.forEach { column in
             if column.identifier != NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
+                let paragraph = NSMutableParagraphStyle()
+                paragraph.alignment = .center
+
                 column.headerCell.attributedStringValue = NSAttributedString(string: Date.getDayName().uppercased()
-                                                                             , attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 12)])
+                                                                             , attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
             }
         }
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
-            return 2
+            return arrFocusS.count
         } else {
-            return viewModel.input.getSessionList().count
+            return arrSession.count
         }
     }
 
@@ -98,33 +111,46 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func setupCell(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
+            let obj = arrFocusS[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
                 if let cellCombo = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? LabelCell {
-                    cellCombo.view.background_color = NSColor.random
+                    cellCombo.setupColor(objFS: obj)
                     return cellCombo
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? LabelCell {
-                    cell.setupSart(value: "11:00 PM")
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? ComboBoxCell {
+                    cell.configStartCell(obj: obj, arrTimes: viewModel.arrTimes)
+                    cell.refreshTable = { isChange in
+                        if isChange {
+                            self.reloadSession()
+                        }
+                    }
+
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? LabelCell {
-                    cell.setupSart(value: "11:12 AM")
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? ComboBoxCell {
+                    cell.configEndCell(obj: obj, arrTimes: viewModel.arrTimes)
+                    cell.refreshTable = { isChange in
+                        if isChange {
+                            self.reloadSession()
+                        }
+                    }
+
                     return cell
                 }
             } else {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
-                    return cell
+                if let cellCheck = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? CheckBoxCell {
+                    cellCheck.configScheduleActive(obj: obj, row: row, target: self, action: #selector(toggleAction(_:)), action_delete: nil)
+                    return cellCheck
                 }
             }
         } else {
-            let arrSession = viewModel.input.getSessionList()
             let obj = arrSession[row]
 
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
-                    cellTime.setupTime(value: arrSession[row].time ?? "-")
+                    cellTime.setupTime(value: obj.time ?? "-")
                     return cellTime
                 }
             } else {
@@ -135,5 +161,18 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
             }
         }
         return nil
+    }
+
+    @objc func toggleAction(_ sender: NSButton) {
+        let objFSchedule = arrFocusS[sender.tag]
+        objFSchedule.is_active = !objFSchedule.is_active
+        DBManager.shared.saveContext()
+        tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3))
+    }
+
+    func reloadSession() {
+        let result = viewModel.input.getSessionList(day: String(format: "%d", Date().currentDateComponent().weekday as! CVarArg))
+        arrSession = result.0
+        tblSession.reloadData()
     }
 }

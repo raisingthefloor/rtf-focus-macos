@@ -36,14 +36,9 @@ class SlotViewCell: NSTableCellView {
 
     func configSlot(row: Int, session: ScheduleSession, tableColumn: NSTableColumn?) {
         leftV.background_color = .clear
+        leftV.border_color = .clear
         rightV.background_color = .clear
-        print(session.time)
-        print(session.sun)
-        print(session.mon)
-        print(session.tue)
-        print(session.wed)
-        print(session.thu)
-        print(session.fri)
+        rightV.border_color = .clear
 
 //        if session.sun.0 == true, session.mon.0 == true, session.tue.0 == true, session.wed.0 == true, session.thu.0 == true, session.fri.0 == true, session.sat.0 == true {
 //            if session.session != 0 {
@@ -53,81 +48,38 @@ class SlotViewCell: NSTableCellView {
 //        }
 
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "sunIdentifier") {
-            if session.sun.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.sun.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
-            }
-
+            setupSesionData(session: session, daySelected: session.sun.0, no_session: session.sun.1, color_type: session.color_type)
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "monIdentifier") {
-            if session.mon.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.mon.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
-            }
-
+            setupSesionData(session: session, daySelected: session.mon.0, no_session: session.mon.1, color_type: session.color_type)
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "tueIdentifier") {
-            if session.tue.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.tue.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
-            }
-
+            setupSesionData(session: session, daySelected: session.tue.0, no_session: session.tue.1, color_type: session.color_type)
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "wedIdentifier") {
-            if session.wed.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.wed.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
-            }
-
+            setupSesionData(session: session, daySelected: session.wed.0, no_session: session.wed.1, color_type: session.color_type)
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "thuIdentifier") {
-            if session.thu.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.thu.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
-            }
-
+            setupSesionData(session: session, daySelected: session.thu.0, no_session: session.thu.1, color_type: session.color_type)
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "friIdentifier") {
-            if session.fri.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.fri.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
-            }
-
+            setupSesionData(session: session, daySelected: session.fri.0, no_session: session.fri.1, color_type: session.color_type)
         } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "satIdentifier") {
-            if session.sat.0 == true {
-                if session.session != 0 {
-                    leftV.background_color = session.color.first
-                    rightV.background_color = (session.sat.1 == 1) ? .clear : session.color.last
-                }
-            } else {
-                leftV.background_color = .clear
-                rightV.background_color = .clear
+            setupSesionData(session: session, daySelected: session.sat.0, no_session: session.sat.1, color_type: session.color_type)
+        }
+    }
+
+    func setupSesionData(session: ScheduleSession, daySelected: Bool, no_session: Int, color_type: [ColorType]) {
+        if daySelected == true {
+            if no_session != 0 {
+                leftV.background_color = (color_type.first == .hollow) ? Color.list_bg_color : session.color.first
+                leftV.border_color = ((color_type.last == .hollow) ? session.color.first : .clear)
+                leftV.border_width = 2.5
+
+                rightV.background_color = (no_session == 1) ? .clear : ((color_type.last == .hollow) ? Color.list_bg_color : session.color.last)
+                rightV.border_color = (no_session == 1) ? .clear : ((color_type.last == .hollow) ? session.color.last : .clear)
+                rightV.border_width = 2.5
             }
+        } else {
+            leftV.background_color = .clear
+            leftV.border_color = .clear
+            rightV.background_color = .clear
+            rightV.border_color = .clear
         }
     }
 }

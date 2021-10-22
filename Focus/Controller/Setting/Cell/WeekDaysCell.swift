@@ -56,16 +56,6 @@ extension WeekDaysCell: BasicSetupType {
     func setUpViews() {
     }
 
-    func configBlockCell() {
-        btnDay.title = BlockType.application.title
-        btnDay.title = BlockType.web.title
-    }
-
-    func bindTarget(target: AnyObject?) {
-        btnDay.target = target
-        btnDay.tag = BlockType.application.rawValue
-    }
-
     func configDays(obj: Focus_Schedule?) {
         objFSchedule = obj
         let arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
@@ -107,6 +97,7 @@ extension WeekDaysCell: BasicSetupType {
 
     @objc func toggleDay(_ sender: CustomButton) {
         var arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
+//        var arrDay = objFSchedule?.days_?.allObjects as? [Focus_Schedule_Days]  //TODO: Perform the Logic with Array of Days object
         let tag = sender.tag
         var isSelected = false
         if !arrDays.isEmpty {
@@ -118,6 +109,7 @@ extension WeekDaysCell: BasicSetupType {
                 arrDays.remove(at: index)
                 objFSchedule?.days = arrDays.joined(separator: ",")
             }
+
         } else {
             arrDays.append(String(tag))
             objFSchedule?.days = arrDays.joined(separator: ",")
@@ -125,5 +117,19 @@ extension WeekDaysCell: BasicSetupType {
         DBManager.shared.saveContext()
         configDays(obj: objFSchedule)
         refreshTable?(true)
+    }
+
+    func warningToAddThirdSession(time: String, day: String) -> Bool {
+        let isAvailable = DBManager.shared.checkScheduleSession(time: time, day: day)
+        if isAvailable {
+            let presentingCtrl = WindowsManager.getPresentingController()
+            let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+            errorDialog.errorType = .general_setting_error
+            errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
+            presentingCtrl?.presentAsSheet(errorDialog)
+            return false
+        }
+
+        return true
     }
 }

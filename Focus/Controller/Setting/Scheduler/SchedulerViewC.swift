@@ -108,13 +108,14 @@ extension SchedulerViewC: BasicSetupType {
 
     func setupData() {
         checkBoxFocusTime.state = (viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session == true) ? .on : .off
+        
         let breaktime = Int(viewModel.objGCategory?.general_setting?.break_time ?? 0).secondsToTime().timeInMinutes
-        popBreakTime.selectItem(withTitle: "\(breaktime)")
+        popBreakTime.selectItem(withTitle: "\(breaktime) min")
 
         let focustime = Int(viewModel.objGCategory?.general_setting?.for_every_time ?? 0).secondsToTime().timeInMinutes
-        popFocusTime.selectItem(withTitle: "\(focustime)")
+        popFocusTime.selectItem(withTitle: "\(focustime) min")
 
-        arrSession = viewModel.input.getSessionList()
+        arrSession = viewModel.input.getSessionList(day: nil).0
     }
 }
 
@@ -124,14 +125,23 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblSchedule.dataSource = self
         tblSchedule.rowHeight = 44
         tblSchedule.allowsColumnReordering = false
+        tblSchedule.selectionHighlightStyle = .none
 
         tblSession.delegate = self
         tblSession.dataSource = self
         tblSession.allowsColumnReordering = false
         tblSession.rowHeight = 20
+        tblSession.selectionHighlightStyle = .none
+
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
 
         tblSchedule.tableColumns.forEach { column in
-            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 11)])
+            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold)])
+        }
+
+        tblSession.tableColumns.forEach { column in
+            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
         }
     }
 
@@ -166,7 +176,6 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
-                            self.tblSession.reloadData()
                         }
                     }
 
@@ -178,7 +187,6 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
-                            self.tblSession.reloadData()
                         }
                     }
 
@@ -191,13 +199,12 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
                             self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
-                            self.tblSession.reloadData()
                         }
                     }
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "actionId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? CheckBoxCell {
                     cell.configScheduleActive(obj: obj, row: row, target: self, action: #selector(toggleAction(_:)), action_delete: #selector(deleteSchedule(_:)))
                     return cell
                 }
@@ -215,14 +222,6 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     return slotCell
                 }
             }
-        }
-        return nil
-    }
-
-    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-        if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "scheduleIdentifier") {
-            let view = LightRowView()
-            return view
         }
         return nil
     }
@@ -276,6 +275,7 @@ extension SchedulerViewC {
 //        } else {
 //            viewModel.input.removeReminder(obj: objFSchedule)
 //        }
-        DBManager.shared.saveContext()
+        arrSession = viewModel.input.getSessionList(day: nil).0
+        tblSession.reloadData()
     }
 }

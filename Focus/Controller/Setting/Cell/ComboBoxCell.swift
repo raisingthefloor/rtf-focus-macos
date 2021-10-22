@@ -75,8 +75,8 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 1
-        comboTime.delegate = self
         comboTime.selectItem(withObjectValue: obj?.start_time)
+        comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
         print("Start date : \(obj?.start_time)")
     }
@@ -89,8 +89,8 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 2
-        comboTime.delegate = self
         comboTime.selectItem(withObjectValue: obj?.end_time)
+        comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
         print("End date : \(obj?.end_time)")
     }
@@ -102,6 +102,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 // only use first part of the strings in the list with length of the search string
                 let statePartialStr = time.lowercased()[time.lowercased().startIndex ..< time.lowercased().index(time.lowercased().startIndex, offsetBy: string.count)]
                 if statePartialStr.range(of: string.lowercased()) != nil {
+                    print("NSComboBox, completedString string")
                     updateTimeValue(comboBox, time: time)
                     return time
                 }
@@ -112,6 +113,8 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
         let comboBox: NSComboBox = (notification.object as? NSComboBox)!
+
+        print("comboBox Change event \(comboBox.objectValueOfSelectedItem) ::::::: \(notification)")
         updateTimeValue(comboBox, time: comboBox.objectValueOfSelectedItem as? String)
     }
 
@@ -130,6 +133,20 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         }
         DBManager.shared.saveContext()
         refreshTable?(true)
+    }
+
+    func warningToAddThirdSession(time: String, day: String) -> Bool {
+        let isAvailable = DBManager.shared.checkScheduleSession(time: time, day: day)
+        if isAvailable {
+            let presentingCtrl = WindowsManager.getPresentingController()
+            let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+            errorDialog.errorType = .general_setting_error
+            errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
+            presentingCtrl?.presentAsSheet(errorDialog)
+            return false
+        }
+
+        return true
     }
 }
 
