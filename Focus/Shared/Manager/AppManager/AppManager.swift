@@ -72,6 +72,7 @@ class AppManager {
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
+        guard let obj = DBManager.shared.getCurrentSession(), !obj.is_focusing else { return } //TODO: Conditio also comes here when Restart Computer will On
         resetFocusSession()
         stopScriptObserver()
         NSApplication.shared.terminate(self)
@@ -166,12 +167,12 @@ extension AppManager {
 
 extension AppManager {
     func resetFocusSession() {
-        let obj = DBManager.shared.getCurrentSession()
-        let objEx = obj?.extended_value
-        obj?.is_focusing = false
-        obj?.is_break_time = false
-        obj?.is_focusing = false
-        obj?.is_break_time = false
+        guard let obj = DBManager.shared.getCurrentSession() else { return }
+        let objEx = obj.extended_value
+        obj.is_focusing = false
+        obj.is_break_time = false
+        obj.is_focusing = false
+        obj.is_break_time = false
         objEx?.is_mid_focus = false
         objEx?.is_small_focus = false
         objEx?.is_long_focus = false

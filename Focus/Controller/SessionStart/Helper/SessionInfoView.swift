@@ -109,7 +109,7 @@ extension SessionInfoView: BasicSetupType {
             list_name = "🔒" + " " + list_name
         }
 
-        lblBlockV.stringValue = list_name
+        lblBlockV.stringValue = (objFocus?.is_block_programe_select ?? false) ? list_name : "-"
 
         let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (objFocus?.end_time ?? Date()).convertToTime()
         lblEndV.stringValue = endValue

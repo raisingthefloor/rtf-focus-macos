@@ -78,7 +78,7 @@ extension Focus {
             case .two_hr:
                 return 120 * 60
             case .untill_press_stop:
-                return 8 * 60 * 60
+                return 16 * 60 * 60
             case .stop_focus:
                 return 0
             }

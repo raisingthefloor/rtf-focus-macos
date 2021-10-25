@@ -183,7 +183,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             let colors: [String] = [Color.schedule_one_color.hex, Color.schedule_two_color.hex, Color.schedule_three_color.hex, Color.schedule_four_color.hex, Color.schedule_five_color.hex]
             var i = 0
             for color in colors {
-                let color_type = (i == 3 || i == 4) ? ColorType.hollow.rawValue : ColorType.solid.rawValue
+                let color_type = ColorType.solid.rawValue
                 let dict: [String: Any?] = ["id": UUID(), "block_list_id": nil, "block_list_name": nil, "session_color": color,
                                             "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date(), "days": nil, "type": ScheduleType.none.rawValue, "color_type": color_type]
                 DBManager.shared.createPreSchedule(data: dict)
@@ -239,7 +239,7 @@ enum Categories: String {
     var name: String {
         switch self {
         case .notification:
-            return "Notification (Turns Do Not Disturb ON)"
+            return "Turn off Notifications"
         case .email:
             return "Email"
         case .communication:
@@ -277,4 +277,37 @@ enum Categories: String {
     }
 
     static var arrCategories: [Categories] = [.notification, .social_media, .games, .news, .shopping, .videos, .dating, .gambling, .communication, .email, .porn, .proxies]
+}
+
+enum DefaultBlocklist: Int {
+    case no_entertain
+    case no_entertain_social
+    case only_work_comm_ok
+    case only_work_no_comm
+
+    var blist_name: String {
+        switch self {
+        case .no_entertain:
+            return "No Entertain"
+        case .no_entertain_social:
+            return "No Entertain or Social"
+        case .only_work_comm_ok:
+            return "Only Work, Comm Ok"
+        case .only_work_no_comm:
+            return "Only Work, No Comm"
+        }
+    }
+
+    var set_categories: [Categories] {
+        switch self {
+        case .no_entertain:
+            return [.games, .videos, .gambling, .porn, .proxies]
+        case .no_entertain_social:
+            return [.games, .videos, .gambling, .porn, .proxies, .social_media]
+        case .only_work_comm_ok:
+            return [.social_media, .games, .news, .shopping, .videos, .dating, .gambling, .email, .porn, .proxies]
+        case .only_work_no_comm:
+            return [.notification, .social_media, .games, .news, .shopping, .videos, .dating, .gambling, .communication, .email, .porn, .proxies]
+        }
+    }
 }

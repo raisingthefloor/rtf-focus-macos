@@ -61,25 +61,30 @@ extension ImageTextCell: BasicSetupType {
         }
     }
 
-    func configCategory(val: String?) {
-        guard let strVal = val else { return }
-        let categoryStr = NSMutableAttributedString.getAttributedString(fromString: strVal)
-        categoryStr.underLine(subString: strVal)
-        categoryStr.apply(color: Color.blue_color, subString: strVal)
-        lblTitle.attributedStringValue = categoryStr
+    func configCategory(obj: Block_Category?) {
+        guard let strVal = obj?.name else { return }
+        imgV.isHidden = true
+        if obj?.show_link ?? false {
+            let categoryStr = NSMutableAttributedString.getAttributedString(fromString: strVal)
+            categoryStr.underLine(subString: strVal)
+            categoryStr.apply(color: Color.blue_color, subString: strVal)
+            lblTitle.attributedStringValue = categoryStr
+        } else {
+            lblTitle.stringValue = strVal
+        }
     }
 
     func configSubCategory(obj: Block_SubCategory?) {
         guard let model = obj else { return }
         imgV.isHidden = true
+        let name = model.name ?? "-"
+        lblTitle.stringValue = name
         if model.block_type == BlockType.web.rawValue {
-            let name = model.name ?? "-"
-            let categoryStr = NSMutableAttributedString.getAttributedString(fromString: name)
-            categoryStr.underLine(subString: name)
-            categoryStr.apply(color: Color.blue_color, subString: name)
-            lblTitle.attributedStringValue = categoryStr
+//            let categoryStr = NSMutableAttributedString.getAttributedString(fromString: name)
+//            categoryStr.underLine(subString: name)
+//            categoryStr.apply(color: Color.blue_color, subString: name)
+//            lblTitle.attributedStringValue = name
         } else {
-            lblTitle.stringValue = model.name ?? "-"
             guard let path = model.app_icon_path, !path.isEmpty else { return }
             imgV.isHidden = false
             let icon = NSWorkspace.shared.icon(forFile: path)

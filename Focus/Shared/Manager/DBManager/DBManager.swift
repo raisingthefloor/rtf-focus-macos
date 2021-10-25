@@ -279,29 +279,18 @@ extension DBManager {
         blist?.unblock_short_long_break = true
         blist?.unblock_long_break_only = false
 
-        var arrObj: [Block_App_Web] = []
-        let siteData: [String: Any?] = ["url": "www.facebook.com", "name": "www.facebook.com", "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue, "id": UUID()]
+        var arrObj: [Block_List_Category] = []
+        let categoryData: [String: Any?] = ["id": "<Category_id>", "name": "<Category_name>", "created_at": Date()]
 
-        if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_App_Web", name: siteData["name"] as? String) {
-            let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
-            for (key, value) in siteData {
-                objblockWA.setValue(value, forKeyPath: key)
-            }
-            arrObj.append(objblockWA)
+        let objblockWA = Block_List_Category(context: DBManager.shared.managedContext)
+        for (key, value) in categoryData {
+            objblockWA.setValue(value, forKeyPath: key)
         }
-        arrObj = arrObj + (blist?.block_app_web?.allObjects as! [Block_App_Web])
+        arrObj.append(objblockWA)
+        
+        arrObj = arrObj + (blist?.block_category?.allObjects as! [Block_List_Category])
 
-        let appData: [String: Any?] = ["url": "/System/Applications/Books.app", "name": "Books", "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.application.rawValue, "id": UUID(), "app_identifier": "com.apple.iBooksX", "app_icon_path": "/System/Applications/Books.app"]
-
-        if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_App_Web", name: siteData["name"] as? String) {
-            let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
-            for (key, value) in appData {
-                objblockWA.setValue(value, forKeyPath: key)
-            }
-            arrObj.append(objblockWA)
-        }
-        arrObj = arrObj + (blist?.block_app_web?.allObjects as! [Block_App_Web])
-        blist?.block_app_web = NSSet(array: arrObj)
+        blist?.block_category = NSSet(array: arrObj)
 
         do {
             try DBManager.shared.managedContext.save()
@@ -507,7 +496,7 @@ extension DBManager {
     func getScheduleFocus(time: String, day: String?) -> [Focus_Schedule] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
         if day == nil {
-            fetchRequest.predicate = NSPredicate(format: "start_time = %@ && is_active = true", time)
+            fetchRequest.predicate = NSPredicate(format: "start_time = %@", time)
         } else {
             if time.isEmpty || time == "" {
                 fetchRequest.predicate = NSPredicate(format: "days contains %@", day!)

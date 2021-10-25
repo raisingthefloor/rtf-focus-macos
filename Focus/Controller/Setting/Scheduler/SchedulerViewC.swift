@@ -225,6 +225,12 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         }
         return nil
     }
+    
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        let customView = ScheduleRowView()
+        return customView
+    }
+
 }
 
 extension SchedulerViewC {
@@ -232,6 +238,8 @@ extension SchedulerViewC {
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
         objFSchedule.is_active = !objFSchedule.is_active
+        objFSchedule.color_type = (objFSchedule.is_active) ? Int64(ColorType.solid.rawValue) : Int64(ColorType.hollow.rawValue)
+        
         processReminderActiveInactive(objFSchedule: objFSchedule)
         tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
     }

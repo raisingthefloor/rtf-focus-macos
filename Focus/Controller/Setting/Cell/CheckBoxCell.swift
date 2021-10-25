@@ -44,15 +44,17 @@ extension CheckBoxCell {
         checkBox.tag = row
         checkBox.target = target
         checkBox.action = action
-
         let is_active = obj?.is_active ?? false
         checkBox.state = is_active ? .on : .off
+
+        let image = (obj?.block_list_name != nil) ? NSImage(named: "ic_delete") : NSImage(named: "ic_grey_delete")
 
         if btnDelete != nil {
             // Delete
             btnDelete.tag = row
             btnDelete.target = target
             btnDelete.action = action_delete
+            btnDelete.image = image
         }
     }
 }

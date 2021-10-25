@@ -255,6 +255,7 @@ extension EditBlockListViewC: BasicSetupType {
             radioStopAnyTime.isEnabled = !objF.is_focusing
             radioStopFocus.isEnabled = !objF.is_focusing
             radioRestart.isEnabled = !objF.is_focusing
+            txtCharacter.isEnabled = !objF.is_focusing
         } else {
             btnBAddApp.isEnabled = true
             btnBAddWeb.isEnabled = true
@@ -276,7 +277,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     func tableViewSetup() {
         tblCategory.delegate = self
         tblCategory.dataSource = self
-        tblCategory.rowHeight = 25
+        tblCategory.rowHeight = 30
         tblCategory.reloadData()
         tblCategory.selectionHighlightStyle = .none
 
@@ -319,7 +320,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "nameIdentifier") {
                 if let categoryCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "nameId"), owner: nil) as? ImageTextCell {
-                    categoryCell.configCategory(val: objCat.name ?? "")
+                    categoryCell.configCategory(obj: objCat)
                     return categoryCell
                 }
             }
@@ -389,9 +390,10 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 extension EditBlockListViewC: NSTextFieldDelegate {
     func controlTextDidChange(_ notification: Notification) {
         let object = notification.object as! NSTextField
+        let onlyIntFormatter = OnlyIntegerValueFormatter()
+        object.formatter = onlyIntFormatter
         txtCharacter.stringValue = object.stringValue
         dataModel.objBlocklist?.character_val = Int64(object.stringValue) ?? 36
-
         DBManager.shared.saveContext()
     }
 

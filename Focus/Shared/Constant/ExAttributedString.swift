@@ -84,15 +84,15 @@ extension NSMutableAttributedString {
 
     /* Underline Attribute */
     // Underline string
-    func underLine(subString: String) {
+    func underLine(subString: String, lineColor: NSColor = Color.blue_color) {
         if let range = string.range(of: subString) {
-            underLine(onRange: NSRange(range, in: string))
+            underLine(onRange: NSRange(range, in: string),lineColor: lineColor)
         }
     }
 
     // Underline string on given range
-    func underLine(onRange: NSRange) {
-        addAttributes([NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.underlineColor: Color.blue_color],
+    func underLine(onRange: NSRange, lineColor: NSColor = Color.blue_color) {
+        addAttributes([NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue, NSAttributedString.Key.underlineColor: lineColor],
                       range: onRange)
     }
 

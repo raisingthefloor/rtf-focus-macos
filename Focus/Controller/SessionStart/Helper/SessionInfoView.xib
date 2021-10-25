@@ -23,14 +23,14 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="280" height="195"/>
+            <rect key="frame" x="0.0" y="0.0" width="289" height="195"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="nkH-Jy-cqm">
-                    <rect key="frame" x="0.0" y="0.0" width="280" height="195"/>
+                    <rect key="frame" x="0.0" y="0.0" width="289" height="195"/>
                     <subviews>
                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="deU-td-lQQ">
-                            <rect key="frame" x="12" y="10" width="263" height="173"/>
+                            <rect key="frame" x="12" y="10" width="272" height="173"/>
                             <subviews>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="JSK-9H-872">
                                     <rect key="frame" x="0.0" y="143" width="136" height="30"/>
@@ -55,13 +55,13 @@
                                     </constraints>
                                 </customView>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="a0B-OX-eYm">
-                                    <rect key="frame" x="0.0" y="0.0" width="263" height="133"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="272" height="133"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EZR-du-I9F">
-                                            <rect key="frame" x="10" y="0.0" width="243" height="123"/>
+                                            <rect key="frame" x="10" y="0.0" width="252" height="123"/>
                                             <subviews>
                                                 <stackView distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BYE-jM-hYy">
-                                                    <rect key="frame" x="0.0" y="55" width="243" height="68"/>
+                                                    <rect key="frame" x="0.0" y="55" width="252" height="68"/>
                                                     <subviews>
                                                         <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rs3-Y0-Su5">
                                                             <rect key="frame" x="0.0" y="7" width="148" height="55"/>
@@ -69,7 +69,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="hdL-wy-RgT">
                                                                     <rect key="frame" x="-2" y="40" width="152" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Focus session has run for:" id="gMn-P8-e3O">
-                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                        <font key="font" metaFont="cellTitle"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -77,7 +77,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="Y9J-eY-VJx">
                                                                     <rect key="frame" x="-2" y="20" width="91" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Using blocklist:" id="Z8M-UH-naD">
-                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                        <font key="font" metaFont="cellTitle"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -85,7 +85,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="27F-Jl-vs1">
                                                                     <rect key="frame" x="-2" y="0.0" width="133" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Focus session ends at:" id="MR5-fB-JA7">
-                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                        <font key="font" metaFont="cellTitle"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -103,10 +103,10 @@
                                                             </customSpacing>
                                                         </stackView>
                                                         <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ff4-33-CE9">
-                                                            <rect key="frame" x="153" y="7" width="90" height="55"/>
+                                                            <rect key="frame" x="153" y="7" width="99" height="55"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="aBx-DK-stf">
-                                                                    <rect key="frame" x="-2" y="40" width="94" height="15"/>
+                                                                    <rect key="frame" x="-2" y="40" width="95" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="1 hr 12 minutes" id="YPZ-d1-5Um">
                                                                         <font key="font" metaFont="systemBold" size="12"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -114,8 +114,8 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="JDm-wm-PsL">
-                                                                    <rect key="frame" x="-2" y="20" width="94" height="15"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Starter Blocklist" id="3o6-7Q-dV2">
+                                                                    <rect key="frame" x="-2" y="20" width="103" height="15"/>
+                                                                    <textFieldCell key="cell" title="Starter Blocklist" id="3o6-7Q-dV2">
                                                                         <font key="font" metaFont="systemBold" size="12"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -206,7 +206,8 @@
                         <constraint firstItem="deU-td-lQQ" firstAttribute="top" secondItem="nkH-Jy-cqm" secondAttribute="top" constant="12" id="OBy-Vt-lUG"/>
                         <constraint firstAttribute="height" constant="195" id="QL5-6G-qT0"/>
                         <constraint firstAttribute="trailing" secondItem="deU-td-lQQ" secondAttribute="trailing" constant="5" id="R07-Sr-Pkd"/>
-                        <constraint firstAttribute="width" constant="280" id="gAG-O0-zNq"/>
+                        <constraint firstAttribute="width" constant="289" id="RTL-2w-LIO"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="280" id="gAG-O0-zNq"/>
                         <constraint firstItem="deU-td-lQQ" firstAttribute="leading" secondItem="nkH-Jy-cqm" secondAttribute="leading" constant="12" id="i7v-fZ-dyE"/>
                         <constraint firstAttribute="bottom" secondItem="deU-td-lQQ" secondAttribute="bottom" constant="10" id="nAa-qc-pxx"/>
                     </constraints>

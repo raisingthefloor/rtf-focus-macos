@@ -144,11 +144,15 @@ extension InputDialogueViewC: BasicSetupType {
         }
 
         if url.isValidUrl {
+            lblError.isHidden = true
             url = "http://" + url
             guard let urlV = URL(string: url) else { return }
             if NSWorkspace.shared.open(urlV) {
                 print("default browser was successfully opened")
             }
+        } else {
+            lblError.isHidden = false
+            lblError.stringValue = NSLocalizedString("Error.invalid_url", comment: "This is not a valid URL.")
         }
     }
 }

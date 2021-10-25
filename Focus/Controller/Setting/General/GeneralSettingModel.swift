@@ -28,7 +28,7 @@ import Foundation
 
 protocol GeneralSettingModelIntput {
     func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
-    func addAppWebData(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
+    func addAppWebData(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void))
 }
 
 protocol GeneralSettingModelOutput {
@@ -51,10 +51,13 @@ class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput,
         return (objGCategory, subCat)
     }
 
-    func addAppWebData(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+    func addAppWebData(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_SubCategory] = []
+        var arrAppWeb = objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
+        arrAppWeb = arrAppWeb?.filter({ $0.block_type == block_type.rawValue })
         for val in data {
-            if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_SubCategory", name: val["name"] as? String) {
+            let isNotPresent = arrAppWeb?.compactMap({ $0.name != (val["name"] as? String) }).filter({ $0 }).first ?? false
+            if isNotPresent {
                 let objSubWA = Block_SubCategory(context: DBManager.shared.managedContext)
                 for (key, value) in val {
                     objSubWA.setValue(value, forKeyPath: key)

@@ -27,7 +27,6 @@ import Cocoa
 import Foundation
 
 class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
-    
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
     var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
@@ -155,8 +154,12 @@ extension FocusTimerManager {
 
         switch Double(usedValue) {
         case objFocus.stop_focus_after_time:
-            let popup: FocusDialogue = objFocus.focus_untill_stop ? .long_break_alert : .short_break_alert
-            return (popup: popup, hours: hours, minutes: minutes, seconds: seconds)
+            if objFocus.is_provided_short_break {
+                let popup: FocusDialogue = objFocus.focus_untill_stop ? .long_break_alert : .short_break_alert
+                return (popup: popup, hours: hours, minutes: minutes, seconds: seconds)
+            } else {
+                return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
+            }
         default:
             return defaultState(counter: counter)
         }

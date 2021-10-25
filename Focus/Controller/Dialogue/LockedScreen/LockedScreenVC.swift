@@ -43,6 +43,8 @@ class LockedScreenVC: NSViewController {
 
 extension LockedScreenVC: BasicSetupType {
     func setUpText() {
+        lblTitle.stringValue = NSLocalizedString("Lock.title", comment: "Screen is blocked")
+        lblDesc.stringValue = NSLocalizedString("Lock.dec", comment: "You set the computer to be locked for one minute at the start of \neach break to encourage you to stand and stretch.")
     }
 
     func setUpViews() {
@@ -54,8 +56,8 @@ extension LockedScreenVC: BasicSetupType {
         lblTitle.textColor = .black
         lblDesc.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         lblDesc.textColor = .black
-        lblInfo.font = NSFont.systemFont(ofSize: 10, weight: .regular)
-        lblInfo.textColor = Color.blue_color
+//        lblInfo.font = NSFont.systemFont(ofSize: 10, weight: .regular) // Bold Italic
+//        lblInfo.textColor = Color.blue_color
 
 //        containerView.bgColor = Color.light_blue_color
 
@@ -66,8 +68,7 @@ extension LockedScreenVC: BasicSetupType {
     }
 
     func bindData() {
-        _ = Timer.scheduledTimer(withTimeInterval: 60, repeats: false) {
-            _ in
+        _ = Timer.scheduledTimer(withTimeInterval: 60, repeats: false) { _ in
             self.dismiss?(true)
             self.dismiss(nil)
         }

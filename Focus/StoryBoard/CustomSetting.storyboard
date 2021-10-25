@@ -2183,7 +2183,7 @@
                                             <rect key="frame" x="-100" y="-100" width="512" height="11"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.10304287690179803" controlSize="mini" horizontal="NO" id="VCg-DX-KSD">
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="mini" horizontal="NO" id="VCg-DX-KSD">
                                             <rect key="frame" x="518" y="0.0" width="11" height="1000"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -2635,15 +2635,15 @@
                                                                                             <rect key="frame" x="0.0" y="2" width="61" height="20"/>
                                                                                             <subviews>
                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Ic-qY-4a1">
-                                                                                                    <rect key="frame" x="-2" y="1" width="30" height="18"/>
+                                                                                                    <rect key="frame" x="-2" y="1" width="33" height="18"/>
                                                                                                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" inset="2" id="Cnm-uM-Cc6">
                                                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                                         <font key="font" metaFont="system"/>
                                                                                                     </buttonCell>
                                                                                                 </button>
                                                                                                 <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ap7-K2-F7s">
-                                                                                                    <rect key="frame" x="46" y="3" width="15" height="16"/>
-                                                                                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="trash.fill" catalog="system" imagePosition="only" inset="2" id="aip-QW-7nm">
+                                                                                                    <rect key="frame" x="49" y="3" width="12" height="14"/>
+                                                                                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="ic_delete" imagePosition="only" inset="2" id="aip-QW-7nm">
                                                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                                         <font key="font" metaFont="system"/>
                                                                                                     </buttonCell>
@@ -3623,7 +3623,7 @@
                                                                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j9N-JR-a1b">
                                                                                                                     <rect key="frame" x="23" y="5" width="112" height="15"/>
                                                                                                                     <textFieldCell key="cell" controlSize="small" title="Meditation Session" id="7Fi-Wm-qdD">
-                                                                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                                                                        <font key="font" metaFont="cellTitle"/>
                                                                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     </textFieldCell>
@@ -3753,11 +3753,11 @@
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                             <prototypeCellViews>
                                                                                                 <tableCellView identifier="checkId" id="gBt-iM-0yD" customClass="CheckBoxCell" customModule="Focus" customModuleProvider="target">
-                                                                                                    <rect key="frame" x="281" y="5" width="44" height="17"/>
+                                                                                                    <rect key="frame" x="281" y="5" width="45" height="17"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z3N-V5-puZ">
-                                                                                                            <rect key="frame" x="15" y="1" width="14" height="16"/>
+                                                                                                            <rect key="frame" x="16" y="1" width="14" height="16"/>
                                                                                                             <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" controlSize="small" inset="2" id="xhn-PS-DpU">
                                                                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                                                 <font key="font" metaFont="smallSystem"/>
@@ -3874,6 +3874,6 @@
         <image name="NSQuickLookTemplate" width="20" height="13"/>
         <image name="NSStopProgressTemplate" width="15" height="13"/>
         <image name="external_link" width="12" height="13"/>
-        <image name="trash.fill" catalog="system" width="15" height="16"/>
+        <image name="ic_delete" width="12" height="14"/>
     </resources>
 </document>

@@ -96,9 +96,15 @@ class MenuController: BaseViewController {
 extension MenuController: BasicSetupType {
     func setUpText() {
         // btnCostomizeSetting.title = NSLocalizedString("Home.customize_setting", comment: "Customize Setting")
-        lblSetting.stringValue = NSLocalizedString("Home.customize_setting", comment: "Customize Focus")
+        let customize_setting = NSLocalizedString("Home.customize_setting", comment: "Customize Focus")
+        let customize_setting_str = NSMutableAttributedString.getAttributedString(fromString: customize_setting)
+        customize_setting_str.underLine(subString: customize_setting, lineColor: .white)
+        customize_setting_str.apply(color: .white, subString: customize_setting)
+        lblSetting.attributedStringValue = customize_setting_str
+
+        lblSetting.textColor = .white
         lblTitle.stringValue = NSLocalizedString("Home.title", comment: "Start a Focus Session")
-        title = NSLocalizedString("Home.title", comment: "Start a Focus Session")
+        title = "" // NSLocalizedString("Home.title", comment: "Start a Focus Session")
 
         checkBoxDND.title = Focus.Options.dnd.title
         checkBoxDND.toolTip = Focus.Options.dnd.information
@@ -154,7 +160,7 @@ extension MenuController: BasicSetupType {
 
         lblSetting.font = NSFont.systemFont(ofSize: 14, weight: .medium)
 
-        lblDnDInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
+//        lblDnDInfo.font = NSFont.systemFont(ofSize: 12, weight: .regular)
         btn1Hr.font = NSFont.systemFont(ofSize: 12, weight: .bold)
         btn2Hr.font = NSFont.systemFont(ofSize: 12, weight: .bold)
         btn30m.font = NSFont.systemFont(ofSize: 12, weight: .bold)

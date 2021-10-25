@@ -54,7 +54,7 @@ extension FocusDialogue {
         case .launch_block_app_alert, .notifiction_block_alert:
             return NSLocalizedString("Alert.block_app.is_blocked", comment: "%@ is blocked")
         case .long_break_alert:
-            let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for %@ or more.")
+            let str = NSLocalizedString("Alert.warning_forced_pause_desc", comment: "You have been focusing for 2 hours or more.")
             return str
         case .schedule_reminded_without_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminder.title", comment: "Focus Session Reminder")

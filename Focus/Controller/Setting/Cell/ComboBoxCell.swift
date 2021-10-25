@@ -75,7 +75,9 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 1
-        comboTime.selectItem(withObjectValue: obj?.start_time)
+        if objFSchedule?.block_list_name != nil {
+            comboTime.selectItem(withObjectValue: obj?.start_time)
+        }
         comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
         print("Start date : \(obj?.start_time)")
@@ -89,7 +91,9 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
         comboTime.tag = 2
-        comboTime.selectItem(withObjectValue: obj?.end_time)
+        if objFSchedule?.block_list_name != nil {
+            comboTime.selectItem(withObjectValue: obj?.end_time)
+        }
         comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
         print("End date : \(obj?.end_time)")
@@ -163,12 +167,14 @@ extension ComboBoxCell {
         popBlocklist.menu = modelV.input.getBlockList(cntrl: .schedule_session).0
         popBlocklist.target = self
         popBlocklist.action = #selector(handleBlockSelection(_:))
-
-        statusV.background_color = is_active ? (NSColor(color) ?? NSColor.random) : Color.list_bg_color
-        if color_type == .hollow {
-            statusV.background_color = Color.list_bg_color
-            statusV.border_color = is_active ? (NSColor(color) ?? Color.light_blue_color) : .clear
-            statusV.border_width = 2.5
+        if objFSchedule?.block_list_name != nil {
+            if color_type == .hollow {
+                statusV.background_color = Color.list_bg_color
+                statusV.border_color = (NSColor(color) ?? Color.light_blue_color)
+                statusV.border_width = 2.5
+            } else {
+                statusV.background_color = (NSColor(color) ?? NSColor.random)
+            }
         }
 
         let lock = (objFSchedule?.has_block_list_stop ?? false) ? "🔒" + " " : ""

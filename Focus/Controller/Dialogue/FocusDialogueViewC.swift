@@ -51,18 +51,19 @@ class FocusDialogueViewC: NSViewController {
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
-        if dialogueType == .long_break_alert {
-            let timeC = Int(viewModel.currentSession?.objFocus?.used_focus_time ?? 100).secondsToTime()
-            var time = ""
-            if timeC.timeInHours != 0 {
-                time = "\(timeC.timeInHours) Hours \(timeC.timeInMinutes) minutes"
-            } else {
-                time = "\(timeC.timeInMinutes) minutes"
-            }
-            lblTitle.stringValue = String(format: dialogueType.title, time)
-        } else {
+        
+//        if dialogueType == .long_break_alert {
+//            let timeC = Int(viewModel.currentSession?.objFocus?.used_focus_time ?? 100).secondsToTime()
+//            var time = ""
+//            if timeC.timeInHours != 0 {
+//                time = "\(timeC.timeInHours) Hours \(timeC.timeInMinutes) minutes"
+//            } else {
+//                time = "\(timeC.timeInMinutes) minutes"
+//            }
+//            lblTitle.stringValue = String(format: dialogueType.title, time)
+//        } else {
             lblTitle.stringValue = dialogueType.title
-        }
+//        }
 
         lblDesc.stringValue = dialogueType.description
         lblSubDesc.stringValue = dialogueType.sub_description

@@ -76,15 +76,31 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func updateFocusButton() {
-        if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
-            lblTimeVal.isHidden = !isCountDownOn
-        }
+//        let obj = viewModel.input.focusObj
+//        if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
+//            lblTimeVal.isHidden = (obj?.focus_untill_stop ?? false) ? true : !isCountDownOn
+//        }
         btnFocus.buttonColor = Color.very_light_grey
         btnFocus.activeButtonColor = Color.very_light_grey
         btnFocus.textColor = Color.black_color
         btnFocus.borderColor = Color.dark_grey_border
         btnFocus.borderWidth = 0.6
-        setUpText()
+        udateButtonSting(timeVal: "")
+    }
+
+    func udateButtonSting(timeVal: String) {
+        var time = ""
+        let obj = viewModel.input.focusObj
+        if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
+            time = (obj?.focus_untill_stop ?? false) ? "" : ("\n" + timeVal)
+        }
+
+        btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
+        if let obj = viewModel.input.focusObj {
+            if obj.is_focusing && obj.is_break_time {
+                btnFocus.title = NSLocalizedString("Button.Break", comment: "Break") + time
+            }
+        }
     }
 
     func defaultUI() {
@@ -130,8 +146,12 @@ extension FloatingFocusViewC {
 
     func startBlockingAppsWeb() {
         guard let obj = viewModel.input.focusObj else { return }
-        AppManager.shared.addObserverToCheckAppLaunch()
-        WindowsManager.blockWebSite()
+
+        if obj.is_block_programe_select {
+            AppManager.shared.addObserverToCheckAppLaunch()
+            WindowsManager.blockWebSite()
+        }
+
         if obj.is_dnd_mode {
             WindowsManager.runDndCommand(cmd: "on")
         }
@@ -378,7 +398,50 @@ extension FloatingFocusViewC {
 
     func updateTimeInfo(hours: Int, minutes: Int, seconds: Int) {
         DispatchQueue.main.async {
-            self.lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+//            self.lblTimeVal.stringValue = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+            let timeVal = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+            self.udateButtonSting(timeVal: timeVal)
+        }
+    }
+}
+
+extension FloatingFocusViewC {
+    // Allow the window to still be dragged from this button
+    override func mouseDown(with mouseDownEvent: NSEvent) {
+        guard let window = view.window else { return }
+        let startingPoint = mouseDownEvent.locationInWindow
+
+        btnFocus.highlight(true)
+
+        // Track events until the mouse is up (in which we interpret as a click), or a drag starts (in which we pass off to the Window Server to perform the drag)
+        var shouldCallSuper = false
+
+        // trackEvents won't return until after the tracking all ends
+        window.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: NSEvent.foreverDuration, mode: .default) { event, stop in
+            guard let event = event else { return }
+            switch event.type {
+            case .leftMouseUp:
+                // Stop on a mouse up; post it back into the queue and call super so it can handle it
+                shouldCallSuper = true
+                NSApp.postEvent(event, atStart: false)
+                stop.pointee = true
+
+            case .leftMouseDragged:
+                // track mouse drags, and if more than a few points are moved we start a drag
+                let currentPoint = event.locationInWindow
+                if abs(currentPoint.x - startingPoint.x) >= 5 || fabs(currentPoint.y - startingPoint.y) >= 5 {
+                    btnFocus.highlight(false)
+                    stop.pointee = true
+                    window.performDrag(with: event)
+                }
+
+            default:
+                break
+            }
+        }
+
+        if shouldCallSuper {
+            super.mouseDown(with: mouseDownEvent)
         }
     }
 }

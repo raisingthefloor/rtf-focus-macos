@@ -53,6 +53,7 @@ extension AppDelegate {
         print(Calendar.current.shortWeekdaySymbols)
         print(Calendar.current.veryShortWeekdaySymbols)
         windowController = WindowsManager.getWindowC(withIdentifier: "sidWindowController", ofType: NSWindowController.self)
+        windowController?.contentViewController?.view.window?.level = .floating
         windowController?.showWindow(self)
     }
 }

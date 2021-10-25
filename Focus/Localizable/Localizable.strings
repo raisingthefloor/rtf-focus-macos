@@ -60,7 +60,7 @@
 "Home.untill_press_stop" = "Focus untill I press stop";
 "Home.stop_focus" = "Stop Focus";
 "Home.turn_on_dnd" = "Turn on 'Do Not Disturb' while focusing";
-"Home.turn_on_dnd_info" = "(Turns off notifications and calls)";
+"Home.turn_on_dnd_info" = "Turns off notifications and calls";
 "Home.provide_short_1" = "Provide short";
 "Home.provide_short_2" = "breaks for every";
 "Home.provide_short_3" = "of Focus";
@@ -140,7 +140,7 @@
 "Alert.session_completed" = "Focus Session Completed.";
 "Alert.session_completed_desc" = "You have been focusing for:\n";
 "Alert.session_completed_extend_title" = "I want to finish something Extend focus session for";
-"Alert.warning_forced_pause_desc" = "You have been focusing for \n%@ or more.";
+"Alert.warning_forced_pause_desc" = "You have been focusing for \n2 hours or more.";
 "Alert.warning_forced_pause_extend_title" = "Would you like to take a longer break?";
 "Alert.one_hr" = "1 hr";
 "Alert.continue_with" = "Continue with";
@@ -192,8 +192,9 @@
 "Error.Info" = "< include “stop task” message if there is as stop task>";
 
 "Error.restart_computer_info" = "NOTE: You set the blocklist (currently being used) to require you \nto restart your computer in order to stop the focus suession.";
-"Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type \n<# set in the Edit Blocklists settings panel> random characters in order to stop the focus session.";
-"Error.random_character_invalid" = "Character mismatched.Try Again.";
+"Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type random \ncharacters in order to stop the focus session.";
+"Error.random_character_invalid" = "Characters do not match. Please try again.";
+"Error.invalid_url" = "This is not a valid URL.";
 
 "ID.test_url" = "Test URL";
 
@@ -206,6 +207,8 @@
 "Input.add_website.error" = "URL is missing";
 
 "List.category.title" = "Apps and websites blocked by the category:";
-"List.unblocking_list.title" = "Select apps and websites from your blocklists to allow yourself to temporarily unblock.";
+"List.unblocking_list.title" = "Select apps to allow yourself to temporarily unblock. Only apps on this computer are listed.";
 "List.add_item" = "Add App";
-"List.system_app_list.title" = "Select apps from your system app list to allow yourself to block.";
+"List.system_app_list.title" = "Select apps to allow yourself to block. Only apps on this computer are listed.";
+"Lock.title" = "Screen is blocked";
+"Lock.dec" = "You set the computer to be locked for one minute at the start of \neach break to encourage you to stand and stretch.";

@@ -225,7 +225,7 @@ extension GeneralSettingViewC {
             let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
             controller.listType = .unblocking_list
             controller.addedSuccess = { [weak self] dataV in
-                self?.viewModel.input.addAppWebData(data: dataV) { isStore in
+                self?.viewModel.input.addAppWebData(data: dataV, block_type: .application) { isStore in
                     if isStore {
                         self?.tblView.reloadData()
                     }
@@ -247,7 +247,7 @@ extension GeneralSettingViewC {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_website
             inputDialogueCntrl.addedSuccess = { [weak self] dataV, _ in
-                self?.viewModel.input.addAppWebData(data: dataV) { isStore in
+                self?.viewModel.input.addAppWebData(data: dataV, block_type: .web) { isStore in
                     if isStore {
                         self?.tblView.reloadData()
                     }
