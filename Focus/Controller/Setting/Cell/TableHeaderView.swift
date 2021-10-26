@@ -28,8 +28,11 @@ import Cocoa
 class TableHeaderView: NSTableHeaderView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        Color.tbl_header_color.set()
-        dirtyRect.fill()
+        Color.selected_row_schedule.setFill()
+        let topBorderBox = NSRect(x: 0, y: 0, width: bounds.size.width, height: 1)
+        if dirtyRect.intersects(topBorderBox) {
+            topBorderBox.fill()
+        }
     }
 
     required init?(coder: NSCoder) {

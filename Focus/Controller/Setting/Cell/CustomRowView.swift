@@ -60,7 +60,7 @@ class LightRowView: NSTableRowView {
 
 class ScheduleRowView: NSTableRowView {
     override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)        
+        super.draw(dirtyRect)
         Color.deselected_row_schedule.set()
         dirtyRect.fill()
     }

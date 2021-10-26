@@ -263,39 +263,45 @@ extension DBManager {
     }
 
     func systemPreAddedBlocklist() {
-        let data: [String: Any?] = ["name": "Starter Blocklist", "id": UUID(), "created_at": Date()]
-        let entity = NSEntityDescription.entity(forEntityName: "Block_List", in: DBManager.shared.managedContext)!
-        let blist = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext) as? Block_List
+        let arrBl = DefaultBlocklist.arrDefaultBl
 
-        for (key, value) in data {
-            blist?.setValue(value, forKeyPath: key)
-        }
+        for bl in arrBl {
+            let data: [String: Any?] = ["name": bl.blist_name, "id": UUID(), "created_at": Date()]
+            let entity = NSEntityDescription.entity(forEntityName: "Block_List", in: DBManager.shared.managedContext)!
+            let blist = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext) as? Block_List
 
-        blist?.random_character = false
-        blist?.restart_computer = false
-        blist?.stop_focus_session_anytime = true
+            for (key, value) in data {
+                blist?.setValue(value, forKeyPath: key)
+            }
 
-        blist?.blocked_all_break = false
-        blist?.unblock_short_long_break = true
-        blist?.unblock_long_break_only = false
+            blist?.random_character = false
+            blist?.restart_computer = false
+            blist?.stop_focus_session_anytime = true
 
-        var arrObj: [Block_List_Category] = []
-        let categoryData: [String: Any?] = ["id": "<Category_id>", "name": "<Category_name>", "created_at": Date()]
+            blist?.blocked_all_break = false
+            blist?.unblock_short_long_break = true
+            blist?.unblock_long_break_only = false
 
-        let objblockWA = Block_List_Category(context: DBManager.shared.managedContext)
-        for (key, value) in categoryData {
-            objblockWA.setValue(value, forKeyPath: key)
-        }
-        arrObj.append(objblockWA)
-        
-        arrObj = arrObj + (blist?.block_category?.allObjects as! [Block_List_Category])
+            var arrObj: [Block_List_Category] = []
+            // Setting the Category list id
+            for cat in bl.set_categories {
+                guard let objCate = DBManager.shared.getCategoryBy(name: cat.name) else { continue }
+                let categoryData: [String: Any?] = ["id": objCate.id, "name": objCate.name, "created_at": Date()]
+                let objblockCate = Block_List_Category(context: DBManager.shared.managedContext)
+                
+                for (key, value) in categoryData {
+                    objblockCate.setValue(value, forKeyPath: key)
+                }
+                arrObj.append(objblockCate)
+            }
+            arrObj = arrObj + (blist?.block_category?.allObjects as! [Block_List_Category])
 
-        blist?.block_category = NSSet(array: arrObj)
-
-        do {
-            try DBManager.shared.managedContext.save()
-        } catch let error as NSError {
-            print("Could not save category. \(error), \(error.userInfo)")
+            blist?.block_category = NSSet(array: arrObj)
+            do {
+                try DBManager.shared.managedContext.save()
+            } catch let error as NSError {
+                print("Could not save category. \(error), \(error.userInfo)")
+            }
         }
         UserDefaults.standard.set(true, forKey: "pre_added_blocklist")
     }
@@ -317,6 +323,21 @@ extension DBManager {
             print("Could not Check data. \(entityName) \(error), \(error.localizedDescription)")
             return false
         }
+    }
+
+    func getCategoryBy(name: String) -> Block_Category? {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_Category")
+        fetchRequest.predicate = NSPredicate(format: "name = %@", name)
+
+        do {
+            let block = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let categories = block as? [Block_Category] else { return nil }
+            return categories.first
+        } catch let error as NSError {
+            print("Could not fetch. category by name \(error), \(error.userInfo)")
+        }
+
+        return nil
     }
 
     func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories) {

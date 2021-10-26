@@ -55,7 +55,7 @@ extension MenuViewModel {
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void)) {
         // update focus time value
         focusObj?.focus_untill_stop = false
-    
+
         switch time {
         case .half_past:
             print("half_past")
@@ -72,7 +72,9 @@ extension MenuViewModel {
         case .untill_press_stop:
             print("untill_press_stop")
             focusObj?.is_focusing = true
-            focusObj?.stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
+            if !(focusObj?.is_provided_short_break ?? false) {
+                focusObj?.stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
+            }
             focusObj?.focus_untill_stop = true
 
         case .stop_focus:

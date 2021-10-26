@@ -52,13 +52,19 @@ class AppManager {
         loadScript()
         doSpotlightQuery()
         DataModel.preAddSchedule()
+        DataModel.storeCategory()
+
+        addObserverForDockQuit()
         startCheckingReminder()
-        let appleEventManager: NSAppleEventManager = NSAppleEventManager.shared()
-        appleEventManager.setEventHandler(self, andSelector: #selector(handleQuitEvent(event:withReplyEvent:)), forEventClass: kCoreEventClass, andEventID: kAEQuitApplication)
 
         if !UserDefaults.standard.bool(forKey: "pre_added_blocklist") {
             DBManager.shared.systemPreAddedBlocklist()
         }
+    }
+
+    func addObserverForDockQuit() {
+        let appleEventManager: NSAppleEventManager = NSAppleEventManager.shared()
+        appleEventManager.setEventHandler(self, andSelector: #selector(handleQuitEvent(event:withReplyEvent:)), forEventClass: kCoreEventClass, andEventID: kAEQuitApplication)
     }
 
     func loadScript() {
@@ -72,7 +78,7 @@ class AppManager {
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
-        guard let obj = DBManager.shared.getCurrentSession(), !obj.is_focusing else { return } //TODO: Conditio also comes here when Restart Computer will On
+        guard let obj = DBManager.shared.getCurrentSession(), !obj.is_focusing else { return } // TODO: Conditio also comes here when Restart Computer will On
         resetFocusSession()
         stopScriptObserver()
         NSApplication.shared.terminate(self)
@@ -171,8 +177,10 @@ extension AppManager {
         let objEx = obj.extended_value
         obj.is_focusing = false
         obj.is_break_time = false
-        obj.is_focusing = false
-        obj.is_break_time = false
+        obj.focus_untill_stop = false
+        obj.used_focus_time = 0
+        obj.decrease_break_time = 0
+        obj.remaining_time = 0
         objEx?.is_mid_focus = false
         objEx?.is_small_focus = false
         objEx?.is_long_focus = false

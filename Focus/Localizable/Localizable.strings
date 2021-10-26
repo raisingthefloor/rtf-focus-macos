@@ -185,14 +185,14 @@
 "Error.change_blocklist_error" = "Changes cannot be made to this Blocklist";
 "Error.scheduler" = "Two Focus sessions already scheduled";
 "Error.active_focus_error" = "Changes cannot be made during active Focus session";
-"Error.active_session_error_desc" = "A Focus session cannot be changed while it is in progress.\nYou must stop this session to make changes.";
-"Error.change_blocklist_error_desc" = "A Blocklist cannot be changed while it is being used during a Focus session.\nYou must stop this session to make changes.";
-"Error.scheduler_desc" = "More than two Focus sessions cannot be scheduled for the same time.\nTry editing your schedule.";
-"Error.active_focus_error_desc" = "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.";
+"Error.active_session_error_desc" = "A Focus session cannot be changed while it is in progress.You must stop this session to make changes.";
+"Error.change_blocklist_error_desc" = "A Blocklist cannot be changed while it is being used during a Focus session.You must stop this session to make changes.";
+"Error.scheduler_desc" = "More than two Focus sessions cannot be scheduled for the same time.Try editing your schedule.";
+"Error.active_focus_error_desc" = "General settings cannot be changed when at least one Focus session is in progress.You must stop this session to make changes.";
 "Error.Info" = "< include “stop task” message if there is as stop task>";
 
-"Error.restart_computer_info" = "NOTE: You set the blocklist (currently being used) to require you \nto restart your computer in order to stop the focus suession.";
-"Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type random \ncharacters in order to stop the focus session.";
+"Error.restart_computer_info" = "NOTE: You set the blocklist (currently being used) to require you to restart your computer in order to stop the focus suession.";
+"Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type random characters in order to stop the focus session.";
 "Error.random_character_invalid" = "Characters do not match. Please try again.";
 "Error.invalid_url" = "This is not a valid URL.";
 

@@ -67,11 +67,25 @@ struct WindowsManager {
     static func dismissController() {
         if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
             presetFromCtrl.dismiss(nil)
-        } else if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
+        }
+        if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
             presetFromCtrl.dismiss(nil)
-        } else {
-            let presetFromCtrl = Config.delegate.windowController?.contentViewController
-            presetFromCtrl?.dismiss(nil)
+        }
+    }
+
+    static func getNewWindowController(vc: NSViewController) {
+        DispatchQueue.main.async {
+            let window: NSWindow = {
+                let w = NSWindow(contentViewController: vc)
+                w.styleMask.remove(.resizable)
+                w.styleMask.remove(.miniaturizable)
+                w.styleMask.remove(.closable)
+                w.styleMask.remove(.miniaturizable)
+                return w
+            }()
+
+            let wc = WindowController(window: window)
+            wc.showWindow(self)
         }
     }
 }

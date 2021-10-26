@@ -32,6 +32,7 @@ class LockedScreenVC: NSViewController {
     @IBOutlet var lblInfo: NSTextField!
 
     var dismiss: ((Bool) -> Void)?
+    private var timer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +69,22 @@ extension LockedScreenVC: BasicSetupType {
     }
 
     func bindData() {
-        _ = Timer.scheduledTimer(withTimeInterval: 60, repeats: false) { _ in
+        print("Lock Screen \(Date())")
+        guard timer == nil else { return }
+//        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(releaseView), userInfo: nil, repeats: false)
+        DispatchQueue.global(qos: .background).async(execute: { () -> Void in
+            self.timer = .scheduledTimer(timeInterval: 60, target: self, selector: #selector(self.releaseView), userInfo: nil, repeats: false)
+            RunLoop.current.add(self.timer!, forMode: .default)
+            RunLoop.current.run()
+        })
+    }
+
+    @objc func releaseView() {
+        print("Release Screen \(Date())")
+        DispatchQueue.main.async {
+            guard self.timer != nil else { return }
+            self.timer?.invalidate()
+            self.timer = nil
             self.dismiss?(true)
             self.dismiss(nil)
         }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -224,7 +224,9 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="ULe-fE-2Ut" firstAttribute="leading" secondItem="7ZR-fe-U3X" secondAttribute="leading" id="7jB-1J-PpU"/>
+                        <constraint firstAttribute="height" constant="240" id="8E6-A4-Tfn"/>
                         <constraint firstAttribute="bottom" secondItem="ULe-fE-2Ut" secondAttribute="bottom" id="8se-A5-jD7"/>
+                        <constraint firstAttribute="width" constant="529" id="FNq-jP-hkY"/>
                         <constraint firstAttribute="trailing" secondItem="ULe-fE-2Ut" secondAttribute="trailing" id="oVu-mQ-SMN"/>
                         <constraint firstItem="ULe-fE-2Ut" firstAttribute="top" secondItem="7ZR-fe-U3X" secondAttribute="top" id="t31-G1-gOW"/>
                     </constraints>

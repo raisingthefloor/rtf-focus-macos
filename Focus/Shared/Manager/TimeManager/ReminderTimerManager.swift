@@ -47,8 +47,8 @@ class ReminderTimerManager: ReminderModelIntput, ReminderModelOutput, ReminderMo
     var output: ReminderModelOutput { return self }
 
     var showDialogue: ((FocusDialogue) -> Void)?
-
     var reminderTimer: Timer?
+    private var extendTimer: Timer?
 
     func setupInitial() {
         starTimer()
@@ -128,10 +128,8 @@ extension ReminderTimerManager {
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType, obj: obj)
             DBManager.shared.saveContext()
             // Reminder Extend functionality (Timer)
-            _ = Timer.scheduledTimer(withTimeInterval: Double(value), repeats: false) { [weak self] _ in
-                self?.displayScheduleReminder(scheduleId: scheduleId)
-            }
-
+            guard extendTimer == nil else { return }
+            extendTimer = Timer.scheduledTimer(timeInterval: Double(value), target: self, selector: #selector(releaseView), userInfo: scheduleId, repeats: false)
         case .skip_session:
             break
         case .normal_ok:
@@ -207,5 +205,12 @@ extension ReminderTimerManager {
         objEx.is_extend_short = false
         objEx.is_extend_very_short = false
         DBManager.shared.saveContext()
+    }
+
+    @objc func releaseView() {
+        guard extendTimer != nil, let id = extendTimer?.userInfo as? UUID else { return }
+        extendTimer?.invalidate()
+        extendTimer = nil
+        displayScheduleReminder(scheduleId: id)
     }
 }

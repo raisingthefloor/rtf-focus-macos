@@ -147,6 +147,7 @@ extension DisincentiveViewC: NSTextFieldDelegate {
 
     @objc func doneClick(_ sender: NSButton) {
         if dialogueType == .disincentive_signout_signin_alert {
+            AppManager.shared.stopScriptObserver()
             WindowsManager.openSystemLogoutDialog()
 //            updateFocusStop?(.stop_session)
 //            dismiss(nil)
@@ -164,7 +165,25 @@ extension DisincentiveViewC: NSTextFieldDelegate {
 
     @objc func neverClick(_ sender: NSButton) {
         // Take back to previous window from where it opens
+        if dialogueType == .disincentive_signout_signin_alert {
+            if !(AppManager.shared.browserBridge?.isFocusing ?? false) {
+                startBlockingAppsWeb()
+            }
+        }
         updateFocusStop?(.normal_ok)
         dismiss(nil)
+    }
+
+    func startBlockingAppsWeb() {
+        guard let obj = DBManager.shared.getCurrentBlockList().objFocus else { return }
+
+        if obj.is_block_programe_select {
+            AppManager.shared.addObserverToCheckAppLaunch()
+            WindowsManager.blockWebSite()
+        }
+
+        if obj.is_dnd_mode {
+            WindowsManager.runDndCommand(cmd: "on")
+        }
     }
 }

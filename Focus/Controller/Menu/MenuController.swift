@@ -69,7 +69,6 @@ class MenuController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.model.input.storeCategory() // Store first time only
         setUpText()
         setUpViews()
         bindData()

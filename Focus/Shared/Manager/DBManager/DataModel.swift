@@ -27,7 +27,6 @@ import Cocoa
 import Foundation
 
 protocol DataModelIntput {
-    func storeCategory()
     func storeBlocklist(data: [String: Any?])
     func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category])
     func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List])
@@ -51,8 +50,6 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     var input: DataModelIntput { return self }
     var output: DataModelOutput { return self }
 
-//    let categories = ["Calls & Chat", "Notification (Turns Do Not Disturb ON)", "Social Media", "Games", "News", "Shopping", "Video (apps and sites)", "Dating", "Gambling", "Communication", "Email", "Ads", "Proxies"]
-
     func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category]) {
         let menus = NSMenu()
         let categories = DBManager.shared.getCategories()
@@ -75,11 +72,6 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         let menus = NSMenu()
         let blocklist = DBManager.shared.getBlockList()
 
-//        if cntrl == .main_menu {
-//            let showOption = NSMenuItem(title: "Starter Blocklist", action: nil, keyEquivalent: "")
-//            showOption.tag = -2
-//            menus.addItem(showOption)
-//        }
         var i = 0
         for obj in blocklist {
             var title = obj.name ?? "-"
@@ -101,20 +93,6 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         showOption.tag = -1
         menus.addItem(showOption)
         return (menus, blocklist)
-    }
-
-    func storeCategory() {
-        if !DBManager.shared.checkDataIsPresent(entityName: "Block_Category") {
-            var i = 1
-            for val in Categories.arrCategories {
-                let data: [String: Any?] = ["name": val.name, "id": UUID(), "created_at": Date(),
-                                            "type": CategoryType.system.rawValue, "index": i, "show_link": val.show_link]
-                DBManager.shared.saveCategory(data: data, type: .system, cat: val)
-                i = i + 1
-            }
-            let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
-            DBManager.shared.saveCategory(data: data, type: .general, cat: .general)
-        }
     }
 
     func storeBlocklist(data: [String: Any?]) {
@@ -191,6 +169,23 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             }
         }
     }
+    
+    static func storeCategory() {
+        var i = 1
+        for val in Categories.arrCategories {
+            if DBManager.shared.getCategoryBy(name: val.name) == nil {
+                let data: [String: Any?] = ["name": val.name, "id": UUID(), "created_at": Date(),
+                                            "type": CategoryType.system.rawValue, "index": i, "show_link": val.show_link]
+                DBManager.shared.saveCategory(data: data, type: .system, cat: val)
+                i = i + 1
+            }
+        }
+        if DBManager.shared.getCategoryBy(name: Categories.general.name) == nil {
+            let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
+            DBManager.shared.saveCategory(data: data, type: .general, cat: .general)
+        }
+    }
+
 }
 
 enum ViewCntrl: Int {
@@ -310,4 +305,6 @@ enum DefaultBlocklist: Int {
             return [.notification, .social_media, .games, .news, .shopping, .videos, .dating, .gambling, .communication, .email, .porn, .proxies]
         }
     }
+
+    static var arrDefaultBl: [DefaultBlocklist] = [.no_entertain, .no_entertain_social, only_work_comm_ok, .only_work_no_comm]
 }

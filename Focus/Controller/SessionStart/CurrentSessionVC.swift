@@ -84,7 +84,7 @@ extension CurrentSessionVC: BasicSetupType {
 
         var remaing_break_time = Int(objFocus?.stop_focus_after_time ?? 100)
 
-        remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.used_focus_time ?? 10))
+        remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.decrease_break_time ?? 10))
 
         let break_time = (objFocus?.is_break_time ?? false) ? remaing_break_time.secondsToTime() : remaing_break_time.secondsToTime()
 

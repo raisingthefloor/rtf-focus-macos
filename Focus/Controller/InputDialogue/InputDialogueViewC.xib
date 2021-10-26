@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -190,6 +190,7 @@
                         <constraint firstItem="doq-xr-3gf" firstAttribute="top" secondItem="riH-l4-cjL" secondAttribute="top" id="AXt-1X-6jJ"/>
                         <constraint firstItem="uvy-TD-0SL" firstAttribute="width" secondItem="riH-l4-cjL" secondAttribute="width" id="BgK-uS-toM"/>
                         <constraint firstItem="2zY-YO-MYV" firstAttribute="width" secondItem="riH-l4-cjL" secondAttribute="width" id="XO0-QG-NZZ"/>
+                        <constraint firstAttribute="width" constant="376" id="ZsO-gY-1WZ"/>
                         <constraint firstAttribute="bottom" secondItem="doq-xr-3gf" secondAttribute="bottom" id="bDp-jg-yfV"/>
                         <constraint firstItem="doq-xr-3gf" firstAttribute="leading" secondItem="riH-l4-cjL" secondAttribute="leading" constant="2" id="e6g-pD-88i"/>
                         <constraint firstItem="Vmu-GM-eFR" firstAttribute="width" secondItem="riH-l4-cjL" secondAttribute="width" id="nos-AK-dOQ"/>

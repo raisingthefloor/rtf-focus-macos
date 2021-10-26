@@ -76,10 +76,6 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func updateFocusButton() {
-//        let obj = viewModel.input.focusObj
-//        if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
-//            lblTimeVal.isHidden = (obj?.focus_untill_stop ?? false) ? true : !isCountDownOn
-//        }
         btnFocus.buttonColor = Color.very_light_grey
         btnFocus.activeButtonColor = Color.very_light_grey
         btnFocus.textColor = Color.black_color
@@ -90,16 +86,16 @@ extension FloatingFocusViewC: BasicSetupType {
 
     func udateButtonSting(timeVal: String) {
         var time = ""
-        let obj = viewModel.input.focusObj
-        if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end {
-            time = (obj?.focus_untill_stop ?? false) ? "" : ("\n" + timeVal)
-        }
-
-        btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
-        if let obj = viewModel.input.focusObj {
+        if let obj = viewModel.input.focusObj, obj.is_focusing {
+            if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
+                time = obj.focus_untill_stop ? "" : ("\n" + timeVal)
+            }
+            btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
             if obj.is_focusing && obj.is_break_time {
                 btnFocus.title = NSLocalizedString("Button.Break", comment: "Break") + time
             }
+        } else {
+            btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
         }
     }
 
@@ -108,7 +104,7 @@ extension FloatingFocusViewC: BasicSetupType {
         btnFocus.buttonColor = Color.green_color
         btnFocus.activeButtonColor = Color.green_color
         btnFocus.textColor = .white
-        setUpText()
+        udateButtonSting(timeVal: "")
     }
 }
 
@@ -248,8 +244,8 @@ extension FloatingFocusViewC {
         switch action {
         case .extend_focus:
             // Focus Extend Here
-            //                    obj.stop_focus_after_time = Double(value)
             obj.extended_focus_time = Double(value)
+            obj.stop_focus_after_time  = Double(value) // Whatever value set after that min break alert will comes
             let val = obj.remaining_time + Double(value)
             obj.remaining_time = val
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
@@ -268,6 +264,7 @@ extension FloatingFocusViewC {
         case .stop_session:
             AppManager.shared.resetFocusSession()
             stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
+            WindowsManager.dismissController()
             defaultUI()
         case .skip_session:
             break
@@ -345,6 +342,7 @@ extension FloatingFocusViewC {
             // Session Complete Heres
             AppManager.shared.resetFocusSession()
             stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
+            WindowsManager.dismissController()
             defaultUI()
         default:
             setUpText()
