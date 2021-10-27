@@ -55,9 +55,11 @@ protocol DBMangerLogic {
     func getScheduleFocus(id: UUID) -> Focus_Schedule?
     func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?)
 
-    func getScheduleFocus(time: String, day: String?) -> [Focus_Schedule]
+    func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule]
+    func checkScheduleSession(time: String, day: Int) -> Bool
 
-    func checkScheduleSession(time: String, day: String) -> Bool
+    func truncateTable(name: String)
+    func deleteObject(name: String, predicate: NSPredicate?)
 
     func saveContext()
 }

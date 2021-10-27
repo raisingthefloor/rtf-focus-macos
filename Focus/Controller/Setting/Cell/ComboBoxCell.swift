@@ -77,6 +77,8 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.tag = 1
         if objFSchedule?.block_list_name != nil {
             comboTime.selectItem(withObjectValue: obj?.start_time)
+        } else {
+            comboTime.stringValue = ""
         }
         comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
@@ -93,6 +95,8 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         comboTime.tag = 2
         if objFSchedule?.block_list_name != nil {
             comboTime.selectItem(withObjectValue: obj?.end_time)
+        } else {
+            comboTime.stringValue = ""
         }
         comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
@@ -124,22 +128,47 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
 
     func updateTimeValue(_ comboBox: NSComboBox, time: String?) {
         guard let time = time else { return }
+
         if comboBox.tag == 1 {
             objFSchedule?.start_time = time
+            objFSchedule?.start_time_ = time.toDateTime()
         } else {
             objFSchedule?.end_time = time
+            objFSchedule?.end_time_ = time.toDateTime()
         }
+
+        print("****************************** Combo Time Update Value ******************************")
 
         if let start_time = objFSchedule?.start_time, let end_time = objFSchedule?.end_time {
             guard !start_time.isEmpty, !end_time.isEmpty else { return }
-            let total_sec = findDateDiff(time1Str: start_time, time2Str: end_time)
-            objFSchedule?.time_interval = total_sec
+
+            let date_result = findDateDiff(time1Str: start_time, time2Str: end_time)
+            objFSchedule?.time_interval = date_result.interval
+            objFSchedule?.start_time_ = date_result.startT
+            objFSchedule?.end_time_ = date_result.endT
+
+            if let fs_id = objFSchedule?.id, let arrRange = objFSchedule?.time_range?.allObjects, !arrRange.isEmpty {
+                let predicate = NSPredicate(format: "schedule_focus.id = %@", fs_id as CVarArg)
+                DBManager.shared.deleteObject(name: "Focus_Schedule_Time_Range", predicate: predicate)
+            }
+
+            let arrTime: [String] = start_time.getTimeSlots(endTime: end_time)
+            var arrTimeObj: [Focus_Schedule_Time_Range] = []
+            print(" Range Time \(arrTime)")
+            for val in arrTime {
+                let obj = Focus_Schedule_Time_Range(context: DBManager.shared.managedContext)
+                obj.time = val
+                obj.is_selected = true
+                arrTimeObj.append(obj)
+            }
+
+            objFSchedule?.time_range = NSSet(array: arrTimeObj)
         }
         DBManager.shared.saveContext()
         refreshTable?(true)
     }
 
-    func warningToAddThirdSession(time: String, day: String) -> Bool {
+    func warningToAddThirdSession(time: String, day: Int) -> Bool {
         let isAvailable = DBManager.shared.checkScheduleSession(time: time, day: day)
         if isAvailable {
             let presentingCtrl = WindowsManager.getPresentingController()
@@ -167,14 +196,20 @@ extension ComboBoxCell {
         popBlocklist.menu = modelV.input.getBlockList(cntrl: .schedule_session).0
         popBlocklist.target = self
         popBlocklist.action = #selector(handleBlockSelection(_:))
+        statusV.border_color = .clear
+        statusV.border_width = 2.5
+
         if objFSchedule?.block_list_name != nil {
             if color_type == .hollow {
                 statusV.background_color = Color.list_bg_color
                 statusV.border_color = (NSColor(color) ?? Color.light_blue_color)
-                statusV.border_width = 2.5
             } else {
                 statusV.background_color = (NSColor(color) ?? NSColor.random)
+                statusV.border_color = (NSColor(color) ?? Color.light_blue_color)
             }
+        } else {
+            statusV.background_color = Color.light_blue_color
+            statusV.border_color = Color.light_blue_color
         }
 
         let lock = (objFSchedule?.has_block_list_stop ?? false) ? "🔒" + " " : ""
@@ -203,18 +238,18 @@ extension ComboBoxCell {
         refreshTable?(true)
     }
 
-    func findDateDiff(time1Str: String, time2Str: String) -> Double {
+    func findDateDiff(time1Str: String, time2Str: String) -> (interval: Double, startT: Date, endT: Date) {
         let timeformatter = DateFormatter()
         timeformatter.dateFormat = "h a"
 
         guard let time1 = timeformatter.date(from: time1Str),
-              let time2 = timeformatter.date(from: time2Str) else { return 0 }
+              let time2 = timeformatter.date(from: time2Str) else { return (0, Date(), Date()) }
 
         let interval = time2.timeIntervalSince(time1)
         let hour = interval / 3600
         let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
         let intervalInt = Int(interval)
         print("\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes")
-        return interval
+        return (interval, time1, time2)
     }
 }

@@ -63,7 +63,7 @@ extension TodayScheduleViewC: BasicSetupType {
     }
 
     func bindData() {
-        let result = viewModel.input.getSessionList(day: String(format: "%d", Date().currentDateComponent().weekday as! CVarArg))
+        let result = viewModel.input.getSessionList(day: Date().currentDateComponent().weekday)
         arrSession = result.0
         arrFocusS = result.1
     }
@@ -162,16 +162,26 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         }
         return nil
     }
+    
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        if tableView == tblSchedule {
+            let customView = ScheduleRowView()
+            return customView
+        }
+        return nil
+    }
+
 
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = arrFocusS[sender.tag]
         objFSchedule.is_active = !objFSchedule.is_active
+        objFSchedule.color_type = objFSchedule.is_active ? Int64(ColorType.solid.rawValue) : Int64(ColorType.hollow.rawValue)
         DBManager.shared.saveContext()
         tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3))
     }
 
     func reloadSession() {
-        let result = viewModel.input.getSessionList(day: String(format: "%d", Date().currentDateComponent().weekday as! CVarArg))
+        let result = viewModel.input.getSessionList(day:Date().currentDateComponent().weekday)
         arrSession = result.0
         tblSession.reloadData()
     }

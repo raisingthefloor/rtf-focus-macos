@@ -58,7 +58,7 @@ extension WeekDaysCell: BasicSetupType {
 
     func configDays(obj: Focus_Schedule?) {
         objFSchedule = obj
-        let arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
+        let arrDays = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
         var isSelected: Bool = false
         var i = 1
         let isActive = !(objFSchedule?.is_active ?? false)
@@ -74,7 +74,7 @@ extension WeekDaysCell: BasicSetupType {
             btn.target = self
             btn.action = #selector(toggleDay(_:))
             if !arrDays.isEmpty {
-                isSelected = arrDays.compactMap({ Int($0) == i }).filter({ $0 }).first ?? false
+                isSelected = arrDays.compactMap({ Int($0.day) == i }).filter({ $0 }).first ?? false
             }
 
             //  btn.state = isSelected ? .on : .off
@@ -96,30 +96,36 @@ extension WeekDaysCell: BasicSetupType {
     }
 
     @objc func toggleDay(_ sender: CustomButton) {
-        var arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
-//        var arrDay = objFSchedule?.days_?.allObjects as? [Focus_Schedule_Days]  //TODO: Perform the Logic with Array of Days object
+//        var arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
+        var arrDay = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days] // TODO: Perform the Logic with Array of Days object
         let tag = sender.tag
         var isSelected = false
-        if !arrDays.isEmpty {
-            isSelected = arrDays.compactMap({ Int($0) == tag }).filter({ $0 }).first ?? false
+        if !arrDay.isEmpty {
+//            isSelected = arrDays.compactMap({ Int($0) == tag }).filter({ $0 }).first ?? false
+            isSelected = arrDay.compactMap({ Int($0.day) == tag }).filter({ $0 }).first ?? false
         }
 
         if isSelected {
-            if let index = arrDays.firstIndex(of: String(tag)) {
-                arrDays.remove(at: index)
-                objFSchedule?.days = arrDays.joined(separator: ",")
+            if let objDay = arrDay.filter({ $0.day == tag }).compactMap({ $0 }).first {
+                if let index = arrDay.firstIndex(of: objDay) {
+                    arrDay.remove(at: index)
+                    // objFSchedule?.days = arrDays.joined(separator: ",")
+                    objFSchedule?.days_ = NSSet(array: arrDay)
+                }
             }
-
         } else {
-            arrDays.append(String(tag))
-            objFSchedule?.days = arrDays.joined(separator: ",")
+            let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
+            objDay.day = Int16(tag)
+            arrDay.append(objDay)
+            // objFSchedule?.days = arrDays.joined(separator: ",")
+            objFSchedule?.days_ = NSSet(array: arrDay)
         }
         DBManager.shared.saveContext()
         configDays(obj: objFSchedule)
         refreshTable?(true)
     }
 
-    func warningToAddThirdSession(time: String, day: String) -> Bool {
+    func warningToAddThirdSession(time: String, day: Int) -> Bool {
         let isAvailable = DBManager.shared.checkScheduleSession(time: time, day: day)
         if isAvailable {
             let presentingCtrl = WindowsManager.getPresentingController()

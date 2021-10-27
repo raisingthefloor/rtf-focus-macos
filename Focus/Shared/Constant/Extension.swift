@@ -73,6 +73,45 @@ extension String {
         let calendar = Calendar.current
         return calendar.dateComponents([.hour, .minute, .second, .weekday], from: date)
     }
+
+    func toDateTime() -> Date? {
+        let timeformatter = DateFormatter()
+        timeformatter.dateFormat = "h a"
+        let time = timeformatter.date(from: self)
+        return time
+    }
+
+    func getTimeSlots(endTime: String, interval: Int = 60) -> [String] {
+        var slots: [String] = []
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h a"
+
+        let formatter2 = DateFormatter()
+        formatter2.dateFormat = "h a"
+
+        let startDate = self
+        slots.append(self)
+        let endDate = endTime
+        slots.append(endTime)
+
+        let date1 = formatter.date(from: startDate)
+        let date2 = formatter.date(from: endDate)
+
+        var i = 1
+        while true {
+            let date = date1?.addingTimeInterval(TimeInterval(i * interval * 60))
+            let string = formatter2.string(from: date!)
+
+            if date! >= date2! {
+                break
+            }
+
+            i += 1
+            slots.append(string)
+        }
+        return slots
+    }
 }
 
 extension Bundle {

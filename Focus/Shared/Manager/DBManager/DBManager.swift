@@ -288,7 +288,7 @@ extension DBManager {
                 guard let objCate = DBManager.shared.getCategoryBy(name: cat.name) else { continue }
                 let categoryData: [String: Any?] = ["id": objCate.id, "name": objCate.name, "created_at": Date()]
                 let objblockCate = Block_List_Category(context: DBManager.shared.managedContext)
-                
+
                 for (key, value) in categoryData {
                     objblockCate.setValue(value, forKeyPath: key)
                 }
@@ -514,17 +514,19 @@ extension DBManager {
         }
     }
 
-    func getScheduleFocus(time: String, day: String?) -> [Focus_Schedule] {
+    func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
         if day == nil {
-            fetchRequest.predicate = NSPredicate(format: "start_time = %@", time)
+            fetchRequest.predicate = NSPredicate(format: "ANY time_range.time = %@", time)
         } else {
+            guard let day = day else { return [] }
             if time.isEmpty || time == "" {
-                fetchRequest.predicate = NSPredicate(format: "days contains %@", day!)
+                fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d", day)
             } else {
-                fetchRequest.predicate = NSPredicate(format: "start_time = %@ && days contains %@ && is_active = true", time, day!)
+                fetchRequest.predicate = NSPredicate(format: "ANY time_range.time = %@ && ANY days_.day = %d", time, day)
             }
         }
+        
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
@@ -539,7 +541,7 @@ extension DBManager {
         }
     }
 
-    func checkScheduleSession(time: String, day: String) -> Bool {
+    func checkScheduleSession(time: String, day: Int) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
         fetchRequest.predicate = NSPredicate(format: "start_time = %@ && days contains %@ && is_active = true", time, day)
 
@@ -553,6 +555,41 @@ extension DBManager {
         } catch let error {
             print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
             return false
+        }
+    }
+}
+
+extension DBManager {
+    func truncateTable(name: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: name)
+        if let result = try? DBManager.shared.managedContext.fetch(fetchRequest) {
+            for object in result {
+                DBManager.shared.managedContext.delete(object as! NSManagedObject)
+            }
+        }
+        do {
+            try DBManager.shared.managedContext.save()
+            print("saved")
+        } catch let error as NSError {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+
+    func deleteObject(name: String, predicate: NSPredicate?) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: name)
+        if predicate != nil {
+            fetchRequest.predicate = predicate
+        }
+        if let result = try? DBManager.shared.managedContext.fetch(fetchRequest) {
+            for object in result {
+                DBManager.shared.managedContext.delete(object as! NSManagedObject)
+            }
+        }
+        do {
+            try DBManager.shared.managedContext.save()
+            print("saved")
+        } catch let error as NSError {
+            print("Could not save \(error), \(error.userInfo)")
         }
     }
 }

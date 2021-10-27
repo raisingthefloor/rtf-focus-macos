@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
-        <capability name="System colors introduced in macOS 10.13" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1172,7 +1171,7 @@
                                                                                                                                                             <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                             <subviews>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tK6-5r-owt" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                                                     <constraints>
                                                                                                                                                                         <constraint firstAttribute="height" constant="25" id="oPb-GV-uWc"/>
                                                                                                                                                                     </constraints>
@@ -1182,7 +1181,7 @@
                                                                                                                                                                     </buttonCell>
                                                                                                                                                                 </button>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cqo-6a-Vkw" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                                                     <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U5T-ws-hd6">
                                                                                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                         <font key="font" metaFont="system"/>
@@ -1453,7 +1452,7 @@
                                                                                                                                                             <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                             <subviews>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WqO-Lm-fFP" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                                                     <constraints>
                                                                                                                                                                         <constraint firstAttribute="height" constant="25" id="1mH-Nd-uW1"/>
                                                                                                                                                                     </constraints>
@@ -1463,7 +1462,7 @@
                                                                                                                                                                     </buttonCell>
                                                                                                                                                                 </button>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IPP-vN-OPI" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                                                     <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SK7-2x-Xh2">
                                                                                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                         <font key="font" metaFont="system"/>
@@ -2694,7 +2693,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                    <color key="value" red="0.92156862745098034" green="0.94901960784313721" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="value" red="0.0" green="0.1803921568627451" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </tableHeaderView>
@@ -3647,7 +3646,7 @@
                                                                                                     </subviews>
                                                                                                     <constraints>
                                                                                                         <constraint firstAttribute="bottom" secondItem="3dE-C9-WOh" secondAttribute="bottom" id="2re-Fi-AI5"/>
-                                                                                                        <constraint firstAttribute="trailing" secondItem="3dE-C9-WOh" secondAttribute="trailing" id="gFh-dd-zl5"/>
+                                                                                                        <constraint firstAttribute="trailing" secondItem="3dE-C9-WOh" secondAttribute="trailing" constant="3" id="gFh-dd-zl5"/>
                                                                                                         <constraint firstItem="3dE-C9-WOh" firstAttribute="top" secondItem="Gwh-Sz-K6T" secondAttribute="top" id="gUY-Zx-ycg"/>
                                                                                                         <constraint firstItem="3dE-C9-WOh" firstAttribute="leading" secondItem="Gwh-Sz-K6T" secondAttribute="leading" id="zvx-vO-X1w"/>
                                                                                                     </constraints>
@@ -3801,7 +3800,7 @@
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                    <color key="value" name="findHighlightColor" catalog="System" colorSpace="catalog"/>
+                                                                                    <color key="value" red="0.29803921568627451" green="0.50980392156862742" blue="0.75686274509803919" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                         </tableHeaderView>

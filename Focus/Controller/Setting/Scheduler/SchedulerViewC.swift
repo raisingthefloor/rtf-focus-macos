@@ -254,6 +254,16 @@ extension SchedulerViewC {
         objFSchedule.days = nil
         objFSchedule.start_time = nil
         objFSchedule.end_time = nil
+        objFSchedule.start_time_ = nil
+        objFSchedule.end_time_ = nil
+        objFSchedule.time_interval = 0
+        objFSchedule.days_ = NSSet(array: [])
+        objFSchedule.time_range = NSSet(array: [])
+        objFSchedule.extend_info?.is_extend_mid = false
+        objFSchedule.extend_info?.is_extend_long = false
+        objFSchedule.extend_info?.is_extend_short = false
+        objFSchedule.extend_info?.is_extend_very_short = false
+        objFSchedule.has_block_list_stop = false
         DBManager.shared.saveContext()
         processReminderActiveInactive(objFSchedule: objFSchedule)
         tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
