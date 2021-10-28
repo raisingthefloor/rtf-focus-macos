@@ -163,7 +163,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             for color in colors {
                 let color_type = ColorType.solid.rawValue
                 let dict: [String: Any?] = ["id": UUID(), "block_list_id": nil, "block_list_name": nil, "session_color": color,
-                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date(), "days": nil, "type": ScheduleType.none.rawValue, "color_type": color_type]
+                                            "is_active": false, "start_time": nil, "end_time": nil, "created_at": Date(), "type": ScheduleType.none.rawValue, "color_type": color_type]
                 DBManager.shared.createPreSchedule(data: dict)
                 i = i + 1
             }

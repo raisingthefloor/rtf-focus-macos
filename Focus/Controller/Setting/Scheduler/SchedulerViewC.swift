@@ -115,7 +115,7 @@ extension SchedulerViewC: BasicSetupType {
         let focustime = Int(viewModel.objGCategory?.general_setting?.for_every_time ?? 0).secondsToTime().timeInMinutes
         popFocusTime.selectItem(withTitle: "\(focustime) min")
 
-        arrSession = viewModel.input.getSessionList(day: nil).0
+        arrSession = viewModel.input.generateCalendarSession(day: nil)
     }
 }
 
@@ -197,8 +197,8 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     cell.configDays(obj: obj)
                     cell.refreshTable = { isChange in
                         if isChange {
-                            self.processReminderActiveInactive(objFSchedule: obj)
                             self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
+                            self.processReminderActiveInactive(objFSchedule: obj)
                         }
                     }
                     return cell
@@ -213,7 +213,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
             let obj = arrSession[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
-                    cellTime.setupTime(value: obj.time ?? "-")
+                    cellTime.setupTime(value: obj.time)
                     return cellTime
                 }
             } else {
@@ -251,7 +251,6 @@ extension SchedulerViewC {
         objFSchedule.is_active = false
         objFSchedule.block_list_id = nil
         objFSchedule.block_list_name = nil
-        objFSchedule.days = nil
         objFSchedule.start_time = nil
         objFSchedule.end_time = nil
         objFSchedule.start_time_ = nil
@@ -295,7 +294,7 @@ extension SchedulerViewC {
 //        } else {
 //            viewModel.input.removeReminder(obj: objFSchedule)
 //        }
-        arrSession = viewModel.input.getSessionList(day: nil).0
+        arrSession = viewModel.input.generateCalendarSession(day: nil)
         tblSession.reloadData()
     }
 }

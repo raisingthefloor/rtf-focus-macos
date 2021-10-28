@@ -53,7 +53,7 @@ protocol DBMangerLogic {
     func createPreSchedule(data: [String: Any?])
     func getFocusSchedule() -> [Focus_Schedule]
     func getScheduleFocus(id: UUID) -> Focus_Schedule?
-    func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?)
+    func checkAvailablReminder(day: Int, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?)
 
     func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule]
     func checkScheduleSession(time: String, day: Int) -> Bool

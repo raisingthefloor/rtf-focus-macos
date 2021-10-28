@@ -136,34 +136,6 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
             objFSchedule?.end_time = time
             objFSchedule?.end_time_ = time.toDateTime()
         }
-
-        print("****************************** Combo Time Update Value ******************************")
-
-        if let start_time = objFSchedule?.start_time, let end_time = objFSchedule?.end_time {
-            guard !start_time.isEmpty, !end_time.isEmpty else { return }
-
-            let date_result = findDateDiff(time1Str: start_time, time2Str: end_time)
-            objFSchedule?.time_interval = date_result.interval
-            objFSchedule?.start_time_ = date_result.startT
-            objFSchedule?.end_time_ = date_result.endT
-
-            if let fs_id = objFSchedule?.id, let arrRange = objFSchedule?.time_range?.allObjects, !arrRange.isEmpty {
-                let predicate = NSPredicate(format: "schedule_focus.id = %@", fs_id as CVarArg)
-                DBManager.shared.deleteObject(name: "Focus_Schedule_Time_Range", predicate: predicate)
-            }
-
-            let arrTime: [String] = start_time.getTimeSlots(endTime: end_time)
-            var arrTimeObj: [Focus_Schedule_Time_Range] = []
-            print(" Range Time \(arrTime)")
-            for val in arrTime {
-                let obj = Focus_Schedule_Time_Range(context: DBManager.shared.managedContext)
-                obj.time = val
-                obj.is_selected = true
-                arrTimeObj.append(obj)
-            }
-
-            objFSchedule?.time_range = NSSet(array: arrTimeObj)
-        }
         DBManager.shared.saveContext()
         refreshTable?(true)
     }

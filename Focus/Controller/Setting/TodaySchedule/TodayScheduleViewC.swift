@@ -63,9 +63,8 @@ extension TodayScheduleViewC: BasicSetupType {
     }
 
     func bindData() {
-        let result = viewModel.input.getSessionList(day: Date().currentDateComponent().weekday)
-        arrSession = result.0
-        arrFocusS = result.1
+        arrFocusS = viewModel.input.getSessionList(day: Date().currentDateComponent().weekday)
+        arrSession = viewModel.input.generateCalendarSession(day: Date().currentDateComponent().weekday)
     }
 }
 
@@ -162,7 +161,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         }
         return nil
     }
-    
+
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         if tableView == tblSchedule {
             let customView = ScheduleRowView()
@@ -170,7 +169,6 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         }
         return nil
     }
-
 
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = arrFocusS[sender.tag]
@@ -181,8 +179,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func reloadSession() {
-        let result = viewModel.input.getSessionList(day:Date().currentDateComponent().weekday)
-        arrSession = result.0
+        arrSession = viewModel.input.generateCalendarSession(day: Date().currentDateComponent().weekday)
         tblSession.reloadData()
     }
 }

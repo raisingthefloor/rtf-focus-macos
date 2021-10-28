@@ -205,24 +205,24 @@ extension NotificationManager {
     }
 
     func updateReminder(obj: Focus_Schedule?) {
-        guard let objF = obj, let uuid = objF.id, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
-        var dateComponents = startTime.toDateComponent()
-        dateComponents.minute = (Date().currentDateComponent().minute ?? 0) + Int(obj?.extend_min_time ?? 15)
-        print("DateComponents : === \(dateComponents)")
-
-        var arrDays = objF.days?.components(separatedBy: ",") ?? []
-        arrDays = arrDays.filter({ $0 != "" }).compactMap({ $0 })
-        if !arrDays.isEmpty {
-            print("Days : === \(arrDays)")
-            let identifiers = arrDays.map({ (id + "_" + $0) })
-            print("identifiers : === \(identifiers)")
-
-            NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
-            for i in arrDays {
-                let identifier = id + "_" + i
-                dateComponents.weekday = Int(i) ?? 0
-                NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
-            }
-        }
+//        guard let objF = obj, let uuid = objF.id, let id = objF.id?.uuidString, let startTime = objF.start_time else { return }
+//        var dateComponents = startTime.toDateComponent()
+//        dateComponents.minute = (Date().currentDateComponent().minute ?? 0) + Int(obj?.extend_min_time ?? 15)
+//        print("DateComponents : === \(dateComponents)")
+//
+//        var arrDays = objF.days?.components(separatedBy: ",") ?? []
+//        arrDays = arrDays.filter({ $0 != "" }).compactMap({ $0 })
+//        if !arrDays.isEmpty {
+//            print("Days : === \(arrDays)")
+//            let identifiers = arrDays.map({ (id + "_" + $0) })
+//            print("identifiers : === \(identifiers)")
+//
+//            NotificationManager.shared.removePendingNotificationRequests(identifiers: identifiers)
+//            for i in arrDays {
+//                let identifier = id + "_" + i
+//                dateComponents.weekday = Int(i) ?? 0
+//                NotificationManager.shared.setLocalNotification(info: LocalNotificationInfo(title: "Focus Reminder", body: "You asked to be reminded to focus at this time.", dateComponents: dateComponents, identifier: identifier, uuid: uuid, repeats: true))
+//            }
+//        }
     }
 }

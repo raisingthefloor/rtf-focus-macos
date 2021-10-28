@@ -96,20 +96,17 @@ extension WeekDaysCell: BasicSetupType {
     }
 
     @objc func toggleDay(_ sender: CustomButton) {
-//        var arrDays = objFSchedule?.days?.components(separatedBy: ",") ?? []
-        var arrDay = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days] // TODO: Perform the Logic with Array of Days object
+        var arrDay = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
         let tag = sender.tag
         var isSelected = false
         if !arrDay.isEmpty {
-//            isSelected = arrDays.compactMap({ Int($0) == tag }).filter({ $0 }).first ?? false
             isSelected = arrDay.compactMap({ Int($0.day) == tag }).filter({ $0 }).first ?? false
         }
-
+        // TODO: Need to update the logic
         if isSelected {
             if let objDay = arrDay.filter({ $0.day == tag }).compactMap({ $0 }).first {
                 if let index = arrDay.firstIndex(of: objDay) {
                     arrDay.remove(at: index)
-                    // objFSchedule?.days = arrDays.joined(separator: ",")
                     objFSchedule?.days_ = NSSet(array: arrDay)
                 }
             }
@@ -117,9 +114,9 @@ extension WeekDaysCell: BasicSetupType {
             let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
             objDay.day = Int16(tag)
             arrDay.append(objDay)
-            // objFSchedule?.days = arrDays.joined(separator: ",")
             objFSchedule?.days_ = NSSet(array: arrDay)
         }
+
         DBManager.shared.saveContext()
         configDays(obj: objFSchedule)
         refreshTable?(true)

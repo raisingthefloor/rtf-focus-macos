@@ -74,14 +74,14 @@ extension ReminderTimerManager {
 
         print("Time: \(time) ===== Day: \(day)")
 
-        let reminderData = DBManager.shared.checkAvailablReminder(day: String(day), time: time, type: .reminder)
+        let reminderData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .reminder)
         if reminderData.0 {
             if let obj = reminderData.1, let id = obj.id {
                 displayScheduleReminder(scheduleId: id)
             }
         }
 
-        let reminderSData = DBManager.shared.checkAvailablReminder(day: String(day), time: time, type: .schedule_focus)
+        let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .schedule_focus)
         if reminderSData.0 {
             if let obj = reminderSData.1, let id = obj.id {
                 displayScheduleReminder(scheduleId: id)

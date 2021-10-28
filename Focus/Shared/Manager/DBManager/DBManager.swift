@@ -495,11 +495,10 @@ extension DBManager {
 }
 
 extension DBManager {
-    func checkAvailablReminder(day: String, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?) {
+    func checkAvailablReminder(day: Int, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?) {
         let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
-        fetchRequest.predicate = NSPredicate(format: "days CONTAINS[c] %@ && start_time = %@ && type = %d && is_active = true", day, timeV, type.rawValue)
-
+        fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d && start_time = %@ && type = %d && is_active = true", day, timeV, type.rawValue)
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
@@ -517,16 +516,16 @@ extension DBManager {
     func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
         if day == nil {
-            fetchRequest.predicate = NSPredicate(format: "ANY time_range.time = %@", time)
+            fetchRequest.predicate = NSPredicate(format: "start_time = %@", time)
         } else {
             guard let day = day else { return [] }
             if time.isEmpty || time == "" {
                 fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d", day)
             } else {
-                fetchRequest.predicate = NSPredicate(format: "ANY time_range.time = %@ && ANY days_.day = %d", time, day)
+                fetchRequest.predicate = NSPredicate(format: "start_time = %@ && ANY days_.day = %d", time, day)
             }
         }
-        
+
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {

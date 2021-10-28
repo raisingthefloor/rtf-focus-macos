@@ -48,9 +48,8 @@ struct Color {
     static let schedule_one_color = NSColor("#662261") ?? .magenta.withAlphaComponent(0.2)
     static let schedule_two_color = NSColor("#0080A8") ?? .systemYellow.withAlphaComponent(0.2)
     static let schedule_three_color = NSColor("#002957") ?? .black.withAlphaComponent(0.2)
-    static let schedule_four_color = NSColor("#BF2035") ?? .magenta.withAlphaComponent(0.2)
+    static let schedule_four_color = NSColor("#3566D8") ?? .magenta.withAlphaComponent(0.2)
     static let schedule_five_color = NSColor("#008145") ?? .systemGreen.withAlphaComponent(0.2)
-    
     static let main_bg_color = NSColor("#FCFDFF") ?? .blue.withAlphaComponent(0.3)
     static let dialogue_bg_color = NSColor("#FAFCFF") ?? .blue.withAlphaComponent(0.1)
     static let day_selected_color = NSColor("#3566D8") ?? .blue

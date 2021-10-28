@@ -93,7 +93,6 @@ extension String {
         let startDate = self
         slots.append(self)
         let endDate = endTime
-        slots.append(endTime)
 
         let date1 = formatter.date(from: startDate)
         let date2 = formatter.date(from: endDate)
@@ -110,6 +109,7 @@ extension String {
             i += 1
             slots.append(string)
         }
+        slots.append(endTime)
         return slots
     }
 }
@@ -337,5 +337,12 @@ extension Array where Element: Hashable {
         let thisSet = Set(self)
         let otherSet = Set(other)
         return Array(thisSet.subtracting(otherSet))
+    }
+}
+
+extension Sequence where Iterator.Element: Hashable {
+    func unique() -> [Iterator.Element] {
+        var seen: [Iterator.Element: Bool] = [:]
+        return filter { seen.updateValue(true, forKey: $0) == nil }
     }
 }
