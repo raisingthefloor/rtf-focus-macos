@@ -1171,7 +1171,7 @@
                                                                                                                                                             <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                             <subviews>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tK6-5r-owt" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="-3" y="-4" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="-3" y="-8" width="109" height="32"/>
                                                                                                                                                                     <constraints>
                                                                                                                                                                         <constraint firstAttribute="height" constant="25" id="oPb-GV-uWc"/>
                                                                                                                                                                     </constraints>
@@ -1181,7 +1181,7 @@
                                                                                                                                                                     </buttonCell>
                                                                                                                                                                 </button>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cqo-6a-Vkw" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="110" y="-4" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="110" y="-8" width="109" height="32"/>
                                                                                                                                                                     <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U5T-ws-hd6">
                                                                                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                         <font key="font" metaFont="system"/>
@@ -2693,7 +2693,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                    <color key="value" red="0.0" green="0.1803921568627451" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="value" red="0.62352941179999999" green="0.75294117650000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </tableHeaderView>
@@ -3611,12 +3611,12 @@
                                                                                             </textFieldCell>
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                             <prototypeCellViews>
-                                                                                                <tableCellView identifier="nameId" misplaced="YES" id="Gwh-Sz-K6T" customClass="LabelCell" customModule="Focus" customModuleProvider="target">
+                                                                                                <tableCellView identifier="nameId" id="Gwh-Sz-K6T" customClass="LabelCell" customModule="Focus" customModuleProvider="target">
                                                                                                     <rect key="frame" x="4" y="5" width="132" height="24"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
                                                                                                         <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3dE-C9-WOh">
-                                                                                                            <rect key="frame" x="0.0" y="0.0" width="133" height="24"/>
+                                                                                                            <rect key="frame" x="0.0" y="0.0" width="129" height="24"/>
                                                                                                             <subviews>
                                                                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="VkQ-fl-R2R">
                                                                                                                     <rect key="frame" x="0.0" y="1" width="20" height="23"/>
@@ -3626,9 +3626,9 @@
                                                                                                                     </constraints>
                                                                                                                 </customView>
                                                                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j9N-JR-a1b">
-                                                                                                                    <rect key="frame" x="23" y="5" width="112" height="15"/>
-                                                                                                                    <textFieldCell key="cell" controlSize="small" title="Meditation Session" id="7Fi-Wm-qdD">
-                                                                                                                        <font key="font" metaFont="cellTitle"/>
+                                                                                                                    <rect key="frame" x="23" y="5" width="108" height="14"/>
+                                                                                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" title="Meditation Session" id="7Fi-Wm-qdD">
+                                                                                                                        <font key="font" metaFont="system" size="11"/>
                                                                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                                     </textFieldCell>
@@ -3800,7 +3800,7 @@
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                             <userDefinedRuntimeAttributes>
                                                                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                    <color key="value" red="0.29803921568627451" green="0.50980392156862742" blue="0.75686274509803919" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                    <color key="value" red="0.77647058820000003" green="0.85490196080000003" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                         </tableHeaderView>

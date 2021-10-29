@@ -78,10 +78,22 @@ class AppManager {
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
-        guard let obj = DBManager.shared.getCurrentSession(), !obj.is_focusing else { return } // TODO: Conditio also comes here when Restart Computer will On
-        resetFocusSession()
-        stopScriptObserver()
-        NSApplication.shared.terminate(self)
+        guard let obj = DBManager.shared.getCurrentSession(), let objBl = DBManager.shared.getCurrentBlockList().objBl else {
+            resetFocusSession()
+            stopScriptObserver()
+            NSApplication.shared.terminate(self)
+
+            return
+        }
+        if objBl.restart_computer && obj.is_focusing {
+            resetFocusSession()
+            stopScriptObserver()
+            NSApplication.shared.terminate(self)
+        } else if !obj.is_focusing {
+            resetFocusSession()
+            stopScriptObserver()
+            NSApplication.shared.terminate(self)
+        }
     }
 }
 

@@ -56,7 +56,7 @@ class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput,
         var arrAppWeb = objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
         arrAppWeb = arrAppWeb?.filter({ $0.block_type == block_type.rawValue })
         for val in data {
-            let isNotPresent = arrAppWeb?.compactMap({ $0.name != (val["name"] as? String) }).filter({ $0 }).first ?? false
+            let isNotPresent = arrAppWeb?.compactMap({ $0.name != (val["name"] as? String) }).filter({ $0 }).first ?? true
             if isNotPresent {
                 let objSubWA = Block_SubCategory(context: DBManager.shared.managedContext)
                 for (key, value) in val {

@@ -256,7 +256,10 @@ extension SchedulerViewC {
         objFSchedule.start_time_ = nil
         objFSchedule.end_time_ = nil
         objFSchedule.time_interval = 0
-        objFSchedule.days_ = NSSet(array: [])
+        let arrFSD = objFSchedule.days_?.allObjects as! [Focus_Schedule_Days]
+        for obj in arrFSD {
+            DBManager.shared.managedContext.delete(obj)
+        }
         objFSchedule.time_range = NSSet(array: [])
         objFSchedule.extend_info?.is_extend_mid = false
         objFSchedule.extend_info?.is_extend_long = false

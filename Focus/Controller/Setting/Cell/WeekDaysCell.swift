@@ -102,19 +102,19 @@ extension WeekDaysCell: BasicSetupType {
         if !arrDay.isEmpty {
             isSelected = arrDay.compactMap({ Int($0.day) == tag }).filter({ $0 }).first ?? false
         }
-        // TODO: Need to update the logic
+
         if isSelected {
             if let objDay = arrDay.filter({ $0.day == tag }).compactMap({ $0 }).first {
-                if let index = arrDay.firstIndex(of: objDay) {
-                    arrDay.remove(at: index)
-                    objFSchedule?.days_ = NSSet(array: arrDay)
-                }
+                DBManager.shared.managedContext.delete(objDay)
+                DBManager.shared.saveContext()
             }
         } else {
-            let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
-            objDay.day = Int16(tag)
-            arrDay.append(objDay)
-            objFSchedule?.days_ = NSSet(array: arrDay)
+            if !warningToAddThirdSession() {
+                let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
+                objDay.day = Int16(tag)
+                arrDay.append(objDay)
+                objFSchedule?.days_ = NSSet(array: arrDay)
+            }
         }
 
         DBManager.shared.saveContext()
@@ -122,17 +122,21 @@ extension WeekDaysCell: BasicSetupType {
         refreshTable?(true)
     }
 
-    func warningToAddThirdSession(time: String, day: Int) -> Bool {
-        let isAvailable = DBManager.shared.checkScheduleSession(time: time, day: day)
-        if isAvailable {
-            let presentingCtrl = WindowsManager.getPresentingController()
-            let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-            errorDialog.errorType = .general_setting_error
-            errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
-            presentingCtrl?.presentAsSheet(errorDialog)
+    func warningToAddThirdSession() -> Bool {
+        if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let arrFSD = objFSchedule?.days_?.allObjects as? [Focus_Schedule_Days], let id = objFSchedule?.id {
+            let daysV = arrFSD.compactMap({ Int($0.day) })
+
+            if DBManager.shared.checkScheduleSession(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+                let presentingCtrl = WindowsManager.getPresentingController()
+                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+                errorDialog.errorType = .general_setting_error
+                errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
+                presentingCtrl?.presentAsSheet(errorDialog)
+                return true
+            }
+
             return false
         }
-
-        return true
+        return false
     }
 }

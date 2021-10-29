@@ -82,7 +82,6 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         }
         comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
-        print("Start date : \(obj?.start_time)")
     }
 
     func configEndCell(obj: Focus_Schedule?, arrTimes: [String]) {
@@ -100,10 +99,10 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         }
         comboTime.delegate = self
         comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
-        print("End date : \(obj?.end_time)")
     }
 
     func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
+        print(" Combobox ::::  \(string)")
         for time in arrTimes {
             // substring must have less characters then stings to search
             if string.count < arrTimes.count {
@@ -121,8 +120,6 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
         let comboBox: NSComboBox = (notification.object as? NSComboBox)!
-
-        print("comboBox Change event \(comboBox.objectValueOfSelectedItem) ::::::: \(notification)")
         updateTimeValue(comboBox, time: comboBox.objectValueOfSelectedItem as? String)
     }
 
@@ -136,22 +133,50 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
             objFSchedule?.end_time = time
             objFSchedule?.end_time_ = time.toDateTime()
         }
-        DBManager.shared.saveContext()
-        refreshTable?(true)
-    }
 
-    func warningToAddThirdSession(time: String, day: Int) -> Bool {
-        let isAvailable = DBManager.shared.checkScheduleSession(time: time, day: day)
-        if isAvailable {
-            let presentingCtrl = WindowsManager.getPresentingController()
-            let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-            errorDialog.errorType = .general_setting_error
-            errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
-            presentingCtrl?.presentAsSheet(errorDialog)
-            return false
+        let arrFSD = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
+        let daysV = arrFSD.compactMap({ Int($0.day) })
+        var referesh: Bool = true
+
+        if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
+            if s_time > e_time {
+                objFSchedule?.end_time = ""
+                objFSchedule?.end_time_ = nil
+                if comboBox.tag == 2 { comboTime.stringValue = "" }
+                configEndCell(obj: objFSchedule, arrTimes: arrTimes)
+                referesh = false
+                displayError()
+
+            } else if DBManager.shared.checkScheduleSession(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+                if comboBox.tag == 2 {
+                    comboTime.stringValue = ""
+                    objFSchedule?.end_time = ""
+                    objFSchedule?.end_time_ = nil
+
+                    configEndCell(obj: objFSchedule, arrTimes: arrTimes)
+                } else {
+                    comboTime.stringValue = ""
+                    objFSchedule?.start_time = ""
+                    objFSchedule?.start_time_ = nil
+
+                    configStartCell(obj: objFSchedule, arrTimes: arrTimes)
+                }
+
+                referesh = false
+                displayError()
+            }
         }
 
-        return true
+        DBManager.shared.saveContext()
+        refreshTable?(referesh)
+    }
+
+    func displayError() {
+        let presentingCtrl = WindowsManager.getPresentingController()
+        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+        errorDialog.errorType = .general_setting_error
+        errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
+        presentingCtrl?.presentAsSheet(errorDialog)
     }
 }
 

@@ -38,6 +38,7 @@ script BrowserBridge
         set isFocusing to true
         
         repeat until isFocusing is false
+            log("Script Running :::::::")
 --            log("urls :::::::  " & urls)
 --            log("isFocusing :::::::  " & isFocusing)
                 if application "Safari" is running then

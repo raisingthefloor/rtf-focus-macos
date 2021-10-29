@@ -89,29 +89,28 @@ extension ScheduleViewModel {
             var arrTSlot: [String] = []
 
             for obj in arrInnerFS {
-                guard let start_time = obj.start_time, let end_time = obj.end_time else { continue }
+                guard let start_time = obj.start_time,!start_time.isEmpty, let end_time = obj.end_time, !end_time.isEmpty else { continue }
                 arrTSlot = arrTSlot + start_time.getTimeSlots(endTime: end_time)
             }
             arrTSlot = arrTSlot.unique()
 
             let colors = arrInnerFS.compactMap({ NSColor($0.session_color ?? "#DCEFE6") })
             let color_type = arrInnerFS.compactMap({ ColorType(rawValue: Int($0.color_type)) })
+            let arrUUID = arrInnerFS.compactMap({ $0.id })
 
             for time in arrTSlot {
                 let isExist = arrScheduleS.compactMap({ $0.time == time }).filter({ $0 }).first ?? false
-
-                var arrScheduleDays: [ScheduleDay] = []
                 let objNewSS = ScheduleSession(time: time, days: [])
-
                 let objSS = arrScheduleS.filter({ $0.time == time }).compactMap({ $0 }).first ?? objNewSS
                 var objMutableSS = isExist ? objSS : objNewSS
+                var arrScheduleDays: [ScheduleDay] = []
 
                 if !intersectData.isEmpty {
                     for day in intersectData {
                         let day_e = Days(rawValue: Int(day)) ?? .sun
                         print("intersectData 2 Days :::::::::::: \(objMutableSS.days)  ::::::::: \(objMutableSS.time)")
                         let no_session = 2
-                        let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: colors, day: day_e, color_type: color_type)
+                        let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: colors, day: day_e, color_type: color_type, time: time)
                         arrScheduleDays.append(scheduleDay)
                     }
                 }
@@ -121,24 +120,20 @@ extension ScheduleViewModel {
                         let day_e = Days(rawValue: Int(day)) ?? .sun
                         var s_days = objMutableSS.days
                         let no_session = 1
-                        print(" Daye :::: \(day_e.identifier) Days :::::::::::: \(s_days)  ::::::::: \(objMutableSS.time)")
-                        print("Schedule Day :::::::::::: \(s_days.filter({ $0.day == day_e }).compactMap({ $0 }).first)")
-
-                        if var sDay = s_days.filter({ $0.day == day_e }).compactMap({ $0 }).first {
-                            print("IF Condition")
+                        if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).first {
+                            print("IF Condition  Schedule Day ::   \(sDay)")
                             sDay.noOfsession = 2
                             sDay.colors = sDay.colors + colors
                             sDay.color_type = sDay.color_type + color_type
+                            sDay.time = time
                             if let index = s_days.firstIndex(where: { $0.day == day_e }) {
                                 s_days[index] = sDay
                             }
-
                             print("Inner After ADDed Days :::::::::::: \(s_days)  ::::::::: \(objMutableSS.time)")
                             objMutableSS.days = s_days
-
                         } else {
                             print("ELSE Condition NEW Data")
-                            let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: colors, day: day_e, color_type: color_type)
+                            let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: colors, day: day_e, color_type: color_type, time: time)
                             print("ELSE Condition NEW Data :::::::::::: \(scheduleDay)  ::::::::: \(objMutableSS.time) ::::::: \(day_e)")
                             arrScheduleDays.append(scheduleDay)
                         }
@@ -156,7 +151,7 @@ extension ScheduleViewModel {
                 }
             }
         }
-        print("Final Session Data :::::: \(arrScheduleS)")
+        print("Final Session Data :::::: \(arrScheduleS.count)")
         return arrScheduleS
     }
 }
@@ -172,6 +167,7 @@ struct ScheduleDay {
     var colors: [NSColor]
     var day: Days
     var color_type: [ColorType]
+    var time: String
 }
 
 enum ScheduleType: Int {

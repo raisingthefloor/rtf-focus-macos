@@ -56,7 +56,7 @@ protocol DBMangerLogic {
     func checkAvailablReminder(day: Int, time: String, type: ScheduleType) -> (Bool, Focus_Schedule?)
 
     func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule]
-    func checkScheduleSession(time: String, day: Int) -> Bool
+    func checkScheduleSession(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool
 
     func truncateTable(name: String)
     func deleteObject(name: String, predicate: NSPredicate?)
