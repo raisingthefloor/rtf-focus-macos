@@ -114,4 +114,35 @@ extension SessionInfoView: BasicSetupType {
         let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (objFocus?.end_time ?? Date()).convertToTime()
         lblEndV.stringValue = endValue
     }
+    
+    func setupSecondData() {
+        titleV?.isHidden = true
+        lblHours.alignment = .right
+        lblBlock.alignment = .right
+        lblEnd.alignment = .right
+
+        let objFocus = DBManager.shared.getCurrentBlockList().objFocus
+        let objB = DBManager.shared.getCurrentBlockList().objSBl
+        let focus_length = Int(objFocus?.used_focus_time ?? 100).secondsToTime()
+
+        var time = ""
+        if focus_length.timeInHours != 0 {
+            time = "\(focus_length.timeInHours) hrs \(focus_length.timeInMinutes) minutes"
+        } else {
+            time = "\(focus_length.timeInMinutes) minutes \(focus_length.timeInSeconds) sec"
+        }
+
+        lblHoursV.stringValue = time
+
+        var list_name = objB?.name ?? "-"
+        if objB?.restart_computer ?? false || objB?.random_character ?? false {
+            list_name = "🔒" + " " + list_name
+        }
+
+        lblBlockV.stringValue = (objFocus?.is_block_programe_select ?? false) ? list_name : "-"
+
+        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (objFocus?.end_time ?? Date()).convertToTime()
+        lblEndV.stringValue = endValue
+    }
+
 }

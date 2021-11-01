@@ -39,6 +39,7 @@ protocol MenuViewModelType {
     var input: MenuViewModelIntput { get }
     var output: MenuViewModelOutput { get }
     var model: DataModelType { get set }
+    var viewCntrl: ViewCntrl { get set }
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
@@ -49,6 +50,7 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
     var input: MenuViewModelIntput { return self }
     var output: MenuViewModelOutput { return self }
     var model: DataModelType = DataModel()
+    var viewCntrl: ViewCntrl = .main_menu
 }
 
 extension MenuViewModel {
@@ -81,14 +83,7 @@ extension MenuViewModel {
             focusObj?.is_focusing = false
             print("stop_focus")
         }
-        focusObj?.created_date = Date()
-        focusObj?.focus_length_time = time.value
-        focusObj?.remaining_time = time.value
-        let timecomp = Int(time.value).secondsToTime()
-        focusObj?.end_time = focusObj?.created_date?.adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
-        let objExVal = Extended_FB_Value(context: DBManager.shared.managedContext)
-        focusObj?.extended_value = objExVal
-        DBManager.shared.saveContext()
+        updateParallelFocusSession(time: time)
         callback(true, nil)
     }
 
@@ -104,12 +99,39 @@ extension MenuViewModel {
         case .block_program_website:
             print("block_program_website ::: \(state)")
             focusObj?.is_block_programe_select = (state == .on) ? true : false
-            let arrBlock = model.input.getBlockList(cntrl: .main_menu).1
+            let arrBlock = model.input.getBlockList(cntrl: .main_menu).blists
             focusObj?.block_list_id = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
+            focusObj?.block_list_second_id = (state == .on) ? ((viewCntrl != .main_menu) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil) : nil
         default:
             print("default ::: \(state)")
         }
         DBManager.shared.saveContext()
         callback(state, nil)
+    }
+
+    func updateParallelFocusSession(time: Focus.StopTime) {
+        focusObj?.created_date = Date()
+        focusObj?.is_parallels_session = (viewCntrl != .main_menu) ? true : false
+        let timeVal = (viewCntrl != .main_menu) ? (focusObj?.focus_length_time ?? 0) + time.value : time.value
+
+        focusObj?.focus_length_time = timeVal
+        focusObj?.remaining_time = (viewCntrl != .main_menu) ? (timeVal - (focusObj?.remaining_time ?? 0)) : timeVal
+        
+        if (viewCntrl != .main_menu) {
+            let timecomp = Int(timeVal).secondsToTime()
+            focusObj?.session_second_start_time = Date()
+            focusObj?.session_second_end_time = Date().adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
+        }else{
+            let timecomp = Int(timeVal).secondsToTime()
+            focusObj?.session_one_start_time = Date()
+            focusObj?.session_one_end_time = Date().adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
+        }
+        
+        
+        if focusObj?.extended_value == nil {
+            let objExVal = Extended_FB_Value(context: DBManager.shared.managedContext)
+            focusObj?.extended_value = objExVal
+        }
+        DBManager.shared.saveContext()
     }
 }

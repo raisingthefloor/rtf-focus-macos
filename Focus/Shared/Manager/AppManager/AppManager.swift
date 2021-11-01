@@ -190,6 +190,8 @@ extension AppManager {
         obj.is_focusing = false
         obj.is_break_time = false
         obj.focus_untill_stop = false
+        obj.is_parallels_session = false
+        obj.block_list_second_id = nil
         obj.used_focus_time = 0
         obj.decrease_break_time = 0
         obj.remaining_time = 0

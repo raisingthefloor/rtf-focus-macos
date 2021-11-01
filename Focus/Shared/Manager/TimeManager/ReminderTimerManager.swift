@@ -75,16 +75,16 @@ extension ReminderTimerManager {
         print("Time: \(time) ===== Day: \(day)")
 
         let reminderData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .reminder)
-        if reminderData.0 {
-            if let obj = reminderData.1, let id = obj.id {
-                displayScheduleReminder(scheduleId: id)
+        if reminderData.isPresent {
+            if let obj = reminderData.objFS, let id = obj.id {
+                displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_without_blocklist_alert)
             }
         }
 
         let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .schedule_focus)
-        if reminderSData.0 {
-            if let obj = reminderSData.1, let id = obj.id {
-                displayScheduleReminder(scheduleId: id)
+        if reminderSData.isPresent {
+            if let obj = reminderSData.objFS, let id = obj.id {
+                displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_with_blocklist_alert)
             }
         }
     }
@@ -101,7 +101,7 @@ extension ReminderTimerManager {
 }
 
 extension ReminderTimerManager {
-    func displayScheduleReminder(scheduleId: UUID) {
+    func displayScheduleReminder(scheduleId: UUID, dialogueType: FocusDialogue) {
         DispatchQueue.main.async {
             let presentCtrl = WindowsManager.getPresentingController()
             guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId), let objEx = obj.extend_info else { return }
@@ -111,10 +111,12 @@ extension ReminderTimerManager {
                 return
             }
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
-            controller.dialogueType = .schedule_reminded_without_blocklist_alert
+            controller.dialogueType = dialogueType
             controller.viewModel.reminderSchedule = obj
             controller.breakAction = { action, value, valueType in
-                self.updateViewnData(dialogueType: .schedule_reminded_without_blocklist_alert, action: action, value: value, valueType: valueType, scheduleId: scheduleId)
+                if dialogueType == .schedule_reminded_without_blocklist_alert {
+                    self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType, scheduleId: scheduleId)
+                }
             }
             presentCtrl?.presentAsSheet(controller)
         }
@@ -129,7 +131,8 @@ extension ReminderTimerManager {
             DBManager.shared.saveContext()
             // Reminder Extend functionality (Timer)
             guard extendTimer == nil else { return }
-            extendTimer = Timer.scheduledTimer(timeInterval: Double(value), target: self, selector: #selector(releaseView), userInfo: scheduleId, repeats: false)
+            let data: [String: Any] = ["dType": dialogueType, "scheduleId": scheduleId]
+            extendTimer = Timer.scheduledTimer(timeInterval: Double(value), target: self, selector: #selector(releaseView), userInfo: data, repeats: false)
         case .skip_session:
             break
         case .normal_ok:
@@ -208,9 +211,9 @@ extension ReminderTimerManager {
     }
 
     @objc func releaseView() {
-        guard extendTimer != nil, let id = extendTimer?.userInfo as? UUID else { return }
+        guard extendTimer != nil, let data = extendTimer?.userInfo as? [String: Any], let dType = data["dType"] as? FocusDialogue, let id = data["scheduleId"] as? UUID else { return }
         extendTimer?.invalidate()
         extendTimer = nil
-        displayScheduleReminder(scheduleId: id)
+        displayScheduleReminder(scheduleId: id, dialogueType: dType)
     }
 }

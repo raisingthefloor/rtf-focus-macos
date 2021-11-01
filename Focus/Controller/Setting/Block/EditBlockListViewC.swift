@@ -296,7 +296,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
-            return dataModel.input.getCategoryList(cntrl: .edit_blocklist).1.count
+            return dataModel.input.getCategoryList(cntrl: .edit_blocklist).count
         } else if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "blockIdentifier") {
             return dataModel.objBlocklist?.block_app_web?.allObjects.count ?? 0
         } else {
@@ -311,7 +311,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
     func setupCellForDifferentTable(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         // Category list
         if tableView.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
-            let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[row]
+            let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist)[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: nil) as? ButtonCell {
                     cell.configCategoryCell(row: row, objCat: objCat, objBlocklist: dataModel.objBlocklist, target: self, action: #selector(addCategoryAction(_:)))
@@ -373,7 +373,7 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
             let selectedRow = tblV.selectedRow
             guard selectedRow != -1 else { return }
             if tblV.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
-                let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[selectedRow]
+                let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist)[selectedRow]
                 if objCat.show_link {
                     let listDialogue = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
                     listDialogue.listType = .category_list
@@ -398,8 +398,8 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     }
 
     func updateBlocklistList() {
-        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
-        dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1.first
+        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).nsMenu
+        dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).blists.first
         updateRadioOptions()
         disableControl(id: dataModel.objBlocklist?.id)
         reloadTables()
@@ -421,7 +421,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Store the Apps in Block Also and Exception as per selected blick list
     @objc func addAppAction(_ sender: NSButton) {
-        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).blists
         if !arrBlock.isEmpty {
             let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
             controller.listType = .system_app_list
@@ -449,7 +449,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Store the Web URL in Block Also and Exception as per selected blick list
     @objc func addWebAction(_ sender: NSButton) {
-        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).1
+        let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).blists
         if !arrBlock.isEmpty {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_website
@@ -516,7 +516,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             }
         }
 
-        let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist).1[sender.tag]
+        let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist)[sender.tag]
         obj.is_selected = !obj.is_selected
         DBManager.shared.saveContext()
         dataModel.input.updateSelectedCategorylist(objCat: obj) { _ in
@@ -540,7 +540,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
             presentAsSheet(inputDialogueCntrl)
         } else {
-            dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).1[index]
+            dataModel.objBlocklist = dataModel.input.getBlockList(cntrl: .edit_blocklist).blists[index]
             updateRadioOptions()
             disableControl(id: dataModel.objBlocklist?.id)
         }
@@ -625,7 +625,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             break
         }
         DBManager.shared.saveContext()
-        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).0
+        comboBlock.menu = dataModel.input.getBlockList(cntrl: .edit_blocklist).nsMenu
     }
 
     func reloadTables() {

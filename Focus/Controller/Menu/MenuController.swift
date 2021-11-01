@@ -63,7 +63,7 @@ class MenuController: BaseViewController {
     @IBOutlet var btnCostomizeSetting: CustomButton!
     @IBOutlet var lblSetting: NSTextField!
 
-    let viewModel: MenuViewModelType = MenuViewModel()
+    var viewModel: MenuViewModelType = MenuViewModel()
 
     var focusStart: ((Bool) -> Void)?
 
@@ -174,7 +174,7 @@ extension MenuController: BasicSetupType {
     }
 
     func bindData() {
-        popBlock.menu = viewModel.model.input.getBlockList(cntrl: .main_menu).0
+        popBlock.menu = viewModel.model.input.getBlockList(cntrl: .main_menu).nsMenu
         popBlock.selectItem(at: 0)
         popBlock.alignment = .left
 
@@ -247,7 +247,7 @@ extension MenuController: BasicSetupType {
     // Block list selection
     @IBAction func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
-        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).1
+        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).blists
         let index = popBlock.selectedTag()
         if index == -1 {
             performSegue(withIdentifier: "segueSetting", sender: SettingOptions.block_setting)
@@ -256,10 +256,10 @@ extension MenuController: BasicSetupType {
                 let objBlockList = arrBlock[index]
 //                viewModel.input.focusObj.block_data = objBlockList
                 viewModel.input.focusObj?.block_list_id = objBlockList.id
+                viewModel.input.focusObj?.block_list_second_id = (viewModel.viewCntrl != .main_menu) ? objBlockList.id : nil
             }
         }
         DBManager.shared.saveContext()
-        //    print("Selected block:", popBlock.titleOfSelectedItem ?? "")
     }
 
     @IBAction func foucsTimeSelection(_ sender: Any) {
@@ -279,9 +279,6 @@ extension MenuController: BasicSetupType {
     }
 
     @objc func openCustomSetting() {
-//        if let vc = WindowsManager.getVC(withIdentifier: "sidCustomSetting", ofType: CustomSettingController.self, storyboard: "CustomSetting") {
-//            presentAsSheet(vc)
-//        }
         performSegue(withIdentifier: "segueSetting", sender: self)
     }
 }
@@ -294,7 +291,7 @@ extension MenuController {
         obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
         obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
         blockStackV.isHidden = !obj.is_block_programe_select
-        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).1
+        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).blists
         if !arrBlock.isEmpty {
             obj.block_list_id = arrBlock[0].id
         }
@@ -306,8 +303,8 @@ extension MenuController {
             if let detailVC = segue.destinationController as? CustomSettingController {
                 detailVC.selectOption = sender as? SettingOptions ?? SettingOptions.general_setting
                 detailVC.updateView = { [weak self] _ in
-                    self?.popBlock.menu = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).0
-                    if let arrBlock = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).1,!arrBlock.isEmpty {
+                    self?.popBlock.menu = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).nsMenu
+                    if let arrBlock = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).blists,!arrBlock.isEmpty {
                         guard let obj = self?.viewModel.input.focusObj else { return }
                         obj.block_list_id = arrBlock[0].id
                         DBManager.shared.saveContext()

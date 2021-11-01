@@ -124,6 +124,8 @@ extension FloatingFocusViewC {
                         self?.focusTimerModel.input.stopTimer()
                         self?.breakTimerModel.input.stopTimer()
                         self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
+                    }else{
+                        
                     }
                 }
                 presentAsModalWindow(controller)
@@ -245,7 +247,7 @@ extension FloatingFocusViewC {
         case .extend_focus:
             // Focus Extend Here
             obj.extended_focus_time = Double(value)
-            obj.stop_focus_after_time  = Double(value) // Whatever value set after that min break alert will comes
+            obj.stop_focus_after_time = Double(value) // Whatever value set after that min break alert will comes
             let val = obj.remaining_time + Double(value)
             obj.remaining_time = val
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
@@ -270,7 +272,7 @@ extension FloatingFocusViewC {
             break
         case .normal_ok:
             updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession, value: value, valueType: valueType)
-        case .extend_reminder:
+        case .extend_reminder, .new_session:
             break
         }
     }

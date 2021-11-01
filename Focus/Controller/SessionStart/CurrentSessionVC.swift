@@ -66,6 +66,7 @@ class CurrentSessionVC: BaseViewController {
         DispatchQueue.main.async {
             self.setUpText()
             self.sessionV_1.setupSingleData()
+            self.sessionV_2.setupSingleData()
         }
     }
 
@@ -78,9 +79,8 @@ class CurrentSessionVC: BaseViewController {
 extension CurrentSessionVC: BasicSetupType {
     func setUpText() {
         let objFocus = viewModel?.input.focusObj
-        
-        lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
+        lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
         var remaing_break_time = Int(objFocus?.stop_focus_after_time ?? 100)
 
@@ -95,7 +95,6 @@ extension CurrentSessionVC: BasicSetupType {
             time = "\(break_time.timeInMinutes) minutes \(break_time.timeInSeconds) sec"
         }
 
-
         let subTitle_0 = (objFocus?.is_break_time ?? false) ? NSLocalizedString("Session.ur_break_end", comment: "Your break ends ") : NSLocalizedString("Session.ur_next_break", comment: "Your next break is in ")
 
         let subTitle = subTitle_0 + time
@@ -105,7 +104,7 @@ extension CurrentSessionVC: BasicSetupType {
         attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .regular), subString: subTitle)
         attributedText.apply(font: NSFont.systemFont(ofSize: 13, weight: .bold), subString: time)
         lblSubTitle.attributedStringValue = attributedText
-                
+
         let customize_setting = NSLocalizedString("Home.customize_setting", comment: "Customize Focus")
         let customize_setting_str = NSMutableAttributedString.getAttributedString(fromString: customize_setting)
         customize_setting_str.underLine(subString: customize_setting, lineColor: .white)
@@ -119,7 +118,7 @@ extension CurrentSessionVC: BasicSetupType {
     }
 
     func setUpViews() {
-        title = "" //NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
+        title = "" // NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
         if let window: NSWindow = view.window {
             window.styleMask.remove(.fullScreen)
@@ -170,13 +169,21 @@ extension CurrentSessionVC: BasicSetupType {
         let objFocus = viewModel?.input.focusObj
         lblSubTitle.isHidden = (objFocus?.focus_untill_stop ?? false) ? true : false
         lblSubTitle.isHidden = (objFocus?.is_provided_short_break ?? false) ? false : true
+        btnStart.isHidden = objFocus?.is_parallels_session ?? false
 
+        if btnStart.isHidden {
+            sessionStack.removeSubviews()
+        }
         sessionV_1.setupSingleData()
         sessionV_1.btnStop.target = self
         sessionV_1.btnStop.action = #selector(stopAction(_:))
         sessionStack.addArrangedSubview(sessionV_1)
-//        let sessionV1 = SessionInfoView()
-//        sessionStack.addArrangedSubview(sessionV1)
+        if btnStart.isHidden {
+            sessionV_2.setupSingleData()
+            sessionV_2.btnStop.target = self
+            sessionV_2.btnStop.action = #selector(stopAction(_:))
+            sessionStack.addArrangedSubview(sessionV_2)
+        }
     }
 }
 
@@ -188,17 +195,24 @@ extension CurrentSessionVC {
             controller.updateView = { [weak self] _ in
                 self?.startTimer()
             }
-
             presentAsModalWindow(controller)
         }
     }
 
     @objc func startSession(_ sender: NSButton) {
         // Action perform for starting the session
-        let alert = NSAlert()
-        alert.alertStyle = .critical
-        alert.messageText = "Underconstruction!!!"
-        alert.runModal()
+        stopTimer()
+
+        if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+            controller.viewModel.viewCntrl = .current_session
+            controller.focusStart = { [weak self] isStarted in
+                if isStarted {
+                    self?.startTimer()
+                    self?.setFocusSessionView()
+                }
+            }
+            presentAsModalWindow(controller)
+        }
     }
 
     @objc func okAction(_ sender: NSButton) {

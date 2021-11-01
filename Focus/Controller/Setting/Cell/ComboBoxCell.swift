@@ -174,7 +174,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
     func displayError() {
         let presentingCtrl = WindowsManager.getPresentingController()
         let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-        errorDialog.errorType = .general_setting_error
+        errorDialog.errorType = .focus_schedule_error
         errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
         presentingCtrl?.presentAsSheet(errorDialog)
     }
@@ -190,7 +190,7 @@ extension ComboBoxCell {
         let color_type = ColorType(rawValue: Int(objFSchedule?.color_type ?? 1))
 
         popBlocklist.removeAllItems()
-        popBlocklist.menu = modelV.input.getBlockList(cntrl: .schedule_session).0
+        popBlocklist.menu = modelV.input.getBlockList(cntrl: .schedule_session).nsMenu
         popBlocklist.target = self
         popBlocklist.action = #selector(handleBlockSelection(_:))
         statusV.border_color = .clear
@@ -225,10 +225,10 @@ extension ComboBoxCell {
             objFSchedule?.type = Int64(ScheduleType.reminder.rawValue)
             objFSchedule?.has_block_list_stop = false
         } else {
-            objFSchedule?.block_list_name = modelV.input.getBlockList(cntrl: .schedule_session).1[index].name
-            objFSchedule?.block_list_id = modelV.input.getBlockList(cntrl: .schedule_session).1[index].id
+            objFSchedule?.block_list_name = modelV.input.getBlockList(cntrl: .schedule_session).blists[index].name
+            objFSchedule?.block_list_id = modelV.input.getBlockList(cntrl: .schedule_session).blists[index].id
             objFSchedule?.type = Int64(ScheduleType.schedule_focus.rawValue)
-            objFSchedule?.has_block_list_stop = modelV.input.getBlockList(cntrl: .schedule_session).1[index].stop_focus_session_anytime ? false : true
+            objFSchedule?.has_block_list_stop = modelV.input.getBlockList(cntrl: .schedule_session).blists[index].stop_focus_session_anytime ? false : true
         }
         objFSchedule?.is_active = true
         DBManager.shared.saveContext()

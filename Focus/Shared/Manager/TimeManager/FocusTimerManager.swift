@@ -28,7 +28,7 @@ import Foundation
 
 class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
+    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface], objSBl: Block_List?)?
     var input: TimerModelIntput { return self }
     var output: TimerModelOutput { return self }
     var usedTime: Int = 0

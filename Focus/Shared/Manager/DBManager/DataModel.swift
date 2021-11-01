@@ -28,8 +28,8 @@ import Foundation
 
 protocol DataModelIntput {
     func storeBlocklist(data: [String: Any?])
-    func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category])
-    func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List])
+    func getCategoryList(cntrl: ViewCntrl) -> [Block_Category]
+    func getBlockList(cntrl: ViewCntrl) -> (nsMenu: NSMenu, blists: [Block_List])
     func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
     func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
     func updateSelectedCategorylist(objCat: Block_Category, callback: @escaping ((Bool) -> Void))
@@ -50,7 +50,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
     var input: DataModelIntput { return self }
     var output: DataModelOutput { return self }
 
-    func getCategoryList(cntrl: ViewCntrl) -> (NSMenu, [Block_Category]) {
+    func getCategoryList(cntrl: ViewCntrl) -> [Block_Category] {
         let menus = NSMenu()
         let categories = DBManager.shared.getCategories()
         var i = 0
@@ -65,10 +65,10 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         let showOption = NSMenuItem(title: title, action: nil, keyEquivalent: "c")
         showOption.tag = -1
         menus.addItem(showOption)
-        return (menus, categories)
+        return categories
     }
 
-    func getBlockList(cntrl: ViewCntrl) -> (NSMenu, [Block_List]) {
+    func getBlockList(cntrl: ViewCntrl) -> (nsMenu: NSMenu, blists: [Block_List]) {
         let menus = NSMenu()
         let blocklist = DBManager.shared.getBlockList()
 
@@ -169,7 +169,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             }
         }
     }
-    
+
     static func storeCategory() {
         var i = 1
         for val in Categories.arrCategories {
@@ -185,7 +185,6 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             DBManager.shared.saveCategory(data: data, type: .general, cat: .general)
         }
     }
-
 }
 
 enum ViewCntrl: Int {
@@ -195,6 +194,7 @@ enum ViewCntrl: Int {
     case edit_blocklist
     case schedule_session
     case today_schedule
+    case current_session
 
     var combolast_option_title: String {
         switch self {

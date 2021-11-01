@@ -31,6 +31,7 @@ enum ErrorDialogue: Int {
     case edit_blocklist_error
     case schedule_error
     case general_setting_error
+    case validation_error
 
     var title: String {
         switch self {
@@ -42,6 +43,8 @@ enum ErrorDialogue: Int {
             return NSLocalizedString("Error.scheduler", comment: "Two Focus sessions already scheduled")
         case .general_setting_error:
             return NSLocalizedString("Error.active_focus_error", comment: "Changes cannot be made during active Focus session")
+        case .validation_error:
+            return ""
         }
     }
 
@@ -55,6 +58,8 @@ enum ErrorDialogue: Int {
             return NSLocalizedString("Error.scheduler_desc", comment: "More than two Focus sessions cannot be scheduled for the same time.\nTry editing your schedule.")
         case .general_setting_error:
             return NSLocalizedString("Error.active_focus_error_desc", comment: "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.")
+        case .validation_error:
+            return ""
         }
     }
 
@@ -62,7 +67,7 @@ enum ErrorDialogue: Int {
         switch self {
         case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
             return NSLocalizedString("Error.random_character_info", comment: "< include “stop task” message if there is as stop task>")
-        case .schedule_error:
+        case .schedule_error,.validation_error:
             return ""
         }
     }
@@ -71,7 +76,7 @@ enum ErrorDialogue: Int {
         switch self {
         case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
             return NSLocalizedString("Error.restart_computer_info", comment: "< include “stop task” message if there is as stop task>")
-        case .schedule_error:
+        case .schedule_error,.validation_error:
             return ""
         }
     }
