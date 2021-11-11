@@ -9,7 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="BlocklistDialogueViewC" customModule="Focus" customModuleProvider="target">
             <connections>
                 <outlet property="btnAdd" destination="KwQ-yT-TxM" id="Xh8-0J-sb2"/>
-                <outlet property="btnClose" destination="bpZ-TR-4zD" id="lIE-4c-Dya"/>
+                <outlet property="btnClose" destination="T9m-q2-s8I" id="ZPp-zB-K5T"/>
                 <outlet property="lblTitle" destination="351-0H-ehx" id="jNi-A2-D4b"/>
                 <outlet property="listContainerV" destination="4fx-uW-53B" id="Kpb-nt-vNA"/>
                 <outlet property="tblView" destination="2df-5W-Wch" id="MF2-Ak-PWV"/>
@@ -22,11 +22,11 @@
             <rect key="frame" x="0.0" y="0.0" width="565" height="316"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="P93-xi-34L">
-                    <rect key="frame" x="0.0" y="266" width="565" height="45"/>
+                <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P93-xi-34L">
+                    <rect key="frame" x="0.0" y="266" width="565" height="15"/>
                     <subviews>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bpZ-TR-4zD">
-                            <rect key="frame" x="527" y="6" width="31" height="32"/>
+                            <rect key="frame" x="527" y="-19" width="31" height="27"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="25" id="OLw-Gf-ZF3"/>
                             </constraints>
@@ -38,8 +38,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="bpZ-TR-4zD" secondAttribute="trailing" constant="10" id="Pjc-gV-mwJ"/>
-                        <constraint firstAttribute="height" constant="45" id="QRm-8L-Gu3"/>
-                        <constraint firstAttribute="bottom" secondItem="bpZ-TR-4zD" secondAttribute="bottom" constant="10" id="x8e-K4-Aox"/>
+                        <constraint firstAttribute="height" constant="15" id="QRm-8L-Gu3"/>
                         <constraint firstItem="bpZ-TR-4zD" firstAttribute="top" secondItem="P93-xi-34L" secondAttribute="top" constant="10" id="yWZ-13-57O"/>
                     </constraints>
                 </customView>
@@ -51,7 +50,7 @@
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="351-0H-ehx">
                                     <rect key="frame" x="-2" y="225" width="493" height="15"/>
-                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Select apps and websites from your blocklists to allow yourself to temporarily unblock." id="zWv-gA-09M">
+                                    <textFieldCell key="cell" title="Select apps and websites from your blocklists to allow yourself to temporarily unblock." id="zWv-gA-09M">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -189,27 +188,55 @@
                                     </constraints>
                                 </customView>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="WqD-ri-guP">
-                                    <rect key="frame" x="0.0" y="0.0" width="489" height="40"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="529" height="40"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwQ-yT-TxM" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                            <rect key="frame" x="154" y="4" width="181" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="25" id="Nm0-dI-sbf"/>
-                                                <constraint firstAttribute="width" constant="175" id="yEc-EU-Tfy"/>
-                                            </constraints>
-                                            <buttonCell key="cell" type="bevel" title="Add items" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="R6Z-bB-yDv">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
+                                        <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s2r-e0-RMJ">
+                                            <rect key="frame" x="329" y="0.0" width="196" height="40"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwQ-yT-TxM" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                                    <rect key="frame" x="-3" y="4" width="129" height="32"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="NPM-IF-szl"/>
+                                                        <constraint firstAttribute="width" constant="123" id="fkw-ui-8Zk"/>
+                                                    </constraints>
+                                                    <buttonCell key="cell" type="bevel" title="Add items" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="R6Z-bB-yDv">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T9m-q2-s8I" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
+                                                    <rect key="frame" x="135" y="4" width="64" height="32"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="25" id="GXN-Pb-8vI"/>
+                                                    </constraints>
+                                                    <buttonCell key="cell" type="bevel" title="Cancel" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MaW-AJ-T5R">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="1AK-Z5-HGL"/>
-                                        <constraint firstItem="KwQ-yT-TxM" firstAttribute="centerX" secondItem="WqD-ri-guP" secondAttribute="centerX" id="k9J-lx-ffb"/>
-                                        <constraint firstItem="KwQ-yT-TxM" firstAttribute="centerY" secondItem="WqD-ri-guP" secondAttribute="centerY" id="oyr-xR-wm9"/>
+                                        <constraint firstItem="s2r-e0-RMJ" firstAttribute="top" secondItem="WqD-ri-guP" secondAttribute="top" id="21s-r6-g77"/>
+                                        <constraint firstAttribute="trailing" secondItem="s2r-e0-RMJ" secondAttribute="trailing" constant="4" id="UDE-98-d0k"/>
+                                        <constraint firstAttribute="bottom" secondItem="s2r-e0-RMJ" secondAttribute="bottom" id="uq8-OC-DFY"/>
+                                        <constraint firstItem="s2r-e0-RMJ" firstAttribute="leading" relation="lessThanOrEqual" secondItem="WqD-ri-guP" secondAttribute="leading" constant="329" id="yE3-VP-eRf"/>
                                     </constraints>
                                 </customView>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="WqD-ri-guP" secondAttribute="trailing" id="sja-hL-BP8"/>
+                            </constraints>
                             <visibilityPriorities>
                                 <integer value="1000"/>
                                 <integer value="1000"/>
@@ -241,7 +268,7 @@
                 <constraint firstItem="7ZR-fe-U3X" firstAttribute="top" secondItem="P93-xi-34L" secondAttribute="bottom" constant="8" id="ZEW-sh-aH6"/>
                 <constraint firstItem="P93-xi-34L" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="d27-ls-CQy"/>
             </constraints>
-            <point key="canvasLocation" x="-26.5" y="135.5"/>
+            <point key="canvasLocation" x="-26.5" y="135"/>
         </customView>
     </objects>
     <resources>

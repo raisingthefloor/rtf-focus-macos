@@ -29,7 +29,7 @@ class FloatingFocusViewC: NSViewController {
     @IBOutlet var btnFocus: CustomButton!
     @IBOutlet var lblTimeVal: NSTextField!
 
-    let viewModel: MenuViewModelType = MenuViewModel()
+    let viewModel: MenuViewModelType = MenuViewModel() // TODO: Need to update
     var breakTimerModel: TimerModelType = BreakTimerManager()
     var focusTimerModel: TimerModelType = FocusTimerManager()
     var objGCategoey: Block_Category?
@@ -124,8 +124,7 @@ extension FloatingFocusViewC {
                         self?.focusTimerModel.input.stopTimer()
                         self?.breakTimerModel.input.stopTimer()
                         self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
-                    }else{
-                        
+                    } else {
                     }
                 }
                 presentAsModalWindow(controller)
@@ -196,7 +195,7 @@ extension FloatingFocusViewC {
         }
     }
 
-    func showBreakDialogue(dialogueType: FocusDialogue) {
+    func showBreakDialogue(dialogueType: FocusDialogue, callback: @escaping ((Bool) -> Void)) {
         // Start Break time timer and also display the Break Time Dialogue
         DispatchQueue.main.async {
             if let isFirstMin = self.objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
@@ -204,11 +203,11 @@ extension FloatingFocusViewC {
                 let presentingCtrl = WindowsManager.getPresentingController()
                 let controller = LockedScreenVC(nibName: "LockedScreenVC", bundle: nil)
                 controller.dismiss = { _ in
-                    self.openBreakDialouge(dialogueType: dialogueType)
+                    callback(true)
                 }
                 presentingCtrl?.presentAsSheet(controller)
             } else {
-                self.openBreakDialouge(dialogueType: dialogueType)
+                callback(true)
             }
         }
     }
@@ -220,7 +219,15 @@ extension FloatingFocusViewC {
             controller.dialogueType = dialogueType
             controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
             controller.breakAction = { action, value, valueType in
-                self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType)
+                if action == .normal_ok && (dialogueType == .short_break_alert || dialogueType == .long_break_alert) {
+                    self.showBreakDialogue(dialogueType: dialogueType) { isDismiss in
+                        if isDismiss {
+                            self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType)
+                        }
+                    }
+                } else {
+                    self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType)
+                }
             }
             presentingCtrl?.presentAsSheet(controller)
         }
@@ -381,16 +388,16 @@ extension FloatingFocusViewC {
                 self.updateTimeInfo(hours: h, minutes: m, seconds: s)
             case .end_break_alert:
                 guard let long = objEx?.is_long_break, long, let mid = objEx?.is_mid_break, mid, let small = objEx?.is_small_break, small else {
-                    self.showBreakDialogue(dialogueType: dType)
+                    self.openBreakDialouge(dialogueType: dType)
                     return
                 }
             case .short_break_alert:
                 guard let long = objEx?.is_long_focus, long, let mid = objEx?.is_mid_focus, mid, let small = objEx?.is_small_focus, small else {
-                    self.showBreakDialogue(dialogueType: dType)
+                    self.openBreakDialouge(dialogueType: dType)
                     return
                 }
             default:
-                self.showBreakDialogue(dialogueType: dType)
+                self.openBreakDialouge(dialogueType: dType)
             }
             // self.updateTimeInfo(hours: h, minutes: m, seconds: s)
         }

@@ -73,6 +73,17 @@ struct WindowsManager {
         }
     }
 
+    static func dismissErrorController() {
+        // NSApplication.shared.windows : Provide the All Open windows
+        DispatchQueue.main.async {
+            if let presetedContrl = NSApplication.shared.windows.last?.contentViewController {
+                if presetedContrl is ErrorDialogueViewC || presetedContrl is BlocklistDialogueViewC {
+                    presetedContrl.dismiss(nil)
+                }
+            }
+        }
+    }
+
     static func getNewWindowController(vc: NSViewController) {
         DispatchQueue.main.async {
             let window: NSWindow = {

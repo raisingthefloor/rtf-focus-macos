@@ -122,7 +122,7 @@
 
 
 "SS.title" = "Focus Schedule";
-"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing.  (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)";
+"SS.subTitle" = "Create a schedule to start focus sessions on days and times of your choosing. (When you schedule focus sessions at the top of this page, they will appear on the calendar at the bottom.)";
 "SS.instruction" = "Instructions";
 
 "TS.title" = "Today’s Schedule";
@@ -184,7 +184,7 @@
 "Error.active_session_error" = "Changes cannot be made to an active Focus session";
 "Error.change_blocklist_error" = "Changes cannot be made to this Blocklist";
 "Error.scheduler" = "Two Focus sessions already scheduled";
-"Error.active_focus_error" = "Changes cannot be made during active Focus session";
+"Error.active_focus_error" = "Changes cannot be made during active Focus sessions";
 "Error.active_session_error_desc" = "A Focus session cannot be changed while it is in progress.You must stop this session to make changes.";
 "Error.change_blocklist_error_desc" = "A Blocklist cannot be changed while it is being used during a Focus session.You must stop this session to make changes.";
 "Error.scheduler_desc" = "More than two Focus sessions cannot be scheduled for the same time.Try editing your schedule.";
@@ -207,8 +207,10 @@
 "Input.add_website.error" = "URL is missing";
 
 "List.category.title" = "Apps and websites blocked by the category:";
-"List.unblocking_list.title" = "Select apps to allow yourself to temporarily unblock. Only apps on this computer are listed.";
+"List.unblocking_temp_list.title" = "Select apps to allow yourself to temporarily unblock.";
+"List.unblocking_excep_list.title" = "Select apps to exceptions of blocked items.";
 "List.add_item" = "Add App";
-"List.system_app_list.title" = "Select apps to allow yourself to block. Only apps on this computer are listed.";
+"List.system_app_list.title" = "Select apps to block.";
 "Lock.title" = "Screen is blocked";
 "Lock.dec" = "You set the computer to be locked for one minute at the start of \neach break to encourage you to stand and stretch.";
+"List.title_sub" = "Only apps on this computer are listed.";

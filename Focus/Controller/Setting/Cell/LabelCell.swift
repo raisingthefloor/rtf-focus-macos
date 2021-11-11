@@ -75,7 +75,7 @@ extension LabelCell {
         let color = NSColor(objFS.session_color ?? "#DCEFE6")
 
         lblTitle.font = NSFont.systemFont(ofSize: 12, weight: .regular)
-        lblTitle.textColor = .black
+        lblTitle.textColor = objFS.is_active ? .black : Color.day_deselected_color
         lblTitle.stringValue = objFS.block_list_name ?? "-"
 
         view.background_color = ((color_type == .hollow) ? Color.list_bg_color : color)

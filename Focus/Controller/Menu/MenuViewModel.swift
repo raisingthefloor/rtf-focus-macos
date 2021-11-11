@@ -29,7 +29,7 @@ import Foundation
 protocol MenuViewModelIntput {
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void))
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void))
-    var focusObj: Focuses? { get set }
+    var focusObj: Focuses? { get set } // TODO: Need to update as per dynamic
 }
 
 protocol MenuViewModelOutput {
@@ -43,7 +43,7 @@ protocol MenuViewModelType {
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
-    var focusObj: Focuses? = {
+    var focusObj: Focuses? = { // TODO: Need to update as per dynamic
         DBManager.shared.getFoucsObject()
     }()
 
@@ -101,7 +101,7 @@ extension MenuViewModel {
             focusObj?.is_block_programe_select = (state == .on) ? true : false
             let arrBlock = model.input.getBlockList(cntrl: .main_menu).blists
             focusObj?.block_list_id = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
-            focusObj?.block_list_second_id = (state == .on) ? ((viewCntrl != .main_menu) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil) : nil
+            focusObj?.is_dnd_mode = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : (focusObj?.is_dnd_mode ?? false) // This one used for cause If any blocklist has selected notification Category then it set here
         default:
             print("default ::: \(state)")
         }
@@ -111,25 +111,18 @@ extension MenuViewModel {
 
     func updateParallelFocusSession(time: Focus.StopTime) {
         focusObj?.created_date = Date()
-        focusObj?.is_parallels_session = (viewCntrl != .main_menu) ? true : false
+//        focusObj?.is_parallels_session = (viewCntrl != .main_menu) ? true : false
         let timeVal = (viewCntrl != .main_menu) ? (focusObj?.focus_length_time ?? 0) + time.value : time.value
 
         focusObj?.focus_length_time = timeVal
-        focusObj?.remaining_time = (viewCntrl != .main_menu) ? (timeVal - (focusObj?.remaining_time ?? 0)) : timeVal
-        
-        if (viewCntrl != .main_menu) {
-            let timecomp = Int(timeVal).secondsToTime()
-            focusObj?.session_second_start_time = Date()
-            focusObj?.session_second_end_time = Date().adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
-        }else{
-            let timecomp = Int(timeVal).secondsToTime()
-            focusObj?.session_one_start_time = Date()
-            focusObj?.session_one_end_time = Date().adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
-        }
-        
-        
+        focusObj?.remaining_time = (viewCntrl != .main_menu) ? ((timeVal + (focusObj?.remaining_time ?? 0)) - (focusObj?.used_focus_time ?? 0)) : timeVal
+        focusObj?.session_start_time = Date()
+
+        let timecomp = Int(timeVal).secondsToTime()
+        focusObj?.session_end_time = Date().adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
+
         if focusObj?.extended_value == nil {
-            let objExVal = Extended_FB_Value(context: DBManager.shared.managedContext)
+            let objExVal = Focuses_Extended_Value(context: DBManager.shared.managedContext)
             focusObj?.extended_value = objExVal
         }
         DBManager.shared.saveContext()

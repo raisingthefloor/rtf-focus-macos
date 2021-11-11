@@ -30,12 +30,12 @@ class BlocklistDialogueViewC: NSViewController {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var tblView: NSTableView!
     @IBOutlet var btnAdd: CustomButton!
-    @IBOutlet var btnClose: NSButton!
+    @IBOutlet var btnClose: CustomButton!
 
     var listType: ListDialogue = .category_list
     var categoryName: String = ""
     var objCat: Block_Category?
-    var arrAppsWeb: [Block_SubCategory] = []
+    var arrAppsWeb: [Block_Category_App_Web] = []
 
     var addedSuccess: (([[String: Any?]]) -> Void)?
     var dataModel: DataModelType = DataModel()
@@ -58,7 +58,7 @@ extension BlocklistDialogueViewC: BasicSetupType {
     func setUpText() {
         categoryName = objCat?.name ?? "-"
         btnAdd.title = listType.add_button_title
-        lblTitle.stringValue = listType.title
+        btnClose.title = NSLocalizedString("Button.cancel", comment: "Cancel")
     }
 
     func setUpViews() {
@@ -69,17 +69,32 @@ extension BlocklistDialogueViewC: BasicSetupType {
         lblTitle.textColor = .black
 
         if listType == .category_list {
+            btnClose.isHidden = true
             let title = listType.title + "\n" + categoryName
             let attributedValue = NSMutableAttributedString.getAttributedString(fromString: title)
             attributedValue.apply(font: NSFont.systemFont(ofSize: 18, weight: .bold), subString: categoryName)
             attributedValue.alignment(alignment: .natural, lineSpace: 4, subString: title)
+            lblTitle.attributedStringValue = attributedValue
+        } else {
+            let subTitle = NSLocalizedString("List.title_sub", comment: "Only apps on this computer are listed.")
+            let title = listType.title + " " + subTitle
+            let attributedValue = NSMutableAttributedString.getAttributedString(fromString: title)
+            attributedValue.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: listType.title)
+            attributedValue.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: subTitle)
             lblTitle.attributedStringValue = attributedValue
         }
 
         btnAdd.buttonColor = Color.green_color
         btnAdd.activeButtonColor = Color.green_color
         btnAdd.textColor = .white
-        btnAdd.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        btnAdd.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        
+        btnClose.buttonColor = Color.very_light_grey
+        btnClose.activeButtonColor = Color.very_light_grey
+        btnClose.textColor = Color.black_color
+        btnClose.borderColor = Color.dark_grey_border
+        btnClose.borderWidth = 0.6
+        btnClose.font = NSFont.systemFont(ofSize: 12, weight: .bold)
 
         listContainerV.border_color = Color.dark_grey_border
         listContainerV.border_width = 0.5
@@ -93,7 +108,7 @@ extension BlocklistDialogueViewC: BasicSetupType {
         btnClose.target = self
         btnClose.action = #selector(btnClose(_:))
         if listType == .category_list {
-            arrAppsWeb = objCat?.sub_data?.allObjects as! [Block_SubCategory]
+            arrAppsWeb = objCat?.sub_data?.allObjects as! [Block_Category_App_Web]
             arrAppsWeb = arrAppsWeb.sorted(by: ({ $0.block_type < $1.block_type }))
         }
     }
@@ -125,7 +140,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblView.dataSource = self
         tblView.rowHeight = 23
         tblView.selectionHighlightStyle = .none
-        
+
         if listType == .category_list {
             tblView.tableColumns.forEach { column in
                 if column.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
@@ -165,7 +180,7 @@ extension BlocklistDialogueViewC: NSTableViewDataSource, NSTableViewDelegate {
                     let obj = listType.arrData[row]
                     categoryCell.configApps(obj: obj as? Application_List)
                 } else {
-                    let objSubCat = arrAppsWeb[row] as? Block_SubCategory
+                    let objSubCat = arrAppsWeb[row] as? Block_Category_App_Web
                     categoryCell.configSubCategory(obj: objSubCat)
                 }
                 return categoryCell

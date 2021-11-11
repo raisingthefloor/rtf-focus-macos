@@ -53,7 +53,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
         lblTitle.stringValue = dialogueType.title
 
         var time = ""
-        let comp = Int(objFocus?.focus_length_time ?? 100).secondsToTime()
+        let comp = Int(objFocus?.used_focus_time ?? 100).secondsToTime()
         if comp.timeInHours != 0 {
             time = "\(comp.timeInHours) Hours \(comp.timeInMinutes) minutes"
         } else {

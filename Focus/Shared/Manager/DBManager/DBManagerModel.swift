@@ -30,8 +30,7 @@ protocol DBMangerLogic {
     func createFocus(data: [String: Any]) // Not Used
     func getFoucsObject() -> Focuses?
     func getCurrentSession() -> Focuses?
-    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface], objSBl: Block_List?)
-//    func getSecondSessionBlockList() -> (objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
+    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
 
     func saveApplicationlist(data: [String: Any])
     func getApplicationList() -> [Application_List]
@@ -47,7 +46,7 @@ protocol DBMangerLogic {
     func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories)
     func getCategoryBy(name: String) -> Block_Category?
 
-    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_Category_App_Web])
 
     func getGeneralSetting() -> General_Setting?
 

@@ -21,7 +21,11 @@
         <attribute name="show_link" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="general_setting" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="General_Settings" inverseName="general_cat" inverseEntity="General_Settings"/>
-        <relationship name="sub_data" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block_SubCategory" inverseName="category" inverseEntity="Block_SubCategory"/>
+        <relationship name="sub_data" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Block_Category_App_Web" inverseName="category" inverseEntity="Block_Category_App_Web"/>
+    </entity>
+    <entity name="Block_Category_App_Web" representedClassName="Block_Category_App_Web" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_Category" inverseName="sub_data" inverseEntity="Block_Category"/>
     </entity>
     <entity name="Block_Interface" representedClassName="Block_Interface" syncable="YES" codeGenerationType="class">
         <attribute name="app_icon_path" optional="YES" attributeType="String"/>
@@ -38,6 +42,7 @@
         <attribute name="blocked_all_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="character_val" optional="YES" attributeType="Integer 64" defaultValueString="36" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="is_dnd_category_on" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="random_character" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="restart_computer" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="stop_focus_session_anytime" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
@@ -53,28 +58,9 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="block_category" inverseEntity="Block_List"/>
     </entity>
-    <entity name="Block_SubCategory" representedClassName="Block_SubCategory" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_Category" inverseName="sub_data" inverseEntity="Block_Category"/>
-    </entity>
     <entity name="Exception_App_Web" representedClassName="Exception_App_Web" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="block_list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Block_List" inverseName="exception_block" inverseEntity="Block_List"/>
-    </entity>
-    <entity name="Extended_FB_Value" representedClassName="Extended_FB_Value" syncable="YES" codeGenerationType="class">
-        <attribute name="is_long_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="is_long_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="is_mid_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="is_mid_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="is_small_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="is_small_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <relationship name="current_session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="extended_value" inverseEntity="Focuses"/>
-    </entity>
-    <entity name="Focus_Block" representedClassName="Focus_Block" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
-        <relationship name="focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="block_data" inverseEntity="Focuses"/>
-    </entity>
-    <entity name="Focus_Override_Block" representedClassName="Focus_Override_Block" parentEntity="Block_Interface" syncable="YES" codeGenerationType="class">
-        <relationship name="focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="override_block_data" inverseEntity="Focuses"/>
     </entity>
     <entity name="Focus_Schedule" representedClassName="Focus_Schedule" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -107,11 +93,9 @@
     </entity>
     <entity name="Focuses" representedClassName="Focuses" syncable="YES" codeGenerationType="class">
         <attribute name="block_list_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="block_list_second_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="break_lenght_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="created_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="decrease_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="extended_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="extended_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="focus_length_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -120,21 +104,25 @@
         <attribute name="is_break_time" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_focusing" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="is_parallels_session" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="remaining_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="remaining_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="session_one_end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="session_one_start_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="session_second_end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="session_second_start_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="session_end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="session_start_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="short_break_time" optional="YES" attributeType="Double" defaultValueString="15" usesScalarValueType="YES"/>
         <attribute name="stop_focus_after_time" optional="YES" attributeType="Double" defaultValueString="5" usesScalarValueType="YES"/>
         <attribute name="used_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="block_data" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focus_Block" inverseName="focus" inverseEntity="Focus_Block"/>
-        <relationship name="extended_value" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Extended_FB_Value" inverseName="current_session" inverseEntity="Extended_FB_Value"/>
-        <relationship name="override_block_data" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Focus_Override_Block" inverseName="focus" inverseEntity="Focus_Override_Block"/>
+        <relationship name="extended_value" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Focuses_Extended_Value" inverseName="current_session" inverseEntity="Focuses_Extended_Value"/>
+    </entity>
+    <entity name="Focuses_Extended_Value" representedClassName="Focuses_Extended_Value" syncable="YES" codeGenerationType="class">
+        <attribute name="is_long_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_long_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_mid_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_mid_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_small_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_small_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="current_session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Focuses" inverseName="extended_value" inverseEntity="Focuses"/>
     </entity>
     <entity name="General_Settings" representedClassName="General_Settings" syncable="YES" codeGenerationType="class">
         <attribute name="block_screen_first_min_each_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -165,18 +153,16 @@
         <element name="Application_List" positionX="-36" positionY="90" width="128" height="119"/>
         <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
         <element name="Block_Category" positionX="-18" positionY="81" width="128" height="164"/>
+        <element name="Block_Category_App_Web" positionX="-9" positionY="90" width="128" height="59"/>
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="164"/>
-        <element name="Block_List" positionX="-18" positionY="72" width="128" height="194"/>
+        <element name="Block_List" positionX="-18" positionY="72" width="128" height="209"/>
         <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>
-        <element name="Block_SubCategory" positionX="-9" positionY="90" width="128" height="59"/>
         <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
-        <element name="Extended_FB_Value" positionX="-27" positionY="135" width="128" height="134"/>
-        <element name="Focus_Block" positionX="-36" positionY="63" width="128" height="44"/>
-        <element name="Focus_Override_Block" positionX="-27" positionY="72" width="128" height="44"/>
         <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="299"/>
         <element name="Focus_Schedule_Days" positionX="-27" positionY="144" width="128" height="59"/>
         <element name="Focus_Schedule_Time_Range" positionX="-27" positionY="144" width="128" height="74"/>
-        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="464"/>
+        <element name="Focuses" positionX="-63" positionY="-18" width="128" height="359"/>
+        <element name="Focuses_Extended_Value" positionX="-27" positionY="135" width="128" height="134"/>
         <element name="General_Settings" positionX="-36" positionY="54" width="128" height="134"/>
         <element name="Override_Block" positionX="-36" positionY="63" width="128" height="134"/>
         <element name="Schedule_Focus_Extend" positionX="-27" positionY="144" width="128" height="104"/>

@@ -79,6 +79,13 @@ class EditBlockListViewC: BaseViewController {
         bindData()
         tableViewSetup()
     }
+
+    override func mouseDown(with event: NSEvent) {
+        if checkSessionRunning() {
+            openErrorDialogue()
+            return
+        }
+    }
 }
 
 extension EditBlockListViewC: BasicSetupType {
@@ -119,7 +126,6 @@ extension EditBlockListViewC: BasicSetupType {
         radioRestart.title = NSLocalizedString("BS.restart", comment: "Yes, make me restart my computer to stop the focus session")
 
         lblNote1.stringValue = NSLocalizedString("BS.note_one", comment: "Note: You cannot change a blocklist while it is in use in an active focus session.")
-
         lblNote2.stringValue = NSLocalizedString("BS.note_two", comment: "Any changes made will not take effect until the next focus session where the blocklist is used.")
     }
 
@@ -269,6 +275,8 @@ extension EditBlockListViewC: BasicSetupType {
             radioStopAnyTime.isEnabled = true
             radioStopFocus.isEnabled = true
             radioRestart.isEnabled = true
+
+            txtCharacter.isEnabled = true
         }
     }
 }
@@ -372,6 +380,10 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         if let tblV = notification.object as? NSTableView {
             let selectedRow = tblV.selectedRow
             guard selectedRow != -1 else { return }
+            if checkSessionRunning() {
+                openErrorDialogue()
+                return
+            }
             if tblV.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
                 let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist)[selectedRow]
                 if objCat.show_link {
@@ -424,17 +436,17 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         let arrBlock = dataModel.input.getBlockList(cntrl: .edit_blocklist).blists
         if !arrBlock.isEmpty {
             let controller = BlocklistDialogueViewC(nibName: "BlocklistDialogueViewC", bundle: nil)
-            controller.listType = .system_app_list
+            controller.listType = (sender.tag == BlockList.exception_web_app.rawValue) ? .exception_app_list : .system_app_list
             controller.dataModel.objBlocklist = dataModel.objBlocklist
             controller.addedSuccess = { [weak self] dataV in
                 if sender.tag == BlockList.block_web_app.rawValue {
-                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+                    self?.dataModel.input.updateSelectedBlocklist(data: dataV, block_type: .application) { isStore in
                         if isStore {
                             self?.reloadTables()
                         }
                     }
                 } else {
-                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
+                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV, block_type: .application) { isStore in
                         if isStore {
                             self?.reloadTables()
                         }
@@ -456,13 +468,13 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             inputDialogueCntrl.dataModel.objBlocklist = dataModel.objBlocklist
             inputDialogueCntrl.addedSuccess = { [weak self] dataV, _ in
                 if sender.tag == BlockList.block_web_app.rawValue {
-                    self?.dataModel.input.updateSelectedBlocklist(data: dataV) { isStore in
+                    self?.dataModel.input.updateSelectedBlocklist(data: dataV, block_type: .web) { isStore in
                         if isStore {
                             self?.reloadTables()
                         }
                     }
                 } else {
-                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV) { isStore in
+                    self?.dataModel.input.updateSelectedExceptionlist(data: dataV, block_type: .web) { isStore in
                         if isStore {
                             self?.reloadTables()
                         }
@@ -477,11 +489,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Remove the Apps and Web Url from Also Block View
     @objc func deleteSetBlock(_ sender: NSButton) {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus, objF.block_list_id == dataModel.objBlocklist?.id {
-            if objF.is_focusing {
-                openErrorDialogue()
-                return
-            }
+        if checkSessionRunning() {
+            openErrorDialogue()
+            return
         }
 
         let arrBlock = dataModel.objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
@@ -493,11 +503,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Remove the Apps and Web Url from Exceptions view
     @objc func deleteSetException(_ sender: NSButton) {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus, objF.block_list_id == dataModel.objBlocklist?.id {
-            if objF.is_focusing {
-                openErrorDialogue()
-                return
-            }
+        if checkSessionRunning() {
+            openErrorDialogue()
+            return
         }
         let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
         guard let objException = arrBlock?[sender.tag] as? Exception_App_Web else { return }
@@ -508,12 +516,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
     // Store the Categories as per selected blick list
     @objc func addCategoryAction(_ sender: NSButton) {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus, objF.block_list_id == dataModel.objBlocklist?.id {
-            if objF.is_focusing {
-                reloadTables()
-                openErrorDialogue()
-                return
-            }
+        if checkSessionRunning() {
+            openErrorDialogue()
+            return
         }
 
         let obj = dataModel.input.getCategoryList(cntrl: .edit_blocklist)[sender.tag]
@@ -530,9 +535,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         if index == -1 {
             let inputDialogueCntrl = InputDialogueViewC(nibName: "InputDialogueViewC", bundle: nil)
             inputDialogueCntrl.inputType = .add_block_list_name
-            inputDialogueCntrl.addedSuccess = { [weak self] _, isCalncel in
+            inputDialogueCntrl.addedSuccess = { [weak self] _, isCancel in
                 self?.updateBlocklistList()
-                if isCalncel {
+                if isCancel {
                     self?.comboBlock.selectItem(withTitle: self?.dataModel.objBlocklist?.name ?? "")
                 }
                 self?.reloadTables()
@@ -632,6 +637,19 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         tblBlock.reloadData()
         tblNotBlock.reloadData()
         tblCategory.reloadData()
+    }
+
+    func checkSessionRunning() -> Bool {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus, let id = dataModel.objBlocklist?.id {
+            if objF.block_list_id == id {
+                if objF.is_focusing || objF.is_block_programe_select {
+                    reloadTables()
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 
     func openErrorDialogue() {

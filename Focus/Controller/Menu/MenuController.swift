@@ -254,9 +254,6 @@ extension MenuController: BasicSetupType {
         } else {
             if !arrBlock.isEmpty {
                 let objBlockList = arrBlock[index]
-//                viewModel.input.focusObj.block_data = objBlockList
-                viewModel.input.focusObj?.block_list_id = objBlockList.id
-                viewModel.input.focusObj?.block_list_second_id = (viewModel.viewCntrl != .main_menu) ? objBlockList.id : nil
             }
         }
         DBManager.shared.saveContext()
@@ -293,7 +290,9 @@ extension MenuController {
         blockStackV.isHidden = !obj.is_block_programe_select
         let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).blists
         if !arrBlock.isEmpty {
-            obj.block_list_id = arrBlock[0].id
+            if obj.is_block_programe_select {
+                obj.block_list_id = arrBlock[0].id
+            }
         }
         DBManager.shared.saveContext()
     }

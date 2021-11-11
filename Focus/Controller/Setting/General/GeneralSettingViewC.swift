@@ -264,7 +264,7 @@ extension GeneralSettingViewC {
             return
         }
 
-        let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
+        let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_Category_App_Web]
         guard let objBlock = arrSCat?[sender.tag] else { return }
         DBManager.shared.managedContext.delete(objBlock)
         DBManager.shared.saveContext()
@@ -273,7 +273,7 @@ extension GeneralSettingViewC {
 
     // Store the Categories as per selected blick list
     @objc func addSCategory(_ sender: NSButton) {
-        let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
+        let arrSCat = viewModel.objGCategory?.sub_data?.allObjects as? [Block_Category_App_Web]
         guard let objBlock = arrSCat?[sender.tag] else { return }
         objBlock.is_selected = !objBlock.is_selected
         DBManager.shared.saveContext()
@@ -296,7 +296,7 @@ extension GeneralSettingViewC: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let objSCat = viewModel.input.getGeneralCategoryData().subCat[row] as? Block_SubCategory
+        let objSCat = viewModel.input.getGeneralCategoryData().subCat[row] as? Block_Category_App_Web
         if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "checkIdentifier") {
             if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "checkId"), owner: self) as? ButtonCell {
                 cell.configGCategoryCell(row: row, objSubCat: objSCat, target: self, action: #selector(addSCategory(_:)))

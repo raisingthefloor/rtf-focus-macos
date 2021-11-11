@@ -27,7 +27,7 @@ import Cocoa
 import Foundation
 
 protocol GeneralSettingModelIntput {
-    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory])
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_Category_App_Web])
     func addAppWebData(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void))
 }
 
@@ -45,27 +45,27 @@ class GeneralSettingModel: GeneralSettingModelIntput, GeneralSettingModelOutput,
     var output: GeneralSettingModelOutput { return self }
     var objGCategory: Block_Category?
 
-    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_SubCategory]) {
+    func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_Category_App_Web]) {
         objGCategory = DBManager.shared.getGeneralCategoryData().gCat
         let subCat = DBManager.shared.getGeneralCategoryData().subCat
         return (objGCategory, subCat)
     }
 
     func addAppWebData(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void)) {
-        var arrObj: [Block_SubCategory] = []
-        var arrAppWeb = objGCategory?.sub_data?.allObjects as? [Block_SubCategory]
+        var arrObj: [Block_Category_App_Web] = []
+        var arrAppWeb = objGCategory?.sub_data?.allObjects as? [Block_Category_App_Web]
         arrAppWeb = arrAppWeb?.filter({ $0.block_type == block_type.rawValue })
         for val in data {
-            let isNotPresent = arrAppWeb?.compactMap({ $0.name != (val["name"] as? String) }).filter({ $0 }).first ?? true
-            if isNotPresent {
-                let objSubWA = Block_SubCategory(context: DBManager.shared.managedContext)
+            let isPresent = arrAppWeb?.compactMap({ $0.name == (val["name"] as? String) }).filter({ $0 }).first ?? false
+            if !isPresent {
+                let objSubWA = Block_Category_App_Web(context: DBManager.shared.managedContext)
                 for (key, value) in val {
                     objSubWA.setValue(value, forKeyPath: key)
                 }
                 arrObj.append(objSubWA)
             }
         }
-        arrObj = arrObj + (objGCategory?.sub_data?.allObjects as! [Block_SubCategory])
+        arrObj = arrObj + (objGCategory?.sub_data?.allObjects as! [Block_Category_App_Web])
         objGCategory?.sub_data = NSSet(array: arrObj)
         DBManager.shared.saveContext()
         callback(true)

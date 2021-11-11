@@ -55,7 +55,7 @@ extension ButtonCell: BasicSetupType {
         btnAddApp.action = action
     }
 
-    func configGCategoryCell(row: Int, objSubCat: Block_SubCategory?, target: AnyObject?, action: Selector?) {
+    func configGCategoryCell(row: Int, objSubCat: Block_Category_App_Web?, target: AnyObject?, action: Selector?) {
         btnAddApp.tag = row
         btnAddApp.target = target
         let isSelected = objSubCat?.is_selected ?? false

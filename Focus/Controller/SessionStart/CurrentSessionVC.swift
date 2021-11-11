@@ -65,8 +65,7 @@ class CurrentSessionVC: BaseViewController {
     @objc func updateInformation() {
         DispatchQueue.main.async {
             self.setUpText()
-            self.sessionV_1.setupSingleData()
-            self.sessionV_2.setupSingleData()
+            self.sessionV_1.setupSessionData()
         }
     }
 
@@ -169,21 +168,15 @@ extension CurrentSessionVC: BasicSetupType {
         let objFocus = viewModel?.input.focusObj
         lblSubTitle.isHidden = (objFocus?.focus_untill_stop ?? false) ? true : false
         lblSubTitle.isHidden = (objFocus?.is_provided_short_break ?? false) ? false : true
-        btnStart.isHidden = objFocus?.is_parallels_session ?? false
+//        btnStart.isHidden = objFocus?.is_parallels_session ?? false
 
         if btnStart.isHidden {
             sessionStack.removeSubviews()
         }
-        sessionV_1.setupSingleData()
+        sessionV_1.setupSessionData()
         sessionV_1.btnStop.target = self
         sessionV_1.btnStop.action = #selector(stopAction(_:))
         sessionStack.addArrangedSubview(sessionV_1)
-        if btnStart.isHidden {
-            sessionV_2.setupSingleData()
-            sessionV_2.btnStop.target = self
-            sessionV_2.btnStop.action = #selector(stopAction(_:))
-            sessionStack.addArrangedSubview(sessionV_2)
-        }
     }
 }
 

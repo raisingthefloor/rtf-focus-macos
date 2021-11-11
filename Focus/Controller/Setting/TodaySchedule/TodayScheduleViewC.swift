@@ -41,6 +41,8 @@ class TodayScheduleViewC: BaseViewController {
     var arrSession: [ScheduleSession] = []
     var arrFocusS: [Focus_Schedule] = []
 
+    @IBOutlet var sessionHeight: NSLayoutConstraint!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,6 +82,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         tblSession.allowsColumnReordering = false
         tblSession.rowHeight = 15
         tblSession.selectionHighlightStyle = .none
+        tblSchedule.needsLayout = true
 
         tblSchedule.tableColumns.forEach { column in
             column.headerCell.attributedStringValue = NSAttributedString(string: column.title.uppercased(), attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 9, weight: .semibold)])
@@ -94,6 +97,12 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
                                                                              , attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
             }
         }
+
+        tblSchedule.reloadData()
+        tblSchedule.layoutSubtreeIfNeeded()
+
+        let height = tblSchedule.fittingSize.height
+        sessionHeight.constant = height + 40
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {

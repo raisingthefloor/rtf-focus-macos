@@ -28,7 +28,7 @@ import Foundation
 
 class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface], objSBl: Block_List?)?
+    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
     var output: TimerModelOutput { return self }
     var usedTime: Int = 0
@@ -125,6 +125,7 @@ extension FocusTimerManager {
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
             } else {
                 stopTimer()
+                WindowsManager.dismissErrorController()
                 updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }

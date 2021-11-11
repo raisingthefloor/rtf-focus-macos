@@ -30,15 +30,18 @@ enum ListDialogue: Int {
     case category_list
     case unblocking_list
     case system_app_list
+    case exception_app_list
 
     var title: String {
         switch self {
         case .category_list:
             return NSLocalizedString("List.category.title", comment: "Apps and websites blocked by the category:")
         case .unblocking_list:
-            return NSLocalizedString("List.unblocking_list.title", comment: "Select apps and websites from your blocklists to allow yourself to temporarily unblock.")
+            return NSLocalizedString("List.unblocking_temp_list.title", comment: "Select apps and websites from your blocklists to allow yourself to temporarily unblock.")
         case .system_app_list:
             return NSLocalizedString("List.system_app_list.title", comment: "Select apps from your system app list to allow yourself to block.")
+        case .exception_app_list:
+            return NSLocalizedString("List.unblocking_excep_list.title", comment: "Select apps to exceptions of blocked items.")
         }
     }
 
@@ -46,7 +49,7 @@ enum ListDialogue: Int {
         switch self {
         case .category_list:
             return NSLocalizedString("Button.ok", comment: "OK").uppercased()
-        case .unblocking_list, .system_app_list:
+        case .unblocking_list, .system_app_list, .exception_app_list:
             return NSLocalizedString("List.add_item", comment: "Add items")
         }
     }
@@ -55,7 +58,7 @@ enum ListDialogue: Int {
         switch self {
         case .category_list:
             return NSFont.systemFont(ofSize: 18, weight: .regular)
-        case .unblocking_list, .system_app_list:
+        case .unblocking_list, .system_app_list, .exception_app_list:
             return NSFont.systemFont(ofSize: 12, weight: .semibold)
         }
     }
@@ -82,7 +85,7 @@ enum ListDialogue: Int {
         switch self {
         case .category_list:
             return []
-        case .system_app_list, .unblocking_list:
+        case .system_app_list, .unblocking_list, .exception_app_list:
             return DBManager.shared.getApplicationList()
         }
     }
@@ -91,7 +94,7 @@ enum ListDialogue: Int {
         switch self {
         case .category_list:
             return []
-        case .system_app_list, .unblocking_list:
+        case .system_app_list, .unblocking_list, .exception_app_list:
             guard var selectedVal = arrData as? [Application_List] else { return [] }
             selectedVal = selectedVal.filter({ $0.is_selected }).compactMap({ $0 })
             if !selectedVal.isEmpty {

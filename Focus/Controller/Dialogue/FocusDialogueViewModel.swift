@@ -36,14 +36,14 @@ protocol FocusDialogueViewModelType {
     var input: FocusDialogueViewModelIntput { get }
     var output: FocusDialogueViewModelOutput { get }
     var application: NSRunningApplication? { get set }
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface], objSBl: Block_List?)?
+    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
  { get set }
     var reminderSchedule: Focus_Schedule? { get set }
 }
 
 class FocusDialogueViewModel: FocusDialogueViewModelIntput, FocusDialogueViewModelOutput, FocusDialogueViewModelType {
     var application: NSRunningApplication?
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface], objSBl: Block_List?)?
+    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
     var reminderSchedule: Focus_Schedule?
     var input: FocusDialogueViewModelIntput { return self }
     var output: FocusDialogueViewModelOutput { return self }

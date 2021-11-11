@@ -30,8 +30,8 @@ protocol DataModelIntput {
     func storeBlocklist(data: [String: Any?])
     func getCategoryList(cntrl: ViewCntrl) -> [Block_Category]
     func getBlockList(cntrl: ViewCntrl) -> (nsMenu: NSMenu, blists: [Block_List])
-    func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
-    func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void))
+    func updateSelectedBlocklist(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void))
+    func updateSelectedExceptionlist(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void))
     func updateSelectedCategorylist(objCat: Block_Category, callback: @escaping ((Bool) -> Void))
     func resetApplistSelection()
 }
@@ -99,10 +99,13 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         DBManager.shared.saveBlocklist(data: data)
     }
 
-    func updateSelectedBlocklist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+    func updateSelectedBlocklist(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_App_Web] = []
+        var arrAppWeb = objBlocklist?.block_app_web?.allObjects as? [Block_App_Web]
+        arrAppWeb = arrAppWeb?.filter({ $0.block_type == block_type.rawValue })
         for val in data {
-            if !DBManager.shared.checkAppWebIsPresent(entityName: "Block_App_Web", name: val["name"] as? String) {
+            let isPresent = arrAppWeb?.compactMap({ $0.name == (val["name"] as? String) }).filter({ $0 }).first ?? false
+            if !isPresent {
                 let objblockWA = Block_App_Web(context: DBManager.shared.managedContext)
                 for (key, value) in val {
                     objblockWA.setValue(value, forKeyPath: key)
@@ -116,10 +119,14 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
         callback(true)
     }
 
-    func updateSelectedExceptionlist(data: [[String: Any?]], callback: @escaping ((Bool) -> Void)) {
+    func updateSelectedExceptionlist(data: [[String: Any?]], block_type: BlockType, callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Exception_App_Web] = []
+        var arrAppWeb = objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
+        arrAppWeb = arrAppWeb?.filter({ $0.block_type == block_type.rawValue })
+
         for val in data {
-            if !DBManager.shared.checkAppWebIsPresent(entityName: "Exception_App_Web", name: val["name"] as? String) {
+            let isPresent = arrAppWeb?.compactMap({ $0.name == (val["name"] as? String) }).filter({ $0 }).first ?? false
+            if !isPresent {
                 let objexceptionWA = Exception_App_Web(context: DBManager.shared.managedContext)
                 for (key, value) in val {
                     objexceptionWA.setValue(value, forKeyPath: key)
@@ -135,6 +142,7 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
 
     func updateSelectedCategorylist(objCat: Block_Category, callback: @escaping ((Bool) -> Void)) {
         var arrObj: [Block_List_Category] = []
+
         if objCat.is_selected {
             let objCategory = Block_List_Category(context: DBManager.shared.managedContext)
             objCategory.setValue(objCat.name, forKeyPath: "name")
@@ -142,10 +150,16 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             objCategory.setValue(Date(), forKeyPath: "created_at")
             arrObj.append(objCategory)
             arrObj = arrObj + (objBlocklist?.block_category?.allObjects as! [Block_List_Category])
+            if Categories.notification.name == objCat.name {
+                objBlocklist?.is_dnd_category_on = true
+            }
             objBlocklist?.block_category = NSSet(array: arrObj)
         } else {
             let arrCat = objBlocklist?.block_category?.allObjects as! [Block_List_Category]
             guard let obj = arrCat.filter({ $0.id == objCat.id }).compactMap({ $0 }).first else { return callback(false) }
+            if Categories.notification.name == obj.name {
+                objBlocklist?.is_dnd_category_on = false
+            }
             DBManager.shared.managedContext.delete(obj)
         }
         DBManager.shared.saveContext()

@@ -74,7 +74,7 @@ extension ImageTextCell: BasicSetupType {
         }
     }
 
-    func configSubCategory(obj: Block_SubCategory?) {
+    func configSubCategory(obj: Block_Category_App_Web?) {
         guard let model = obj else { return }
         imgV.isHidden = true
         let name = model.name ?? "-"
