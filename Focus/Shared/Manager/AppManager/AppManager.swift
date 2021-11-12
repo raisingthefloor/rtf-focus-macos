@@ -216,7 +216,12 @@ extension AppManager {
         obj.focus_untill_stop = false
         obj.used_focus_time = 0
         obj.decrease_break_time = 0
+        obj.original_focus_length_time = 0
+        obj.original_break_lenght_time = 0
+        obj.original_stop_focus_after_time = 0
         obj.remaining_time = 0
+        obj.extended_break_time = 0
+        obj.extended_focus_time = 0
         objEx?.is_mid_focus = false
         objEx?.is_small_focus = false
         objEx?.is_long_focus = false

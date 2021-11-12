@@ -205,10 +205,10 @@ extension FocusDialogue {
     var option_buttons_theme: (bg_color: [NSColor], border_color: [NSColor], font_color: [NSColor], border_width: CGFloat) {
         let width: CGFloat = 0.6
         switch self {
-        case .short_break_alert:
-            return ([], [], [], width)
         case .launch_block_app_alert, .notifiction_block_alert:
             return ([Color.green_color, Color.very_light_grey], [Color.green_color, Color.dark_grey_border], [.white, Color.black_color], width)
+        case .short_break_alert:
+            return ([], [], [], width)
         case .seession_completed_alert:
             return ([], [], [], width)
         case .long_break_alert:

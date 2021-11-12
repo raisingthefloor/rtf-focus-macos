@@ -76,6 +76,7 @@ extension MenuViewModel {
             focusObj?.is_focusing = true
             if !(focusObj?.is_provided_short_break ?? false) {
                 focusObj?.stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
+                focusObj?.original_stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
             }
             focusObj?.focus_untill_stop = true
 
@@ -112,9 +113,9 @@ extension MenuViewModel {
     func updateParallelFocusSession(time: Focus.StopTime) {
         focusObj?.created_date = Date()
 //        focusObj?.is_parallels_session = (viewCntrl != .main_menu) ? true : false
-        let timeVal = (viewCntrl != .main_menu) ? (focusObj?.focus_length_time ?? 0) + time.value : time.value
+        let timeVal = (viewCntrl != .main_menu) ? (focusObj?.original_focus_length_time ?? 0) + time.value : time.value
 
-        focusObj?.focus_length_time = timeVal
+        focusObj?.original_focus_length_time = timeVal
         focusObj?.remaining_time = (viewCntrl != .main_menu) ? ((timeVal + (focusObj?.remaining_time ?? 0)) - (focusObj?.used_focus_time ?? 0)) : timeVal
         focusObj?.session_start_time = Date()
 

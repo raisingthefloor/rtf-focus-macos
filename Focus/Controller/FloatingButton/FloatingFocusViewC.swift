@@ -257,6 +257,17 @@ extension FloatingFocusViewC {
             obj.stop_focus_after_time = Double(value) // Whatever value set after that min break alert will comes
             let val = obj.remaining_time + Double(value)
             obj.remaining_time = val
+
+            let extentFinalTime = Int(obj.original_focus_length_time + Double(value)).secondsToTime()
+
+            print(" ORIGINAL Length :\(obj.original_focus_length_time) Extent Val: \(Double(value))")
+
+            print(" extentFinalTime Addition :\(Int(obj.original_focus_length_time + Double(value)))")
+
+            print(" extentFinalTime :\(extentFinalTime)")
+
+            obj.session_end_time = obj.session_start_time?.adding(hour: extentFinalTime.timeInHours, min: extentFinalTime.timeInMinutes, sec: extentFinalTime.timeInSeconds)
+
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             startBlockingAppsWeb()
@@ -329,7 +340,8 @@ extension FloatingFocusViewC {
         case .end_break_alert:
             // Break End Here
             obj.is_break_time = false
-            obj.remaining_break_time = obj.break_lenght_time
+            obj.remaining_break_time = obj.original_break_lenght_time
+            obj.stop_focus_after_time = obj.original_stop_focus_after_time
             DBManager.shared.saveContext()
             setUpText()
             focusTimerModel.input.updateTimerStatus()
@@ -389,6 +401,12 @@ extension FloatingFocusViewC {
 
         focusTimerModel.input.setupInitial()
         setUpText()
+
+        if (obj?.is_focusing ?? false) && (obj?.is_break_time ?? false) {
+            focusTimerModel.input.stopTimer()
+            startBreakTime()
+        }
+
         focusTimerModel.updateUI = { dType, h, m, s in
             switch dType {
             case .seession_completed_alert:
