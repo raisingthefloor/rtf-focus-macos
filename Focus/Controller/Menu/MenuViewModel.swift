@@ -101,7 +101,7 @@ extension MenuViewModel {
             focusObj?.is_block_programe_select = (state == .on) ? true : false
             let arrBlock = model.input.getBlockList(cntrl: .main_menu).blists
             focusObj?.block_list_id = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
-            focusObj?.is_dnd_mode = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : (focusObj?.is_dnd_mode ?? false) // This one used for cause If any blocklist has selected notification Category then it set here
+            focusObj?.is_block_list_dnd = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : false // This one used for cause If any blocklist has selected notification Category then it set here
         default:
             print("default ::: \(state)")
         }

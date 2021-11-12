@@ -63,6 +63,7 @@ extension LabelCell {
     func setupTime(value: String) {
         lblTitle.stringValue = value
         lblTitle.font = NSFont.systemFont(ofSize: 10, weight: .regular)
+        self.bgColor = Color.time_slot_color
     }
 
     func setupSart(value: String) {

@@ -34,7 +34,7 @@ class SessionCompleteDialogueViewC: NSViewController {
     @IBOutlet var btnStackV: NSStackView!
 
     var dialogueType: FocusDialogue = .seession_completed_alert
-    var sessionDone: ((ButtonAction, Int) -> Void)?
+    var sessionDone: ((ButtonAction, Int, ButtonValueType) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
         attributedText.alignment(alignment: .center, subString: focusInfo)
         lblDesc.attributedStringValue = attributedText
         lblDesc.alignment = .center
-        
+
         lblSubDesc.stringValue = dialogueType.sub_description
     }
 
@@ -86,6 +86,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
             btn.borderColor = dialogueType.green
             btn.font = NSFont.systemFont(ofSize: 13, weight: .bold)
             btn.borderWidth = 0.5
+            enableDisable(btn: btn)
             i = i + 1
             btnStackV.addArrangedSubview(btn)
         }
@@ -111,14 +112,20 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
         btnOk.action = #selector(okAction(_:))
     }
 
+    func enableDisable(btn: CustomButton) {
+        if !dialogueType.is_extented_buttons.isEmpty {
+            btn.isEnabled = !dialogueType.is_extented_buttons[btn.tag]
+        }
+    }
+
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
-        sessionDone?(dialogueType.action, extendVal)
+        sessionDone?(dialogueType.action, extendVal, ButtonValueType(rawValue: sender.tag)!)
         dismiss(nil)
     }
 
     @objc func okAction(_ sender: NSButton) {
-        sessionDone?(.normal_ok, 0)
+        sessionDone?(.normal_ok, 0, .none)
         dismiss(nil)
     }
 }

@@ -116,6 +116,7 @@ extension DBManager: DBMangerLogic {
         return (objFocus, nil, [], [])
     }
 }
+
 //    func getSecondSessionBlockList(objFocus: Focuses, generalCat: [Block_Category_App_Web]) -> (objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
 //        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
 //        if let id = objFocus.block_list_second_id {
@@ -180,7 +181,7 @@ extension DBManager: DBMangerLogic {
 //        }
 //        return (nil, [], [])
 //    }
-//}
+// }
 
 // Focus Create
 extension DBManager {
@@ -410,13 +411,37 @@ extension DBManager {
         return nil
     }
 
-    func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories) {
-        let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: DBManager.shared.managedContext)!
-        let category = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
+    func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories, isExist: Bool) {
+        if !isExist {
+            let entity = NSEntityDescription.entity(forEntityName: "Block_Category", in: DBManager.shared.managedContext)!
+            let category = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
-        for (key, value) in data {
-            category.setValue(value, forKeyPath: key)
+            for (key, value) in data {
+                category.setValue(value, forKeyPath: key)
+            }
+            storeCategoryWebApp(type: type, cat: cat, category: category as? Block_Category)
+            if type == .general {
+                let setting_data: [String: Any?] = ["warning_before_schedule_session_start": false, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
+
+                let objGS = General_Settings(context: DBManager.shared.managedContext)
+                for (key, value) in setting_data {
+                    objGS.setValue(value, forKeyPath: key)
+                }
+                (category as? Block_Category)?.general_setting = objGS
+            }
+        } else {
+            let cate = getCategoryBy(name: cat.name)
+            storeCategoryWebApp(type: type, cat: cat, category: cate)
         }
+
+        do {
+            try DBManager.shared.managedContext.save()
+        } catch let error as NSError {
+            print("Could not save category. \(error), \(error.userInfo)")
+        }
+    }
+
+    func storeCategoryWebApp(type: CategoryType, cat: Categories, category: Block_Category?) {
         if type != .general || cat != .notification {
             var arrSD: [Block_Category_App_Web] = []
 
@@ -434,22 +459,7 @@ extension DBManager {
                 }
                 arrSD.append(objSC)
             }
-            (category as? Block_Category)?.sub_data = NSSet(array: arrSD)
-        }
-        if type == .general {
-            let setting_data: [String: Any?] = ["warning_before_schedule_session_start": false, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
-
-            let objGS = General_Settings(context: DBManager.shared.managedContext)
-            for (key, value) in setting_data {
-                objGS.setValue(value, forKeyPath: key)
-            }
-            (category as? Block_Category)?.general_setting = objGS
-        }
-
-        do {
-            try DBManager.shared.managedContext.save()
-        } catch let error as NSError {
-            print("Could not save category. \(error), \(error.userInfo)")
+            category?.sub_data = NSSet(array: arrSD)
         }
     }
 

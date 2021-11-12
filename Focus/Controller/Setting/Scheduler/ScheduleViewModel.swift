@@ -185,22 +185,42 @@ enum Days: Int {
     case fri
     case sat
 
-    var identifier: String {
+    var identifier: TableIdentifier {
         switch self {
         case .sun:
-            return "sunIdentifier"
+            return .sunIdentifier
         case .mon:
-            return "monIdentifier"
+            return .monIdentifier
         case .tue:
-            return "tueIdentifier"
+            return .tueIdentifier
         case .wed:
-            return "wedIdentifier"
+            return .wedIdentifier
         case .thu:
-            return "thuIdentifier"
+            return .thuIdentifier
         case .fri:
-            return "friIdentifier"
+            return .friIdentifier
         case .sat:
-            return "satIdentifier"
+            return .satIdentifier
+        }
+    }
+}
+
+enum TableIdentifier: String {
+    case sunIdentifier
+    case monIdentifier
+    case tueIdentifier
+    case wedIdentifier
+    case thuIdentifier
+    case friIdentifier
+    case satIdentifier
+    case dayIdentifier
+
+    var color: NSColor {
+        switch self {
+        case .sunIdentifier, .tueIdentifier, .thuIdentifier, .satIdentifier, .dayIdentifier:
+            return Color.tbl_header_color
+        default:
+            return Color.time_slot_color
         }
     }
 }

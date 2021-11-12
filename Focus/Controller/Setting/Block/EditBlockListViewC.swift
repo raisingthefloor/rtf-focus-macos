@@ -380,10 +380,10 @@ extension EditBlockListViewC: NSTableViewDataSource, NSTableViewDelegate {
         if let tblV = notification.object as? NSTableView {
             let selectedRow = tblV.selectedRow
             guard selectedRow != -1 else { return }
-            if checkSessionRunning() {
-                openErrorDialogue()
-                return
-            }
+//            if checkSessionRunning() {
+//                openErrorDialogue()
+//                return
+//            }
             if tblV.identifier == NSUserInterfaceItemIdentifier(rawValue: "categoryIdentifier") {
                 let objCat = dataModel.input.getCategoryList(cntrl: .edit_blocklist)[selectedRow]
                 if objCat.show_link {

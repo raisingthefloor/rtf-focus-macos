@@ -174,7 +174,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
     func displayError() {
         let presentingCtrl = WindowsManager.getPresentingController()
         let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-        errorDialog.errorType = .focus_schedule_error
+        errorDialog.errorType = .validation_error
         errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
         presentingCtrl?.presentAsSheet(errorDialog)
     }

@@ -170,6 +170,9 @@
                                                 </subviews>
                                                 <nil key="backgroundColor"/>
                                             </clipView>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="135" id="pu8-Pp-ge0"/>
+                                            </constraints>
                                             <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="pUv-dZ-vC3">
                                                 <rect key="frame" x="-100" y="-100" width="223" height="11"/>
                                                 <autoresizingMask key="autoresizingMask"/>
@@ -251,7 +254,6 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="ULe-fE-2Ut" firstAttribute="leading" secondItem="7ZR-fe-U3X" secondAttribute="leading" id="7jB-1J-PpU"/>
-                        <constraint firstAttribute="height" constant="240" id="8E6-A4-Tfn"/>
                         <constraint firstAttribute="bottom" secondItem="ULe-fE-2Ut" secondAttribute="bottom" id="8se-A5-jD7"/>
                         <constraint firstAttribute="width" constant="529" id="FNq-jP-hkY"/>
                         <constraint firstAttribute="trailing" secondItem="ULe-fE-2Ut" secondAttribute="trailing" id="oVu-mQ-SMN"/>

@@ -195,6 +195,8 @@
 "Error.random_character_info" = "NOTE: You set the blocklist (currently being used) to require you to type random characters in order to stop the focus session.";
 "Error.random_character_invalid" = "Characters do not match. Please try again.";
 "Error.invalid_url" = "This is not a valid URL.";
+"Error.validation_error_desc" = "End time should be greater than start time";
+"Error.validation_error" = "Validation error";
 
 "ID.test_url" = "Test URL";
 

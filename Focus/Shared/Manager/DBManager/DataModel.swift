@@ -190,13 +190,15 @@ class DataModel: DataModelIntput, DataModelOutput, DataModelType {
             if DBManager.shared.getCategoryBy(name: val.name) == nil {
                 let data: [String: Any?] = ["name": val.name, "id": UUID(), "created_at": Date(),
                                             "type": CategoryType.system.rawValue, "index": i, "show_link": val.show_link]
-                DBManager.shared.saveCategory(data: data, type: .system, cat: val)
+                DBManager.shared.saveCategory(data: data, type: .system, cat: val, isExist: false)
                 i = i + 1
+            } else {
+                DBManager.shared.saveCategory(data: [:], type: .system, cat: val, isExist: true)
             }
         }
         if DBManager.shared.getCategoryBy(name: Categories.general.name) == nil {
             let data: [String: Any?] = ["name": "General", "id": UUID(), "created_at": Date(), "type": CategoryType.general.rawValue]
-            DBManager.shared.saveCategory(data: data, type: .general, cat: .general)
+            DBManager.shared.saveCategory(data: data, type: .general, cat: .general, isExist: false)
         }
     }
 }

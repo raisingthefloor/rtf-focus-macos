@@ -182,7 +182,7 @@ extension DisincentiveViewC: NSTextFieldDelegate {
             WindowsManager.blockWebSite()
         }
 
-        if obj.is_dnd_mode {
+        if obj.is_dnd_mode || obj.is_block_list_dnd {
             WindowsManager.runDndCommand(cmd: "on")
         }
     }

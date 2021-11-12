@@ -40,15 +40,21 @@ class SlotViewCell: NSTableCellView {
         rightV.background_color = .clear
         rightV.border_color = .clear
         if let tblIdentifier = tableColumn?.identifier {
-            if let scheduleDay = session.days.filter({ NSUserInterfaceItemIdentifier(rawValue: $0.day.identifier) == tblIdentifier }).compactMap({ $0 }).first {
+            if let scheduleDay = session.days.filter({ NSUserInterfaceItemIdentifier(rawValue: $0.day.identifier.rawValue) == tblIdentifier }).compactMap({ $0 }).first {
+                bgColor = Color.tbl_header_color
                 setupSesionData(session: session, scheduleDay: scheduleDay)
+            } else {
+                let identifier = tblIdentifier.rawValue
+                bgColor = TableIdentifier(rawValue: identifier)?.color
+                if let scheduleDay = session.days.first {
+                    setupSesionData(session: session, scheduleDay: scheduleDay)
+                }
             }
         }
     }
 
     func setupSesionData(session: ScheduleSession, scheduleDay: ScheduleDay) {
         let color: [NSColor] = scheduleDay.colors
-
         if scheduleDay.isActive == true {
             if scheduleDay.noOfsession != 0 {
                 leftV.background_color = ((scheduleDay.color_type.first == .hollow) ? Color.list_bg_color : color.first)

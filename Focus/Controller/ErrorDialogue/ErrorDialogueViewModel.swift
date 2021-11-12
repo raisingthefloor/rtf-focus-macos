@@ -27,7 +27,7 @@ import Cocoa
 import Foundation
 
 enum ErrorDialogue: Int {
-    case focus_schedule_error
+    case focus_schedule_error // It is used when that Schedule is active
     case edit_blocklist_error
     case schedule_error
     case general_setting_error
@@ -44,7 +44,7 @@ enum ErrorDialogue: Int {
         case .general_setting_error:
             return NSLocalizedString("Error.active_focus_error", comment: "Changes cannot be made during active Focus session")
         case .validation_error:
-            return ""
+            return NSLocalizedString("Error.validation_error", comment: "Validation error")
         }
     }
 
@@ -59,7 +59,7 @@ enum ErrorDialogue: Int {
         case .general_setting_error:
             return NSLocalizedString("Error.active_focus_error_desc", comment: "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.")
         case .validation_error:
-            return ""
+            return NSLocalizedString("Error.validation_error_desc", comment: "End time should be greater than start time")
         }
     }
 

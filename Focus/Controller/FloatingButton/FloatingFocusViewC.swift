@@ -149,7 +149,7 @@ extension FloatingFocusViewC {
             WindowsManager.blockWebSite()
         }
 
-        if obj.is_dnd_mode {
+        if obj.is_dnd_mode || obj.is_block_list_dnd {
             WindowsManager.runDndCommand(cmd: "on")
         }
     }
@@ -238,8 +238,8 @@ extension FloatingFocusViewC {
             let presentingCtrl = WindowsManager.getPresentingController()
             let controller = SessionCompleteDialogueViewC(nibName: "SessionCompleteDialogueViewC", bundle: nil)
             controller.dialogueType = .seession_completed_alert
-            controller.sessionDone = { action, value in
-                self.updateViewnData(dialogueType: .seession_completed_alert, action: action, value: value, valueType: .none) // May be Required
+            controller.sessionDone = { action, value, valueType in
+                self.updateViewnData(dialogueType: .seession_completed_alert, action: action, value: value, valueType: valueType)
             }
             presentingCtrl?.presentAsSheet(controller)
         }
@@ -307,7 +307,16 @@ extension FloatingFocusViewC {
                 objEx.is_long_focus = true
             default: break
             }
-        case .seession_completed_alert: break // Need to check
+        case .seession_completed_alert:
+            switch valueType {
+            case .small:
+                objEx.is_small_done_focus = true
+            case .mid:
+                objEx.is_mid_done_focus = true
+            case .long:
+                objEx.is_long_done_focus = true
+            default: break
+            }
 
         default: break
         }

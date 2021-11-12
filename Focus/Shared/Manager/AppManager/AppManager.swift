@@ -65,6 +65,11 @@ class AppManager {
     func addObserverForDockQuit() {
         let appleEventManager: NSAppleEventManager = NSAppleEventManager.shared()
         appleEventManager.setEventHandler(self, andSelector: #selector(handleQuitEvent(event:withReplyEvent:)), forEventClass: kCoreEventClass, andEventID: kAEQuitApplication)
+
+        NSWorkspace.shared.notificationCenter.addObserver(self,
+                                                          selector: #selector(macPowerOff),
+                                                          name: NSWorkspace.willPowerOffNotification,
+                                                          object: nil)
     }
 
     func loadScript() {
@@ -75,6 +80,25 @@ class AppManager {
 
     func startCheckingReminder() {
         reminderModel.input.setupInitial()
+    }
+
+    @objc func macPowerOff() {
+        guard let obj = DBManager.shared.getCurrentSession(), let objBl = DBManager.shared.getCurrentBlockList().objBl else {
+            resetFocusSession()
+            stopScriptObserver()
+            NSApplication.shared.terminate(self)
+
+            return
+        }
+        if objBl.restart_computer && obj.is_focusing {
+            resetFocusSession()
+            stopScriptObserver()
+            NSApplication.shared.terminate(self)
+        } else if !obj.is_focusing {
+            resetFocusSession()
+            stopScriptObserver()
+            NSApplication.shared.terminate(self)
+        }
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
@@ -199,6 +223,9 @@ extension AppManager {
         objEx?.is_mid_break = false
         objEx?.is_small_break = false
         objEx?.is_long_break = false
+        objEx?.is_mid_done_focus = false
+        objEx?.is_small_done_focus = false
+        objEx?.is_long_done_focus = false
         DBManager.shared.saveContext() // TODO: Define the Method for resetting the focus.
     }
 

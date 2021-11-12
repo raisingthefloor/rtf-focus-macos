@@ -277,7 +277,8 @@ extension FocusDialogue {
             return [objExte?.is_small_break ?? false, objExte?.is_mid_break ?? false, objExte?.is_long_break ?? false]
         case .schedule_reminded_without_blocklist_alert:
             return []
-        case .seession_completed_alert: return []
+        case .seession_completed_alert:
+            return [objExte?.is_small_done_focus ?? false, objExte?.is_mid_done_focus ?? false, objExte?.is_long_done_focus ?? false]
         case .schedule_reminded_with_blocklist_alert: return []
         default:
             return []

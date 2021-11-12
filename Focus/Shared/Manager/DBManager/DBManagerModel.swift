@@ -43,7 +43,7 @@ protocol DBMangerLogic {
 
     func checkDataIsPresent(entityName: String) -> Bool
     func getCategories() -> [Block_Category]
-    func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories)
+    func saveCategory(data: [String: Any?], type: CategoryType, cat: Categories, isExist: Bool)
     func getCategoryBy(name: String) -> Block_Category?
 
     func getGeneralCategoryData() -> (gCat: Block_Category?, subCat: [Block_Category_App_Web])

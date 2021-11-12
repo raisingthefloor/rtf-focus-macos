@@ -56,6 +56,7 @@ struct Color {
     static let day_deselected_color = NSColor("#666666") ?? .darkGray
     static let deselected_row_schedule = NSColor("#FAFCFF") ?? .lightGray.withAlphaComponent(0.3)
     static let selected_row_schedule = NSColor("#fafcff") ?? .lightGray.withAlphaComponent(0.3)
+    static let time_slot_color = NSColor("#F5F9FF") ?? .blue.withAlphaComponent(0.1)
 }
 
 extension NSColor {
