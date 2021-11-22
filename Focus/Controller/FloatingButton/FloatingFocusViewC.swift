@@ -149,7 +149,7 @@ extension FloatingFocusViewC {
             WindowsManager.blockWebSite()
         }
 
-        if obj.is_dnd_mode || obj.is_block_list_dnd {
+        if obj.is_dnd_mode {
             WindowsManager.runDndCommand(cmd: "on")
         }
     }
@@ -247,26 +247,26 @@ extension FloatingFocusViewC {
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj else { return }
-        let objSession = DBManager.shared.getCurrentBlockList().objBl
+        let objSession = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List // TODO: Need to check with multiple block list  arrObjBl.last
         focusTimerModel.usedTime = 0
         let isRestart = objSession?.restart_computer ?? false
         switch action {
         case .extend_focus:
             // Focus Extend Here
             obj.extended_focus_time = Double(value)
-            obj.stop_focus_after_time = Double(value) // Whatever value set after that min break alert will comes
-            let val = obj.remaining_time + Double(value)
-            obj.remaining_time = val
+            obj.combine_stop_focus_after_time = Double(value) // Whatever value set after that min break alert will comes
+            let val = obj.remaining_focus_time + Double(value)
+            obj.remaining_focus_time = val
 
-            let extentFinalTime = Int(obj.original_focus_length_time + Double(value)).secondsToTime()
+            let extentFinalTime = Int(obj.combine_focus_length_time + Double(value)).secondsToTime()
 
-            print(" ORIGINAL Length :\(obj.original_focus_length_time) Extent Val: \(Double(value))")
+            print(" ORIGINAL Length :\(obj.combine_focus_length_time) Extent Val: \(Double(value))")
 
-            print(" extentFinalTime Addition :\(Int(obj.original_focus_length_time + Double(value)))")
+            print(" extentFinalTime Addition :\(Int(obj.combine_focus_length_time + Double(value)))")
 
             print(" extentFinalTime :\(extentFinalTime)")
 
-            obj.session_end_time = obj.session_start_time?.adding(hour: extentFinalTime.timeInHours, min: extentFinalTime.timeInMinutes, sec: extentFinalTime.timeInSeconds)
+//            obj.session_end_time = obj.session_start_time?.adding(hour: extentFinalTime.timeInHours, min: extentFinalTime.timeInMinutes, sec: extentFinalTime.timeInSeconds) // TODO: which session value update
 
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
@@ -333,15 +333,19 @@ extension FloatingFocusViewC {
         }
     }
 
-    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Focuses, objBl: Block_List?, value: Int, valueType: ButtonValueType) {
+    func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Current_Focus, objBl: Block_List?, value: Int, valueType: ButtonValueType) {
         let isRestart = objBl?.restart_computer ?? false
 
         switch dialogueType {
         case .end_break_alert:
             // Break End Here
+            let focuslist = obj.focuses?.allObjects as? [Focus_List]
+            let total_stop_focus = focuslist?.reduce(0) { $0 + $1.focus_stop_after_length } ?? 0
+            let total_break_focus = focuslist?.reduce(0) { $0 + $1.break_length_time } ?? 0
+
             obj.is_break_time = false
-            obj.remaining_break_time = obj.original_break_lenght_time
-            obj.stop_focus_after_time = obj.original_stop_focus_after_time
+            obj.remaining_break_time = total_break_focus
+            obj.combine_stop_focus_after_time = total_stop_focus
             DBManager.shared.saveContext()
             setUpText()
             focusTimerModel.input.updateTimerStatus()

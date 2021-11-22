@@ -51,7 +51,6 @@ class FocusDialogueViewC: NSViewController {
 
 extension FocusDialogueViewC: BasicSetupType {
     func setUpText() {
-        
 //        if dialogueType == .long_break_alert {
 //            let timeC = Int(viewModel.currentSession?.objFocus?.used_focus_time ?? 100).secondsToTime()
 //            var time = ""
@@ -62,7 +61,7 @@ extension FocusDialogueViewC: BasicSetupType {
 //            }
 //            lblTitle.stringValue = String(format: dialogueType.title, time)
 //        } else {
-            lblTitle.stringValue = dialogueType.title
+        lblTitle.stringValue = dialogueType.title
 //        }
 
         lblDesc.stringValue = dialogueType.description
@@ -73,7 +72,7 @@ extension FocusDialogueViewC: BasicSetupType {
 
         btnStop.title = buttonsValue.first ?? "-"
         if dialogueType == .long_break_alert {
-            let timeC = Int(viewModel.currentSession?.objFocus?.short_break_time ?? 100).secondsToTime()
+            let timeC = Int(viewModel.currentSession?.objFocus?.combine_break_lenght_time ?? 100).secondsToTime() // TODO: Need to check this value
             var time = ""
             if timeC.timeInHours != 0 {
                 time = "\(timeC.timeInHours) hrs \(timeC.timeInMinutes) minute"
@@ -194,7 +193,7 @@ extension FocusDialogueViewC {
             return
         }
 
-        guard let objBl = viewModel.currentSession?.objBl else {
+        guard let objBl = viewModel.currentSession?.arrObjBl.last as? Block_List else {
             breakAction?(.stop_session, 0, .none)
             dismiss(nil)
             return

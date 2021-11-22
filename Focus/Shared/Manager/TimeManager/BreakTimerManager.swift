@@ -40,7 +40,7 @@ protocol TimerModelOutput {
 protocol TimerModelType {
     var input: TimerModelIntput { get }
     var output: TimerModelOutput { get }
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])? { get set }
+    var currentSession: (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface])? { get set }
     var updateUI: ((_ dialogueType: FocusDialogue, _ hours: Int, _ minutes: Int, _ seconds: Int) -> Void)? { get set }
     var usedTime: Int { get set }
 }
@@ -50,7 +50,7 @@ class BreakTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
 
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
 
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
+    var currentSession: (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
     var output: TimerModelOutput { return self }
 

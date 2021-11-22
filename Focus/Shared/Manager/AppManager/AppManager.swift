@@ -83,14 +83,16 @@ class AppManager {
     }
 
     @objc func macPowerOff() {
-        guard let obj = DBManager.shared.getCurrentSession(), let objBl = DBManager.shared.getCurrentBlockList().objBl else {
+        guard let obj = DBManager.shared.getCurrentSession(), let objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last else {
             resetFocusSession()
             stopScriptObserver()
             NSApplication.shared.terminate(self)
-
             return
         }
-        if objBl.restart_computer && obj.is_focusing {
+
+        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0?.restart_computer }).filter({ $0 }).first ?? false
+
+        if is_restart_computer && obj.is_focusing {
             resetFocusSession()
             stopScriptObserver()
             NSApplication.shared.terminate(self)
@@ -102,14 +104,16 @@ class AppManager {
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
-        guard let obj = DBManager.shared.getCurrentSession(), let objBl = DBManager.shared.getCurrentBlockList().objBl else {
+        guard let obj = DBManager.shared.getCurrentSession(), let _ = DBManager.shared.getCurrentBlockList().arrObjBl.last else {
             resetFocusSession()
             stopScriptObserver()
             NSApplication.shared.terminate(self)
-
             return
         }
-        if objBl.restart_computer && obj.is_focusing {
+
+        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0?.restart_computer }).filter({ $0 }).first ?? false
+
+        if is_restart_computer && obj.is_focusing {
             resetFocusSession()
             stopScriptObserver()
             NSApplication.shared.terminate(self)
@@ -216,10 +220,7 @@ extension AppManager {
         obj.focus_untill_stop = false
         obj.used_focus_time = 0
         obj.decrease_break_time = 0
-        obj.original_focus_length_time = 0
-        obj.original_break_lenght_time = 0
-        obj.original_stop_focus_after_time = 0
-        obj.remaining_time = 0
+        obj.remaining_focus_time = 0
         obj.extended_break_time = 0
         obj.extended_focus_time = 0
         objEx?.is_mid_focus = false
@@ -231,6 +232,8 @@ extension AppManager {
         objEx?.is_mid_done_focus = false
         objEx?.is_small_done_focus = false
         objEx?.is_long_done_focus = false
+        obj.focuses = nil
+
         DBManager.shared.saveContext() // TODO: Define the Method for resetting the focus.
     }
 

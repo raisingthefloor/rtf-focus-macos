@@ -27,10 +27,11 @@ import Foundation
 
 protocol DBMangerLogic {
     var managedContext: NSManagedObjectContext { get set }
-    func createFocus(data: [String: Any]) // Not Used
-    func getFoucsObject() -> Focuses?
-    func getCurrentSession() -> Focuses?
-    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
+    func createFocus(data: [String: Any?]) -> Focus_List?
+    func getFoucsObject() -> Current_Focus?
+    func getCurrentSession() -> Current_Focus?
+    //func getCurrentBlockList() -> (objFocus: Current_Focus?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
+    func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface])
 
     func saveApplicationlist(data: [String: Any])
     func getApplicationList() -> [Application_List]

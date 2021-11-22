@@ -72,7 +72,7 @@ class MenuController: BaseViewController {
         setUpText()
         setUpViews()
         bindData()
-        preDataSetup()
+//        preDataSetup()
     }
 
     @IBAction func showInfoAction(_ sender: Any) {
@@ -111,8 +111,8 @@ extension MenuController: BasicSetupType {
         lblDnDInfo.stringValue = Focus.Options.dnd.information
         checkBoxFocusTime.title = Focus.Options.focus_break.title
         checkBoxFocusTime.toolTip = Focus.Options.focus_break.information
-        lblBrekInfo.stringValue = Focus.Options.focus_break_1.title
-        lblFocusInfo.stringValue = Focus.Options.focus_break_2.title
+        lblBrekInfo.stringValue = Focus.Options.focus_break_length.title
+        lblFocusInfo.stringValue = Focus.Options.focus_stop_length.title
         lblFocusTInfo.stringValue = Focus.Options.focus_break.information
 
         checkBoxBlock.title = Focus.Options.block_program_website.title
@@ -254,25 +254,22 @@ extension MenuController: BasicSetupType {
         } else {
             if !arrBlock.isEmpty {
                 let objBlockList = arrBlock[index]
+                viewModel.focusDict["block_list_id"] = objBlockList.id
+                viewModel.focusDict["is_block_list_dnd"] = objBlockList.is_dnd_category_on // This one used for cause If any blocklist has selected notification Category then it set here
             }
         }
-        DBManager.shared.saveContext()
     }
 
     @IBAction func foucsTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         let index = popup.selectedTag()
-        viewModel.input.focusObj?.stop_focus_after_time = Focus.FocusTime(rawValue: index)!.valueInSeconds
-        DBManager.shared.saveContext()
+        viewModel.focusDict[Focus.Options.focus_stop_length.key_name] = Focus.FocusTime(rawValue: index)!.valueInSeconds
     }
 
     @IBAction func breakTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
         let index = popup.selectedTag()
-        viewModel.input.focusObj?.short_break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
-        viewModel.input.focusObj?.original_break_lenght_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
-        viewModel.input.focusObj?.remaining_break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
-        DBManager.shared.saveContext()
+        viewModel.focusDict[Focus.Options.focus_break_length.key_name] = Focus.BreakTime(rawValue: index)!.valueInSeconds
     }
 
     @objc func openCustomSetting() {
@@ -281,22 +278,21 @@ extension MenuController: BasicSetupType {
 }
 
 extension MenuController {
-    func preDataSetup() {
-        guard let obj = viewModel.input.focusObj else { return }
-        obj.short_break_time = Focus.BreakTime.three.valueInSeconds
-        obj.original_break_lenght_time = Focus.BreakTime.three.valueInSeconds
-        obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
-        obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
-        obj.original_stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
-        blockStackV.isHidden = !obj.is_block_programe_select
-        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).blists
-        if !arrBlock.isEmpty {
-            if obj.is_block_programe_select {
-                obj.block_list_id = arrBlock[0].id
-            }
-        }
-        DBManager.shared.saveContext()
-    }
+//    func preDataSetup() {
+//        guard let obj = viewModel.input.focusObj else { return }
+//        obj.original_break_lenght_time = Focus.BreakTime.three.valueInSeconds
+//        obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
+//        obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
+//        obj.original_stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
+//        blockStackV.isHidden = !obj.is_block_programe_select
+//        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).blists
+//        if !arrBlock.isEmpty {
+//            if obj.is_block_programe_select {
+//                obj.block_list_id = arrBlock[0].id
+//            }
+//        }
+//        DBManager.shared.saveContext()
+//    }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueSetting" {
@@ -305,9 +301,8 @@ extension MenuController {
                 detailVC.updateView = { [weak self] _ in
                     self?.popBlock.menu = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).nsMenu
                     if let arrBlock = self?.viewModel.model.input.getBlockList(cntrl: .main_menu).blists,!arrBlock.isEmpty {
-                        guard let obj = self?.viewModel.input.focusObj else { return }
-                        obj.block_list_id = arrBlock[0].id
-                        DBManager.shared.saveContext()
+                        self?.viewModel.focusDict["block_list_id"] = !arrBlock.isEmpty ? arrBlock[0].id : nil
+                        self?.viewModel.focusDict["is_block_list_dnd"] = !arrBlock.isEmpty ? arrBlock[0].is_dnd_category_on : false // This one used for cause If any blocklist has selected notification Category then it set here
                     }
                 }
             }

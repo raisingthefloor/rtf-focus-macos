@@ -28,19 +28,19 @@ import Foundation
 
 enum Focus {
     static var entity_name: String {
-        return "Focuses"
+        return "Current_Focus"
     }
 
     enum Relationship {
-        case block_data
-        case override_data
+        case extended_value
+        case focuses
 
         var key_name: String {
             switch self {
-            case .block_data:
-                return "block_data"
-            case .override_data:
-                return "override_block_data"
+            case .extended_value:
+                return "extended_value"
+            case .focuses:
+                return "focuses"
             }
         }
     }
@@ -142,7 +142,7 @@ extension Focus {
         }
 
         static var key_name: String {
-            return "short_break_time"
+            return "break_length_time"
         }
     }
 
@@ -204,7 +204,7 @@ extension Focus {
         }
 
         static var key_name: String {
-            return "stop_focus_after_time"
+            return "focus_stop_after_length"
         }
     }
 
@@ -212,8 +212,8 @@ extension Focus {
         case dnd = 0
         case focus_break
         case block_program_website
-        case focus_break_1
-        case focus_break_2
+        case focus_break_length
+        case focus_stop_length
         case block_list
         case customize_setting
 
@@ -223,9 +223,9 @@ extension Focus {
                 return NSLocalizedString("Home.turn_on_dnd", comment: "Turn on “Do Not Disturb” while focusing")
             case .focus_break:
                 return NSLocalizedString("Home.provide_short_1", comment: "Provide short")
-            case .focus_break_1:
+            case .focus_break_length:
                 return NSLocalizedString("Home.provide_short_2", comment: "min breaks for every")
-            case .focus_break_2:
+            case .focus_stop_length:
                 return NSLocalizedString("Home.provide_short_3", comment: "min of Focus")
             case .block_program_website:
                 return NSLocalizedString("Home.block_select_prog_web", comment: "Block select programs & websites while focusing")
@@ -240,7 +240,7 @@ extension Focus {
             switch self {
             case .dnd:
                 return NSLocalizedString("Home.turn_on_dnd_info", comment: "(turns off notifications and calls)")
-            case .focus_break, .focus_break_1, .focus_break_2:
+            case .focus_break, .focus_break_length, .focus_stop_length:
                 return NSLocalizedString("Home.provide_short_info", comment: "Use the dropdowns to change time")
             case .block_program_website:
                 return NSLocalizedString("Home.focus_lenght_title", comment: "Start a Focus session now for the following length of time (With the settings checked above)")
@@ -255,11 +255,11 @@ extension Focus {
             let obj = DBManager.shared.getFoucsObject()
             switch self {
             case .dnd:
-                return (obj?.is_dnd_mode == true) ? .on : .off
+                return .off
             case .focus_break:
-                return (obj?.is_provided_short_break == true) ? .on : .off
+                return .off
             case .block_program_website:
-                return (obj?.is_block_programe_select == true) ? .on : .off
+                return .off
             default:
                 return .off
             }
@@ -269,10 +269,14 @@ extension Focus {
             switch self {
             case .dnd:
                 return "is_dnd_mode"
-            case .focus_break_1:
-                return "short_break_time"
-            case .focus_break_2:
-                return "stop_focus_after_time"
+            case .focus_break:
+                return "is_provided_short_break"
+            case .focus_break_length:
+                return "break_length_time"
+            case .focus_stop_length:
+                return "focus_stop_after_length"
+            case .block_list:
+                return "is_block_programe_select"
             default:
                 return ""
             }

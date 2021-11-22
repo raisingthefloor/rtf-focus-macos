@@ -246,9 +246,10 @@ extension EditBlockListViewC: BasicSetupType {
     }
 
     func disableControl(id: UUID?) {
-        guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
+        guard let objF = DBManager.shared.getCurrentBlockList().objFocus, let focuslist = objF.focuses?.allObjects as? [Focus_List] else { return }
+        let isSame = focuslist.compactMap({ $0.block_list_id == id }).filter({ $0 }).first ?? false
 
-        if objF.block_list_id == id {
+        if isSame {
             btnBAddApp.isEnabled = !objF.is_focusing
             btnBAddWeb.isEnabled = !objF.is_focusing
             btnNBAddApp.isEnabled = !objF.is_focusing
@@ -640,8 +641,9 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     }
 
     func checkSessionRunning() -> Bool {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus, let id = dataModel.objBlocklist?.id {
-            if objF.block_list_id == id {
+        if let objF = DBManager.shared.getCurrentBlockList().objFocus, let id = dataModel.objBlocklist?.id, let focuslist = objF.focuses?.allObjects as? [Focus_List] {
+            let isSame = focuslist.compactMap({ $0.block_list_id == id }).filter({ $0 }).first ?? false
+            if isSame {
                 if objF.is_focusing || objF.is_block_programe_select {
                     reloadTables()
                     return true

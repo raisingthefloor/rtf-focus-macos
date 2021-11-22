@@ -178,7 +178,7 @@ extension GeneralSettingViewC: BasicSetupType {
     func openErrorDialogue() {
         let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
         errorDialog.errorType = .general_setting_error
-        errorDialog.objBl = DBManager.shared.getCurrentBlockList().objBl
+        errorDialog.objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List
         presentAsSheet(errorDialog)
     }
 }

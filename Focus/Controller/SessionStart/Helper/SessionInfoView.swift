@@ -85,14 +85,13 @@ extension SessionInfoView: BasicSetupType {
         border_color = .black
     }
 
-    func setupSessionData() {
+    func setupSessionData(objB: Block_List) {
         titleV?.isHidden = true
         lblHours.alignment = .right
         lblBlock.alignment = .right
         lblEnd.alignment = .right
 
         let objFocus = DBManager.shared.getCurrentBlockList().objFocus
-        let objB = DBManager.shared.getCurrentBlockList().objBl
         let focus_length = Int(objFocus?.used_focus_time ?? 100).secondsToTime()
 
         var time = ""
@@ -103,8 +102,8 @@ extension SessionInfoView: BasicSetupType {
         }
         lblHoursV.stringValue = time
 
-        var list_name = objB?.name ?? "-"
-        if objB?.restart_computer ?? false || objB?.random_character ?? false {
+        var list_name = objB.name ?? "-"
+        if objB.restart_computer ?? false || objB.random_character ?? false {
             list_name = "🔒" + " " + list_name
         }
 

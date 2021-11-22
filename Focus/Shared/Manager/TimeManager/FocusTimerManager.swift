@@ -28,7 +28,7 @@ import Foundation
 
 class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
-    var currentSession: (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])?
+    var currentSession: (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
     var output: TimerModelOutput { return self }
     var usedTime: Int = 0
@@ -38,7 +38,7 @@ class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     private var used_focus_time: Int = 0
     var stop_focus_after_time: Double = 0
     var focusTimer: Timer?
-    var objFocus: Focuses!
+    var objFocus: Current_Focus!
 
     func setupInitial() {
         currentSession = DBManager.shared.getCurrentBlockList()
@@ -69,7 +69,7 @@ extension FocusTimerManager {
 
     func updateCounterValue() { // It it used for updating the  UI
         guard let obj = currentSession?.objFocus else { return }
-        remaininFocusTime = Int(obj.remaining_time)
+        remaininFocusTime = Int(obj.remaining_focus_time)
         used_focus_time = Int(obj.used_focus_time)
         let countdownerDetails = remaininFocusTime.secondsToTime()
         updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds)
@@ -106,7 +106,7 @@ extension FocusTimerManager {
 
         print("Focus remaininTimeInSeconds ::: \(remaininFocusTime)")
         print("Focus usedTimeSeconds ::: \(usedTime)")
-        print("Focus Stop after This Min ::: \(Int(obj.stop_focus_after_time))")
+        print("Focus Stop after This Min ::: \(Int(obj.combine_stop_focus_after_time))")
 
         if remaininFocusTime <= 0 {
             stopTimer()
@@ -142,7 +142,7 @@ extension FocusTimerManager {
     func updateRemaingTimeInDB(seconds: Int, usedTime: Int) {
         DispatchQueue.main.async {
             guard let obj = self.currentSession?.objFocus else { return }
-            obj.remaining_time = Double(seconds)
+            obj.remaining_focus_time = Double(seconds)
             obj.used_focus_time = Double(self.used_focus_time)
             obj.decrease_break_time = Double(usedTime)
             DBManager.shared.saveContext()
@@ -157,7 +157,7 @@ extension FocusTimerManager {
         let seconds = counter % 60
 
         switch Double(usedValue) {
-        case objFocus.stop_focus_after_time:
+        case objFocus.combine_stop_focus_after_time:
             if objFocus.is_provided_short_break {
                 let popup: FocusDialogue = (objFocus.focus_untill_stop && !objFocus.is_provided_short_break) ? .long_break_alert : .short_break_alert
                 return (popup: popup, hours: hours, minutes: minutes, seconds: seconds)

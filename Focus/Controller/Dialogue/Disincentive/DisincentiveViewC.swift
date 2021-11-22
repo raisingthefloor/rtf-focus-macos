@@ -125,7 +125,7 @@ extension DisincentiveViewC: BasicSetupType {
     }
 
     func setupRandomCharacter() {
-        if let objB = DBManager.shared.getCurrentBlockList().objBl {
+        if let objB = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List {
             let randomVal = objB.character_val
             lblCharacter.stringValue = String.randomString(length: randomVal)
         }
@@ -182,7 +182,7 @@ extension DisincentiveViewC: NSTextFieldDelegate {
             WindowsManager.blockWebSite()
         }
 
-        if obj.is_dnd_mode || obj.is_block_list_dnd {
+        if obj.is_dnd_mode {
             WindowsManager.runDndCommand(cmd: "on")
         }
     }

@@ -53,7 +53,7 @@ class BlockAppDialogueViewC: NSViewController {
 
 extension BlockAppDialogueViewC: BasicSetupType {
     func setUpText() {
-        guard let objBl = viewModel.currentSession?.objBl else { return }
+        guard let objBl = viewModel.currentSession?.arrObjBl.last as? Block_List else { return }
         let appName = ((dialogueType == .notifiction_block_alert) ? "Notifiction" : viewModel.application?.localizedName) ?? "-"
         var list_name = objBl.name ?? "-"
         if objBl.restart_computer || objBl.random_character {
@@ -154,7 +154,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     @objc func stopAction(_ sender: NSButton) {
-        guard let objBl = viewModel.currentSession?.objBl else {
+        guard let objBl = viewModel.currentSession?.arrObjBl.last as? Block_List else {
             updateView?(.stop_session)
             dismiss(nil)
             return

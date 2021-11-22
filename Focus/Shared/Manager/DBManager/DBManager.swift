@@ -37,26 +37,40 @@ class DBManager {
 
 // Block List
 extension DBManager: DBMangerLogic {
-    func getCurrentBlockList() -> (objFocus: Focuses?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
+    func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface]) {
         let generalCat = getGeneralCategoryData().subCat
 
-        guard let objFocus = getCurrentSession() else { return (nil, nil, [], []) }
+        guard let objFocus = getCurrentSession(), let focuslist = objFocus.focuses?.allObjects as? [Focus_List] else { return (nil, [], [], []) }
 
-//        if let second_blist_id = objFocus.block_list_second_id, let id = objFocus.block_list_id, second_blist_id != id {
-//            second_result = getSecondSessionBlockList(objFocus: objFocus, generalCat: generalCat)
-//        }
+        let blockids = focuslist.compactMap({ $0.block_list_id })
+        var i = 1
+        var applist: [Block_Interface] = []
+        var weblist: [Block_Interface] = []
+        var arrObjBl: [Block_List?] = []
 
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
-        if let id = objFocus.block_list_id {
-            fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        for id in blockids {
+            let discardException = (i == 1 && blockids.count > 1) ? true : false
+            let result = getBlockList(id: id, generalCat: generalCat, discardException: discardException)
+            applist = applist + result.apps
+            weblist = weblist + result.webs
+            arrObjBl.append(result.objBl)
+            i = i + 1
         }
+//            print("Final applist : \(applist)")
+//            print("Final weblist : \(weblist)")
+
+        return (objFocus, arrObjBl, applist, weblist)
+    }
+
+    func getBlockList(id: UUID, generalCat: [Block_Category_App_Web], discardException: Bool) -> (objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
 
         do {
             let block = try DBManager.shared.managedContext.fetch(fetchRequest)
 
-            guard let blocks = (block as? [Block_List])?.first else { return (objFocus, nil, [], []) }
-
-            guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (objFocus, blocks, [], []) }
+            guard let blocks = (block as? [Block_List])?.first else { return (nil, [], []) }
+            guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (blocks, [], []) }
 
             var applist: [Block_Interface] = arrBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
             var weblist: [Block_Interface] = arrBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
@@ -64,6 +78,7 @@ extension DBManager: DBMangerLogic {
             // Category List Adding
             if let arrCategory = blocks.block_category?.allObjects as? [Block_List_Category], !arrCategory.isEmpty {
                 let arrIds = arrCategory.compactMap({ $0.id })
+
                 let arrSubCate = getCategoryData(ids: arrIds)
 
                 applist = applist + arrSubCate.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
@@ -91,97 +106,27 @@ extension DBManager: DBMangerLogic {
             }
 
             // Exception App and site List Filter
-            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
+            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty,!discardException {
                 let gEApp = arrExceBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
 
                 gEApp.forEach { val in
                     applist.removeAll(where: { $0.app_identifier == val.app_identifier })
                 }
-//                print("Filter Exception App: \(applist)")
                 let gEWeb = arrExceBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
 
                 gEWeb.forEach { val in
                     weblist.removeAll(where: { $0.name == val.name })
                 }
-//                print("Filter Exception Web: \(weblist)")
             }
-//            print("Final applist : \(applist)")
-//            print("Final weblist : \(weblist)")
 
-            return (objFocus, blocks, applist, weblist)
+            return (blocks, applist, weblist)
 
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        return (objFocus, nil, [], [])
+        return (nil, [], [])
     }
 }
-
-//    func getSecondSessionBlockList(objFocus: Focuses, generalCat: [Block_Category_App_Web]) -> (objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface]) {
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Block_List")
-//        if let id = objFocus.block_list_second_id {
-//            fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-//        }
-//
-//        do {
-//            let block = try DBManager.shared.managedContext.fetch(fetchRequest)
-//
-//            guard let blocks = (block as? [Block_List])?.first else { return (nil, [], []) }
-//
-//            guard let arrBlocks = blocks.block_app_web?.allObjects as? [Block_Interface] else { return (blocks, [], []) }
-//
-//            var applist: [Block_Interface] = arrBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
-//            var weblist: [Block_Interface] = arrBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
-//
-//            // Category List Adding
-//            if let arrCategory = blocks.block_category?.allObjects as? [Block_List_Category], !arrCategory.isEmpty {
-//                let arrIds = arrCategory.compactMap({ $0.id })
-//
-//                let arrSubCate = getCategoryData(ids: arrIds)
-//
-//                applist = applist + arrSubCate.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
-//                weblist = weblist + arrSubCate.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
-//            }
-//
-//            // General Setting App and Site List Filter
-//            if !generalCat.isEmpty {
-//                let gCApp = generalCat
-//                    .filter({ $0.block_type == BlockType.application.rawValue })
-//                    .compactMap({ $0 })
-//                    .filter({ $0.is_selected == true }).compactMap({ $0 })
-//
-//                gCApp.forEach { val in
-//                    applist.removeAll(where: { $0.app_identifier == val.app_identifier })
-//                }
-//
-//                let gCWeb = generalCat.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 }).filter({ $0.is_selected == true }).compactMap({ $0 })
-//
-//                gCWeb.forEach { val in
-//                    weblist.removeAll(where: { $0.name == val.name })
-//                }
-//            }
-//
-//            // Exception App and site List Filter
-//            if let arrExceBlocks = blocks.exception_block?.allObjects as? [Block_Interface], !arrExceBlocks.isEmpty {
-//                let gEApp = arrExceBlocks.filter({ $0.block_type == BlockType.application.rawValue }).compactMap({ $0 })
-//
-//                gEApp.forEach { val in
-//                    applist.removeAll(where: { $0.app_identifier == val.app_identifier })
-//                }
-//                let gEWeb = arrExceBlocks.filter({ $0.block_type == BlockType.web.rawValue }).compactMap({ $0 })
-//
-//                gEWeb.forEach { val in
-//                    weblist.removeAll(where: { $0.name == val.name })
-//                }
-//            }
-//            return (blocks, applist, weblist)
-//
-//        } catch let error as NSError {
-//            print("Could not fetch. \(error), \(error.userInfo)")
-//        }
-//        return (nil, [], [])
-//    }
-// }
 
 // Focus Create
 extension DBManager {
@@ -202,33 +147,35 @@ extension DBManager {
         }
     }
 
-    func createFocus(data: [String: Any]) {
-        let entity = NSEntityDescription.entity(forEntityName: Focus.entity_name, in: DBManager.shared.managedContext)!
-        let block = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
+    func createFocus(data: [String: Any?]) -> Focus_List? {
+        let entity = NSEntityDescription.entity(forEntityName: "Focus_List", in: DBManager.shared.managedContext)!
+        let focus = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)
 
         for (key, value) in data {
-            block.setValue(value, forKeyPath: key)
+            focus.setValue(value, forKeyPath: key)
         }
 
         do {
             try DBManager.shared.managedContext.save()
+            return focus as? Focus_List
         } catch let error as NSError {
             print("Could not save focus. \(error), \(error.userInfo)")
         }
+        return nil
     }
 
-    func getFoucsObject() -> Focuses? {
-        var focusObj: Focuses?
+    func getFoucsObject() -> Current_Focus? {
+        var focusObj: Current_Focus?
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Focus.entity_name)
 //        fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
 
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
-                focusObj = results.first as? Focuses
+                focusObj = results.first as? Current_Focus
             } else {
-                focusObj = Focuses(context: DBManager.shared.managedContext)
-                focusObj?.uuid = UUID()
+                focusObj = Current_Focus(context: DBManager.shared.managedContext)
+                focusObj?.id = UUID()
             }
         } catch let error {
             print(error.localizedDescription)
@@ -236,15 +183,15 @@ extension DBManager {
         return focusObj
     }
 
-    func getCurrentSession() -> Focuses? {
-        var focusObj: Focuses?
+    func getCurrentSession() -> Current_Focus? {
+        var focusObj: Current_Focus?
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Focus.entity_name)
         fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
 
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
-                focusObj = results.first as? Focuses
+                focusObj = results.first as? Current_Focus
             }
         } catch let error {
             print(error.localizedDescription)

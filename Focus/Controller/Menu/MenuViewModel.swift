@@ -29,7 +29,7 @@ import Foundation
 protocol MenuViewModelIntput {
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void))
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void))
-    var focusObj: Focuses? { get set } // TODO: Need to update as per dynamic
+    var focusObj: Current_Focus? { get set } // TODO: Need to update as per dynamic
 }
 
 protocol MenuViewModelOutput {
@@ -40,10 +40,11 @@ protocol MenuViewModelType {
     var output: MenuViewModelOutput { get }
     var model: DataModelType { get set }
     var viewCntrl: ViewCntrl { get set }
+    var focusDict: [String: Any?] { get set }
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
-    var focusObj: Focuses? = { // TODO: Need to update as per dynamic
+    var focusObj: Current_Focus? = { // TODO: Need to update as per dynamic
         DBManager.shared.getFoucsObject()
     }()
 
@@ -51,6 +52,7 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
     var output: MenuViewModelOutput { return self }
     var model: DataModelType = DataModel()
     var viewCntrl: ViewCntrl = .main_menu
+    var focusDict: [String: Any?] = [:]
 }
 
 extension MenuViewModel {
@@ -60,72 +62,86 @@ extension MenuViewModel {
 
         switch time {
         case .half_past:
-            print("half_past")
             focusObj?.is_focusing = true // Need to check what to do.
-
         case .one_hr:
-            print("one_hr")
             focusObj?.is_focusing = true
-
         case .two_hr:
-            print("two_hr")
             focusObj?.is_focusing = true
-
         case .untill_press_stop:
-            print("untill_press_stop")
             focusObj?.is_focusing = true
-            if !(focusObj?.is_provided_short_break ?? false) {
-                focusObj?.stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
-                focusObj?.original_stop_focus_after_time = Focus.FocusTime.long_focus_stop_lenght
+            if !(focusDict[Focus.Options.focus_break.key_name] as? Bool ?? false) {
+                focusDict[Focus.Options.focus_stop_length.key_name] = Focus.FocusTime.long_focus_stop_lenght
+                focusDict[Focus.Options.focus_break_length.key_name] = Focus.FocusTime.fifteen.valueInSeconds
             }
+            focusDict["focus_untill_stop"] = true
             focusObj?.focus_untill_stop = true
 
         case .stop_focus:
             focusObj?.is_focusing = false
             print("stop_focus")
         }
-        updateParallelFocusSession(time: time)
+        createFocus(time: time)
         callback(true, nil)
     }
 
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void)) {
         // update focus options value
+
+        focusDict[option.key_name] = (state == .on) ? true : false
         switch option {
-        case .dnd:
-            print("dnd ::: \(state)")
-            focusObj?.is_dnd_mode = (state == .on) ? true : false
         case .focus_break:
-            print("focus_break ::: \(state)")
             focusObj?.is_provided_short_break = (state == .on) ? true : false
         case .block_program_website:
             print("block_program_website ::: \(state)")
-            focusObj?.is_block_programe_select = (state == .on) ? true : false
             let arrBlock = model.input.getBlockList(cntrl: .main_menu).blists
-            focusObj?.block_list_id = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
-            focusObj?.is_block_list_dnd = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : false // This one used for cause If any blocklist has selected notification Category then it set here
+            focusDict["block_list_id"] = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
+            focusDict["is_block_list_dnd"] = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : false // This one used for cause If any blocklist has selected notification Category then it set here
         default:
             print("default ::: \(state)")
         }
-        DBManager.shared.saveContext()
         callback(state, nil)
     }
 
-    func updateParallelFocusSession(time: Focus.StopTime) {
+    func createFocus(time: Focus.StopTime) {
+        var arrFocus: [Focus_List] = focusObj?.focuses?.allObjects as? [Focus_List] ?? []
+        guard let obj = DBManager.shared.createFocus(data: focusDict) else { return }
+        obj.created_date = Date()
+        obj.focus_id = UUID()
+        obj.focus_length_time = time.value
+        obj.session_start_time = Date()
+        let endTime = Int(time.value).secondsToTime()
+        obj.session_end_time = Date().adding(hour: endTime.timeInHours, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
+        obj.focus_type = Int16(ScheduleType.none.rawValue)
+        arrFocus.append(obj)
+
         focusObj?.created_date = Date()
-//        focusObj?.is_parallels_session = (viewCntrl != .main_menu) ? true : false
-        let timeVal = (viewCntrl != .main_menu) ? (focusObj?.original_focus_length_time ?? 0) + time.value : time.value
-
-        focusObj?.original_focus_length_time = timeVal
-        focusObj?.remaining_time = (viewCntrl != .main_menu) ? ((timeVal + (focusObj?.remaining_time ?? 0)) - (focusObj?.used_focus_time ?? 0)) : timeVal
-        focusObj?.session_start_time = Date()
-
-        let timecomp = Int(timeVal).secondsToTime()
-        focusObj?.session_end_time = Date().adding(hour: timecomp.timeInHours, min: timecomp.timeInMinutes, sec: timecomp.timeInSeconds)
+        focusObj?.focuses = NSSet(array: arrFocus)
 
         if focusObj?.extended_value == nil {
             let objExVal = Focuses_Extended_Value(context: DBManager.shared.managedContext)
             focusObj?.extended_value = objExVal
         }
+
+        updateParallelFocusSession(time: time, focuslist: arrFocus)
+
         DBManager.shared.saveContext()
+    }
+
+    func updateParallelFocusSession(time: Focus.StopTime, focuslist: [Focus_List]) {
+        let objFocuslist = focuslist.first
+        let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
+        let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
+        let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
+        let is_block_programe_select = focuslist.compactMap({ $0.is_block_programe_select }).filter({ $0 }).first ?? false
+
+        let timeVal = (viewCntrl != .main_menu) ? (objFocuslist?.focus_length_time ?? 0) + time.value : time.value
+        focusObj?.combine_focus_length_time = timeVal
+        focusObj?.combine_stop_focus_after_time = total_stop_focus
+        focusObj?.combine_break_lenght_time = total_break_focus
+        focusObj?.is_dnd_mode = is_dnd_mode
+        focusObj?.is_block_programe_select = is_block_programe_select
+
+        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? ((timeVal + (focusObj?.remaining_focus_time ?? 0)) - (focusObj?.used_focus_time ?? 0)) : timeVal
+        focusObj?.remaining_break_time = total_break_focus
     }
 }

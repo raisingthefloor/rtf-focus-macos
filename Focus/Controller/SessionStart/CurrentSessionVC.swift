@@ -81,7 +81,7 @@ extension CurrentSessionVC: BasicSetupType {
 
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
-        var remaing_break_time = Int(objFocus?.stop_focus_after_time ?? 100)
+        var remaing_break_time = Int(objFocus?.combine_stop_focus_after_time ?? 100)
 
         remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.decrease_break_time ?? 10))
 
