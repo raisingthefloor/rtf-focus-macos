@@ -199,6 +199,21 @@ extension DBManager {
         return focusObj
     }
 
+    func getBlockListBy(id: UUID?) -> Block_List? {
+        guard let uuid = id else { return nil }
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Block_List")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", uuid as CVarArg)
+
+        do {
+            let blocklist = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let blocklist = blocklist as? [Block_List] else { return nil }
+            return blocklist.first
+        } catch let error as NSError {
+            print("Could not fetch. Block list \(error), \(error.userInfo)")
+        }
+        return nil
+    }
+
     func saveApplicationlist(data: [String: Any]) {
         let entity = NSEntityDescription.entity(forEntityName: "Application_List", in: DBManager.shared.managedContext)!
         let block = NSManagedObject(entity: entity, insertInto: DBManager.shared.managedContext)

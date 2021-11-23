@@ -39,6 +39,7 @@ class SessionInfoView: NSView, NibView {
     @IBOutlet var lblEndV: NSTextField!
 
     @IBOutlet var btnStop: CustomButton!
+    var objFL: Focus_List?
 
     init() {
         super.init(frame: NSRect.zero)
@@ -85,13 +86,16 @@ extension SessionInfoView: BasicSetupType {
         border_color = .black
     }
 
-    func setupSessionData(objB: Block_List) {
+    func setupSessionData(obj: Focus_List?) {
         titleV?.isHidden = true
         lblHours.alignment = .right
         lblBlock.alignment = .right
         lblEnd.alignment = .right
 
+        objFL = obj
+
         let objFocus = DBManager.shared.getCurrentBlockList().objFocus
+        let objB = DBManager.shared.getBlockListBy(id: obj?.block_list_id)
         let focus_length = Int(objFocus?.used_focus_time ?? 100).secondsToTime()
 
         var time = ""
@@ -102,14 +106,14 @@ extension SessionInfoView: BasicSetupType {
         }
         lblHoursV.stringValue = time
 
-        var list_name = objB.name ?? "-"
-        if objB.restart_computer ?? false || objB.random_character ?? false {
+        var list_name = objB?.name ?? "-"
+        if objB?.restart_computer ?? false || objB?.random_character ?? false {
             list_name = "🔒" + " " + list_name
         }
 
-        lblBlockV.stringValue = (objFocus?.is_block_programe_select ?? false) ? list_name : "-"
+        lblBlockV.stringValue = (obj?.is_block_programe_select ?? false) ? list_name : "-"
 
-        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (objFocus?.session_end_time ?? Date()).convertToTime()
+        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (obj?.session_end_time ?? Date()).convertToTime()
         lblEndV.stringValue = endValue
     }
 }

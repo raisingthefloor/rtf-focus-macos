@@ -275,8 +275,10 @@ extension Focus {
                 return "break_length_time"
             case .focus_stop_length:
                 return "focus_stop_after_length"
-            case .block_list:
+            case .block_program_website:
                 return "is_block_programe_select"
+            case .block_list:
+                return "block_list_id"
             default:
                 return ""
             }

@@ -29,7 +29,7 @@ import Foundation
 protocol MenuViewModelIntput {
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void))
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void))
-    var focusObj: Current_Focus? { get set } // TODO: Need to update as per dynamic
+    var focusObj: Current_Focus? { get set }
 }
 
 protocol MenuViewModelOutput {
@@ -44,7 +44,7 @@ protocol MenuViewModelType {
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
-    var focusObj: Current_Focus? = { // TODO: Need to update as per dynamic
+    var focusObj: Current_Focus? = {
         DBManager.shared.getFoucsObject()
     }()
 
@@ -86,15 +86,24 @@ extension MenuViewModel {
 
     func updateFocusOption(option: Focus.Options, state: NSControl.StateValue, callback: @escaping ((Any?, Error?) -> Void)) {
         // update focus options value
+        print("Options Key : \(option.key_name)")
 
         focusDict[option.key_name] = (state == .on) ? true : false
         switch option {
         case .focus_break:
             focusObj?.is_provided_short_break = (state == .on) ? true : false
+            if focusDict[Focus.Options.focus_stop_length.key_name] == nil {
+                focusDict[Focus.Options.focus_stop_length.key_name] = Focus.FocusTime.fifteen.valueInSeconds
+            }
+
+            if focusDict[Focus.Options.focus_break_length.key_name] == nil {
+                focusDict[Focus.Options.focus_break_length.key_name] = Focus.BreakTime.five.valueInSeconds
+            }
+
         case .block_program_website:
             print("block_program_website ::: \(state)")
             let arrBlock = model.input.getBlockList(cntrl: .main_menu).blists
-            focusDict["block_list_id"] = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
+            focusDict[Focus.Options.block_list.key_name] = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
             focusDict["is_block_list_dnd"] = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : false // This one used for cause If any blocklist has selected notification Category then it set here
         default:
             print("default ::: \(state)")

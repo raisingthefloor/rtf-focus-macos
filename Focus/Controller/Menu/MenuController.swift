@@ -135,16 +135,6 @@ extension MenuController: BasicSetupType {
     }
 
     func setUpViews() {
-        if let window: NSWindow = view.window {
-            window.styleMask.remove(.fullScreen)
-            window.styleMask.remove(.resizable)
-            window.styleMask.remove(.miniaturizable)
-            window.styleMask.remove(.fullSizeContentView)
-        }
-
-        let button = view.window?.standardWindowButton(.zoomButton)
-        button?.isEnabled = false
-
         themeSetUp()
     }
 

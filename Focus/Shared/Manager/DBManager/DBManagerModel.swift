@@ -41,6 +41,7 @@ protocol DBMangerLogic {
     func checkAppWebIsPresent(entityName: String, name: String?) -> Bool
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]
+    func getBlockListBy(id: UUID?) -> Block_List?
 
     func checkDataIsPresent(entityName: String) -> Bool
     func getCategories() -> [Block_Category]

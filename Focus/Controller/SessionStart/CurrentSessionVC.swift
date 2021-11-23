@@ -38,9 +38,6 @@ class CurrentSessionVC: BaseViewController {
     @IBOutlet var btnStart: CustomButton!
     @IBOutlet var lblWhy: NSTextField!
 
-    let sessionV_1 = SessionInfoView()
-    let sessionV_2 = SessionInfoView()
-
     var timer: Timer?
     var viewModel: MenuViewModelType?
     var updateView: ((Bool, ButtonAction) -> Void)?
@@ -65,7 +62,7 @@ class CurrentSessionVC: BaseViewController {
     @objc func updateInformation() {
         DispatchQueue.main.async {
             self.setUpText()
-            self.sessionV_1.setupSessionData()
+            self.sessionStack.subviews.forEach({ ($0 as? SessionInfoView)?.setupSessionData(obj: ($0 as? SessionInfoView)?.objFL) })
         }
     }
 
@@ -165,18 +162,26 @@ extension CurrentSessionVC: BasicSetupType {
 
     func setFocusSessionView() {
         // TODO: With Two Sesison Data setup Dynamically pending
-        let objFocus = viewModel?.input.focusObj
-        lblSubTitle.isHidden = (objFocus?.focus_untill_stop ?? false) ? true : false
-        lblSubTitle.isHidden = (objFocus?.is_provided_short_break ?? false) ? false : true
+        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List] else { return }
+
+        lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
+        lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true
 //        btnStart.isHidden = objFocus?.is_parallels_session ?? false
 
         if btnStart.isHidden {
             sessionStack.removeSubviews()
         }
-        sessionV_1.setupSessionData()
-        sessionV_1.btnStop.target = self
-        sessionV_1.btnStop.action = #selector(stopAction(_:))
-        sessionStack.addArrangedSubview(sessionV_1)
+
+        var i = 0
+        for session in arrSession {
+            let sessionView = SessionInfoView()
+            sessionView.setupSessionData(obj: session)
+            sessionView.btnStop.target = self
+            sessionView.btnStop.action = #selector(stopAction(_:))
+            sessionView.btnStop.tag = i
+            sessionStack.addArrangedSubview(sessionView)
+            i = i + 1
+        }
     }
 }
 
@@ -216,11 +221,13 @@ extension CurrentSessionVC {
 
     @objc func stopAction(_ sender: NSButton) {
         stopTimer()
-        guard let objBl = DBManager.shared.getCurrentBlockList().objBl else {
+        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Block_List], !arrSession.isEmpty else {
             updateView?(true, .stop_session)
             dismiss(nil)
             return
         }
+
+        let objBl = arrSession[sender.tag]
 
         if objBl.stop_focus_session_anytime {
             updateView?(true, .stop_session)
