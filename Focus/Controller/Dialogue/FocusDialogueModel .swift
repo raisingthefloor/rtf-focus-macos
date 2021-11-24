@@ -298,7 +298,10 @@ enum ButtonAction {
     case skip_session
     case normal_ok
     case extend_reminder
-    case new_session
+    case initiate_new_session
+    case started_new_session
+    case cancel_new_session
+    
 }
 
 enum ButtonValueType: Int {

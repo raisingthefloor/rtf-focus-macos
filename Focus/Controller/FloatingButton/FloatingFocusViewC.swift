@@ -71,7 +71,7 @@ extension FloatingFocusViewC: BasicSetupType {
 
     func bindData() {
         btnFocus.target = self
-        btnFocus.action = #selector(openMenuViewC)
+        btnFocus.action = #selector(openMenuNCurrentSessionViewC)
         setupObserver()
     }
 
@@ -113,7 +113,7 @@ extension FloatingFocusViewC {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: nil)
     }
 
-    @objc func openMenuViewC() {
+    @objc func openMenuNCurrentSessionViewC() {
         guard let obj = viewModel.input.focusObj else { return }
 
         if obj.is_focusing {
@@ -125,6 +125,14 @@ extension FloatingFocusViewC {
                         self?.breakTimerModel.input.stopTimer()
                         self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
                     } else {
+                        if action == .started_new_session || action == .cancel_new_session {
+                            guard let objCurrent = self?.viewModel.input.focusObj else { return }
+                            if objCurrent.is_break_time {
+                                self?.breakTimerModel.input.updateTimerStatus()
+                            } else {
+                                self?.focusTimerModel.input.updateTimerStatus()
+                            }
+                        }
                     }
                 }
                 presentAsModalWindow(controller)
@@ -290,7 +298,7 @@ extension FloatingFocusViewC {
             break
         case .normal_ok:
             updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession, value: value, valueType: valueType)
-        case .extend_reminder, .new_session:
+        case .extend_reminder, .initiate_new_session, .started_new_session,.cancel_new_session:
             break
         }
     }

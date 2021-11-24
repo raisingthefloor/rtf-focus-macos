@@ -25,7 +25,7 @@
 
 import Cocoa
 
-class MenuController: BaseViewController {
+class MenuController: BaseViewController, NSWindowDelegate {
     @IBOutlet var containerView: NSView!
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var btnInfo: NSButton!
@@ -90,6 +90,13 @@ class MenuController: BaseViewController {
         lblFocusLength.textColor = color
         lblCustomeInfo.textColor = color
     }
+
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        if viewModel.viewCntrl != .main_menu {
+            focusStart?(false)
+        }
+        return true
+    }
 }
 
 extension MenuController: BasicSetupType {
@@ -135,6 +142,7 @@ extension MenuController: BasicSetupType {
     }
 
     func setUpViews() {
+        view.window?.delegate = self
         themeSetUp()
     }
 

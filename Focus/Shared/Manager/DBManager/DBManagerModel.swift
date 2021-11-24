@@ -31,7 +31,7 @@ protocol DBMangerLogic {
     func getFoucsObject() -> Current_Focus?
     func getCurrentSession() -> Current_Focus?
     //func getCurrentBlockList() -> (objFocus: Current_Focus?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
-    func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface])
+    func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface])
 
     func saveApplicationlist(data: [String: Any])
     func getApplicationList() -> [Application_List]

@@ -207,6 +207,7 @@ extension FocusDialogueViewC {
 
         // Need to check the Condition as if all false but that never happedn
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
+        controller.objBl = objBl
         controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
             if focusStop == .stop_session {

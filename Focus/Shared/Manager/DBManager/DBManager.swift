@@ -37,7 +37,7 @@ class DBManager {
 
 // Block List
 extension DBManager: DBMangerLogic {
-    func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List?], apps: [Block_Interface], webs: [Block_Interface]) {
+    func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface]) {
         let generalCat = getGeneralCategoryData().subCat
 
         guard let objFocus = getCurrentSession(), let focuslist = objFocus.focuses?.allObjects as? [Focus_List] else { return (nil, [], [], []) }
@@ -46,14 +46,16 @@ extension DBManager: DBMangerLogic {
         var i = 1
         var applist: [Block_Interface] = []
         var weblist: [Block_Interface] = []
-        var arrObjBl: [Block_List?] = []
+        var arrObjBl: [Block_List] = []
 
         for id in blockids {
             let discardException = (i == 1 && blockids.count > 1) ? true : false
             let result = getBlockList(id: id, generalCat: generalCat, discardException: discardException)
             applist = applist + result.apps
             weblist = weblist + result.webs
-            arrObjBl.append(result.objBl)
+            if let objBl = result.objBl {
+                arrObjBl.append(objBl)
+            }
             i = i + 1
         }
 //            print("Final applist : \(applist)")

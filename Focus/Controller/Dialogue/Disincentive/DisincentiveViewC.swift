@@ -41,8 +41,8 @@ class DisincentiveViewC: NSViewController {
     @IBOutlet var lblBlock: NSTextField!
 
     var dialogueType: FocusDialogue = .disincentive_xx_character_alert
-
     var updateFocusStop: ((ButtonAction) -> Void)?
+    var objBl: Block_List?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,7 +125,7 @@ extension DisincentiveViewC: BasicSetupType {
     }
 
     func setupRandomCharacter() {
-        if let objB = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List {
+        if let objB = objBl {
             let randomVal = objB.character_val
             lblCharacter.stringValue = String.randomString(length: randomVal)
         }

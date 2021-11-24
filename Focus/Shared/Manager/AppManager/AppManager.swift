@@ -90,7 +90,7 @@ class AppManager {
             return
         }
 
-        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0?.restart_computer }).filter({ $0 }).first ?? false
+        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0.restart_computer }).filter({ $0 }).first ?? false
 
         if is_restart_computer && obj.is_focusing {
             resetFocusSession()
@@ -111,7 +111,7 @@ class AppManager {
             return
         }
 
-        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0?.restart_computer }).filter({ $0 }).first ?? false
+        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0.restart_computer }).filter({ $0 }).first ?? false
 
         if is_restart_computer && obj.is_focusing {
             resetFocusSession()
@@ -221,8 +221,12 @@ extension AppManager {
         obj.used_focus_time = 0
         obj.decrease_break_time = 0
         obj.remaining_focus_time = 0
+        obj.remaining_break_time = 0
         obj.extended_break_time = 0
         obj.extended_focus_time = 0
+        obj.combine_break_lenght_time = 0
+        obj.combine_stop_focus_after_time = 0
+        obj.combine_focus_length_time = 0
         objEx?.is_mid_focus = false
         objEx?.is_small_focus = false
         objEx?.is_long_focus = false

@@ -137,20 +137,22 @@ extension MenuViewModel {
     }
 
     func updateParallelFocusSession(time: Focus.StopTime, focuslist: [Focus_List]) {
-        let objFocuslist = focuslist.first
+        print("Count focuslist :: \(focuslist.count)")
         let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
         let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
+        let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
         let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
         let is_block_programe_select = focuslist.compactMap({ $0.is_block_programe_select }).filter({ $0 }).first ?? false
 
-        let timeVal = (viewCntrl != .main_menu) ? (objFocuslist?.focus_length_time ?? 0) + time.value : time.value
-        focusObj?.combine_focus_length_time = timeVal
+        let timeVal = (viewCntrl != .main_menu) ? total_focus_length : time.value
+        focusObj?.combine_focus_length_time = total_focus_length
         focusObj?.combine_stop_focus_after_time = total_stop_focus
         focusObj?.combine_break_lenght_time = total_break_focus
         focusObj?.is_dnd_mode = is_dnd_mode
         focusObj?.is_block_programe_select = is_block_programe_select
 
-        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? ((timeVal + (focusObj?.remaining_focus_time ?? 0)) - (focusObj?.used_focus_time ?? 0)) : timeVal
+        print("Remaining Time : \((total_focus_length - (focusObj?.used_focus_time ?? 0)))")
+        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? (total_focus_length - (focusObj?.used_focus_time ?? 0)) : timeVal
         focusObj?.remaining_break_time = total_break_focus
     }
 }

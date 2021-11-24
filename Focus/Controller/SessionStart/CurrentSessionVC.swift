@@ -115,13 +115,6 @@ extension CurrentSessionVC: BasicSetupType {
 
     func setUpViews() {
         title = "" // NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
-
-        if let window: NSWindow = view.window {
-            window.styleMask.remove(.fullScreen)
-            window.styleMask.remove(.resizable)
-            window.styleMask.remove(.miniaturizable)
-            window.styleMask.remove(.fullSizeContentView)
-        }
         setFocusSessionView()
         themeSetUp()
     }
@@ -161,16 +154,13 @@ extension CurrentSessionVC: BasicSetupType {
     }
 
     func setFocusSessionView() {
-        // TODO: With Two Sesison Data setup Dynamically pending
         guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List] else { return }
 
         lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
         lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true
-//        btnStart.isHidden = objFocus?.is_parallels_session ?? false
+        btnStart.isHidden = arrSession.count > 1
 
-        if btnStart.isHidden {
-            sessionStack.removeSubviews()
-        }
+        sessionStack.removeSubviews()
 
         var i = 0
         for session in arrSession {
@@ -202,11 +192,15 @@ extension CurrentSessionVC {
         stopTimer()
 
         if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+            updateView?(true, .initiate_new_session)
             controller.viewModel.viewCntrl = .current_session
             controller.focusStart = { [weak self] isStarted in
+                self?.startTimer()
                 if isStarted {
-                    self?.startTimer()
+                    self?.updateView?(false, .started_new_session)
                     self?.setFocusSessionView()
+                } else {
+                    self?.updateView?(false, .cancel_new_session)
                 }
             }
             presentAsModalWindow(controller)
@@ -221,26 +215,70 @@ extension CurrentSessionVC {
 
     @objc func stopAction(_ sender: NSButton) {
         stopTimer()
-        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Block_List], !arrSession.isEmpty else {
+        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else {
             updateView?(true, .stop_session)
             dismiss(nil)
             return
         }
 
-        let objBl = arrSession[sender.tag]
+        let objSession = arrSession[sender.tag]
+        let objBl = DBManager.shared.getBlockListBy(id: objSession.block_list_id)
 
-        if objBl.stop_focus_session_anytime {
-            updateView?(true, .stop_session)
-            dismiss(nil)
+        if objBl?.stop_focus_session_anytime ?? false {
+            if arrSession.count > 1 {
+                updateSesionAfterStop(focus: objSession)
+            } else {
+                updateView?(true, .stop_session)
+                dismiss(nil)
+            }
             return
         }
 
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
-        controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
+        controller.objBl = objBl
+        controller.dialogueType = (objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
-            self.updateView?(focusStop == .stop_session, focusStop)
-            self.dismiss(nil)
+            if arrSession.count > 1 && focusStop == .stop_session {
+                self.updateSesionAfterStop(focus: objSession)
+            } else {
+                self.updateView?(focusStop == .stop_session, focusStop)
+                self.dismiss(nil)
+            }
         }
         presentAsSheet(controller)
+    }
+
+    func updateSesionAfterStop(focus: Focus_List) {
+        // TODO: deduct the this session value from the total remaining time
+
+        guard let objFocus = viewModel?.input.focusObj, let s_time = focus.session_start_time else { return }
+        updateView?(true, .initiate_new_session)
+        let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
+        print("spent_time ::: \(spent_time)")
+
+        let pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
+        print("pnding_time ::: \(pnding_time)")
+
+        print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
+        objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
+        print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
+
+        print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")
+        objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
+        print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
+
+        print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
+        objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - focus.break_length_time
+        print("After combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
+
+        print("Before combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
+        objFocus.combine_stop_focus_after_time = objFocus.combine_stop_focus_after_time - focus.focus_stop_after_length
+        print("After combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
+
+        DBManager.shared.managedContext.delete(focus)
+        DBManager.shared.saveContext()
+        updateView?(true, .cancel_new_session)
+        setFocusSessionView()
+        self.startTimer()
     }
 }
