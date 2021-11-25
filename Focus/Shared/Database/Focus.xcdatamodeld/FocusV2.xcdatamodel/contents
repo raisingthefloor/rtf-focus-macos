@@ -99,6 +99,7 @@
         <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="session_end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="session_start_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="used_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="current_focus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Current_Focus" inverseName="focuses" inverseEntity="Current_Focus"/>
     </entity>
     <entity name="Focus_Schedule" representedClassName="Focus_Schedule" syncable="YES" codeGenerationType="class">
@@ -177,7 +178,7 @@
         <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>
         <element name="Current_Focus" positionX="-63" positionY="-18" width="128" height="314"/>
         <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
-        <element name="Focus_List" positionX="-27" positionY="144" width="128" height="269"/>
+        <element name="Focus_List" positionX="-27" positionY="144" width="128" height="284"/>
         <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="299"/>
         <element name="Focus_Schedule_Days" positionX="-27" positionY="144" width="128" height="59"/>
         <element name="Focus_Schedule_Time_Range" positionX="-27" positionY="144" width="128" height="74"/>

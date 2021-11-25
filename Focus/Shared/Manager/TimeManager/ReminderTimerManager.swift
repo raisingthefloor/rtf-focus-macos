@@ -74,17 +74,23 @@ extension ReminderTimerManager {
 
         print("Time: \(time) ===== Day: \(day)")
 
-        let reminderData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .reminder)
-        if reminderData.isPresent {
-            if let obj = reminderData.objFS, let id = obj.id {
-                displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_without_blocklist_alert)
-            }
-        }
+        let isMultipleSession = DBManager.shared.getCurrentSession()?.focuses?.allObjects.count > 1
 
-        let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .schedule_focus)
-        if reminderSData.isPresent {
-            if let obj = reminderSData.objFS, let id = obj.id {
-                displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_with_blocklist_alert)
+        if !isMultipleSession {
+            // Check Schedule Reminder
+            let reminderData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .reminder)
+            if reminderData.isPresent {
+                if let obj = reminderData.objFS, let id = obj.id {
+                    displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_without_blocklist_alert)
+                }
+            }
+
+            // Check Schedule Session
+            let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, type: .schedule_focus)
+            if reminderSData.isPresent {
+                if let obj = reminderSData.objFS, let id = obj.id {
+                    displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_with_blocklist_alert)
+                }
             }
         }
     }
@@ -160,20 +166,16 @@ extension ReminderTimerManager {
 
     func redirectToMainMenu() {
         if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+            WindowsManager.dismissController()
             let presentCtrl = WindowsManager.getPresentingController()
-
-            if presentCtrl is CustomSettingController {
-                presentCtrl?.dismiss(nil)
-                return
-            }
-
             if presentCtrl is MenuController {
                 return
             }
-
+            AppManager.shared.stopBothTimer()
             controller.focusStart = { [weak self] isStarted in
                 if isStarted {
-                    // self?.setupCountDown() Set there the Observer to start Countdown
+                    AppManager.shared.resumeTimer()
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
                 }
             }
             presentCtrl?.presentAsModalWindow(controller)

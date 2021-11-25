@@ -34,3 +34,9 @@ class Config {
     static let block_list = "https://morphic.org/blocklists"
     static let website_blocked_link = "https://morphic.org/websiteblocked"
 }
+
+enum ObserverName: String {
+    case reminder_schedule
+    case schedule_session
+    case appLaunch_event
+}

@@ -121,7 +121,9 @@ extension WindowsManager {
     }
 
     static func stopBlockWebSite() {
-        AppManager.shared.browserBridge?.stopScript()
+        DispatchQueue.global(qos: .userInteractive).async {
+            AppManager.shared.browserBridge?.stopScript()
+        }
     }
 
     static func launchMyapp() {

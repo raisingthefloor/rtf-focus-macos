@@ -67,8 +67,10 @@ class CurrentSessionVC: BaseViewController {
     }
 
     func stopTimer() {
-        timer?.invalidate()
-        timer = nil
+        DispatchQueue.global(qos: .background).async(execute: { () -> Void in
+            self.timer?.invalidate()
+            self.timer = nil
+        })
     }
 }
 
@@ -79,10 +81,14 @@ extension CurrentSessionVC: BasicSetupType {
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
         var remaing_break_time = Int(objFocus?.combine_stop_focus_after_time ?? 100)
+        print("Break After This Time : \(remaing_break_time)")
 
-        remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.decrease_break_time ?? 10))
+        print("decrease_break_time Time : \(Int(objFocus?.decrease_break_time ?? 0))")
+
+        remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.decrease_break_time ?? 0))
 
         let break_time = (objFocus?.is_break_time ?? false) ? remaing_break_time.secondsToTime() : remaing_break_time.secondsToTime()
+        print("break_time Time : \(break_time)")
 
         var time = ""
         if break_time.timeInHours != 0 {
@@ -252,6 +258,7 @@ extension CurrentSessionVC {
         // TODO: deduct the this session value from the total remaining time
 
         guard let objFocus = viewModel?.input.focusObj, let s_time = focus.session_start_time else { return }
+
         updateView?(true, .initiate_new_session)
         let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
         print("spent_time ::: \(spent_time)")
@@ -277,8 +284,8 @@ extension CurrentSessionVC {
 
         DBManager.shared.managedContext.delete(focus)
         DBManager.shared.saveContext()
-        updateView?(true, .cancel_new_session)
+        updateView?(false, .cancel_new_session)
         setFocusSessionView()
-        self.startTimer()
+        startTimer()
     }
 }

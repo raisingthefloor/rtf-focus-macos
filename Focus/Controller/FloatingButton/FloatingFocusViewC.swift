@@ -30,8 +30,8 @@ class FloatingFocusViewC: NSViewController {
     @IBOutlet var lblTimeVal: NSTextField!
 
     let viewModel: MenuViewModelType = MenuViewModel() // TODO: Need to update
-    var breakTimerModel: TimerModelType = BreakTimerManager()
-    var focusTimerModel: TimerModelType = FocusTimerManager()
+//    var breakTimerModel: TimerModelType = BreakTimerManager()
+//    var focusTimerModel: TimerModelType = FocusTimerManager()
     var objGCategoey: Block_Category?
 
     override func viewDidLoad() {
@@ -60,6 +60,8 @@ extension FloatingFocusViewC: BasicSetupType {
         // If in GS Coundt down is on then show timer It appears below button else
         // If focus is running then Show "FOCUS"
         // If Break mode is on then Show "BREAK"
+
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(reminderObserver), name: NSNotification.Name(ObserverName.reminder_schedule.rawValue), object: nil)
 
         guard let obj = viewModel.input.focusObj else { return }
         if obj.is_focusing {
@@ -106,11 +108,18 @@ extension FloatingFocusViewC: BasicSetupType {
         btnFocus.textColor = .white
         udateButtonSting(timeVal: "")
     }
+
+    @objc func reminderObserver() {
+        guard let obj = viewModel.input.focusObj else { return }
+        if !obj.is_focusing {
+            setupCountDown()
+        }
+    }
 }
 
 extension FloatingFocusViewC {
     func setupObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidLaunch(_:)), name: NSNotification.Name(rawValue: ObserverName.appLaunch_event.rawValue), object: nil)
     }
 
     @objc func openMenuNCurrentSessionViewC() {
@@ -121,16 +130,18 @@ extension FloatingFocusViewC {
                 controller.viewModel = viewModel
                 controller.updateView = { [weak self] isStopSession, action in
                     if isStopSession {
-                        self?.focusTimerModel.input.stopTimer()
-                        self?.breakTimerModel.input.stopTimer()
-                        self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
+                        AppManager.shared.focusTimerModel.input.stopTimer()
+                        AppManager.shared.breakTimerModel.input.stopTimer()
+                        if action != .initiate_new_session {
+                            self?.updateViewnData(dialogueType: .none, action: action, value: 0, valueType: .none)
+                        }
                     } else {
                         if action == .started_new_session || action == .cancel_new_session {
                             guard let objCurrent = self?.viewModel.input.focusObj else { return }
                             if objCurrent.is_break_time {
-                                self?.breakTimerModel.input.updateTimerStatus()
+                                AppManager.shared.breakTimerModel.input.updateTimerStatus()
                             } else {
-                                self?.focusTimerModel.input.updateTimerStatus()
+                                AppManager.shared.focusTimerModel.input.updateTimerStatus()
                             }
                         }
                     }
@@ -189,7 +200,7 @@ extension FloatingFocusViewC {
 
 extension FloatingFocusViewC {
     @objc func appDidLaunch(_ notification: NSNotification) {
-        focusTimerModel.input.stopTimer()
+        AppManager.shared.focusTimerModel.input.stopTimer()
         if let app = notification.object as? NSRunningApplication {
             let presentingCtrl = WindowsManager.getPresentingController()
             let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
@@ -256,7 +267,7 @@ extension FloatingFocusViewC {
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj else { return }
         let objSession = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List // TODO: Need to check with multiple block list  arrObjBl.last
-        focusTimerModel.usedTime = 0
+        AppManager.shared.focusTimerModel.usedTime = 0
         let isRestart = objSession?.restart_computer ?? false
         switch action {
         case .extend_focus:
@@ -279,7 +290,7 @@ extension FloatingFocusViewC {
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             startBlockingAppsWeb()
-            focusTimerModel.input.updateTimerStatus()
+            AppManager.shared.focusTimerModel.input.updateTimerStatus()
         case .extent_break:
             // Break Extend Here
             obj.extended_break_time = Double(value)
@@ -287,7 +298,7 @@ extension FloatingFocusViewC {
             obj.remaining_break_time = val
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
-            breakTimerModel.input.handleTimer()
+            AppManager.shared.breakTimerModel.input.handleTimer()
 
         case .stop_session:
             AppManager.shared.resetFocusSession()
@@ -298,7 +309,7 @@ extension FloatingFocusViewC {
             break
         case .normal_ok:
             updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession, value: value, valueType: valueType)
-        case .extend_reminder, .initiate_new_session, .started_new_session,.cancel_new_session:
+        case .extend_reminder, .initiate_new_session, .started_new_session, .cancel_new_session:
             break
         }
     }
@@ -356,7 +367,7 @@ extension FloatingFocusViewC {
             obj.combine_stop_focus_after_time = total_stop_focus
             DBManager.shared.saveContext()
             setUpText()
-            focusTimerModel.input.updateTimerStatus()
+            AppManager.shared.focusTimerModel.input.updateTimerStatus()
             startBlockingAppsWeb()
         case .short_break_alert:
             // Break Start Here
@@ -388,7 +399,7 @@ extension FloatingFocusViewC {
             defaultUI()
         default:
             setUpText()
-            focusTimerModel.input.updateTimerStatus()
+            AppManager.shared.focusTimerModel.input.updateTimerStatus()
         }
     }
 }
@@ -397,9 +408,9 @@ extension FloatingFocusViewC {
 
 extension FloatingFocusViewC {
     func startBreakTime() {
-        breakTimerModel.input.setupInitial()
+        AppManager.shared.breakTimerModel.input.setupInitial()
         setUpText()
-        breakTimerModel.updateUI = { dType, h, m, s in
+        AppManager.shared.breakTimerModel.updateUI = { dType, h, m, s in
             if dType == .end_break_alert {
                 self.openBreakDialouge(dialogueType: dType)
             }
@@ -411,15 +422,15 @@ extension FloatingFocusViewC {
         let obj = viewModel.input.focusObj
         let objEx = obj?.extended_value
 
-        focusTimerModel.input.setupInitial()
+        AppManager.shared.focusTimerModel.input.setupInitial()
         setUpText()
 
         if (obj?.is_focusing ?? false) && (obj?.is_break_time ?? false) {
-            focusTimerModel.input.stopTimer()
+            AppManager.shared.focusTimerModel.input.stopTimer()
             startBreakTime()
         }
 
-        focusTimerModel.updateUI = { dType, h, m, s in
+        AppManager.shared.focusTimerModel.updateUI = { dType, h, m, s in
             switch dType {
             case .seession_completed_alert:
                 self.completeSession()

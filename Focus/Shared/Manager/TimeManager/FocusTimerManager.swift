@@ -117,6 +117,7 @@ extension FocusTimerManager {
 
         if remaininFocusTime > 0 {
             remaininFocusTime -= 1
+            usedTime += 1
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
             if countdownerDetails.popup == .none {
                 updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
@@ -127,8 +128,6 @@ extension FocusTimerManager {
                 updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
-            
-            usedTime += 1
             used_focus_time += 1
         } else {
             stopTimer()
@@ -141,10 +140,12 @@ extension FocusTimerManager {
 
     func updateRemaingTimeInDB(seconds: Int, usedTime: Int) {
         DispatchQueue.main.async {
-            guard let obj = self.currentSession?.objFocus else { return }
+            guard let obj = self.currentSession?.objFocus, let arrSession = obj.focuses?.allObjects as? [Focus_List] else { return }
             obj.remaining_focus_time = Double(seconds)
             obj.used_focus_time = Double(self.used_focus_time)
             obj.decrease_break_time = Double(usedTime)
+            arrSession.forEach({ $0.used_time = $0.used_time + 1 })
+
             DBManager.shared.saveContext()
         }
     }

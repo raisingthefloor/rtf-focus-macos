@@ -96,7 +96,7 @@ extension SessionInfoView: BasicSetupType {
 
         let objFocus = DBManager.shared.getCurrentBlockList().objFocus
         let objB = DBManager.shared.getBlockListBy(id: obj?.block_list_id)
-        let focus_length = Int(objFocus?.used_focus_time ?? 100).secondsToTime()
+        let focus_length = Int(obj?.used_time ?? 100).secondsToTime()
 
         var time = ""
         if focus_length.timeInHours != 0 {

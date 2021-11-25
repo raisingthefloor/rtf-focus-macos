@@ -144,15 +144,16 @@ extension MenuViewModel {
         let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
         let is_block_programe_select = focuslist.compactMap({ $0.is_block_programe_select }).filter({ $0 }).first ?? false
 
-        let timeVal = (viewCntrl != .main_menu) ? total_focus_length : time.value
         focusObj?.combine_focus_length_time = total_focus_length
         focusObj?.combine_stop_focus_after_time = total_stop_focus
         focusObj?.combine_break_lenght_time = total_break_focus
+
         focusObj?.is_dnd_mode = is_dnd_mode
         focusObj?.is_block_programe_select = is_block_programe_select
 
-        print("Remaining Time : \((total_focus_length - (focusObj?.used_focus_time ?? 0)))")
-        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? (total_focus_length - (focusObj?.used_focus_time ?? 0)) : timeVal
-        focusObj?.remaining_break_time = total_break_focus
+        print("Remaining Time : \(total_focus_length - (focusObj?.used_focus_time ?? 0))")
+
+        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? (total_focus_length - (focusObj?.used_focus_time ?? 0)) : time.value
+        focusObj?.remaining_break_time = (viewCntrl != .main_menu) ? total_break_focus : total_break_focus
     }
 }

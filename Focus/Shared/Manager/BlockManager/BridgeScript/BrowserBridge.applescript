@@ -38,11 +38,11 @@ script BrowserBridge
         set isFocusing to true
         
         repeat until isFocusing is false
-            log("::::::: Script Running :::::::")
+--            log("::::::: Script Running :::::::")
 --            log("urls :::::::  " & urls)
 --            log("isFocusing :::::::  " & isFocusing)
                 if application "Safari" is running then
-                    log("isFocusing :::::::  " & isFocusing)
+--                    log("isFocusing :::::::  " & isFocusing)
                     tell application "Safari"
                         set theWindows to windows
                         repeat with theWindow in theWindows

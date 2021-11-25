@@ -30,6 +30,9 @@ import Foundation
 class AppManager {
     static var shared = AppManager()
 
+    var breakTimerModel: TimerModelType = BreakTimerManager()
+    var focusTimerModel: TimerModelType = FocusTimerManager()
+
     var query: NSMetadataQuery? {
         willSet {
             if let query = self.query {
@@ -198,20 +201,37 @@ extension AppManager {
                 kill(application.processIdentifier, SIGTERM)
 //            }
 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: application)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.appLaunch_event.rawValue), object: application)
             }
         } else if let application = app["NSWorkspaceApplicationKey"] as? NSRunningApplication {
             let identifier = application.bundleIdentifier
             if let _ = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier {
                 application.forceTerminate()
                 kill(application.processIdentifier, SIGTERM)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "appLaunchNotification_session"), object: application)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.appLaunch_event.rawValue), object: application)
             }
         }
     }
 }
 
 extension AppManager {
+    func stopBothTimer() {
+        guard let objCurrent = DBManager.shared.getCurrentSession() else { return }
+        if objCurrent.is_focusing || objCurrent.is_break_time {
+            focusTimerModel.input.stopTimer()
+            breakTimerModel.input.stopTimer()
+        }
+    }
+
+    func resumeTimer() {
+        guard let objCurrent = DBManager.shared.getCurrentSession() else { return }
+        if objCurrent.is_break_time {
+            breakTimerModel.input.updateTimerStatus()
+        } else {
+            focusTimerModel.input.updateTimerStatus()
+        }
+    }
+
     func resetFocusSession() {
         guard let obj = DBManager.shared.getCurrentSession() else { return }
         let objEx = obj.extended_value
@@ -236,9 +256,12 @@ extension AppManager {
         objEx?.is_mid_done_focus = false
         objEx?.is_small_done_focus = false
         objEx?.is_long_done_focus = false
-        obj.focuses = nil
-
-        DBManager.shared.saveContext() // TODO: Define the Method for resetting the focus.
+        if let arrFocus = obj.focuses?.allObjects as? [Focus_List] {
+            for obj in arrFocus {
+                DBManager.shared.managedContext.delete(obj)
+            }
+        }
+        DBManager.shared.saveContext()
     }
 
     func stopScriptObserver() {
