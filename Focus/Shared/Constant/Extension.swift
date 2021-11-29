@@ -303,10 +303,12 @@ extension Date {
         return dateFormatter.string(from: self).capitalized
     }
 
-    func currentTime() -> String? {
+    func currentTime() -> (strDate: String?, date: Date?) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
-        return dateFormatter.string(from: self).capitalized
+        let strDate = dateFormatter.string(from: self).capitalized
+        let date = dateFormatter.date(from: strDate)
+        return (strDate, date)
     }
 
     func dayNumberOfWeek() -> Int {

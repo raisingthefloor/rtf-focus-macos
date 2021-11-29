@@ -125,10 +125,19 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
 
     func updateTimeValue(_ comboBox: NSComboBox, time: String?) {
         guard let time = time else { return }
+        let type = Int(objFSchedule?.type ?? 1)
+        let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
 
         if comboBox.tag == 1 {
             objFSchedule?.start_time = time
             objFSchedule?.start_time_ = time.toDateTime()
+
+            if ScheduleType(rawValue: type) == .schedule_focus && !(objGCategory?.warning_before_schedule_session_start ?? false) {
+                objFSchedule?.reminder_date = time.toDateTime()?.adding(hour: 0, min: -5, sec: 0)
+            } else {
+                objFSchedule?.reminder_date = time.toDateTime()
+            }
+
         } else {
             objFSchedule?.end_time = time
             objFSchedule?.end_time_ = time.toDateTime()
@@ -158,12 +167,14 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                     comboTime.stringValue = ""
                     objFSchedule?.start_time = ""
                     objFSchedule?.start_time_ = nil
-
+                    objFSchedule?.reminder_date = nil
                     configStartCell(obj: objFSchedule, arrTimes: arrTimes)
                 }
 
                 referesh = false
                 displayError()
+            } else {
+                objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
             }
         }
 
@@ -235,18 +246,12 @@ extension ComboBoxCell {
         refreshTable?(true)
     }
 
-    func findDateDiff(time1Str: String, time2Str: String) -> (interval: Double, startT: Date, endT: Date) {
-        let timeformatter = DateFormatter()
-        timeformatter.dateFormat = "h a"
-
-        guard let time1 = timeformatter.date(from: time1Str),
-              let time2 = timeformatter.date(from: time2Str) else { return (0, Date(), Date()) }
-
+    func findDateDiff(time1: Date, time2: Date) -> Double {
         let interval = time2.timeIntervalSince(time1)
         let hour = interval / 3600
         let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
         let intervalInt = Int(interval)
         print("\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes")
-        return (interval, time1, time2)
+        return interval
     }
 }

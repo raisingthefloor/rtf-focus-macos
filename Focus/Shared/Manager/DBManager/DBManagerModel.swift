@@ -30,7 +30,7 @@ protocol DBMangerLogic {
     func createFocus(data: [String: Any?]) -> Focus_List?
     func getFoucsObject() -> Current_Focus?
     func getCurrentSession() -> Current_Focus?
-    //func getCurrentBlockList() -> (objFocus: Current_Focus?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
+    // func getCurrentBlockList() -> (objFocus: Current_Focus?, objBl: Block_List?, apps: [Block_Interface], webs: [Block_Interface])
     func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface])
 
     func saveApplicationlist(data: [String: Any])
@@ -55,7 +55,7 @@ protocol DBMangerLogic {
     func createPreSchedule(data: [String: Any?])
     func getFocusSchedule() -> [Focus_Schedule]
     func getScheduleFocus(id: UUID) -> Focus_Schedule?
-    func checkAvailablReminder(day: Int, time: String, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?)
+    func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?)
 
     func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule]
     func checkScheduleSession(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool

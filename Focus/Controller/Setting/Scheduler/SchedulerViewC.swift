@@ -258,6 +258,9 @@ extension SchedulerViewC {
         objFSchedule.start_time_ = nil
         objFSchedule.end_time_ = nil
         objFSchedule.time_interval = 0
+        objFSchedule.reminder_date = nil
+        objFSchedule.extend_min_time = 0
+        
         let arrFSD = objFSchedule.days_?.allObjects as! [Focus_Schedule_Days]
         for obj in arrFSD {
             DBManager.shared.managedContext.delete(obj)
@@ -268,6 +271,7 @@ extension SchedulerViewC {
         objFSchedule.extend_info?.is_extend_short = false
         objFSchedule.extend_info?.is_extend_very_short = false
         objFSchedule.has_block_list_stop = false
+        
         DBManager.shared.saveContext()
         processReminderActiveInactive(objFSchedule: objFSchedule)
         tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))

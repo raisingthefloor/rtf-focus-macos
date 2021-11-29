@@ -539,10 +539,10 @@ extension DBManager {
 }
 
 extension DBManager {
-    func checkAvailablReminder(day: Int, time: String, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
+    func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
         let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
-        fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d && start_time = %@ && type = %d && is_active = true", day, timeV, type.rawValue)
+        fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d && reminder_date = %@ && type = %d && is_active = true", day, date as CVarArg, type.rawValue)
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {

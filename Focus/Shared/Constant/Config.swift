@@ -37,6 +37,5 @@ class Config {
 
 enum ObserverName: String {
     case reminder_schedule
-    case schedule_session
     case appLaunch_event
 }
