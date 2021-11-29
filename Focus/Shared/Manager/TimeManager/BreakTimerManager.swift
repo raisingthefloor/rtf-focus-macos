@@ -32,6 +32,7 @@ protocol TimerModelIntput {
     func stopTimer()
     func pauseTimer()
     func updateTimerStatus()
+    func isTimerAssigned() -> Bool
 }
 
 protocol TimerModelOutput {
@@ -95,6 +96,10 @@ extension BreakTimerManager {
     func updateTimerStatus() {
     }
 
+    func isTimerAssigned() -> Bool {
+        return (breakTimer != nil)
+    }
+
     func handleTimer() {
         updateCounterValue()
         if !isBreaktimerOn {
@@ -127,8 +132,7 @@ extension BreakTimerManager {
     func pauseTimer() {
         DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.breakTimer?.invalidate()
-            if self.remaininTimeInSeconds > 0 {
-            }
+            self.breakTimer = nil
         })
     }
 

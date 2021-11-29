@@ -89,13 +89,15 @@ extension ReminderTimerManager {
 
             // Check Schedule Session
             let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime, type: .schedule_focus)
-            if reminderSData.isPresent && reminderSData.objFS?.extend_min_time == 0 {
-                if let obj = reminderSData.objFS, let id = obj.id {
+            if reminderSData.isPresent && reminderSData.objFS?.is_schedule_session_extend == false {
+                let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
+                if let obj = reminderSData.objFS, let id = obj.id, !(objGCategory?.warning_before_schedule_session_start ?? true) {
                     displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_with_blocklist_alert)
+                } else {
+                    createFocus(objFS: reminderSData.objFS)
                 }
-            } else if reminderSData.isPresent {
+            } else if reminderSData.isPresent && reminderSData.objFS?.is_schedule_session_extend == true {
                 createFocus(objFS: reminderSData.objFS)
-                // TODO: start Session Here. Entry in focuses table.
             }
         }
     }
@@ -137,8 +139,10 @@ extension ReminderTimerManager {
         case .extend_reminder:
             if value != 0 {
                 obj.extend_min_time = Int64(value)
+                obj.is_schedule_session_extend = (dialogueType == .schedule_reminded_with_blocklist_alert) ? true : false
                 updateExtendedObject(dialogueType: dialogueType, valueType: valueType, obj: obj)
-                obj.reminder_date = Date().adding(hour: 0, min: value, sec: 0)
+                print(" Extend Time Valuse :  \(obj.start_time_?.adding(hour: 0, min: value, sec: 0)) ::::::::::   value: \(value)")
+                obj.reminder_date = obj.start_time_?.adding(hour: 0, min: value, sec: 0)
                 DBManager.shared.saveContext()
             } else {
                 createFocus(objFS: obj)
@@ -147,7 +151,7 @@ extension ReminderTimerManager {
             break
         case .normal_ok:
             if dialogueType == .schedule_reminded_with_blocklist_alert {
-                obj.extend_min_time = 5
+                obj.is_schedule_session_extend = true
                 obj.reminder_date = obj.start_time_
                 DBManager.shared.saveContext()
             } else {
@@ -175,20 +179,22 @@ extension ReminderTimerManager {
     }
 
     func redirectToMainMenu() {
-        if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
-            WindowsManager.dismissController()
-            let presentCtrl = WindowsManager.getPresentingController()
-            if presentCtrl is MenuController {
-                return
-            }
-            AppManager.shared.stopBothTimer()
-            controller.focusStart = { isStarted in
-                if isStarted {
-                    AppManager.shared.resumeTimer()
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
+        DispatchQueue.main.async {
+            if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
+                controller.viewModel.viewCntrl = .schedule_session
+                WindowsManager.dismissController()
+                let presentCtrl = WindowsManager.getPresentingController()
+                if presentCtrl is MenuController {
+                    return
                 }
+                AppManager.shared.stopBothTimer()
+                controller.focusStart = { isStarted in
+                    if isStarted {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
+                    }
+                }
+                presentCtrl?.presentAsModalWindow(controller)
             }
-            presentCtrl?.presentAsModalWindow(controller)
         }
     }
 
@@ -246,20 +252,25 @@ extension ReminderTimerManager {
             let objExVal = Focuses_Extended_Value(context: DBManager.shared.managedContext)
             objFocus.extended_value = objExVal
         }
+        objSchedule.is_schedule_session_extend = false
+        objSchedule.extend_min_time = 0
+
+        if !(objGCategory?.warning_before_schedule_session_start ?? true) && objSchedule.type == ScheduleType.schedule_focus.rawValue {
+            objSchedule.reminder_date = objSchedule.start_time_?.adding(hour: 0, min: -5, sec: 0)
+        } else {
+            objSchedule.reminder_date = objSchedule.start_time_
+        }
 
         updateParallelFocusSession(objSchedule: objSchedule, focuslist: arrFocus, objFocus: objFocus)
 
         DBManager.shared.saveContext()
-
-        AppManager.shared.resumeTimer()
-        WindowsManager.dismissController()
+        // WindowsManager.dismissController()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
     }
 
-    func updateParallelFocusSession(objSchedule: Focus_Schedule, focuslist: [Focus_List],objFocus: Current_Focus) {
-
+    func updateParallelFocusSession(objSchedule: Focus_Schedule, focuslist: [Focus_List], objFocus: Current_Focus) {
         print("Count focuslist :: \(focuslist.count)")
-        let isFocusExsist = focuslist.count == 1
+        let isFocusExsist = focuslist.count > 1
         let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
         let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
         let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
@@ -273,6 +284,7 @@ extension ReminderTimerManager {
         print("Remaining Time : \(total_focus_length - objFocus.used_focus_time)")
         objFocus.is_dnd_mode = is_dnd_mode
         objFocus.is_block_programe_select = is_block_programe_select
+        objFocus.is_focusing = true
 
         objFocus.remaining_focus_time = isFocusExsist ? (total_focus_length - objFocus.used_focus_time) : total_focus_length
         objFocus.remaining_break_time = isFocusExsist ? total_break_focus : total_break_focus

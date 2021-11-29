@@ -64,7 +64,7 @@ class SessionInfoView: NSView, NibView {
 
 extension SessionInfoView: BasicSetupType {
     func setUpText() {
-        lblTitle.stringValue = NSLocalizedString("Session.focus_session", comment: "Focus Session") + "1"
+        
         lblHours.stringValue = NSLocalizedString("Session.focus_session_has_run", comment: "Focus session has run for:")
         lblBlock.stringValue = NSLocalizedString("Session.using_block", comment: "Using blocklist:")
         lblEnd.stringValue = NSLocalizedString("Session.focus_session_end_at", comment: "Focus session ends at:")
@@ -87,14 +87,13 @@ extension SessionInfoView: BasicSetupType {
     }
 
     func setupSessionData(obj: Focus_List?) {
-        titleV?.isHidden = true
         lblHours.alignment = .right
         lblBlock.alignment = .right
         lblEnd.alignment = .right
 
         objFL = obj
 
-        let objFocus = DBManager.shared.getCurrentBlockList().objFocus
+        let objFocus = DBManager.shared.getCurrentSession()
         let objB = DBManager.shared.getBlockListBy(id: obj?.block_list_id)
         let focus_length = Int(obj?.used_time ?? 100).secondsToTime()
 

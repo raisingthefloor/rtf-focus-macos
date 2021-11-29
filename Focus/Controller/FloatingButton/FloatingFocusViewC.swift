@@ -61,7 +61,7 @@ extension FloatingFocusViewC: BasicSetupType {
         // If focus is running then Show "FOCUS"
         // If Break mode is on then Show "BREAK"
 
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(reminderObserver), name: NSNotification.Name(ObserverName.reminder_schedule.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reminderObserver), name: NSNotification.Name(ObserverName.reminder_schedule.rawValue), object: nil)
 
         guard let obj = viewModel.input.focusObj else { return }
         if obj.is_focusing {
@@ -113,6 +113,10 @@ extension FloatingFocusViewC: BasicSetupType {
         guard let obj = viewModel.input.focusObj else { return }
         if !obj.is_focusing {
             setupCountDown()
+        } else if !AppManager.shared.focusTimerModel.input.isTimerAssigned() {
+            setupCountDown()
+        } else {
+            AppManager.shared.resumeTimer()
         }
     }
 }
@@ -138,6 +142,16 @@ extension FloatingFocusViewC {
                     } else {
                         if action == .started_new_session || action == .cancel_new_session {
                             guard let objCurrent = self?.viewModel.input.focusObj else { return }
+
+                            if objCurrent.is_block_programe_select {
+                                AppManager.shared.addObserverToCheckAppLaunch()
+                                WindowsManager.blockWebSite()
+                            }
+
+                            if objCurrent.is_dnd_mode {
+                                WindowsManager.runDndCommand(cmd: "on")
+                            }
+
                             if objCurrent.is_break_time {
                                 AppManager.shared.breakTimerModel.input.updateTimerStatus()
                             } else {

@@ -58,8 +58,8 @@ extension DBManager: DBMangerLogic {
             }
             i = i + 1
         }
-//            print("Final applist : \(applist)")
-//            print("Final weblist : \(weblist)")
+            print("Final applist : \(applist)")
+            print("Final weblist : \(weblist)")
 
         return (objFocus, arrObjBl, applist, weblist)
     }
@@ -540,7 +540,7 @@ extension DBManager {
 
 extension DBManager {
     func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
-        let timeV = time.replacingOccurrences(of: ":00", with: "")
+//        let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
         fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d && reminder_date = %@ && type = %d && is_active = true", day, date as CVarArg, type.rawValue)
         do {

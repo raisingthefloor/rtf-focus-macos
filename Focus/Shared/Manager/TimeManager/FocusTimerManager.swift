@@ -49,6 +49,10 @@ class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
 }
 
 extension FocusTimerManager {
+    func isTimerAssigned() -> Bool {
+        return (focusTimer != nil)
+    }
+
     func updateTimerStatus() {
         updateCounterValue()
         handleTimer()
@@ -91,8 +95,7 @@ extension FocusTimerManager {
     func pauseTimer() {
         DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.focusTimer?.invalidate()
-            if self.remaininFocusTime > 0 {
-            }
+            self.focusTimer = nil
         })
     }
 

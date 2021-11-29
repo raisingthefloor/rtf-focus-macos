@@ -165,6 +165,7 @@ extension CurrentSessionVC: BasicSetupType {
         lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
         lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true
         btnStart.isHidden = arrSession.count > 1
+        lblWhy.isHidden = arrSession.count > 1
 
         sessionStack.removeSubviews()
 
@@ -175,6 +176,8 @@ extension CurrentSessionVC: BasicSetupType {
             sessionView.btnStop.target = self
             sessionView.btnStop.action = #selector(stopAction(_:))
             sessionView.btnStop.tag = i
+            sessionView.titleV?.isHidden = (arrSession.count == 1)
+            sessionView.lblTitle.stringValue = NSLocalizedString("Session.focus_session", comment: "Focus Session") + " " + String(i + 1)
             sessionStack.addArrangedSubview(sessionView)
             i = i + 1
         }
@@ -228,7 +231,14 @@ extension CurrentSessionVC {
         }
 
         let objSession = arrSession[sender.tag]
-        let objBl = DBManager.shared.getBlockListBy(id: objSession.block_list_id)
+
+        guard let bl_id = objSession.block_list_id else {
+            updateView?(true, .stop_session)
+            dismiss(nil)
+            return
+        }
+
+        let objBl = DBManager.shared.getBlockListBy(id: bl_id)
 
         if objBl?.stop_focus_session_anytime ?? false {
             if arrSession.count > 1 {

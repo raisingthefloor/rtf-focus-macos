@@ -260,6 +260,7 @@ extension SchedulerViewC {
         objFSchedule.time_interval = 0
         objFSchedule.reminder_date = nil
         objFSchedule.extend_min_time = 0
+        objFSchedule.is_schedule_session_extend = false
         
         let arrFSD = objFSchedule.days_?.allObjects as! [Focus_Schedule_Days]
         for obj in arrFSD {

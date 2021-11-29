@@ -36,9 +36,9 @@ script BrowserBridge
         set urls to b_list as list
         log (urls)
         set isFocusing to true
-        
+        log("-- running script")
         repeat until isFocusing is false
---            log("::::::: Script Running :::::::")
+            log("-- running script")
 --            log("urls :::::::  " & urls)
 --            log("isFocusing :::::::  " & isFocusing)
                 if application "Safari" is running then
