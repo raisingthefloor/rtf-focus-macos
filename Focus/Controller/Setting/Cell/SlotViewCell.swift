@@ -34,20 +34,23 @@ class SlotViewCell: NSTableCellView {
         super.draw(dirtyRect)
     }
 
-    func configSlot(row: Int, session: ScheduleSession, tableColumn: NSTableColumn?) {
+    func configSlot(row: Int, session: ScheduleSession, tableColumn: NSTableColumn?, isTodaySchedule: Bool) {
         leftV.background_color = .clear
         leftV.border_color = .clear
         rightV.background_color = .clear
         rightV.border_color = .clear
+
         if let tblIdentifier = tableColumn?.identifier {
             if let scheduleDay = session.days.filter({ NSUserInterfaceItemIdentifier(rawValue: $0.day.identifier.rawValue) == tblIdentifier }).compactMap({ $0 }).first {
                 bgColor = Color.tbl_header_color
                 setupSesionData(session: session, scheduleDay: scheduleDay)
             } else {
-                let identifier = tblIdentifier.rawValue
-                bgColor = TableIdentifier(rawValue: identifier)?.color
-                if let scheduleDay = session.days.first {
-                    setupSesionData(session: session, scheduleDay: scheduleDay)
+                if isTodaySchedule {
+                    let identifier = tblIdentifier.rawValue
+                    bgColor = TableIdentifier(rawValue: identifier)?.color
+                    if let scheduleDay = session.days.first {
+                        setupSesionData(session: session, scheduleDay: scheduleDay)
+                    }
                 }
             }
         }

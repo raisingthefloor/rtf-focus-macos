@@ -138,7 +138,11 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         var i = 0
         tblSchedule.tableColumns.forEach { column in
             column.headerCell.backgroundColor = Color.tbl_header_color
-            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold)])
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.alignment = (i > 0) ? .left : .center
+            
+            column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
+            i = i + 1
         }
 
         tblSession.tableColumns.forEach { column in
@@ -220,7 +224,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                 }
             } else {
                 if let slotCell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "dayId"), owner: nil) as? SlotViewCell {
-                    slotCell.configSlot(row: row, session: obj, tableColumn: tableColumn)
+                    slotCell.configSlot(row: row, session: obj, tableColumn: tableColumn, isTodaySchedule: false)
                     return slotCell
                 }
             }
@@ -261,7 +265,7 @@ extension SchedulerViewC {
         objFSchedule.reminder_date = nil
         objFSchedule.extend_min_time = 0
         objFSchedule.is_schedule_session_extend = false
-        
+
         let arrFSD = objFSchedule.days_?.allObjects as! [Focus_Schedule_Days]
         for obj in arrFSD {
             DBManager.shared.managedContext.delete(obj)
@@ -272,7 +276,7 @@ extension SchedulerViewC {
         objFSchedule.extend_info?.is_extend_short = false
         objFSchedule.extend_info?.is_extend_very_short = false
         objFSchedule.has_block_list_stop = false
-        
+
         DBManager.shared.saveContext()
         processReminderActiveInactive(objFSchedule: objFSchedule)
         tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
@@ -299,11 +303,6 @@ extension SchedulerViewC {
     }
 
     func processReminderActiveInactive(objFSchedule: Focus_Schedule) {
-//        if objFSchedule.is_active {
-//            viewModel.input.setReminder(obj: objFSchedule)
-//        } else {
-//            viewModel.input.removeReminder(obj: objFSchedule)
-//        }
         arrSession = viewModel.input.generateCalendarSession(day: nil)
         tblSession.reloadData()
     }

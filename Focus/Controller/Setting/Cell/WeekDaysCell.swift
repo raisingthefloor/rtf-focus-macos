@@ -82,9 +82,9 @@ extension WeekDaysCell: BasicSetupType {
             btn.title = day
             btn.alignment = .center
             btn.corner_radius = btn.frame.height / 2
-            btn.buttonColor = (isActive && isSetBlock) ? Color.day_deselected_color : (isSelected ? Color.day_selected_color : .white)
-            btn.activeButtonColor = (isActive && isSetBlock) ? Color.day_deselected_color : (isSelected ? Color.day_selected_color : .white)
-            btn.textColor = (isActive && isSetBlock) ? .white : (isSelected ? .white : .black)
+            btn.buttonColor = (isActive && isSetBlock) ? (isSelected ? Color.day_deselected_color : .white) : (isSelected ? Color.day_selected_color : .white)
+            btn.activeButtonColor = (isActive && isSetBlock) ? (isSelected ? Color.day_deselected_color : .white) : (isSelected ? Color.day_selected_color : .white)
+            btn.textColor = (isActive && isSetBlock) ? (isSelected ? .white : .black) : (isSelected ? .white : .black)
             btn.borderWidth = 0.5
             btn.borderColor = .black
             btn.isEnabled = (isActive && isSetBlock) ? false : true

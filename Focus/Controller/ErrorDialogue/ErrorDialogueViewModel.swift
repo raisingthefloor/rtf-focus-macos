@@ -44,7 +44,7 @@ enum ErrorDialogue: Int {
         case .general_setting_error:
             return NSLocalizedString("Error.active_focus_error", comment: "Changes cannot be made during active Focus session")
         case .validation_error:
-            return NSLocalizedString("Error.validation_error", comment: "Validation error")
+            return NSLocalizedString("Error.validation_error", comment: "ERROR")
         }
     }
 

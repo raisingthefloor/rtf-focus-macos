@@ -29,8 +29,6 @@ import Foundation
 protocol ScheduleViewModelIntput {
     func getSessionList(day: Int?) -> [Focus_Schedule]
     func generateCalendarSession(day: Int?) -> [ScheduleSession]
-//    func setReminder(obj: Focus_Schedule?)
-//    func removeReminder(obj: Focus_Schedule?)
 }
 
 protocol ScheduleViewModelOutput {
@@ -81,9 +79,13 @@ extension ScheduleViewModel {
             }
 
             let arrDay_ = arrInnerFS.compactMap({ $0.days_?.allObjects as? [Focus_Schedule_Days] }).reduce([],+).compactMap({ Int($0.day) })
+            
             let intersectData = Array(Set(arrDay_.filter({ (i: Int) in arrDay_.filter({ $0 == i }).count > 1 })))
+            
             print("intersectData :\(intersectData)")
+            
             let differentVals = Array(Set(intersectData).symmetricDifference(Set(arrDay_)))
+            
             print("differentVals :\(differentVals)")
 
             var arrTSlot: [String] = []
@@ -96,7 +98,7 @@ extension ScheduleViewModel {
 
             let colors = arrInnerFS.compactMap({ NSColor($0.session_color ?? "#DCEFE6") })
             let color_type = arrInnerFS.compactMap({ ColorType(rawValue: Int($0.color_type)) })
-            let arrUUID = arrInnerFS.compactMap({ $0.id })
+//            let arrUUID = arrInnerFS.compactMap({ $0.id })
 
             for time in arrTSlot {
                 let isExist = arrScheduleS.compactMap({ $0.time == time }).filter({ $0 }).first ?? false
@@ -151,7 +153,7 @@ extension ScheduleViewModel {
                 }
             }
         }
-        print("Final Session Data :::::: \(arrScheduleS.count)")
+        print("Final Session Data :::::: \(arrScheduleS)")
         return arrScheduleS
     }
 }

@@ -280,9 +280,9 @@ extension FloatingFocusViewC {
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj else { return }
-        let objSession = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List // TODO: Need to check with multiple block list  arrObjBl.last
+        let objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List // TODO: Need to check with multiple block list  arrObjBl.last
         AppManager.shared.focusTimerModel.usedTime = 0
-        let isRestart = objSession?.restart_computer ?? false
+        let isRestart = objBl?.restart_computer ?? false
         switch action {
         case .extend_focus:
             // Focus Extend Here
@@ -322,7 +322,7 @@ extension FloatingFocusViewC {
         case .skip_session:
             break
         case .normal_ok:
-            updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objSession, value: value, valueType: valueType)
+            updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objBl, value: value, valueType: valueType)
         case .extend_reminder, .initiate_new_session, .started_new_session, .cancel_new_session:
             break
         }

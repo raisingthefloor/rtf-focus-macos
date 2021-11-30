@@ -54,16 +54,16 @@ class BlockAppDialogueViewC: NSViewController {
 extension BlockAppDialogueViewC: BasicSetupType {
     func setUpText() {
         guard let objBl = viewModel.currentSession?.arrObjBl.last as? Block_List else { return }
-        let appName = ((dialogueType == .notifiction_block_alert) ? "Notifiction" : viewModel.application?.localizedName) ?? "-"
-        var list_name = objBl.name ?? "-"
+        let appName: String = ((dialogueType == .notifiction_block_alert) ? "Notifiction" : viewModel.application?.localizedName) ?? "-"
+        var list_name: String = objBl.name ?? "-"
         if objBl.restart_computer || objBl.random_character {
             list_name = "🔒" + " " + list_name
         }
 
-        let titleV = String(format: dialogueType.title, appName as! CVarArg)
+        let titleV = String(format: dialogueType.title, appName)
         lblTitle.stringValue = titleV
 
-        let titleDesc = String(format: dialogueType.description, appName as! CVarArg, list_name as! CVarArg)
+        let titleDesc = String(format: dialogueType.description, appName, list_name)
         let attributedDesc = NSMutableAttributedString.getAttributedString(fromString: titleDesc)
         attributedDesc.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: titleDesc)
         attributedDesc.alignment(alignment: .center, subString: titleDesc)
@@ -154,7 +154,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     @objc func stopAction(_ sender: NSButton) {
-        guard let objBl = viewModel.currentSession?.arrObjBl.last as? Block_List else {
+        guard let objBl = viewModel.currentSession?.arrObjBl.last else {
             updateView?(.stop_session)
             dismiss(nil)
             return
@@ -169,10 +169,8 @@ extension BlockAppDialogueViewC: BasicSetupType {
         controller.objBl = objBl
         controller.dialogueType = objBl.random_character ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert
         controller.updateFocusStop = { focusStop in
-            if focusStop == .stop_session {
-                self.updateView?(focusStop)
-                self.dismiss(nil)
-            }
+            self.updateView?(focusStop)
+            self.dismiss(nil)
         }
         presentAsSheet(controller)
     }
