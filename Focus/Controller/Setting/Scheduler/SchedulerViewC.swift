@@ -40,6 +40,8 @@ class SchedulerViewC: BaseViewController {
     @IBOutlet var lblFocusInfo: NSTextField!
 
     @IBOutlet var tblSession: NSTableView!
+    @IBOutlet var scrollView: NSScrollView!
+
     let viewModel: ScheduleViewModelType = ScheduleViewModel()
     var arrSession: [ScheduleSession] = []
 
@@ -80,6 +82,10 @@ extension SchedulerViewC: BasicSetupType {
         lblBrekInfo.textColor = .black
 //        lblFocusInfo.font = NSFont.systemFont(ofSize: 12, weight: .semibold) // Italic
         lblFocusInfo.textColor = .black
+
+        if scrollView.hasVerticalScroller {
+            scrollView.verticalScroller?.floatValue = 0
+        }
     }
 
     func bindData() {
