@@ -63,6 +63,8 @@ class AppManager {
         if !UserDefaults.standard.bool(forKey: "pre_added_blocklist") {
             DBManager.shared.systemPreAddedBlocklist()
         }
+
+        FocusFirewall.shared.initialConfiguration()
     }
 
     func addObserverForDockQuit() {

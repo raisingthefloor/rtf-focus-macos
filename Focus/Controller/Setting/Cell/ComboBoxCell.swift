@@ -128,13 +128,13 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         if controller is SchedulerViewC {
             if (controller as! SchedulerViewC).checkSessionRunning(objFS: objFSchedule) {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
-                (controller as! SchedulerViewC).openErrorDialogue(errorType: .schedule_error, objBL: objBl)
+                (controller as! SchedulerViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
                 return
             }
         } else if controller is TodayScheduleViewC {
             if (controller as! TodayScheduleViewC).checkSessionRunning(objFS: objFSchedule) {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
-                (controller as! TodayScheduleViewC).openErrorDialogue(errorType: .schedule_error, objBL: objBl)
+                (controller as! TodayScheduleViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
                 return
             }
         }
@@ -255,7 +255,7 @@ extension ComboBoxCell {
 
             if controller is SchedulerViewC {
                 if (controller as! SchedulerViewC).checkSessionRunning(objFS: objFSchedule) {
-                    (controller as! SchedulerViewC).openErrorDialogue(errorType: .schedule_error, objBL: objBL)
+                    (controller as! SchedulerViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBL)
                     return
                 }
             }

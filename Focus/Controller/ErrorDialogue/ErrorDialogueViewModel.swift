@@ -29,7 +29,7 @@ import Foundation
 enum ErrorDialogue: Int {
     case focus_schedule_error // It is used when that Schedule is active
     case edit_blocklist_error
-    case schedule_error
+    case schedule_error // TODO: This one used when used added third schedule with same time
     case general_setting_error
     case validation_error
 
@@ -67,7 +67,7 @@ enum ErrorDialogue: Int {
         switch self {
         case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
             return NSLocalizedString("Error.random_character_info", comment: "< include “stop task” message if there is as stop task>")
-        case .schedule_error,.validation_error:
+        case .schedule_error, .validation_error:
             return ""
         }
     }
@@ -76,12 +76,12 @@ enum ErrorDialogue: Int {
         switch self {
         case .focus_schedule_error, .edit_blocklist_error, .general_setting_error:
             return NSLocalizedString("Error.restart_computer_info", comment: "< include “stop task” message if there is as stop task>")
-        case .schedule_error,.validation_error:
+        case .schedule_error, .validation_error:
             return ""
         }
     }
 
-    var islinkVisible: Bool {         
+    var islinkVisible: Bool {
         switch self {
         case .schedule_error:
             return false
