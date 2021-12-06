@@ -254,6 +254,7 @@ extension MenuController: BasicSetupType {
                 let objBlockList = arrBlock[index]
                 viewModel.focusDict["block_list_id"] = objBlockList.id
                 viewModel.focusDict["is_block_list_dnd"] = objBlockList.is_dnd_category_on // This one used for cause If any blocklist has selected notification Category then it set here
+                viewModel.is_stop_constraint = objBlockList.stop_focus_session_anytime
             }
         }
     }

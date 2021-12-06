@@ -82,7 +82,7 @@ class EditBlockListViewC: BaseViewController {
 
     override func mouseDown(with event: NSEvent) {
         if checkSessionRunning() {
-            openErrorDialogue()
+            openErrorDialogue(errorType: .edit_blocklist_error, objBL: dataModel.objBlocklist)
             return
         }
     }
@@ -491,7 +491,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     // Remove the Apps and Web Url from Also Block View
     @objc func deleteSetBlock(_ sender: NSButton) {
         if checkSessionRunning() {
-            openErrorDialogue()
+            openErrorDialogue(errorType: .edit_blocklist_error, objBL: dataModel.objBlocklist)
             return
         }
 
@@ -505,7 +505,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     // Remove the Apps and Web Url from Exceptions view
     @objc func deleteSetException(_ sender: NSButton) {
         if checkSessionRunning() {
-            openErrorDialogue()
+            openErrorDialogue(errorType: .edit_blocklist_error, objBL: dataModel.objBlocklist)
             return
         }
         let arrBlock = dataModel.objBlocklist?.exception_block?.allObjects as? [Exception_App_Web]
@@ -518,7 +518,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     // Store the Categories as per selected blick list
     @objc func addCategoryAction(_ sender: NSButton) {
         if checkSessionRunning() {
-            openErrorDialogue()
+            openErrorDialogue(errorType: .edit_blocklist_error, objBL: dataModel.objBlocklist)
             return
         }
 
@@ -654,10 +654,10 @@ extension EditBlockListViewC: NSTextFieldDelegate {
         return false
     }
 
-    func openErrorDialogue() {
-        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-        errorDialog.errorType = .edit_blocklist_error
-        errorDialog.objBl = dataModel.objBlocklist
-        presentAsSheet(errorDialog)
-    }
+//    func openErrorDialogue() {
+//        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+//        errorDialog.errorType = .edit_blocklist_error
+//        errorDialog.objBl = dataModel.objBlocklist
+//        presentAsSheet(errorDialog)
+//    }
 }

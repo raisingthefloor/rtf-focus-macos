@@ -181,6 +181,13 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
 
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = arrFocusS[sender.tag]
+
+        if checkSessionRunning(objFS: objFSchedule) {
+            let objBl = DBManager.shared.getBlockListBy(id: objFSchedule.block_list_id)
+            openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+            return
+        }
+
         objFSchedule.is_active = !objFSchedule.is_active
         objFSchedule.color_type = objFSchedule.is_active ? Int64(ColorType.solid.rawValue) : Int64(ColorType.hollow.rawValue)
         DBManager.shared.saveContext()
@@ -190,5 +197,17 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
     func reloadSession() {
         arrSession = viewModel.input.generateCalendarSession(day: Date().currentDateComponent().weekday)
         tblSession.reloadData()
+    }
+
+    func checkSessionRunning(objFS: Focus_Schedule?) -> Bool {
+        if let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.id {
+            let isSame = focuslist.compactMap({ $0.focus_schedule_id == id }).filter({ $0 }).first ?? false
+            if isSame {
+                if objF.is_focusing || objF.is_block_programe_select {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }

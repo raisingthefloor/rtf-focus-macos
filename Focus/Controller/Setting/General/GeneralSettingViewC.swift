@@ -160,7 +160,9 @@ extension GeneralSettingViewC: BasicSetupType {
     }
 
     func disableControl() -> Bool {
-        guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return false }
+        guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List] else { return false }
+        let objSession = focuslist.filter({ $0.is_stop_constraint }).first
+        let objBl = DBManager.shared.getBlockListBy(id: objSession?.block_list_id)
         btnAddWeb.isEnabled = !objF.is_focusing
         btnAddApp.isEnabled = !objF.is_focusing
 
@@ -169,18 +171,18 @@ extension GeneralSettingViewC: BasicSetupType {
 //        checkBoxEachBreak.isEnabled = !objF.is_focusing
 
         if objF.is_focusing {
-            openErrorDialogue()
+            openErrorDialogue(errorType: .general_setting_error, objBL: objBl)
             setupData()
         }
         return true
     }
 
-    func openErrorDialogue() {
-        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-        errorDialog.errorType = .general_setting_error
-        errorDialog.objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List
-        presentAsSheet(errorDialog)
-    }
+//    func openErrorDialogue(errorType: ErrorDialogue, objBL: Block_List?) {
+//        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+//        errorDialog.errorType = .general_setting_error
+//        errorDialog.objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List
+//        presentAsSheet(errorDialog)
+//    }
 }
 
 extension GeneralSettingViewC {

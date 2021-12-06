@@ -73,4 +73,11 @@ extension BaseViewController {
         alert.addButton(withTitle: btnOk)
         alert.runModal()
     }
+
+    func openErrorDialogue(errorType: ErrorDialogue, objBL: Block_List?) {
+        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+        errorDialog.errorType = errorType
+        errorDialog.objBl = objBL
+        presentAsSheet(errorDialog)
+    }
 }

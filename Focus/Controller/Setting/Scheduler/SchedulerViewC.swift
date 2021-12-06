@@ -140,7 +140,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
             column.headerCell.backgroundColor = Color.tbl_header_color
             let paragraph = NSMutableParagraphStyle()
             paragraph.alignment = (i > 0) ? .left : .center
-            
+
             column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
             i = i + 1
         }
@@ -215,7 +215,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     return cell
                 }
             }
-        } else {
+        } else { // Calendar View
             let obj = arrSession[row]
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
@@ -245,6 +245,13 @@ extension SchedulerViewC {
     // Active and Deactive the Schedule
     @objc func toggleAction(_ sender: NSButton) {
         let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
+
+        if checkSessionRunning(objFS: objFSchedule) {
+            let objBl = DBManager.shared.getBlockListBy(id: objFSchedule.block_list_id)
+            openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+            return
+        }
+
         objFSchedule.is_active = !objFSchedule.is_active
         objFSchedule.color_type = objFSchedule.is_active ? Int64(ColorType.solid.rawValue) : Int64(ColorType.hollow.rawValue)
 
@@ -254,6 +261,13 @@ extension SchedulerViewC {
 
     @objc func deleteSchedule(_ sender: NSButton) {
         let objFSchedule = viewModel.arrFocusSchedule[sender.tag]
+
+        if checkSessionRunning(objFS: objFSchedule) {
+            let objBl = DBManager.shared.getBlockListBy(id: objFSchedule.block_list_id)
+            openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+            return
+        }
+
         objFSchedule.is_active = false
         objFSchedule.block_list_id = nil
         objFSchedule.block_list_name = nil
@@ -284,6 +298,11 @@ extension SchedulerViewC {
 
     @objc func foucsTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
+        if checkSessionRunning(objFS: nil) {
+            openErrorDialogue(errorType: .focus_schedule_error, objBL: nil)
+            return
+        }
+
         let index = popup.selectedTag()
         viewModel.objGCategory?.general_setting?.for_every_time = Focus.FocusTime(rawValue: index)!.valueInSeconds
         DBManager.shared.saveContext()
@@ -291,12 +310,23 @@ extension SchedulerViewC {
 
     @objc func breakTimeSelection(_ sender: Any) {
         guard let popup = sender as? NSPopUpButton else { return }
+
+        if checkSessionRunning(objFS: nil) {
+            openErrorDialogue(errorType: .focus_schedule_error, objBL: nil)
+            return
+        }
+
         let index = popup.selectedTag()
         viewModel.objGCategory?.general_setting?.break_time = Focus.BreakTime(rawValue: index)!.valueInSeconds
         DBManager.shared.saveContext()
     }
 
     @objc func checkBoxEventHandler(_ sender: NSButton) {
+        if checkSessionRunning(objFS: nil) {
+            openErrorDialogue(errorType: .focus_schedule_error, objBL: nil)
+            return
+        }
+
         let isChecked = (sender.state == .on) ? true : false
         viewModel.objGCategory?.general_setting?.provide_short_break_schedule_session = isChecked
         DBManager.shared.saveContext()
@@ -306,4 +336,26 @@ extension SchedulerViewC {
         arrSession = viewModel.input.generateCalendarSession(day: nil)
         tblSession.reloadData()
     }
+
+    func checkSessionRunning(objFS: Focus_Schedule?) -> Bool {
+        if let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.id {
+            let isSame = focuslist.compactMap({ $0.focus_schedule_id == id }).filter({ $0 }).first ?? false
+            if isSame {
+                if objF.is_focusing || objF.is_block_programe_select {
+                    return true
+                }
+            }
+        } else if let objF = DBManager.shared.getCurrentSession(), objFS == nil {
+            if objF.is_focusing {
+                return true
+            }
+        }
+        return false
+    }
+
+//    func openErrorDialogue() {
+//        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+//        errorDialog.errorType = .focus_schedule_error
+//        presentAsSheet(errorDialog)
+//    }
 }

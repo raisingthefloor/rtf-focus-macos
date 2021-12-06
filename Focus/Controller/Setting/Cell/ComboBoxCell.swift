@@ -37,6 +37,7 @@ class ComboBoxCell: NSTableCellView {
     var arrTimes: [String] = []
     var objFSchedule: Focus_Schedule?
     var refreshTable: ((Bool) -> Void)?
+    var controller: NSViewController?
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -124,6 +125,20 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
     }
 
     func updateTimeValue(_ comboBox: NSComboBox, time: String?) {
+        if controller is SchedulerViewC {
+            if (controller as! SchedulerViewC).checkSessionRunning(objFS: objFSchedule) {
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                (controller as! SchedulerViewC).openErrorDialogue(errorType: .schedule_error, objBL: objBl)
+                return
+            }
+        } else if controller is TodayScheduleViewC {
+            if (controller as! TodayScheduleViewC).checkSessionRunning(objFS: objFSchedule) {
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                (controller as! TodayScheduleViewC).openErrorDialogue(errorType: .schedule_error, objBL: objBl)
+                return
+            }
+        }
+
         guard let time = time else { return }
         let type = Int(objFSchedule?.type ?? 1)
         let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
@@ -236,10 +251,19 @@ extension ComboBoxCell {
             objFSchedule?.type = Int64(ScheduleType.reminder.rawValue)
             objFSchedule?.has_block_list_stop = false
         } else {
-            objFSchedule?.block_list_name = modelV.input.getBlockList(cntrl: .schedule_session).blists[index].name
-            objFSchedule?.block_list_id = modelV.input.getBlockList(cntrl: .schedule_session).blists[index].id
+            let objBL = modelV.input.getBlockList(cntrl: .schedule_session).blists[index]
+
+            if controller is SchedulerViewC {
+                if (controller as! SchedulerViewC).checkSessionRunning(objFS: objFSchedule) {
+                    (controller as! SchedulerViewC).openErrorDialogue(errorType: .schedule_error, objBL: objBL)
+                    return
+                }
+            }
+
+            objFSchedule?.block_list_name = objBL.name
+            objFSchedule?.block_list_id = objBL.id
             objFSchedule?.type = Int64(ScheduleType.schedule_focus.rawValue)
-            objFSchedule?.has_block_list_stop = modelV.input.getBlockList(cntrl: .schedule_session).blists[index].stop_focus_session_anytime ? false : true
+            objFSchedule?.has_block_list_stop = objBL.stop_focus_session_anytime ? false : true
         }
         objFSchedule?.is_active = true
         DBManager.shared.saveContext()

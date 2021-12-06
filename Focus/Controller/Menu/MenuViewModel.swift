@@ -41,6 +41,8 @@ protocol MenuViewModelType {
     var model: DataModelType { get set }
     var viewCntrl: ViewCntrl { get set }
     var focusDict: [String: Any?] { get set }
+    var objFocusSchedule: Focus_Schedule? { get set }
+    var is_stop_constraint: Bool { get set }
 }
 
 class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType {
@@ -53,6 +55,8 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
     var model: DataModelType = DataModel()
     var viewCntrl: ViewCntrl = .main_menu
     var focusDict: [String: Any?] = [:]
+    var objFocusSchedule: Focus_Schedule?
+    var is_stop_constraint: Bool = false
 }
 
 extension MenuViewModel {
@@ -105,6 +109,7 @@ extension MenuViewModel {
             let arrBlock = model.input.getBlockList(cntrl: .main_menu).blists
             focusDict[Focus.Options.block_list.key_name] = (state == .on) ? (!arrBlock.isEmpty ? arrBlock[0].id : nil) : nil
             focusDict["is_block_list_dnd"] = (!arrBlock.isEmpty) ? arrBlock[0].is_dnd_category_on : false // This one used for cause If any blocklist has selected notification Category then it set here
+            is_stop_constraint = (!arrBlock.isEmpty) ? arrBlock[0].stop_focus_session_anytime : false
         default:
             print("default ::: \(state)")
         }
@@ -116,11 +121,13 @@ extension MenuViewModel {
         guard let obj = DBManager.shared.createFocus(data: focusDict) else { return }
         obj.created_date = Date()
         obj.focus_id = UUID()
+        obj.focus_schedule_id = (objFocusSchedule != nil) ? objFocusSchedule?.id : UUID()
         obj.focus_length_time = time.value
         obj.session_start_time = Date()
         let endTime = Int(time.value).secondsToTime()
         obj.session_end_time = Date().adding(hour: endTime.timeInHours, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
         obj.focus_type = Int16(ScheduleType.none.rawValue)
+        obj.is_stop_constraint = is_stop_constraint
         arrFocus.append(obj)
 
         focusObj?.created_date = Date()

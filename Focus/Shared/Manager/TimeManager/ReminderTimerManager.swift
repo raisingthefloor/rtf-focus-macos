@@ -120,7 +120,7 @@ extension ReminderTimerManager {
             guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId), let objEx = obj.extend_info else { return }
             if objEx.is_extend_long, objEx.is_extend_mid, objEx.is_extend_short, objEx.is_extend_very_short {
                 self.resetExtendFlags(objEx: objEx)
-                self.redirectToMainMenu()
+                self.redirectToMainMenu(obj: obj)
                 return
             }
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
@@ -155,7 +155,7 @@ extension ReminderTimerManager {
                 obj.reminder_date = obj.start_time_
                 DBManager.shared.saveContext()
             } else {
-                redirectToMainMenu()
+                redirectToMainMenu(obj: obj)
             }
         default: break
         }
@@ -178,10 +178,11 @@ extension ReminderTimerManager {
         }
     }
 
-    func redirectToMainMenu() {
+    func redirectToMainMenu(obj: Focus_Schedule?) {
         DispatchQueue.main.async {
             if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
                 controller.viewModel.viewCntrl = .schedule_session
+                controller.viewModel.objFocusSchedule = obj
                 WindowsManager.dismissController()
                 let presentCtrl = WindowsManager.getPresentingController()
                 if presentCtrl is MenuController {
@@ -236,9 +237,11 @@ extension ReminderTimerManager {
         obj.is_provided_short_break = is_short_break_provide
         obj.is_block_programe_select = true
         obj.focus_untill_stop = is_untill_stop
+        obj.is_stop_constraint = objFS?.has_block_list_stop ?? false        
 
         obj.created_date = Date()
         obj.focus_id = UUID()
+        obj.focus_schedule_id = objFS?.id
         obj.focus_length_time = objSchedule.time_interval
         obj.session_start_time = Date()
         obj.session_end_time = Date().adding(hour: endTime.timeInHours, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
