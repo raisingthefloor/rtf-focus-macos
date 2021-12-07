@@ -272,7 +272,6 @@ extension MenuController: BasicSetupType {
     }
 
     @objc func openCustomSetting() {
-        FocusFirewall.shared.startFilter()
         performSegue(withIdentifier: "segueSetting", sender: self)
     }
 }

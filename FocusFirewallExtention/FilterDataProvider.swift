@@ -28,22 +28,31 @@ import os.log
 
 class FilterDataProvider: NEFilterDataProvider {
     static let filteredApps: Set = ["firefox"]
-    var block_sites: [String] = ["www.twitter.com", "twitter.com", "instagram.com", "facebook.com"]
+    var block_sites: [String] = []
 
     override func startFilter(completionHandler: @escaping (Error?) -> Void) {
-        let filterRules = block_sites.map { address -> NEFilterRule in
-            let remoteNetwork = NWHostEndpoint(hostname: address, port: "0")
-            let networkRule = NENetworkRule(destinationHost: remoteNetwork, protocol: .any)
-            return NEFilterRule(networkRule: networkRule, action: .filterData)
-        }
+        // block_sites = IPCConnection.getBlockURLs()
 
-        let filterSettings = NEFilterSettings(rules: filterRules, defaultAction: .allow)
+        IPCConnection.shared.getBlockURLs { urls in
+            os_log("urls BHAVI %{public}@", urls)
 
-        apply(filterSettings) { error in
-            if let applyError = error {
-                os_log("Failed to apply filter settings: %@", applyError.localizedDescription)
+            self.block_sites = urls
+            os_log("block_sites BHAVI %{public}@", self.block_sites)
+
+            let filterRules = self.block_sites.map { address -> NEFilterRule in
+                let remoteNetwork = NWHostEndpoint(hostname: address, port: "0")
+                let networkRule = NENetworkRule(destinationHost: remoteNetwork, protocol: .any)
+                return NEFilterRule(networkRule: networkRule, action: .filterData)
             }
-            completionHandler(error)
+
+            let filterSettings = NEFilterSettings(rules: filterRules, defaultAction: .allow)
+
+            self.apply(filterSettings) { error in
+                if let applyError = error {
+                    os_log("Failed to apply filter settings: %@", applyError.localizedDescription)
+                }
+                completionHandler(error)
+            }
         }
     }
 
@@ -64,8 +73,15 @@ class FilterDataProvider: NEFilterDataProvider {
 extension FilterDataProvider {
     func isFiltered(description: String) -> Bool {
         guard let sourceAppIdentifier = description.matches(for: #"(?<=sourceAppIdentifier = ).+?(?=\s)"#).first, let data = sourceAppIdentifier.components(separatedBy: ".").last else {
+            os_log("sourceAppIdentifier false: %{public}@", description)
             return false
         }
+        os_log("BHAVI sourceAppIdentifier true: %{public}@", sourceAppIdentifier)
+
+        os_log("BHAVI sourceAppIdentifier true: %{public}@", data)
+
+        os_log("BHAVI sourceAppIdentifier isFiltered: %{public}d", FilterDataProvider.filteredApps.contains(data))
+
         return FilterDataProvider.filteredApps.contains(data)
     }
 }

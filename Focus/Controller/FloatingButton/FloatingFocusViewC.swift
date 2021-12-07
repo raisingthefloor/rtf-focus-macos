@@ -179,7 +179,7 @@ extension FloatingFocusViewC {
 
         if obj.is_block_programe_select {
             AppManager.shared.addObserverToCheckAppLaunch()
-            WindowsManager.blockWebSite()
+            WindowsManager.blockWebSite()            
         }
 
         if obj.is_dnd_mode {

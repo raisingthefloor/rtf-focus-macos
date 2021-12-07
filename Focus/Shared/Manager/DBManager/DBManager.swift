@@ -58,8 +58,8 @@ extension DBManager: DBMangerLogic {
             }
             i = i + 1
         }
-            print("Final applist : \(applist)")
-            print("Final weblist : \(weblist)")
+//            print("Final applist : \(applist)")
+//            print("Final weblist : \(weblist)")
 
         return (objFocus, arrObjBl, applist, weblist)
     }

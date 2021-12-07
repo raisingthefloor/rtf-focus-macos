@@ -24,24 +24,23 @@
  */
 
 /*
-Abstract:
-This file contains the implementation of the app <-> provider IPC connection
-*/
+ Abstract:
+ This file contains the implementation of the app <-> provider IPC connection
+ */
 
 import Foundation
-import os.log
 import Network
+import os.log
 
 /// App --> Provider IPC
 @objc protocol ProviderCommunication {
-
     func register(_ completionHandler: @escaping (Bool) -> Void)
 }
 
 /// Provider --> App IPC
 @objc protocol AppCommunication {
-
     func promptUser(aboutFlow flowInfo: [String: String], responseHandler: @escaping (Bool) -> Void)
+    func getBlockURLs(responseHandler: @escaping ([String]) -> Void)
 }
 
 enum FlowInfoKey: String {
@@ -51,13 +50,13 @@ enum FlowInfoKey: String {
 
 /// The IPCConnection class is used by both the app and the system extension to communicate with each other
 class IPCConnection: NSObject {
-
     // MARK: Properties
 
     var listener: NSXPCListener?
     var currentConnection: NSXPCConnection?
     weak var delegate: AppCommunication?
     static let shared = IPCConnection()
+    static var groupName = "group.com.plenartech.Focus.url"
 
     // MARK: Methods
 
@@ -67,17 +66,15 @@ class IPCConnection: NSObject {
         Any process in the same app group can use the Mach service to communicate with the system extension.
      */
     private func extensionMachServiceName(from bundle: Bundle) -> String {
-
         guard let networkExtensionKeys = bundle.object(forInfoDictionaryKey: "NetworkExtension") as? [String: Any],
-            let machServiceName = networkExtensionKeys["NEMachServiceName"] as? String else {
-                fatalError("Mach service name is missing from the Info.plist")
+              let machServiceName = networkExtensionKeys["NEMachServiceName"] as? String else {
+            fatalError("Mach service name is missing from the Info.plist")
         }
 
         return machServiceName
     }
 
     func startListener() {
-
         let machServiceName = extensionMachServiceName(from: Bundle.main)
         os_log("Starting XPC listener for mach service %@", machServiceName)
 
@@ -89,7 +86,6 @@ class IPCConnection: NSObject {
 
     /// This method is called by the app to register with the provider running in the system extension.
     func register(withExtension bundle: Bundle, delegate: AppCommunication, completionHandler: @escaping (Bool) -> Void) {
-
         self.delegate = delegate
 
         guard currentConnection == nil else {
@@ -124,11 +120,10 @@ class IPCConnection: NSObject {
     }
 
     /**
-        This method is called by the provider to cause the app (if it is registered) to display a prompt to the user asking
-        for a decision about a connection.
-    */
-    func promptUser(aboutFlow flowInfo: [String: String], responseHandler:@escaping (Bool) -> Void) -> Bool {
-
+         This method is called by the provider to cause the app (if it is registered) to display a prompt to the user asking
+         for a decision about a connection.
+     */
+    func promptUser(aboutFlow flowInfo: [String: String], responseHandler: @escaping (Bool) -> Void) -> Bool {
         guard let connection = currentConnection else {
             os_log("Cannot prompt user because the app isn't registered")
             return false
@@ -146,14 +141,40 @@ class IPCConnection: NSObject {
 
         return true
     }
+
+//    public static func getBlockURLs() -> [String] {
+//        os_log("BHAVI getBlockURLs  Method called")
+//        let suiteName = IPCConnection.groupName
+//        if let userDefaults = UserDefaults(suiteName: suiteName) {
+//            let block_sites = userDefaults.array(forKey: "block_urls") as? [String] ?? []
+//            os_log("BHAVI getBlockURLs  block_sites %{public}@", block_sites)
+//            return block_sites
+//        }
+//        os_log("BHAVI getBlockURLs  Out SIDE IF")
+//        return []
+//    }
+
+    func getBlockURLs(responseHandler: @escaping ([String]) -> Void) {
+        guard let connection = currentConnection else {
+            os_log("Cannot prompt user because the app isn't registered BHAVI")
+            return
+        }
+
+        guard let appProxy = connection.remoteObjectProxyWithErrorHandler({ promptError in
+            os_log("Failed to prompt the user BHAVI:  %{public}@", promptError.localizedDescription)
+            self.currentConnection = nil
+            responseHandler([])
+        }) as? AppCommunication else {
+            fatalError("Failed to create a remote object proxy for the app BHAVI")
+        }
+        appProxy.getBlockURLs(responseHandler: responseHandler)
+    }
 }
 
 extension IPCConnection: NSXPCListenerDelegate {
-
     // MARK: NSXPCListenerDelegate
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
-
         // The exported object is this IPCConnection instance.
         newConnection.exportedInterface = NSXPCInterface(with: ProviderCommunication.self)
         newConnection.exportedObject = self
@@ -177,11 +198,9 @@ extension IPCConnection: NSXPCListenerDelegate {
 }
 
 extension IPCConnection: ProviderCommunication {
-
     // MARK: ProviderCommunication
 
     func register(_ completionHandler: @escaping (Bool) -> Void) {
-
         os_log("App registered")
         completionHandler(true)
     }

@@ -36,7 +36,6 @@ enum NetworkStatus {
 
 class FocusFirewall: NSObject {
     static var shared = FocusFirewall()
-    var controller: NSViewController?
 
     // Get the Bundle of the system extension.
     lazy var extensionBundle: Bundle = {
@@ -63,6 +62,7 @@ class FocusFirewall: NSObject {
 
     var observer: Any?
     var status: NetworkStatus = .stopped
+    var block_sites: [String] = []
 
     func initialConfiguration() {
         loadFilterConfiguration { success in
@@ -70,8 +70,6 @@ class FocusFirewall: NSObject {
                 self.status = .stopped
                 return
             }
-
-            self.updateStatus()
 
             self.observer = NotificationCenter.default.addObserver(forName: .NEFilterConfigurationDidChange,
                                                                    object: NEFilterManager.shared(),
@@ -98,6 +96,25 @@ class FocusFirewall: NSObject {
 }
 
 extension FocusFirewall {
+    func saveBlockUrls() {
+        let suiteName = IPCConnection.groupName
+        if let userDefaults = UserDefaults(suiteName: suiteName) {
+            userDefaults.set(block_sites, forKey: "block_urls")
+            userDefaults.synchronize()
+        }
+    }
+
+    func getSaveUrls() -> [String] {
+        let suiteName = IPCConnection.groupName
+        print("suiteName :::: \(suiteName)")
+        if let userDefaults = UserDefaults(suiteName: suiteName) {
+            let block_sites = userDefaults.array(forKey: "block_urls") as? [String] ?? []
+            print("block_sites In  Controller :::: \(block_sites)")
+            return block_sites
+        }
+        return []
+    }
+
     func startFilter() {
         guard !NEFilterManager.shared().isEnabled else {
             registerWithProvider()
@@ -114,11 +131,43 @@ extension FocusFirewall {
         OSSystemExtensionManager.shared.submitRequest(activationRequest)
     }
 
-    func stopFilter(_ sender: Any) {
+    func disableFilterManager() {
         let filterManager = NEFilterManager.shared()
+        guard filterManager.isEnabled else {
+            return
+        }
 
+        filterManager.isEnabled = false
+        filterManager.saveToPreferences { saveError in
+            DispatchQueue.main.async {
+                if let error = saveError {
+                    os_log("Failed to disable the filter configuration: %@", error.localizedDescription)
+                    return
+                }
+            }
+        }
+    }
+
+    func enableFilterManager() {
+        let filterManager = NEFilterManager.shared()
+        guard !filterManager.isEnabled else {
+            return
+        }
+
+        filterManager.isEnabled = true
+        filterManager.saveToPreferences { saveError in
+            DispatchQueue.main.async {
+                if let error = saveError {
+                    os_log("Failed to disable the filter configuration: %@", error.localizedDescription)
+                    return
+                }
+            }
+        }
+    }
+
+    func stopFilter() {
+        let filterManager = NEFilterManager.shared()
         status = .indeterminate
-
         guard filterManager.isEnabled else {
             status = .stopped
             return
@@ -161,18 +210,18 @@ extension FocusFirewall: OSSystemExtensionRequestDelegate {
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
-        os_log("System extension request failed: %@", error.localizedDescription)
+        print("System extension request failed: %@", error.localizedDescription)
         status = .stopped
     }
 
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
-        os_log("Extension %@ requires user approval", request.identifier)
+        print("Extension %@ requires user approval", request.identifier)
     }
 
     func request(_ request: OSSystemExtensionRequest,
                  actionForReplacingExtension existing: OSSystemExtensionProperties,
                  withExtension extension: OSSystemExtensionProperties) -> OSSystemExtensionRequest.ReplacementAction {
-        os_log("Replacing extension %@ version %@ with version %@", request.identifier, existing.bundleShortVersion, `extension`.bundleShortVersion)
+        print("Replacing extension %@ version %@ with version %@", request.identifier, existing.bundleShortVersion, `extension`.bundleShortVersion)
         return .replace
     }
 }
@@ -185,6 +234,7 @@ extension FocusFirewall {
             DispatchQueue.main.async {
                 var success = true
                 if let error = loadError {
+                    print("Failed to load the filter configuration: %@", error.localizedDescription)
                     os_log("Failed to load the filter configuration: %@", error.localizedDescription)
                     success = false
                 }
@@ -195,14 +245,12 @@ extension FocusFirewall {
 
     func enableFilterConfiguration() {
         let filterManager = NEFilterManager.shared()
-
         guard !filterManager.isEnabled else {
             registerWithProvider()
             return
         }
 
         loadFilterConfiguration { success in
-
             guard success else {
                 self.status = .stopped
                 return
@@ -247,12 +295,11 @@ extension FocusFirewall {
 
 extension FocusFirewall: AppCommunication {
     func promptUser(aboutFlow flowInfo: [String: String], responseHandler: @escaping (Bool) -> Void) {
-        guard let localPort = flowInfo[FlowInfoKey.localPort.rawValue],
-              let remoteAddress = flowInfo[FlowInfoKey.remoteAddress.rawValue] else {
-            os_log("Got a promptUser call without valid flow info: %@", flowInfo)
-            responseHandler(true)
-            return
-        }
-        // Resume or stop here
+    }
+
+    func getBlockURLs(responseHandler: @escaping ([String]) -> Void) {
+        print("block_sites :::  \(FocusFirewall.shared.block_sites)")
+        let urls = FocusFirewall.shared.block_sites
+        responseHandler(urls)
     }
 }
