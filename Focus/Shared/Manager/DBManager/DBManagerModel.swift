@@ -42,6 +42,7 @@ protocol DBMangerLogic {
     func saveBlocklist(data: [String: Any?])
     func getBlockList() -> [Block_List]
     func getBlockListBy(id: UUID?) -> Block_List?
+    func getBlockListBy(id: UUID?, isRestart: Bool) -> Block_List?
 
     func checkDataIsPresent(entityName: String) -> Bool
     func getCategories() -> [Block_Category]

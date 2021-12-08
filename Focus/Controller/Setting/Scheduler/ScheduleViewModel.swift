@@ -79,13 +79,13 @@ extension ScheduleViewModel {
             }
 
             let arrDay_ = arrInnerFS.compactMap({ $0.days_?.allObjects as? [Focus_Schedule_Days] }).reduce([],+).compactMap({ Int($0.day) })
-            
+
             let intersectData = Array(Set(arrDay_.filter({ (i: Int) in arrDay_.filter({ $0 == i }).count > 1 })))
-            
+
             print("intersectData :\(intersectData)")
-            
+
             let differentVals = Array(Set(intersectData).symmetricDifference(Set(arrDay_)))
-            
+
             print("differentVals :\(differentVals)")
 
             var arrTSlot: [String] = []
@@ -122,11 +122,14 @@ extension ScheduleViewModel {
                         let day_e = Days(rawValue: Int(day)) ?? .sun
                         var s_days = objMutableSS.days
                         let no_session = 1
-                        if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).first {
+                        if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).last {
                             print("IF Condition  Schedule Day ::   \(sDay)")
+
+                            if sDay.noOfsession == 1 {
+                                sDay.colors[0] = colors.first ?? .red
+                                sDay.color_type[0] = color_type.first ?? .solid
+                            }
                             sDay.noOfsession = 2
-                            sDay.colors = sDay.colors + colors
-                            sDay.color_type = sDay.color_type + color_type
                             sDay.time = time
                             if let index = s_days.firstIndex(where: { $0.day == day_e }) {
                                 s_days[index] = sDay
@@ -205,6 +208,8 @@ enum Days: Int {
             return .satIdentifier
         }
     }
+
+    static let allDays: [Days] = [.sun, .mon, .tue, .wed, .thu, .fri, .sat]
 }
 
 enum TableIdentifier: String {

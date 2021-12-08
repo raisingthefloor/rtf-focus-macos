@@ -179,7 +179,7 @@ extension FloatingFocusViewC {
 
         if obj.is_block_programe_select {
             AppManager.shared.addObserverToCheckAppLaunch()
-            WindowsManager.blockWebSite()            
+            WindowsManager.blockWebSite()
         }
 
         if obj.is_dnd_mode {
@@ -280,9 +280,22 @@ extension FloatingFocusViewC {
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj else { return }
-        let objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List // TODO: Need to check with multiple block list  arrObjBl.last
-        AppManager.shared.focusTimerModel.usedTime = 0
+
+        let arrSessions = obj.focuses?.allObjects as? [Focus_List]
+
+        var objBl: Block_List?
+        if let objCF = arrSessions?.filter({ $0.is_stop_constraint }).compactMap({ $0 }).first, let id = objCF.block_list_id {
+            objBl = DBManager.shared.getBlockListBy(id: id, isRestart: true)
+        } else {
+            let objCF = arrSessions?.compactMap({ $0 }).first
+            if let id = objCF?.block_list_id {
+                objBl = DBManager.shared.getBlockListBy(id: id, isRestart: false)
+            }
+        }
         let isRestart = objBl?.restart_computer ?? false
+
+        AppManager.shared.focusTimerModel.usedTime = 0
+
         switch action {
         case .extend_focus:
             // Focus Extend Here
@@ -294,13 +307,10 @@ extension FloatingFocusViewC {
             let extentFinalTime = Int(obj.combine_focus_length_time + Double(value)).secondsToTime()
 
             print(" ORIGINAL Length :\(obj.combine_focus_length_time) Extent Val: \(Double(value))")
-
             print(" extentFinalTime Addition :\(Int(obj.combine_focus_length_time + Double(value)))")
-
             print(" extentFinalTime :\(extentFinalTime)")
 
-//            obj.session_end_time = obj.session_start_time?.adding(hour: extentFinalTime.timeInHours, min: extentFinalTime.timeInMinutes, sec: extentFinalTime.timeInSeconds) // TODO: which session value update
-
+            updateExtentEndSessionTime(obj: obj, time: Int(value))
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             startBlockingAppsWeb()
@@ -310,6 +320,7 @@ extension FloatingFocusViewC {
             obj.extended_break_time = Double(value)
             let val = obj.remaining_break_time + Double(value)
             obj.remaining_break_time = val
+            updateExtentEndSessionTime(obj: obj, time: Int(value))
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()
             AppManager.shared.breakTimerModel.input.handleTimer()
@@ -319,13 +330,20 @@ extension FloatingFocusViewC {
             stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
             WindowsManager.dismissController()
             defaultUI()
-        case .skip_session:
-            break
         case .normal_ok:
+//            if dialogueType == .end_break_alert {
+//                endSessionTime(obj: obj, time: Int(value))
+//            }
             updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objBl, value: value, valueType: valueType)
-        case .extend_reminder, .initiate_new_session, .started_new_session, .cancel_new_session:
+        case .extend_reminder, .initiate_new_session, .started_new_session, .cancel_new_session, .skip_session:
             break
         }
+    }
+
+    func updateExtentEndSessionTime(obj: Current_Focus, time: Int) {
+        let arrSessions = obj.focuses?.allObjects as? [Focus_List]
+        let currentExtendTime = Int(time).secondsToTime()
+        arrSessions?.forEach({ $0.session_end_time = $0.session_end_time?.adding(hour: currentExtendTime.timeInHours, min: currentExtendTime.timeInMinutes, sec: currentExtendTime.timeInSeconds) })
     }
 
     func updateExtendedObject(dialogueType: FocusDialogue, valueType: ButtonValueType) {
@@ -457,6 +475,7 @@ extension FloatingFocusViewC {
                 }
             case .short_break_alert:
                 guard let long = objEx?.is_long_focus, long, let mid = objEx?.is_mid_focus, mid, let small = objEx?.is_small_focus, small else {
+                    self.updateEndSessionTime(obj: obj)
                     self.openBreakDialouge(dialogueType: dType)
                     return
                 }
@@ -473,6 +492,21 @@ extension FloatingFocusViewC {
             let timeVal = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
             self.udateButtonSting(timeVal: timeVal)
         }
+    }
+
+    func updateEndSessionTime(obj: Current_Focus?) {
+        let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
+        var firstmin_val: Int = 0
+        if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
+            firstmin_val = 1 * 60 // one min
+        }
+
+        let arrSessions = obj?.focuses?.allObjects as? [Focus_List]
+
+        arrSessions?.forEach({
+            let extend_time = (Int($0.break_length_time) + firstmin_val).secondsToTime()
+            $0.session_end_time = $0.session_end_time?.adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
+        })
     }
 }
 
