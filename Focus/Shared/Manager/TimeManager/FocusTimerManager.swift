@@ -35,7 +35,7 @@ class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
 
     var isFocustimerOn: Bool = false
     var remaininFocusTime = 0 // In seconds
-    private var used_focus_time: Int = 0
+    private var used_focus_time: Int = 1
     var stop_focus_after_time: Double = 0
     var focusTimer: Timer?
     var objFocus: Current_Focus!
@@ -82,8 +82,10 @@ extension FocusTimerManager {
     func startTimer() {
         DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.focusTimer = .scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-            RunLoop.current.add(self.focusTimer!, forMode: .default)
-            RunLoop.current.run()
+            if self.focusTimer != nil {
+                RunLoop.current.add(self.focusTimer!, forMode: .default)
+                RunLoop.current.run()
+            }
         })
     }
 
@@ -108,30 +110,33 @@ extension FocusTimerManager {
         guard let obj = currentSession?.objFocus else { return }
 
         print("Focus remaininTimeInSeconds ::: \(remaininFocusTime)")
-        print("Focus usedTimeSeconds ::: \(usedTime)")
+        print("Focus Before usedTimeSeconds ::: \(usedTime)")
         print("Focus Stop after This Min ::: \(Int(obj.combine_stop_focus_after_time))")
 
         if remaininFocusTime <= 0 {
             stopTimer()
-            // completeSession()  Open the Complete Session Dialogues
             updateUI?(.seession_completed_alert, 0, 0, 0)
             return
         }
 
         if remaininFocusTime > 0 {
-            remaininFocusTime -= 1
             usedTime += 1
+            remaininFocusTime -= 1
+            used_focus_time += 1
+            
+            print("Focus After usedTimeSeconds ****** \(usedTime)")
+            print("Focus After remaininTimeInSeconds ****** \(remaininFocusTime)")
+
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
             if countdownerDetails.popup == .none {
-                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
+                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)                
             } else {
                 stopTimer()
                 WindowsManager.dismissErrorController()
                 updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
-            used_focus_time += 1
         } else {
             stopTimer()
         }

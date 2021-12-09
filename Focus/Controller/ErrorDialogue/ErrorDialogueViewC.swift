@@ -51,17 +51,17 @@ extension ErrorDialogueViewC: BasicSetupType {
         attributedValue.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: errorType.description)
         attributedValue.alignment(alignment: .natural, lineSpace: 8, subString: errorType.description)
         lblDesc.attributedStringValue = attributedValue
-        
+
         btnOk.title = NSLocalizedString("Button.ok", comment: "OK").uppercased()
         lblInfo.isHidden = true
         guard let obj = objBl else { return }
-        
-        lblInfo.stringValue = obj.random_character ?  errorType.info_random_charcter : errorType.info_restart_computer
+
+        lblInfo.stringValue = obj.random_character ? errorType.info_random_charcter : errorType.info_restart_computer
         lblInfo.isHidden = obj.stop_focus_session_anytime
     }
 
     func setUpViews() {
-        view.window?.level = .floating
+        NSApp.windows.forEach({ $0.center() })
         view.background_color = Color.edit_bg_color
 
         btnOk.buttonColor = Color.green_color

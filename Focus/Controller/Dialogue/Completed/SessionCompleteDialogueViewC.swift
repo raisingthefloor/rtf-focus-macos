@@ -47,7 +47,7 @@ class SessionCompleteDialogueViewC: NSViewController {
 
 extension SessionCompleteDialogueViewC: BasicSetupType {
     func setUpText() {
-        let objFocus = DBManager.shared.getCurrentBlockList().objFocus
+        let objFocus = DBManager.shared.getCurrentSession()
 
         title = dialogueType.title
         lblTitle.stringValue = dialogueType.title
@@ -74,7 +74,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        view.window?.level = .floating
+        NSApp.windows.forEach({ $0.center() })
 
         var i = 0 // for test
         for value in dialogueType.extented_buttons {

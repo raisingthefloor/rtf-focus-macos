@@ -71,6 +71,7 @@ class EditBlockListViewC: BaseViewController {
     @IBOutlet var lblNote2: NSTextField!
 
     var dataModel: DataModelType = DataModel()
+    var lastDelta = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +85,16 @@ class EditBlockListViewC: BaseViewController {
         if checkSessionRunning() {
             openErrorDialogue(errorType: .edit_blocklist_error, objBL: dataModel.objBlocklist)
             return
+        }
+    }
+
+    override func scrollWheel(with event: NSEvent) {
+        if !event.momentumPhase.isEmpty || !event.phase.isEmpty {
+            // magic trackpad or magic mouse
+            super.scrollWheel(with: event)
+        } else if event.modifierFlags.contains(.option) {
+            // traditional mouse
+            scrollView.nextResponder?.scrollWheel(with: event)
         }
     }
 }
@@ -215,6 +226,7 @@ extension EditBlockListViewC: BasicSetupType {
         if scrollView.hasVerticalScroller {
             scrollView.verticalScroller?.floatValue = 0
         }
+
         comboBlock.alignment = .left
     }
 
@@ -246,7 +258,7 @@ extension EditBlockListViewC: BasicSetupType {
     }
 
     func disableControl(id: UUID?) {
-        guard let objF = DBManager.shared.getCurrentBlockList().objFocus, let focuslist = objF.focuses?.allObjects as? [Focus_List] else { return }
+        guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List] else { return }
         let isSame = focuslist.compactMap({ $0.block_list_id == id }).filter({ $0 }).first ?? false
 
         if isSame {
@@ -641,7 +653,7 @@ extension EditBlockListViewC: NSTextFieldDelegate {
     }
 
     func checkSessionRunning() -> Bool {
-        if let objF = DBManager.shared.getCurrentBlockList().objFocus, let id = dataModel.objBlocklist?.id, let focuslist = objF.focuses?.allObjects as? [Focus_List] {
+        if let objF = DBManager.shared.getCurrentSession(), let id = dataModel.objBlocklist?.id, let focuslist = objF.focuses?.allObjects as? [Focus_List] {
             let isSame = focuslist.compactMap({ $0.block_list_id == id }).filter({ $0 }).first ?? false
             if isSame {
                 if objF.is_focusing || objF.is_block_programe_select {
@@ -653,11 +665,4 @@ extension EditBlockListViewC: NSTextFieldDelegate {
 
         return false
     }
-
-//    func openErrorDialogue() {
-//        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-//        errorDialog.errorType = .edit_blocklist_error
-//        errorDialog.objBl = dataModel.objBlocklist
-//        presentAsSheet(errorDialog)
-//    }
 }

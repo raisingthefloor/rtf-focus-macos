@@ -127,10 +127,11 @@ extension WeekDaysCell: BasicSetupType {
             let daysV = arrFSD.compactMap({ Int($0.day) })
 
             if DBManager.shared.checkScheduleSession(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+                let objBL = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 let presentingCtrl = WindowsManager.getPresentingController()
                 let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
                 errorDialog.errorType = .general_setting_error
-                errorDialog.objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List
+                errorDialog.objBl = objBL
                 presentingCtrl?.presentAsSheet(errorDialog)
                 return true
             }

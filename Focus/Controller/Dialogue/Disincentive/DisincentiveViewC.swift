@@ -71,6 +71,7 @@ extension DisincentiveViewC: BasicSetupType {
     }
 
     func setUpViews() {
+        NSApp.windows.forEach({ $0.center() })
         lblCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         randomSV.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         lblSubDesc.font = dialogueType.subdesc_font
@@ -175,7 +176,7 @@ extension DisincentiveViewC: NSTextFieldDelegate {
     }
 
     func startBlockingAppsWeb() {
-        guard let obj = DBManager.shared.getCurrentBlockList().objFocus else { return }
+        guard let obj = DBManager.shared.getCurrentSession() else { return }
 
         if obj.is_block_programe_select {
             AppManager.shared.addObserverToCheckAppLaunch()

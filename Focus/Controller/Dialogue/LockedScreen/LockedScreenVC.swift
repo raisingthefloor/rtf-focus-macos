@@ -49,6 +49,7 @@ extension LockedScreenVC: BasicSetupType {
     }
 
     func setUpViews() {
+        NSApp.windows.forEach({ $0.center() })
         themeSetUp()
     }
 

@@ -90,7 +90,7 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        view.window?.level = .floating
+        NSApp.windows.forEach({ $0.center() })
 
         lblTitle.isHidden = dialogueType.title.isEmpty
         lblDesc.isHidden = dialogueType.description.isEmpty
@@ -182,6 +182,7 @@ extension FocusDialogueViewC: BasicSetupType {
 extension FocusDialogueViewC {
     @objc func extendTimeAction(_ sender: NSButton) {
         let extendVal = dialogueType.value[sender.tag]
+        print(" Extend Time Value ::::: \(extendVal) :::::: \(dialogueType.extented_buttons[sender.tag])")
         breakAction?(dialogueType.action, extendVal, ButtonValueType(rawValue: sender.tag)!)
         dismiss(nil)
     }

@@ -57,8 +57,8 @@ class BreakTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
 
     var isBreaktimerOn: Bool = false
     var remaininTimeInSeconds = 0
-    var counter: Int = 0
-    var break_stop_after_time: Double = 0
+//    var counter: Int = 0
+//    var break_stop_after_time: Double = 0
     var breakTimer: Timer?
 }
 
@@ -149,8 +149,8 @@ extension BreakTimerManager {
     @objc func update() {
         guard let obj = currentSession?.objFocus else { return }
 
-        print("remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
-        print("Stop after This Min ::: \(Int(obj.remaining_break_time))")
+        print("BREAK remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
+        print("BREAK Stop after This Min ::: \(Int(obj.remaining_break_time))")
 
         if remaininTimeInSeconds > 0 {
             remaininTimeInSeconds -= 1

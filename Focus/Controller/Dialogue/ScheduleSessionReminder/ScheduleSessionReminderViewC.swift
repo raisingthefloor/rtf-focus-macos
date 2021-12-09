@@ -63,7 +63,7 @@ extension ScheduleSessionReminderViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        view.window?.level = .floating
+        NSApp.windows.forEach({ $0.center() })
 
         lblTitle.isHidden = dialogueType.title.isEmpty
         lblDesc.isHidden = dialogueType.description.isEmpty

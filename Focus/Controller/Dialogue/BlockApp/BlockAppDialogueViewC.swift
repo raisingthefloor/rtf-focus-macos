@@ -100,7 +100,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        view.window?.level = .floating
+        NSApp.windows.forEach({ $0.center() })
     }
 
     func themeSetUp() {

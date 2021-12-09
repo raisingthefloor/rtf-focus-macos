@@ -154,7 +154,7 @@ extension GeneralSettingViewC: BasicSetupType {
         btnAddApp.target = self
         btnAddApp.action = #selector(addAppAction(_:))
 
-        guard let objF = DBManager.shared.getCurrentBlockList().objFocus else { return }
+        guard let objF = DBManager.shared.getCurrentSession() else { return }
         btnAddWeb.isEnabled = !objF.is_focusing
         btnAddApp.isEnabled = !objF.is_focusing
     }

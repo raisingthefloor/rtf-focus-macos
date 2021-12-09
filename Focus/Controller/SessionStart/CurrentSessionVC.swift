@@ -81,9 +81,8 @@ extension CurrentSessionVC: BasicSetupType {
         lblTitle.stringValue = NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
 
         var remaing_break_time = Int(objFocus?.combine_stop_focus_after_time ?? 100)
-        print("Break After This Time : \(remaing_break_time)")
-
-        print("decrease_break_time Time : \(Int(objFocus?.decrease_break_time ?? 0))")
+//        print("Break After This Time : \(remaing_break_time)")
+//        print("decrease_break_time Time : \(Int(objFocus?.decrease_break_time ?? 0))")
 
         remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.decrease_break_time ?? 0))
 
@@ -181,6 +180,11 @@ extension CurrentSessionVC: BasicSetupType {
             sessionStack.addArrangedSubview(sessionView)
             i = i + 1
         }
+    }
+    
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        self.stopTimer()
     }
 }
 
