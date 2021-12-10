@@ -177,7 +177,7 @@ extension DBManager {
                 focusObj = results.first as? Current_Focus
             } else {
                 focusObj = Current_Focus(context: DBManager.shared.managedContext)
-                focusObj?.id = UUID()
+                focusObj?.id = UUID()                
             }
         } catch let error {
             print(error.localizedDescription)

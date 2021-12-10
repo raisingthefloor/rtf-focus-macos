@@ -70,25 +70,13 @@ extension BreakTimerManager {
     }
 
     func performValueUpdate(counter: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
-        let hours = (counter / 60) / 60
-        let minutes = counter / 60
-        let seconds = counter % 60
-
+        let conterTime = counter.secondsToTime()
         switch Double(counter) {
         case 0:
-            return (popup: .end_break_alert, hours: hours, minutes: minutes, seconds: seconds)
+            return (popup: .end_break_alert, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
         default:
-            return defaultState(counter: counter)
+            return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
         }
-    }
-
-    // TODO: Need to Set for Hours options
-
-    func defaultState(counter: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
-        let hours = (counter / 60) / 60
-        let minutes = counter / 60
-        let seconds = counter % 60
-        return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
     }
 }
 
@@ -103,9 +91,6 @@ extension BreakTimerManager {
     func handleTimer() {
         updateCounterValue()
         if !isBreaktimerOn {
-            if remaininTimeInSeconds == 0 {
-                resetTimer()
-            }
             startTimer()
             isBreaktimerOn = true
         } else {
@@ -115,7 +100,7 @@ extension BreakTimerManager {
     }
 
     func updateCounterValue() { // It it used for updating the  UI
-        guard let obj = currentSession?.objFocus else { return }
+        guard let obj = currentSession?.objFocus, obj.is_focusing, obj.is_break_time else { return }
         remaininTimeInSeconds = Int(obj.remaining_break_time)
         let countdownerDetails = remaininTimeInSeconds.secondsToTime()
         updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds) // Need to Update the Lables of floating Button
@@ -124,8 +109,10 @@ extension BreakTimerManager {
     func startTimer() {
         DispatchQueue.global(qos: .background).async(execute: { () -> Void in
             self.breakTimer = .scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-            RunLoop.current.add(self.breakTimer!, forMode: .default)
-            RunLoop.current.run()
+            if self.breakTimer != nil {
+                RunLoop.current.add(self.breakTimer!, forMode: .default)
+                RunLoop.current.run()
+            }
         })
     }
 
@@ -147,7 +134,11 @@ extension BreakTimerManager {
     }
 
     @objc func update() {
-        guard let obj = currentSession?.objFocus else { return }
+        guard let obj = currentSession?.objFocus, obj.is_break_time else {
+            stopTimer()
+            updateUI?(.unknown, 0, 0, 0)
+            return
+        }
 
         print("BREAK remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
         print("BREAK Stop after This Min ::: \(Int(obj.remaining_break_time))")

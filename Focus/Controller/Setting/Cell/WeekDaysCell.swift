@@ -109,7 +109,7 @@ extension WeekDaysCell: BasicSetupType {
                 DBManager.shared.saveContext()
             }
         } else {
-            if !warningToAddThirdSession() {
+            if !warningToAddThirdSession(day: tag) {
                 let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
                 objDay.day = Int16(tag)
                 arrDay.append(objDay)
@@ -122,9 +122,9 @@ extension WeekDaysCell: BasicSetupType {
         refreshTable?(true)
     }
 
-    func warningToAddThirdSession() -> Bool {
+    func warningToAddThirdSession(day: Int) -> Bool {
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let arrFSD = objFSchedule?.days_?.allObjects as? [Focus_Schedule_Days], let id = objFSchedule?.id {
-            let daysV = arrFSD.compactMap({ Int($0.day) })
+            let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
 
             if DBManager.shared.checkScheduleSession(s_time: s_time, e_time: e_time, day: daysV, id: id) {
                 let objBL = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)

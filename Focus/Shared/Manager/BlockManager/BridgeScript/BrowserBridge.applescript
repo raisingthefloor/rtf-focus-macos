@@ -28,6 +28,7 @@ script BrowserBridge
     property app_list : {}
     property isFocusing_status: boolean
     global isFocusing
+    property app_names : {}
     property block_url : "https://morphic.org/websiteblocked"
     
     -- block the blocklist page in browser
@@ -249,6 +250,18 @@ script BrowserBridge
         end repeat
         return true
     end blockApplication
+        
+    on quiteApp()
+        set apps to app_names as list
+        log("app_names :::::::  " & app_names)
+        repeat with app_name in apps
+            tell application app_name
+                quit
+            end tell
+        end repeat
+
+    end quiteApp
+        
     
     -- Method to Display Logout Dialogue
     on logoutAlert()

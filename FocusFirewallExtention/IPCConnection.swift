@@ -156,16 +156,16 @@ class IPCConnection: NSObject {
 
     func getBlockURLs(responseHandler: @escaping ([String]) -> Void) {
         guard let connection = currentConnection else {
-            os_log("Cannot prompt user because the app isn't registered BHAVI")
+            os_log("getBlockURLs Cannot prompt user because the app isn't registered BHAVI")
             return
         }
 
         guard let appProxy = connection.remoteObjectProxyWithErrorHandler({ promptError in
-            os_log("Failed to prompt the user BHAVI:  %{public}@", promptError.localizedDescription)
+            os_log("getBlockURLs Failed to prompt the user BHAVI:  %{public}@", promptError.localizedDescription)
             self.currentConnection = nil
             responseHandler([])
         }) as? AppCommunication else {
-            fatalError("Failed to create a remote object proxy for the app BHAVI")
+            fatalError("getBlockURLs Failed to create a remote object proxy for the app BHAVI")
         }
         appProxy.getBlockURLs(responseHandler: responseHandler)
     }

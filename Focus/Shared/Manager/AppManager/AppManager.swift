@@ -63,7 +63,7 @@ class AppManager {
         if !UserDefaults.standard.bool(forKey: "pre_added_blocklist") {
             DBManager.shared.systemPreAddedBlocklist()
         }
-        
+
         FocusFirewall.shared.initialConfiguration()
     }
 
@@ -177,40 +177,31 @@ extension AppManager {
     func addObserverToCheckAppLaunch() {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.willLaunchApplicationNotification, object: nil)
 
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.didActivateApplicationNotification, object: nil)
+//        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.didActivateApplicationNotification, object: nil)
     }
 
     func removeObserver() {
         NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.willLaunchApplicationNotification, object: nil)
-        NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.didActivateApplicationNotification, object: nil)
+//        NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.didActivateApplicationNotification, object: nil)
     }
 
     @objc func appDidLaunch(notification: NSNotification) {
-        let arrBlockerApp = DBManager.shared.getCurrentBlockList().apps
         guard let app = notification.userInfo else { return }
-        if let identifier = app["NSApplicationBundleIdentifier"] as? String {
-            let runningApplications = NSWorkspace.shared.runningApplications
-            // filter here to get only that application which are in block list and also check here if focus is running
-            let bundle_id = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier ?? ""
-
-            print(runningApplications)
-
-            if let application = NSRunningApplication.runningApplications(withBundleIdentifier: bundle_id).first {
-//            if let application = runningApplications.first(where: { application in
-//                application.bundleIdentifier == bundle_id
-//            }) {
-                application.forceTerminate()
-                kill(application.processIdentifier, SIGTERM)
-//            }
-
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.appLaunch_event.rawValue), object: application)
-            }
-        } else if let application = app["NSWorkspaceApplicationKey"] as? NSRunningApplication {
+        let arrBlockerApp = DBManager.shared.getCurrentBlockList().apps
+        if let application = app["NSWorkspaceApplicationKey"] as? NSRunningApplication {
             let identifier = application.bundleIdentifier
-            if let _ = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier {
-                application.forceTerminate()
-                kill(application.processIdentifier, SIGTERM)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.appLaunch_event.rawValue), object: application)
+            if let bundle_id = arrBlockerApp.filter({ $0.app_identifier == identifier }).map({ $0 }).first?.app_identifier {
+                if let application = NSRunningApplication.runningApplications(withBundleIdentifier: bundle_id).first {
+                    print("IF  Block \(application)")
+//                    application.forceTerminate()
+//                    kill(application.processIdentifier, SIGTERM)
+                    let appname = application.localizedName ?? ""
+                    AppManager.shared.browserBridge?.app_names = [appname]
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        AppManager.shared.browserBridge?.quiteApp()
+                    }
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.appLaunch_event.rawValue), object: application)
+                }
             }
         }
     }
@@ -240,6 +231,9 @@ extension AppManager {
         obj.is_focusing = false
         obj.is_break_time = false
         obj.focus_untill_stop = false
+        obj.is_provided_short_break = false
+        obj.is_block_programe_select = false
+        obj.is_dnd_mode = false
         obj.used_focus_time = 0
         obj.decrease_break_time = 0
         obj.remaining_focus_time = 0

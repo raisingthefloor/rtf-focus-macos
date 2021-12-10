@@ -35,7 +35,7 @@ class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
 
     var isFocustimerOn: Bool = false
     var remaininFocusTime = 0 // In seconds
-    private var used_focus_time: Int = 1
+    private var used_focus_time: Int = 0
     var stop_focus_after_time: Double = 0
     var focusTimer: Timer?
     var objFocus: Current_Focus!
@@ -61,9 +61,6 @@ extension FocusTimerManager {
     func handleTimer() {
         updateCounterValue()
         if !isFocustimerOn {
-            if remaininFocusTime == 0 {
-                resetTimer()
-            }
             startTimer()
             isFocustimerOn = true
         } else {
@@ -72,7 +69,11 @@ extension FocusTimerManager {
     }
 
     func updateCounterValue() { // It it used for updating the  UI
-        guard let obj = currentSession?.objFocus else { return }
+        guard let obj = currentSession?.objFocus, obj.is_focusing, !obj.is_break_time else {
+            stopTimer()
+            updateUI?(.unknown, 0, 0, 0)
+            return
+        }
         remaininFocusTime = Int(obj.remaining_focus_time)
         used_focus_time = Int(obj.used_focus_time)
         let countdownerDetails = remaininFocusTime.secondsToTime()
@@ -107,11 +108,15 @@ extension FocusTimerManager {
     }
 
     @objc func update() {
-        guard let obj = currentSession?.objFocus else { return }
+        guard let obj = currentSession?.objFocus, obj.is_focusing,!obj.is_break_time else {
+            stopTimer()
+            updateUI?(.unknown, 0, 0, 0)
+            return
+        }
 
-        print("Focus remaininTimeInSeconds ::: \(remaininFocusTime)")
-        print("Focus Before usedTimeSeconds ::: \(usedTime)")
-        print("Focus Stop after This Min ::: \(Int(obj.combine_stop_focus_after_time))")
+        print("*** FOCUS *** remaininTimeInSeconds ::: \(remaininFocusTime) ======== \(Int(obj.combine_stop_focus_after_time))")
+        print("*** FOCUS *** Before usedTimeSeconds ::: \(usedTime) ======= \(Int(obj.combine_stop_focus_after_time))")
+        print("*** FOCUS *** Before used_focus_time ::: \(used_focus_time) =======  Descrease time \(Int(obj.decrease_break_time))")
 
         if remaininFocusTime <= 0 {
             stopTimer()
@@ -120,23 +125,19 @@ extension FocusTimerManager {
         }
 
         if remaininFocusTime > 0 {
-            usedTime += 1
-            remaininFocusTime -= 1
-            used_focus_time += 1
-            
-            print("Focus After usedTimeSeconds ****** \(usedTime)")
-            print("Focus After remaininTimeInSeconds ****** \(remaininFocusTime)")
-
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
             if countdownerDetails.popup == .none {
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
-                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)                
+                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
             } else {
                 stopTimer()
                 WindowsManager.dismissErrorController()
                 updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
+            remaininFocusTime -= 1
+            used_focus_time += 1
+            usedTime += 1
         } else {
             stopTimer()
         }
@@ -161,29 +162,26 @@ extension FocusTimerManager {
 
 extension FocusTimerManager {
     func performValueUpdate(counter: Int, usedValue: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
-        let hours = (counter / 60) / 60
-        let minutes = counter / 60
-        let seconds = counter % 60
+        let conterTime = counter.secondsToTime()
+
+        print("*** FOCUS *** performValueUpdate remaininTimeInSeconds ::: \(counter) == \(conterTime)")
+        print("*** FOCUS *** performValueUpdate usedTimeSeconds ::: \(usedValue) =======  \(objFocus.combine_stop_focus_after_time)")
+        print("*** FOCUS *** performValueUpdate used_focus_time ::: \(used_focus_time) =======  \(objFocus.combine_stop_focus_after_time)")
+        print("*** FOCUS *** performValueUpdate decrease_break_time :::=======  Descrease time \(Int(objFocus.decrease_break_time))")
 
         switch Double(usedValue) {
         case objFocus.combine_stop_focus_after_time:
+            objFocus.decrease_break_time = 0
             if objFocus.is_provided_short_break {
                 let popup: FocusDialogue = (objFocus.focus_untill_stop && !objFocus.is_provided_short_break) ? .long_break_alert : .short_break_alert
-                return (popup: popup, hours: hours, minutes: minutes, seconds: seconds)
+                return (popup: popup, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
             } else if objFocus.focus_untill_stop {
-                return (popup: .long_break_alert, hours: hours, minutes: minutes, seconds: seconds)
+                return (popup: .long_break_alert, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
             } else {
-                return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
+                return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
             }
         default:
-            return defaultState(counter: counter)
+            return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
         }
-    }
-
-    func defaultState(counter: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
-        let hours = (counter / 60) / 60
-        let minutes = counter / 60
-        let seconds = counter % 60
-        return (popup: .none, hours: hours, minutes: minutes, seconds: seconds)
     }
 }

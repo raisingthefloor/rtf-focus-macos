@@ -40,6 +40,7 @@ enum FocusDialogue: Int {
     case disincentive_xx_character_alert // These dialogues appears if there is a disincentive programmed for the blocking list
     case disincentive_signout_signin_alert
     case none
+    case unknown
 }
 
 extension FocusDialogue {
@@ -143,7 +144,7 @@ extension FocusDialogue {
             return [NSLocalizedString("Alert.five_min", comment: "5 min"), NSLocalizedString("Alert.fifteen_min", comment: "15 min"), NSLocalizedString("Alert.thirty_min", comment: "30 min"), NSLocalizedString("Alert.sixty_min", comment: "60 min")]
         case .schedule_reminded_with_blocklist_alert:
             return [NSLocalizedString("Alert.Now", comment: "Now"), NSLocalizedString("Alert.ten_min", comment: "10 min"), NSLocalizedString("Alert.fifteen_min", comment: "15 min")]
-        case .none:
+        case .none, .unknown:
             return []
         }
     }
@@ -174,7 +175,7 @@ extension FocusDialogue {
             return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.stop_focus_session", comment: "Stop focus session")])
         case .disincentive_signout_signin_alert:
             return ([NSLocalizedString("Button.never_mind", comment: "Nevermind, go back"), NSLocalizedString("Button.take_me_signout", comment: "OK, I’ll restart the computer")])
-        case .none:
+        case .none, .unknown:
             return ([])
         }
     }
@@ -221,7 +222,7 @@ extension FocusDialogue {
             return ([], [], [], width)
         case .schedule_reminded_with_blocklist_alert:
             return ([], [], [], width)
-        case .none:
+        case .none, .unknown:
             return ([], [], [], width)
         case .disincentive_xx_character_alert:
             return ([Color.green_color, Color.very_light_grey], [Color.green_color, Color.dark_grey_border], [.white, Color.black_color], width)
@@ -244,7 +245,7 @@ extension FocusDialogue {
             return [5, 15, 30, 60]
         case .schedule_reminded_with_blocklist_alert:
             return [0, 10, 15]
-        case .none:
+        case .none, .unknown:
             return []
         }
     }
@@ -301,7 +302,6 @@ enum ButtonAction {
     case initiate_new_session
     case started_new_session
     case cancel_new_session
-    
 }
 
 enum ButtonValueType: Int {

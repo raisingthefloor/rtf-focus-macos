@@ -28,18 +28,13 @@ import os.log
 
 class FilterDataProvider: NEFilterDataProvider {
     static let filteredApps: Set = ["firefox"]
-    var block_sites: [String] = []
 
     override func startFilter(completionHandler: @escaping (Error?) -> Void) {
         // block_sites = IPCConnection.getBlockURLs()
 
         IPCConnection.shared.getBlockURLs { urls in
             os_log("urls BHAVI %{public}@", urls)
-
-            self.block_sites = urls
-            os_log("block_sites BHAVI %{public}@", self.block_sites)
-
-            let filterRules = self.block_sites.map { address -> NEFilterRule in
+            let filterRules = urls.map { address -> NEFilterRule in
                 let remoteNetwork = NWHostEndpoint(hostname: address, port: "0")
                 let networkRule = NENetworkRule(destinationHost: remoteNetwork, protocol: .any)
                 return NEFilterRule(networkRule: networkRule, action: .filterData)

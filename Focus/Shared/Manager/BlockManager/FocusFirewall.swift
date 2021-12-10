@@ -96,24 +96,24 @@ class FocusFirewall: NSObject {
 }
 
 extension FocusFirewall {
-    func saveBlockUrls() {
-        let suiteName = IPCConnection.groupName
-        if let userDefaults = UserDefaults(suiteName: suiteName) {
-            userDefaults.set(block_sites, forKey: "block_urls")
-            userDefaults.synchronize()
-        }
-    }
-
-    func getSaveUrls() -> [String] {
-        let suiteName = IPCConnection.groupName
-        print("suiteName :::: \(suiteName)")
-        if let userDefaults = UserDefaults(suiteName: suiteName) {
-            let block_sites = userDefaults.array(forKey: "block_urls") as? [String] ?? []
-            print("block_sites In  Controller :::: \(block_sites)")
-            return block_sites
-        }
-        return []
-    }
+//    func saveBlockUrls() {
+//        let suiteName = IPCConnection.groupName
+//        if let userDefaults = UserDefaults(suiteName: suiteName) {
+//            userDefaults.set(block_sites, forKey: "block_urls")
+//            userDefaults.synchronize()
+//        }
+//    }
+//
+//    func getSaveUrls() -> [String] {
+//        let suiteName = IPCConnection.groupName
+//        print("suiteName :::: \(suiteName)")
+//        if let userDefaults = UserDefaults(suiteName: suiteName) {
+//            let block_sites = userDefaults.array(forKey: "block_urls") as? [String] ?? []
+//            print("block_sites In  Controller :::: \(block_sites)")
+//            return block_sites
+//        }
+//        return []
+//    }
 
     func startFilter() {
         guard !NEFilterManager.shared().isEnabled else {
@@ -141,7 +141,7 @@ extension FocusFirewall {
         filterManager.saveToPreferences { saveError in
             DispatchQueue.main.async {
                 if let error = saveError {
-                    os_log("Failed to disable the filter configuration: %@", error.localizedDescription)
+                    os_log("Failed to disable the filter configuration: %{public}@", error.localizedDescription)
                     return
                 }
             }
@@ -158,7 +158,7 @@ extension FocusFirewall {
         filterManager.saveToPreferences { saveError in
             DispatchQueue.main.async {
                 if let error = saveError {
-                    os_log("Failed to disable the filter configuration: %@", error.localizedDescription)
+                    os_log("Failed to disable the filter configuration: %{public}@", error.localizedDescription)
                     return
                 }
             }
@@ -184,7 +184,7 @@ extension FocusFirewall {
             filterManager.saveToPreferences { saveError in
                 DispatchQueue.main.async {
                     if let error = saveError {
-                        os_log("Failed to disable the filter configuration: %@", error.localizedDescription)
+                        os_log("Failed to disable the filter configuration: %{public}@", error.localizedDescription)
                         self.status = .running
                         return
                     }
@@ -201,7 +201,7 @@ extension FocusFirewall: OSSystemExtensionRequestDelegate {
 
     func request(_ request: OSSystemExtensionRequest, didFinishWithResult result: OSSystemExtensionRequest.Result) {
         guard result == .completed else {
-            os_log("Unexpected result %d for system extension request", result.rawValue)
+            os_log("Unexpected result %{public}d for system extension request", result.rawValue)
             status = .stopped
             return
         }
@@ -210,18 +210,18 @@ extension FocusFirewall: OSSystemExtensionRequestDelegate {
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
-        print("System extension request failed: %@", error.localizedDescription)
+        os_log("System extension request failed: %{public}@", error as CVarArg)
         status = .stopped
     }
 
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
-        print("Extension %@ requires user approval", request.identifier)
+        os_log("Extension %{public}@ requires user approval", request.identifier)
     }
 
     func request(_ request: OSSystemExtensionRequest,
                  actionForReplacingExtension existing: OSSystemExtensionProperties,
                  withExtension extension: OSSystemExtensionProperties) -> OSSystemExtensionRequest.ReplacementAction {
-        print("Replacing extension %@ version %@ with version %@", request.identifier, existing.bundleShortVersion, `extension`.bundleShortVersion)
+        os_log("Replacing extension %{public}@ version %{public}@ with version %{public}@", request.identifier, existing.bundleShortVersion, `extension`.bundleShortVersion)
         return .replace
     }
 }
@@ -235,7 +235,7 @@ extension FocusFirewall {
                 var success = true
                 if let error = loadError {
                     print("Failed to load the filter configuration: %@", error.localizedDescription)
-                    os_log("Failed to load the filter configuration: %@", error.localizedDescription)
+                    os_log("Failed to load the filter configuration: %{public}@", error.localizedDescription)
                     success = false
                 }
                 completionHandler(success)
@@ -271,7 +271,7 @@ extension FocusFirewall {
             filterManager.saveToPreferences { saveError in
                 DispatchQueue.main.async {
                     if let error = saveError {
-                        os_log("Failed to save the filter configuration: %@", error.localizedDescription)
+                        os_log("Failed to save the filter configuration: %{public}@", error.localizedDescription)
                         self.status = .stopped
                         return
                     }
@@ -298,7 +298,7 @@ extension FocusFirewall: AppCommunication {
     }
 
     func getBlockURLs(responseHandler: @escaping ([String]) -> Void) {
-        print("block_sites :::  \(FocusFirewall.shared.block_sites)")
+        print("AppCommunication Method Called  block_sites :::  \(FocusFirewall.shared.block_sites)")
         let urls = FocusFirewall.shared.block_sites
         responseHandler(urls)
     }
