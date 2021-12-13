@@ -123,10 +123,10 @@ extension WeekDaysCell: BasicSetupType {
     }
 
     func warningToAddThirdSession(day: Int) -> Bool {
-        if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let arrFSD = objFSchedule?.days_?.allObjects as? [Focus_Schedule_Days], let id = objFSchedule?.id {
+        if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
             let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
 
-            if DBManager.shared.checkScheduleSession(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+            if DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
                 let objBL = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 let presentingCtrl = WindowsManager.getPresentingController()
                 let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)

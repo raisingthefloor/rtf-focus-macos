@@ -74,7 +74,7 @@ extension SessionCompleteDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        NSApp.windows.forEach({ $0.center() })
+        WindowsManager.setDialogueInCenter()
 
         var i = 0 // for test
         for value in dialogueType.extented_buttons {

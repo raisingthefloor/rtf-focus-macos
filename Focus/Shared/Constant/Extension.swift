@@ -60,9 +60,11 @@ extension String {
 //    }
 
     var isValidUrl: Bool {
-        let urlRegEx = "((http|https|ftp)://)?((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+"
+//        let urlRegEx = "((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let urlRegEx = "((?:http|https)://)?(?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
         let predicate = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
-        return predicate.evaluate(with: self)
+        let result = predicate.evaluate(with: self)
+        return result
     }
 
     func toDateComponent() -> DateComponents {

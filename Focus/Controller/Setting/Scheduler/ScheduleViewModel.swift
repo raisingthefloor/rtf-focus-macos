@@ -29,6 +29,7 @@ import Foundation
 protocol ScheduleViewModelIntput {
     func getSessionList(day: Int?) -> [Focus_Schedule]
     func generateCalendarSession(day: Int?) -> [ScheduleSession]
+//    func generateCalendarSession() -> [ScheduleSession]
 }
 
 protocol ScheduleViewModelOutput {
@@ -77,86 +78,63 @@ extension ScheduleViewModel {
                 }
                 continue
             }
-
-            let arrDay_ = arrInnerFS.compactMap({ $0.days_?.allObjects as? [Focus_Schedule_Days] }).reduce([],+).compactMap({ Int($0.day) })
-
-            let intersectData = Array(Set(arrDay_.filter({ (i: Int) in arrDay_.filter({ $0 == i }).count > 1 })))
-
-            print("intersectData :\(intersectData)")
-
-            let differentVals = Array(Set(intersectData).symmetricDifference(Set(arrDay_)))
-
-            print("differentVals :\(differentVals)")
-
-            var arrTSlot: [String] = []
-
             for obj in arrInnerFS {
-                guard let start_time = obj.start_time,!start_time.isEmpty, let end_time = obj.end_time, !end_time.isEmpty else { continue }
-                arrTSlot = arrTSlot + start_time.getTimeSlots(endTime: end_time)
-            }
-            arrTSlot = arrTSlot.unique()
+                if let days = obj.days_?.allObjects as? [Focus_Schedule_Days], !days.isEmpty {
+                    let color = NSColor(obj.session_color ?? "#DCEFE6") ?? .red
+                    let color_type: ColorType = ColorType(rawValue: Int(obj.color_type)) ?? .solid
 
-            let colors = arrInnerFS.compactMap({ NSColor($0.session_color ?? "#DCEFE6") })
-            let color_type = arrInnerFS.compactMap({ ColorType(rawValue: Int($0.color_type)) })
-//            let arrUUID = arrInnerFS.compactMap({ $0.id })
+                    guard let start_time = obj.start_time,!start_time.isEmpty, let end_time = obj.end_time, !end_time.isEmpty else { continue }
+                    let arrTSlot: [String] = start_time.getTimeSlots(endTime: end_time)
+                    print("****** Time Slots ****** \(arrTSlot)")
 
-            for time in arrTSlot {
-                let isExist = arrScheduleS.compactMap({ $0.time == time }).filter({ $0 }).first ?? false
-                let objNewSS = ScheduleSession(time: time, days: [])
-                let objSS = arrScheduleS.filter({ $0.time == time }).compactMap({ $0 }).first ?? objNewSS
-                var objMutableSS = isExist ? objSS : objNewSS
-                var arrScheduleDays: [ScheduleDay] = []
+                    for time in arrTSlot {
+                        let isExist = arrScheduleS.compactMap({ $0.time == time }).filter({ $0 }).first ?? false
+                        let objNewSS = ScheduleSession(time: time, days: [])
+                        let objSS = arrScheduleS.filter({ $0.time == time }).compactMap({ $0 }).first ?? objNewSS
+                        var objMutableSS = isExist ? objSS : objNewSS
+                        var arrScheduleDays: [ScheduleDay] = []
 
-                if !intersectData.isEmpty {
-                    for day in intersectData {
-                        let day_e = Days(rawValue: Int(day)) ?? .sun
-                        print("intersectData 2 Days :::::::::::: \(objMutableSS.days)  ::::::::: \(objMutableSS.time)")
-                        let no_session = 2
-                        let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: colors, day: day_e, color_type: color_type, time: time)
-                        arrScheduleDays.append(scheduleDay)
-                    }
-                }
+                        for objDay in days {
+                            let day = objDay.day
+                            let day_e = Days(rawValue: Int(day)) ?? .sun
+                            var s_days = objMutableSS.days
+                            let no_session = 1
 
-                if !differentVals.isEmpty {
-                    for day in differentVals {
-                        let day_e = Days(rawValue: Int(day)) ?? .sun
-                        var s_days = objMutableSS.days
-                        let no_session = 1
-                        if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).last {
-                            print("IF Condition  Schedule Day ::   \(sDay)")
+                            if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).last {
+//                                print("IF Condition  Schedule Day ::   \(sDay)")
 
-                            if sDay.noOfsession == 1 {
-                                sDay.colors[0] = colors.first ?? .red
-                                sDay.color_type[0] = color_type.first ?? .solid
+                                if sDay.noOfsession == 1 {
+                                    sDay.colors.append(color)
+                                    sDay.color_type.append(color_type)
+                                    sDay.ids.append(obj.id)
+                                }
+                                sDay.noOfsession = 2
+                                sDay.time = time
+                                if let index = s_days.firstIndex(where: { $0.day == day_e && $0.time == time }) {
+                                    s_days[index] = sDay
+                                }
+                                objMutableSS.days = s_days
+                            } else {
+                                let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [obj.id])
+
+//                                print("ELSE Condition NEW Data :::::::::::: \(scheduleDay)  ::::::::: \(objMutableSS.time) ::::::: \(day_e)")
+                                arrScheduleDays.append(scheduleDay)
                             }
-                            sDay.noOfsession = 2
-                            sDay.time = time
-                            if let index = s_days.firstIndex(where: { $0.day == day_e }) {
-                                s_days[index] = sDay
-                            }
-                            print("Inner After ADDed Days :::::::::::: \(s_days)  ::::::::: \(objMutableSS.time)")
-                            objMutableSS.days = s_days
-                        } else {
-                            print("ELSE Condition NEW Data")
-                            let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: colors, day: day_e, color_type: color_type, time: time)
-                            print("ELSE Condition NEW Data :::::::::::: \(scheduleDay)  ::::::::: \(objMutableSS.time) ::::::: \(day_e)")
-                            arrScheduleDays.append(scheduleDay)
                         }
-                    }
-                }
 
-                objMutableSS.days = arrScheduleDays + objMutableSS.days
+                        objMutableSS.days = arrScheduleDays + objMutableSS.days
 
-                if !isExist {
-                    arrScheduleS.append(objMutableSS)
-                } else {
-                    if let index = arrScheduleS.firstIndex(where: { $0.time == objMutableSS.time }) {
-                        arrScheduleS[index] = objMutableSS
+                        if !isExist {
+                            arrScheduleS.append(objMutableSS)
+                        } else {
+                            if let index = arrScheduleS.firstIndex(where: { $0.time == objMutableSS.time }) {
+                                arrScheduleS[index] = objMutableSS
+                            }
+                        }
                     }
                 }
             }
         }
-        print("Final Session Data :::::: \(arrScheduleS)")
         return arrScheduleS
     }
 }
@@ -173,6 +151,7 @@ struct ScheduleDay {
     var day: Days
     var color_type: [ColorType]
     var time: String
+    var ids: [UUID?]
 }
 
 enum ScheduleType: Int {

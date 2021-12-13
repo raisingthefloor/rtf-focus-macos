@@ -119,6 +119,7 @@
 		3FE3EB91275E5D5400CDF3B3 /* IPCConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE3EB8F275E5C8500CDF3B3 /* IPCConnection.swift */; };
 		3FE6A38C26F9E54100435503 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE6A38A26F9E54100435503 /* ListView.swift */; };
 		3FE6A38D26F9E54100435503 /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FE6A38B26F9E54100435503 /* ListView.xib */; };
+		3FE791952767205A007B99E5 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE791882767205A007B99E5 /* Fonts.swift */; };
 		3FF51333270AC17200BBD964 /* BreakTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF51332270AC17200BBD964 /* BreakTimerManager.swift */; };
 		3FFC1E602680C13D0014216C /* WindowsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E4C2680C13D0014216C /* WindowsManager.swift */; };
 		3FFC1E652680C13D0014216C /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC1E522680C13D0014216C /* UserDefault.swift */; };
@@ -270,6 +271,7 @@
 		3FE3EB8F275E5C8500CDF3B3 /* IPCConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPCConnection.swift; sourceTree = "<group>"; };
 		3FE6A38A26F9E54100435503 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		3FE6A38B26F9E54100435503 /* ListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListView.xib; sourceTree = "<group>"; };
+		3FE791882767205A007B99E5 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3FF51332270AC17200BBD964 /* BreakTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakTimerManager.swift; sourceTree = "<group>"; };
 		3FF51334270AC51800BBD964 /* FocusV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FocusV2.xcdatamodel; sourceTree = "<group>"; };
 		3FFC1E4C2680C13D0014216C /* WindowsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowsManager.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 		3F44CFD02679FAAA00122B1B /* Focus */ = {
 			isa = PBXGroup;
 			children = (
+				3FE791802767205A007B99E5 /* Fonts */,
 				3FFC1E4A2680C13D0014216C /* Shared */,
 				3FA51D49267CB6CE007826F3 /* Controller */,
 				3F4DFA3826835DF30013BA0C /* StoryBoard */,
@@ -738,6 +741,14 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		3FE791802767205A007B99E5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3FE791882767205A007B99E5 /* Fonts.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		3FFC1E4A2680C13D0014216C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -996,6 +1007,7 @@
 				3F44CFD22679FAAA00122B1B /* AppDelegate.swift in Sources */,
 				3F5944B72689F8F4008C54A4 /* DBManager.swift in Sources */,
 				3F92BC1E26F1F30300AC7C64 /* TodayScheduleViewC.swift in Sources */,
+				3FE791952767205A007B99E5 /* Fonts.swift in Sources */,
 				3F9CC4A0268B2C9B00AC3026 /* HeaderViewC.swift in Sources */,
 				3F58B08E26D6163800D730D9 /* CurrentSessionVC.swift in Sources */,
 				3FB01CE126FAF46B00828486 /* TableHeaderView.swift in Sources */,

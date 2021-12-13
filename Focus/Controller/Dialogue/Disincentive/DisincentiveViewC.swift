@@ -71,7 +71,7 @@ extension DisincentiveViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        NSApp.windows.forEach({ $0.center() })
+        WindowsManager.setDialogueInCenter()
         lblCharacter.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         randomSV.isHidden = (dialogueType == .disincentive_signout_signin_alert)
         lblSubDesc.font = dialogueType.subdesc_font

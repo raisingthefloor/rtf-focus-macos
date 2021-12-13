@@ -34,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Setup the Focus button
+        loadFonts()
         AppManager.shared.initialSetup()
         openFocus()
     }
@@ -43,6 +44,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        FocusFirewall.shared.stopFilter()
         AppManager.shared.resetFocusSession()
         AppManager.shared.stopScriptObserver()
+    }
+
+    func loadFonts() {
+        
+//        for font in NSFontManager.shared.availableFonts {
+//            print(font)
+//        }
+
+//        for fontFamily in NSFont.familyNames {
+//            for fontName in NSFont.fontNames(forFamilyName: fontFamily) {
+//                print("\(fontName)")
+//            }
+//        }
     }
 }
 

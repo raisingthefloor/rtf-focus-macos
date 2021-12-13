@@ -99,6 +99,15 @@ struct WindowsManager {
             wc.showWindow(self)
         }
     }
+
+    static func setDialogueInCenter() {
+        NSApp.windows.forEach({
+            if $0.contentViewController is FloatingFocusViewC {
+            } else {
+                $0.center()
+            }
+        })
+    }
 }
 
 // MARK: Block Web and Display Restart window Script Methods

@@ -76,7 +76,9 @@ extension BlocklistDialogueViewC: BasicSetupType {
             let title = listType.title + " " + subTitle
             let attributedValue = NSMutableAttributedString.getAttributedString(fromString: title)
             attributedValue.apply(font: NSFont.systemFont(ofSize: 12, weight: .bold), subString: listType.title)
-            attributedValue.apply(font: NSFont.systemFont(ofSize: 12, weight: .regular), subString: subTitle)
+            attributedValue.apply(font: AppFont.italic.size(12), subString: subTitle)
+            
+            
             lblTitle.attributedStringValue = attributedValue
         }
 

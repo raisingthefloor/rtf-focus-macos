@@ -177,7 +177,7 @@ extension DBManager {
                 focusObj = results.first as? Current_Focus
             } else {
                 focusObj = Current_Focus(context: DBManager.shared.managedContext)
-                focusObj?.id = UUID()                
+                focusObj?.id = UUID()
             }
         } catch let error {
             print(error.localizedDescription)
@@ -554,6 +554,22 @@ extension DBManager {
 }
 
 extension DBManager {
+    
+    func getCalendarScheduleFocus() -> [Focus_Schedule] {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Focus_Schedule")
+        fetchRequest.predicate = NSPredicate(format: "is_active = true && ANY days_.day != 0")
+
+        do {
+            let focusSchedule = try DBManager.shared.managedContext.fetch(fetchRequest)
+            guard let focusSchedules = focusSchedule as? [Focus_Schedule] else { return [] }
+            return focusSchedules
+        } catch let error as NSError {
+            print("Could not fetch. SF \(error), \(error.userInfo)")
+        }
+        return []
+    }
+
+    
     func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
 //        let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
@@ -646,6 +662,29 @@ extension DBManager {
 //            print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
 //            return twoSessionResult
 //        }
+    }
+
+    func validateScheduleSessionSlotsExsits(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
+
+        let start_end_predict = NSPredicate(format: "(start_time_ = %@ && end_time_ <= %@)", s_time as CVarArg, e_time as CVarArg)
+        let day_predict = NSPredicate(format: "ANY days_.day IN %@", day)
+
+        fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [start_end_predict, day_predict])
+
+        print("Predicate Compound  :::: \(fetchRequest.predicate)")
+
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if results.count > 2 {
+                return true
+            } else {
+                return false
+            }
+        } catch let error {
+            print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
+            return false
+        }
     }
 }
 

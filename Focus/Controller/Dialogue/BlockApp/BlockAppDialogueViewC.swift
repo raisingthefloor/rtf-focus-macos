@@ -100,7 +100,7 @@ extension BlockAppDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        NSApp.windows.forEach({ $0.center() })
+        WindowsManager.setDialogueInCenter()
     }
 
     func themeSetUp() {

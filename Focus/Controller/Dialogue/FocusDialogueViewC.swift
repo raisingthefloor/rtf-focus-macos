@@ -90,7 +90,7 @@ extension FocusDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        NSApp.windows.forEach({ $0.center() })
+        WindowsManager.setDialogueInCenter()
 
         lblTitle.isHidden = dialogueType.title.isEmpty
         lblDesc.isHidden = dialogueType.description.isEmpty

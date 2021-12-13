@@ -61,7 +61,7 @@ extension ErrorDialogueViewC: BasicSetupType {
     }
 
     func setUpViews() {
-        NSApp.windows.forEach({ $0.center() })
+        WindowsManager.setDialogueInCenter()
         view.background_color = Color.edit_bg_color
 
         btnOk.buttonColor = Color.green_color

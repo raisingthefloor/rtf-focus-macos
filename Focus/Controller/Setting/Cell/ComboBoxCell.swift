@@ -171,7 +171,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 referesh = false
                 displayError()
 
-            } else if DBManager.shared.checkScheduleSession(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+            } else if DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
                 if comboBox.tag == 2 {
                     comboTime.stringValue = ""
                     objFSchedule?.end_time = ""
