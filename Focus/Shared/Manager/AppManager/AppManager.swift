@@ -64,7 +64,7 @@ class AppManager {
             DBManager.shared.systemPreAddedBlocklist()
         }
 
-        FocusFirewall.shared.initialConfiguration()
+//        FocusFirewall.shared.initialConfiguration()
     }
 
     func addObserverForDockQuit() {
