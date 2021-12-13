@@ -126,13 +126,14 @@ extension WeekDaysCell: BasicSetupType {
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
             let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
 
-            if DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+            if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
                 let objBL = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 let presentingCtrl = WindowsManager.getPresentingController()
                 let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-                errorDialog.errorType = .general_setting_error
+                errorDialog.errorType = .not_allowed_add_session
                 errorDialog.objBl = objBL
                 presentingCtrl?.presentAsSheet(errorDialog)
+
                 return true
             }
 

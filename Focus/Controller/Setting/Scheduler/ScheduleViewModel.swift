@@ -85,7 +85,7 @@ extension ScheduleViewModel {
 
                     guard let start_time = obj.start_time,!start_time.isEmpty, let end_time = obj.end_time, !end_time.isEmpty else { continue }
                     let arrTSlot: [String] = start_time.getTimeSlots(endTime: end_time)
-                    print("****** Time Slots ****** \(arrTSlot)")
+//                    print("****** Time Slots ****** \(arrTSlot)")
 
                     for time in arrTSlot {
                         let isExist = arrScheduleS.compactMap({ $0.time == time }).filter({ $0 }).first ?? false

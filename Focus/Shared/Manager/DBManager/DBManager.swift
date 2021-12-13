@@ -554,22 +554,6 @@ extension DBManager {
 }
 
 extension DBManager {
-    
-    func getCalendarScheduleFocus() -> [Focus_Schedule] {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Focus_Schedule")
-        fetchRequest.predicate = NSPredicate(format: "is_active = true && ANY days_.day != 0")
-
-        do {
-            let focusSchedule = try DBManager.shared.managedContext.fetch(fetchRequest)
-            guard let focusSchedules = focusSchedule as? [Focus_Schedule] else { return [] }
-            return focusSchedules
-        } catch let error as NSError {
-            print("Could not fetch. SF \(error), \(error.userInfo)")
-        }
-        return []
-    }
-
-    
     func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
 //        let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
@@ -665,18 +649,31 @@ extension DBManager {
     }
 
     func validateScheduleSessionSlotsExsits(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
+        let predicate = NSPredicate(format: "(end_time_ == %@)", s_time as CVarArg)
+        if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate) {
+            let predicate_start = NSPredicate(format: "(start_time_ = %@)", s_time as CVarArg)
+            if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_start, checkTwoData: true) {
+                return true
+            }
+        }
 
-        let start_end_predict = NSPredicate(format: "(start_time_ = %@ && end_time_ <= %@)", s_time as CVarArg, e_time as CVarArg)
+        return false
+    }
+
+    func isSlotAvailable(s_time: Date, e_time: Date, day: [Int], start_end_predict: NSPredicate, checkTwoData: Bool = false) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
         let day_predict = NSPredicate(format: "ANY days_.day IN %@", day)
 
         fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [start_end_predict, day_predict])
-
         print("Predicate Compound  :::: \(fetchRequest.predicate)")
 
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
-            if results.count > 2 {
+            var count = results.count
+            if checkTwoData {
+                count = results.count >= 2 ? results.count : 0
+            }
+            if count == 0 {
                 return true
             } else {
                 return false
