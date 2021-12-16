@@ -339,6 +339,16 @@ extension Date {
     func isSmallerThan(_ date: Date) -> Bool {
         return self < date
     }
+    
+    func findDateDiff(time2: Date) -> Double {
+        let interval = time2.timeIntervalSince(self)
+        let hour = interval / 3600
+        let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
+        let intervalInt = Int(interval)
+        print("\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes")
+        return interval
+    }
+
 }
 
 extension Int {

@@ -108,6 +108,15 @@ struct WindowsManager {
             }
         })
     }
+
+    static func isBlockAppDialogueVCOpen() -> Bool {
+        if let controller = NSApplication.shared.windows.last?.contentViewController {
+            if controller is BlockAppDialogueViewC {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 // MARK: Block Web and Display Restart window Script Methods

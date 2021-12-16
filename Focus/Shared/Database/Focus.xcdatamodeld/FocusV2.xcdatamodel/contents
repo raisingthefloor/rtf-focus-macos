@@ -32,8 +32,6 @@
         <attribute name="app_identifier" optional="YES" attributeType="String"/>
         <attribute name="block_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="ip_address" optional="YES" attributeType="String" defaultValueString="0.0.0.0"/>
-        <attribute name="is_deleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="is_selected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
@@ -177,7 +175,7 @@
         <element name="Block_App_Web" positionX="-36" positionY="90" width="128" height="59"/>
         <element name="Block_Category" positionX="-18" positionY="81" width="128" height="164"/>
         <element name="Block_Category_App_Web" positionX="-9" positionY="90" width="128" height="59"/>
-        <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="164"/>
+        <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="134"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="209"/>
         <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>
         <element name="Current_Focus" positionX="-63" positionY="-18" width="128" height="314"/>

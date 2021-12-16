@@ -165,7 +165,7 @@ extension CurrentSessionVC: BasicSetupType {
 
     @objc func setFocusSessionView() {
         guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List] else { return }
-        DispatchQueue.main.async  {
+        DispatchQueue.main.async {
             self.lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
             self.lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true
             self.btnStart.isHidden = arrSession.count > 1
@@ -234,12 +234,12 @@ extension CurrentSessionVC {
 
     @objc func stopAction(_ sender: NSButton) {
         stopTimer()
-        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else {
+        guard let objFocus = viewModel?.input.focusObj, var arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else {
             updateView?(true, .stop_session)
             dismiss(nil)
             return
         }
-
+        arrSession = arrSession.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() })
         let objSession = arrSession[sender.tag]
 
         guard let bl_id = objSession.block_list_id else {
@@ -259,7 +259,7 @@ extension CurrentSessionVC {
             }
             return
         }
-
+        Config.start_date_time = Date()
         let controller = DisincentiveViewC(nibName: "DisincentiveViewC", bundle: nil)
         controller.objBl = objBl
         controller.dialogueType = (objBl?.random_character ?? false) ? .disincentive_xx_character_alert : .disincentive_signout_signin_alert

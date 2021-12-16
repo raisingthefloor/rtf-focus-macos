@@ -100,7 +100,7 @@ enum ListDialogue: Int {
             if !selectedVal.isEmpty {
                 var storeData: [[String: Any?]] = []
                 for val in selectedVal {
-                    let data: [String: Any?] = ["url": val.path, "name": val.name, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.application.rawValue, "id": UUID(), "app_identifier": val.bundle_id, "app_icon_path": val.path]
+                    let data: [String: Any?] = ["url": val.path, "name": val.name, "created_at": Date(), "is_selected": false, "block_type": BlockType.application.rawValue, "id": UUID(), "app_identifier": val.bundle_id, "app_icon_path": val.path]
                     storeData.append(data)
                 }
                 return storeData

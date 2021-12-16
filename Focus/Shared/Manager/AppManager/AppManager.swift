@@ -88,14 +88,14 @@ class AppManager {
     }
 
     @objc func macPowerOff() {
-        guard let obj = DBManager.shared.getCurrentSession(), let objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last else {
+        guard let obj = DBManager.shared.getCurrentSession(), let arrBl = DBManager.shared.getCurrentBlockList().arrObjBl as? [Block_List], !arrBl.isEmpty else {
             resetFocusSession()
             stopScriptObserver()
             NSApplication.shared.terminate(self)
             return
         }
 
-        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0.restart_computer }).filter({ $0 }).first ?? false
+        let is_restart_computer = arrBl.compactMap({ $0.restart_computer }).filter({ $0 }).first ?? false
 
         if is_restart_computer && obj.is_focusing {
             resetFocusSession()
@@ -109,14 +109,14 @@ class AppManager {
     }
 
     @objc func handleQuitEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
-        guard let obj = DBManager.shared.getCurrentSession(), let _ = DBManager.shared.getCurrentBlockList().arrObjBl.last else {
+        guard let obj = DBManager.shared.getCurrentSession(), let arrBl = DBManager.shared.getCurrentBlockList().arrObjBl as? [Block_List], !arrBl.isEmpty else {
             resetFocusSession()
             stopScriptObserver()
             NSApplication.shared.terminate(self)
             return
         }
 
-        let is_restart_computer = DBManager.shared.getCurrentBlockList().arrObjBl.compactMap({ $0.restart_computer }).filter({ $0 }).first ?? false
+        let is_restart_computer = arrBl.compactMap({ $0.restart_computer }).filter({ $0 }).first ?? false
 
         if is_restart_computer && obj.is_focusing {
             resetFocusSession()
@@ -156,12 +156,10 @@ extension AppManager {
             guard let item = result as? NSMetadataItem else {
                 continue
             }
-            print("APP Result :::\(item.value(forAttribute: kMDItemDisplayName as String)) \n")
-
+//            print("APP Result :::\(item.value(forAttribute: kMDItemDisplayName as String)) \n")
             if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
                 if let bundleName = Bundle.bundleIDFor(appNamed: name) {
-                    print("APP bundleName :::\(bundleName)) \n")
-
+//                    print("APP bundleName :::\(bundleName)) \n")
                     if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
                         if !DBManager.shared.checkAppsIsPresent(bundle_id: bundleName) {
                             let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date(), "index": i]

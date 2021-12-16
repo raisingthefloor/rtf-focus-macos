@@ -187,7 +187,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 referesh = false
                 displayError(errorType: .schedule_error)
             } else {
-                objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
+                objFSchedule?.time_interval =  s_time.findDateDiff(time2: e_time)  //findDateDiff(time1: s_time, time2: e_time)
             }
         }
 
@@ -266,14 +266,5 @@ extension ComboBoxCell {
         objFSchedule?.is_active = true
         DBManager.shared.saveContext()
         refreshTable?(true)
-    }
-
-    func findDateDiff(time1: Date, time2: Date) -> Double {
-        let interval = time2.timeIntervalSince(time1)
-        let hour = interval / 3600
-        let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
-        let intervalInt = Int(interval)
-        print("\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes")
-        return interval
     }
 }

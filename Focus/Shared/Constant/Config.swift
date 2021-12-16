@@ -33,6 +33,7 @@ class Config {
     static let focus_schedule_link = "https://morphic.org/focus-schedules"
     static let block_list = "https://morphic.org/blocklists"
     static let website_blocked_link = "https://morphic.org/websiteblocked"
+    static var start_date_time: Date?
 }
 
 enum ObserverName: String {

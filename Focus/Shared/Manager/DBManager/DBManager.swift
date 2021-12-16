@@ -40,8 +40,8 @@ extension DBManager: DBMangerLogic {
     func getCurrentBlockList() -> (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface]) {
         let generalCat = getGeneralCategoryData().subCat
 
-        guard let objFocus = getCurrentSession(), let focuslist = objFocus.focuses?.allObjects as? [Focus_List] else { return (nil, [], [], []) }
-
+        guard let objFocus = getCurrentSession(), var focuslist = objFocus.focuses?.allObjects as? [Focus_List] else { return (nil, [], [], []) }
+        focuslist = focuslist.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() })
         let blockids = focuslist.compactMap({ $0.block_list_id })
         var i = 1
         var applist: [Block_Interface] = []

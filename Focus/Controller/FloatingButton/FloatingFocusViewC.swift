@@ -214,9 +214,13 @@ extension FloatingFocusViewC {
 
 extension FloatingFocusViewC {
     @objc func appDidLaunch(_ notification: NSNotification) {
-        AppManager.shared.focusTimerModel.input.stopTimer()
+        if WindowsManager.isBlockAppDialogueVCOpen() {
+            return
+        }
 
         if let app = notification.object as? NSRunningApplication {
+            Config.start_date_time = Date()
+            AppManager.shared.focusTimerModel.input.stopTimer()
             let presentingCtrl = WindowsManager.getPresentingController()
             let controller = BlockAppDialogueViewC(nibName: "BlockAppDialogueViewC", bundle: nil)
             controller.dialogueType = .launch_block_app_alert
@@ -248,6 +252,7 @@ extension FloatingFocusViewC {
 
     func openBreakDialouge(dialogueType: FocusDialogue) {
         DispatchQueue.main.async {
+            Config.start_date_time = Date()
             let presentingCtrl = WindowsManager.getPresentingController()
             let controller = FocusDialogueViewC(nibName: "FocusDialogueViewC", bundle: nil)
             controller.dialogueType = dialogueType
@@ -280,15 +285,13 @@ extension FloatingFocusViewC {
     }
 
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
-        guard let obj = viewModel.input.focusObj else { return }
-
-        let arrSessions = obj.focuses?.allObjects as? [Focus_List]
+        guard let obj = viewModel.input.focusObj, let arrSessions = obj.focuses?.allObjects as? [Focus_List] else { return }
 
         var objBl: Block_List?
-        if let objCF = arrSessions?.filter({ $0.is_stop_constraint }).compactMap({ $0 }).first, let id = objCF.block_list_id {
+        if let objCF = arrSessions.filter({ $0.is_stop_constraint }).compactMap({ $0 }).first, let id = objCF.block_list_id {
             objBl = DBManager.shared.getBlockListBy(id: id, isRestart: true)
         } else {
-            let objCF = arrSessions?.compactMap({ $0 }).first
+            let objCF = arrSessions.compactMap({ $0 }).first
             if let id = objCF?.block_list_id {
                 objBl = DBManager.shared.getBlockListBy(id: id, isRestart: false)
             }
@@ -305,7 +308,9 @@ extension FloatingFocusViewC {
             obj.remaining_focus_time = val
 
 //            let extentFinalTime = Int(obj.combine_focus_length_time + Double(value)).secondsToTime()
-
+            let waiting_time = Config.start_date_time?.findDateDiff(time2: Date())
+            print("***** Extend Focus WAITING TIME *****   \(waiting_time)")
+            
             updateExtentEndSessionTime(obj: obj, time: Int(value))
             updateExtendedObject(dialogueType: dialogueType, valueType: valueType)
             DBManager.shared.saveContext()

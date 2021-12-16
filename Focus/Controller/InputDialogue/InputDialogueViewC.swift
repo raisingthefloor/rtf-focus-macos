@@ -123,7 +123,7 @@ extension InputDialogueViewC: BasicSetupType {
                     return
                 }
                 lblError.isHidden = true
-                let data: [String: Any?] = ["url": txtField.stringValue, "name": txtField.stringValue, "created_at": Date(), "is_selected": false, "is_deleted": false, "block_type": BlockType.web.rawValue, "id": UUID()]
+                let data: [String: Any?] = ["url": txtField.stringValue, "name": txtField.stringValue, "created_at": Date(), "is_selected": false, "block_type": BlockType.web.rawValue, "id": UUID()]
                 addedSuccess?([data], false)
                 dismiss(sender)
             }
