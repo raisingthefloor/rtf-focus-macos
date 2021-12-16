@@ -28,25 +28,131 @@ import Cocoa
 class DateTimeCell: NSTableCellView {
     @IBOutlet var datetimePicker: NSDatePicker!
 
+    var objFSchedule: Focus_Schedule?
+    var refreshTable: ((Bool) -> Void)?
+    var controller: NSViewController?
+
     override func prepareForReuse() {
         super.prepareForReuse()
     }
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        setUpText()
-        setUpViews()
     }
 }
 
-extension DateTimeCell: BasicSetupType {
-    func setUpText() {
+extension DateTimeCell: NSDatePickerCellDelegate {
+    func configTimeCell(obj: Focus_Schedule?, isStartTime: Bool = true) {
+        objFSchedule = obj
+        let is_active = objFSchedule?.is_active ?? false
+
+        datetimePicker.tag = isStartTime ? 1 : 2
+
+        if objFSchedule?.block_list_name != nil {
+            // comboTime.selectItem(withObjectValue: obj?.start_time)
+            datetimePicker.dateValue = isStartTime ? (obj?.start_time_ ?? Date()) : (obj?.end_time_ ?? Date())
+        } else {
+            datetimePicker.dateValue = Date()
+        }
+        datetimePicker.delegate = self
+        datetimePicker.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
+        datetimePicker.target = self
+        datetimePicker.action = #selector(dateSelected)
+
+        let action = NSEvent.EventTypeMask.mouseExited
+        datetimePicker.sendAction(on: action)
     }
 
-    func setUpViews() {
+    @objc func dateSelected() {
+        print("Selected Date : \(datetimePicker.dateValue)")
+        updateTimeValue(datetimePicker, time: datetimePicker.dateValue)
     }
-    
-    func setupSart(value: String) {
+}
+
+extension DateTimeCell {
+    func updateTimeValue(_ datetimePicker: NSDatePicker, time: Date) {
+        if controller is SchedulerViewC {
+            if (controller as! SchedulerViewC).checkSessionRunning(objFS: objFSchedule) {
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                (controller as! SchedulerViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+                return
+            }
+        } else if controller is TodayScheduleViewC {
+            if (controller as! TodayScheduleViewC).checkSessionRunning(objFS: objFSchedule) {
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                (controller as! TodayScheduleViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+                return
+            }
+        }
+
+        let type = Int(objFSchedule?.type ?? 1)
+        let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
+
+        if datetimePicker.tag == 1 {
+            objFSchedule?.start_time = time.convertToScheduleFormateTime()
+            objFSchedule?.start_time_ = time
+
+            if ScheduleType(rawValue: type) == .schedule_focus && !(objGCategory?.warning_before_schedule_session_start ?? false) {
+                objFSchedule?.reminder_date = time.adding(hour: 0, min: -5, sec: 0)
+            } else {
+                objFSchedule?.reminder_date = time
+            }
+
+        } else {
+            objFSchedule?.end_time = time.convertToScheduleFormateTime()
+            objFSchedule?.end_time_ = time
+        }
+
+        let arrFSD = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
+        let daysV = arrFSD.compactMap({ Int($0.day) })
+        var referesh: Bool = true
+
+        if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
+            if s_time > e_time {
+                objFSchedule?.end_time = ""
+                objFSchedule?.end_time_ = nil
+                if datetimePicker.tag == 2 { datetimePicker.dateValue = Date() }
+
+                referesh = false
+                displayError(errorType: .validation_error)
+
+            } else if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+                if datetimePicker.tag == 2 {
+                    datetimePicker.dateValue = Date()
+                    objFSchedule?.end_time = ""
+                    objFSchedule?.end_time_ = nil
+                } else {
+                    datetimePicker.dateValue = Date()
+                    objFSchedule?.start_time = ""
+                    objFSchedule?.start_time_ = nil
+                    objFSchedule?.reminder_date = nil
+                }
+
+                referesh = false
+                displayError(errorType: .schedule_error)
+            } else {
+                objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
+            }
+        }
+
+        DBManager.shared.saveContext()
+        refreshTable?(referesh)
     }
 
+    func displayError(errorType: ErrorDialogue) {
+        let presentingCtrl = WindowsManager.getPresentingController()
+        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+        errorDialog.errorType = errorType
+//        errorDialog.objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List
+        presentingCtrl?.presentAsSheet(errorDialog)
+    }
+
+    func findDateDiff(time1: Date, time2: Date) -> Double {
+        let interval = time2.timeIntervalSince(time1)
+        let hour = interval / 3600
+        let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
+        let intervalInt = Int(interval)
+        print("\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes")
+        return interval
+    }
 }

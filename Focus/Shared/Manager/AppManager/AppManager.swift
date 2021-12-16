@@ -139,7 +139,8 @@ extension AppManager {
 
     public func doSpotlightQuery() {
         query = NSMetadataQuery()
-        let predicate = NSPredicate(format: "kMDItemKind == 'Application'")
+//        let predicate = NSPredicate(format: "kMDItemKind == 'Application'")
+        let predicate = NSPredicate(format: "kMDItemContentType == 'com.apple.application-bundle'")
         NotificationCenter.default.addObserver(self, selector: #selector(queryDidFinish(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
         query?.predicate = predicate
         query?.start()
@@ -155,8 +156,12 @@ extension AppManager {
             guard let item = result as? NSMetadataItem else {
                 continue
             }
+            print("APP Result :::\(item.value(forAttribute: kMDItemDisplayName as String)) \n")
+
             if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
                 if let bundleName = Bundle.bundleIDFor(appNamed: name) {
+                    print("APP bundleName :::\(bundleName)) \n")
+
                     if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
                         if !DBManager.shared.checkAppsIsPresent(bundle_id: bundleName) {
                             let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date(), "index": i]
@@ -177,12 +182,12 @@ extension AppManager {
     func addObserverToCheckAppLaunch() {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.willLaunchApplicationNotification, object: nil)
 
-//        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.didActivateApplicationNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(appDidLaunch(notification:)), name: NSWorkspace.didActivateApplicationNotification, object: nil)
     }
 
     func removeObserver() {
         NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.willLaunchApplicationNotification, object: nil)
-//        NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.didActivateApplicationNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSWorkspace.didActivateApplicationNotification, object: nil)
     }
 
     @objc func appDidLaunch(notification: NSNotification) {

@@ -141,8 +141,8 @@ extension ReminderTimerManager {
                 obj.extend_min_time = Int64(value)
                 obj.is_schedule_session_extend = (dialogueType == .schedule_reminded_with_blocklist_alert) ? true : false
                 updateExtendedObject(dialogueType: dialogueType, valueType: valueType, obj: obj)
-                print(" Extend Time Valuse :  \(obj.start_time_?.adding(hour: 0, min: value, sec: 0)) ::::::::::   value: \(value)")
-                obj.reminder_date = obj.start_time_?.adding(hour: 0, min: value, sec: 0)
+                print(" Extend Time Valuse :  \(obj.reminder_date?.adding(hour: 0, min: value, sec: 0)) ::::::::::   value: \(value)")
+                obj.reminder_date = obj.reminder_date?.adding(hour: 0, min: value, sec: 0)
                 DBManager.shared.saveContext()
             } else {
                 createFocus(objFS: obj)
@@ -223,7 +223,7 @@ extension ReminderTimerManager {
         let break_length = objGCategory?.break_time ?? Focus.BreakTime.five.valueInSeconds
         let focus_stop_length = objGCategory?.for_every_time ?? Focus.FocusTime.fifteen.valueInSeconds
         let objBl = DBManager.shared.getBlockListBy(id: objSchedule.id)
-        let endTime = Int(objSchedule.time_interval).secondsToTime()
+
         let is_untill_stop = objSchedule.time_interval > (3600 * 60)
 
         var arrFocus: [Focus_List] = objFocus.focuses?.allObjects as? [Focus_List] ?? []
@@ -237,14 +237,20 @@ extension ReminderTimerManager {
         obj.is_provided_short_break = is_short_break_provide
         obj.is_block_programe_select = true
         obj.focus_untill_stop = is_untill_stop
-        obj.is_stop_constraint = objFS?.has_block_list_stop ?? false        
+        obj.is_stop_constraint = objFS?.has_block_list_stop ?? false
 
         obj.created_date = Date()
         obj.focus_id = UUID()
         obj.focus_schedule_id = objFS?.id
         obj.focus_length_time = objSchedule.time_interval
         obj.session_start_time = Date()
-        obj.session_end_time = Date().adding(hour: endTime.timeInHours, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
+
+        let endTime = Int(objSchedule.time_interval).secondsToTime()
+        print("End TIME ::::: \(endTime)")
+//        obj.session_end_time = Date().adding(hour: 0, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
+        
+        updateEndSessionTime(obj: obj, time: Int(objSchedule.time_interval))
+
         obj.focus_type = Int16(ScheduleType.schedule_focus.rawValue)
         arrFocus.append(obj)
 
@@ -267,7 +273,9 @@ extension ReminderTimerManager {
         updateParallelFocusSession(objSchedule: objSchedule, focuslist: arrFocus, objFocus: objFocus)
 
         DBManager.shared.saveContext()
-        // WindowsManager.dismissController()
+        DispatchQueue.main.async {
+            WindowsManager.dismissController()
+        }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
     }
 
@@ -291,5 +299,20 @@ extension ReminderTimerManager {
 
         objFocus.remaining_focus_time = isFocusExsist ? (total_focus_length - objFocus.used_focus_time) : total_focus_length
         objFocus.remaining_break_time = isFocusExsist ? total_break_focus : total_break_focus
+    }
+
+    func updateEndSessionTime(obj: Focus_List, time: Int) {
+        let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
+        var firstmin_val: Int = 0
+        var break_length: Int = 0
+        if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
+            firstmin_val = 1 * 60 // one min
+        }
+        if obj.is_block_programe_select {
+            break_length = Int(obj.break_length_time)
+        }
+
+        let extend_time = (break_length + firstmin_val + time).secondsToTime()
+        obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
     }
 }

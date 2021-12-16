@@ -64,6 +64,7 @@ protocol DBMangerLogic {
 
     func truncateTable(name: String)
     func deleteObject(name: String, predicate: NSPredicate?)
+    func updateRunningSession(focus: Focus_List)
 
     func saveContext()
 }

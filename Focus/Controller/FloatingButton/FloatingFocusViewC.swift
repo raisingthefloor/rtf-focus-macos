@@ -294,7 +294,7 @@ extension FloatingFocusViewC {
             }
         }
         let isRestart = objBl?.restart_computer ?? false
-        
+
         switch action {
         case .extend_focus:
             AppManager.shared.focusTimerModel.usedTime = 0
@@ -331,6 +331,8 @@ extension FloatingFocusViewC {
         case .normal_ok:
             if dialogueType == .long_break_alert || dialogueType == .short_break_alert {
                 AppManager.shared.focusTimerModel.usedTime = 0
+
+            } else if dialogueType == .end_break_alert {
                 updateEndSessionTime(obj: obj)
             }
             updateDataAsPerDialogue(dialogueType: dialogueType, obj: obj, objBl: objBl, value: value, valueType: valueType)
@@ -489,7 +491,7 @@ extension FloatingFocusViewC {
                     self.openBreakDialouge(dialogueType: dType)
                     return
                 }
-            case .short_break_alert:
+            case .short_break_alert, .long_break_alert:
                 guard let long = objEx?.is_long_focus, long, let mid = objEx?.is_mid_focus, mid, let small = objEx?.is_small_focus, small else {
                     self.openBreakDialouge(dialogueType: dType)
                     return

@@ -320,16 +320,45 @@ extension Date {
     func currentDateComponent() -> DateComponents {
         return Calendar.current.dateComponents([.hour, .minute, .second, .weekday], from: self)
     }
+
+    func convertToScheduleFormateTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h a"
+        let strDate = dateFormatter.string(from: self).capitalized
+        return strDate
+    }
+
+    func isEqualTo(_ date: Date) -> Bool {
+        return self == date
+    }
+
+    func isGreaterThan(_ date: Date) -> Bool {
+        return self > date
+    }
+
+    func isSmallerThan(_ date: Date) -> Bool {
+        return self < date
+    }
 }
 
 extension Int {
     func secondsToTime() -> (timeInHours: Int, timeInMinutes: Int, timeInSeconds: Int) {
+        let hours = 0 // Int(Double((self / 60) / 60).rounded(.towardZero))
+        let min = self / 60
+        let sec = self % 60
+//        if hours > 0 {
+//            min = hours / 60
+//            sec = hours % 60
+//        }
+        return (timeInHours: hours, timeInMinutes: min, timeInSeconds: sec)
+    }
+
+    func secondsToFullTime() -> (timeInHours: Int, timeInMinutes: Int, timeInSeconds: Int) {
         let hours = Int(Double((self / 60) / 60).rounded(.towardZero))
         var min = self / 60
-        var sec = self % 60
+        let sec = self % 60
         if hours > 0 {
             min = hours / 60
-            sec = hours % 60
         }
         return (timeInHours: hours, timeInMinutes: min, timeInSeconds: sec)
     }

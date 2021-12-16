@@ -32,7 +32,6 @@ enum ErrorDialogue: Int {
     case schedule_error // TODO: This one used when used added third schedule with same time
     case general_setting_error
     case validation_error
-    case not_allowed_add_session
 
     var title: String {
         switch self {
@@ -45,8 +44,6 @@ enum ErrorDialogue: Int {
         case .general_setting_error:
             return NSLocalizedString("Error.active_focus_error", comment: "Changes cannot be made during active Focus session")
         case .validation_error:
-            return NSLocalizedString("Error.validation_error", comment: "ERROR")
-        case .not_allowed_add_session:
             return NSLocalizedString("Error.validation_error", comment: "ERROR")
         }
     }
@@ -63,8 +60,6 @@ enum ErrorDialogue: Int {
             return NSLocalizedString("Error.active_focus_error_desc", comment: "General settings cannot be changed when at least one Focus session is in progress.\nYou must stop this session to make changes.")
         case .validation_error:
             return NSLocalizedString("Error.validation_error_desc", comment: "End time should be greater than start time")
-        case .not_allowed_add_session:
-            return NSLocalizedString("Error.validation_error_add_session", comment: "ERROR")
         }
     }
 

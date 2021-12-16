@@ -130,7 +130,7 @@ extension WeekDaysCell: BasicSetupType {
                 let objBL = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 let presentingCtrl = WindowsManager.getPresentingController()
                 let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-                errorDialog.errorType = .not_allowed_add_session
+                errorDialog.errorType = .schedule_error
                 errorDialog.objBl = objBL
                 presentingCtrl?.presentAsSheet(errorDialog)
 

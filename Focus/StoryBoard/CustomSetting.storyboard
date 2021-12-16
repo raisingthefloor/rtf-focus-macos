@@ -1485,7 +1485,7 @@
                                                                                                                                                             <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                             <subviews>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WqO-Lm-fFP" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="-3" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="-3" y="-4" width="109" height="32"/>
                                                                                                                                                                     <constraints>
                                                                                                                                                                         <constraint firstAttribute="height" constant="25" id="1mH-Nd-uW1"/>
                                                                                                                                                                     </constraints>
@@ -1495,7 +1495,7 @@
                                                                                                                                                                     </buttonCell>
                                                                                                                                                                 </button>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IPP-vN-OPI" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                                                     <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SK7-2x-Xh2">
                                                                                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                         <font key="font" metaFont="system"/>
@@ -2386,7 +2386,7 @@
                                                                     </constraints>
                                                                 </customView>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEk-ah-8aI" userLabel="ScheduleV">
-                                                                    <rect key="frame" x="-177" y="587" width="706" height="264"/>
+                                                                    <rect key="frame" x="0.0" y="587" width="706" height="264"/>
                                                                     <subviews>
                                                                         <scrollView borderType="none" horizontalLineScroll="24" horizontalPageScroll="0.0" verticalLineScroll="24" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" minMagnification="0.0001" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR7-jl-4QY">
                                                                             <rect key="frame" x="0.0" y="0.0" width="706" height="260"/>
@@ -3432,7 +3432,7 @@
                                             <rect key="frame" x="-100" y="-100" width="168" height="11"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="mini" horizontal="NO" id="CjB-Wo-fzA">
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.59999999999999998" controlSize="mini" horizontal="NO" id="CjB-Wo-fzA">
                                             <rect key="frame" x="518" y="0.0" width="11" height="800"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>

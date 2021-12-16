@@ -76,7 +76,7 @@ extension FocusDialogue {
         case .schedule_reminded_without_blocklist_alert:
             return NSLocalizedString("Alert.schedule_reminded_without_blocklist_alert_desc", comment: "You asked to be reminded that you wanted to focus at this time")
         case .schedule_reminded_with_blocklist_alert:
-            return NSLocalizedString("Alert.schedule_reminded_with_blocklist_alert_desc", comment: "You scheduled a focus session for this time using the blocklist: \nMorning Meditation") // Append the Block list
+            return NSLocalizedString("Alert.schedule_reminded_with_blocklist_alert_desc", comment: "You scheduled a focus session for this time using the blocklist:") // Append the Block list
         case .disincentive_xx_character_alert:
             return NSLocalizedString("Alert.disincentive_xx_character_alert_desc", comment: "You set the blocklist (currently being used) to require you to complete the task below in order to stop the focus session.")
         case .disincentive_signout_signin_alert:
@@ -208,26 +208,28 @@ extension FocusDialogue {
         switch self {
         case .launch_block_app_alert, .notifiction_block_alert:
             return ([Color.green_color, Color.very_light_grey], [Color.green_color, Color.dark_grey_border], [.white, Color.black_color], width)
-        case .short_break_alert:
-            return ([], [], [], width)
-        case .seession_completed_alert:
-            return ([], [], [], width)
-        case .long_break_alert:
-            return ([], [], [], width)
-        case .till_stop_alert:
-            return ([], [], [], width)
-        case .end_break_alert: // Option  top n bottom
-            return ([], [], [], width)
-        case .schedule_reminded_without_blocklist_alert:
-            return ([], [], [], width)
-        case .schedule_reminded_with_blocklist_alert:
-            return ([], [], [], width)
-        case .none, .unknown:
-            return ([], [], [], width)
+//        case .short_break_alert:
+//            return ([], [], [], width)
+//        case .seession_completed_alert:
+//            return ([], [], [], width)
+//        case .long_break_alert:
+//            return ([], [], [], width)
+//        case .till_stop_alert:
+//            return ([], [], [], width)
+//        case .end_break_alert: // Option  top n bottom
+//            return ([], [], [], width)
+//        case .schedule_reminded_without_blocklist_alert:
+//            return ([], [], [], width)
+//        case .schedule_reminded_with_blocklist_alert:
+//            return ([], [], [], width)
+//        case .none, .unknown:
+//            return ([], [], [], width)
         case .disincentive_xx_character_alert:
             return ([Color.green_color, Color.very_light_grey], [Color.green_color, Color.dark_grey_border], [.white, Color.black_color], width)
         case .disincentive_signout_signin_alert:
             return ([Color.light_green_color, Color.green_color], [Color.green_color, Color.green_color], [Color.txt_green_color, .white], width)
+        default:
+            return ([], [], [], width)
         }
     }
 

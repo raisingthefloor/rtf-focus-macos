@@ -122,6 +122,9 @@ extension CurrentSessionVC: BasicSetupType {
 
     func setUpViews() {
         title = "" // NSLocalizedString("Session.title", comment: "Currently Running Focus Session(s)")
+
+        NotificationCenter.default.addObserver(self, selector: #selector(setFocusSessionView), name: NSNotification.Name(ObserverName.update_current_session_ui.rawValue), object: nil)
+
         setFocusSessionView()
         themeSetUp()
     }
@@ -160,27 +163,28 @@ extension CurrentSessionVC: BasicSetupType {
         lblWhy.addGestureRecognizer(gesture) // Need to set range click
     }
 
-    func setFocusSessionView() {
+    @objc func setFocusSessionView() {
         guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List] else { return }
+        DispatchQueue.main.async  {
+            self.lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
+            self.lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true
+            self.btnStart.isHidden = arrSession.count > 1
+            self.lblWhy.isHidden = arrSession.count > 1
 
-        lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
-        lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true
-        btnStart.isHidden = arrSession.count > 1
-        lblWhy.isHidden = arrSession.count > 1
+            self.sessionStack.removeSubviews()
 
-        sessionStack.removeSubviews()
-
-        var i = 0
-        for session in arrSession {
-            let sessionView = SessionInfoView()
-            sessionView.setupSessionData(obj: session)
-            sessionView.btnStop.target = self
-            sessionView.btnStop.action = #selector(stopAction(_:))
-            sessionView.btnStop.tag = i
-            sessionView.titleV?.isHidden = (arrSession.count == 1)
-            sessionView.lblTitle.stringValue = NSLocalizedString("Session.focus_session", comment: "Focus Session") + " " + String(i + 1)
-            sessionStack.addArrangedSubview(sessionView)
-            i = i + 1
+            var i = 0
+            for session in arrSession.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() }) {
+                let sessionView = SessionInfoView()
+                sessionView.setupSessionData(obj: session)
+                sessionView.btnStop.target = self
+                sessionView.btnStop.action = #selector(self.stopAction(_:))
+                sessionView.btnStop.tag = i
+                sessionView.titleV?.isHidden = (arrSession.count == 1)
+                sessionView.lblTitle.stringValue = NSLocalizedString("Session.focus_session", comment: "Focus Session") + " " + String(i + 1)
+                self.sessionStack.addArrangedSubview(sessionView)
+                i = i + 1
+            }
         }
     }
 
@@ -271,35 +275,8 @@ extension CurrentSessionVC {
     }
 
     func updateSesionAfterStop(focus: Focus_List) {
-        // TODO: deduct the this session value from the total remaining time
-
-        guard let objFocus = viewModel?.input.focusObj, let s_time = focus.session_start_time else { return }
-
         updateView?(true, .initiate_new_session)
-        let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
-        print("spent_time ::: \(spent_time)")
-
-        let pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
-        print("pnding_time ::: \(pnding_time)")
-
-        print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
-        objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
-        print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
-
-        print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")
-        objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
-        print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
-
-        print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
-        objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - focus.break_length_time
-        print("After combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
-
-        print("Before combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
-        objFocus.combine_stop_focus_after_time = objFocus.combine_stop_focus_after_time - focus.focus_stop_after_length
-        print("After combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
-
-        DBManager.shared.managedContext.delete(focus)
-        DBManager.shared.saveContext()
+        DBManager.shared.updateRunningSession(focus: focus)
         updateView?(false, .cancel_new_session)
         setFocusSessionView()
         startTimer()

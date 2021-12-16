@@ -43,7 +43,6 @@ class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     func setupInitial() {
         currentSession = DBManager.shared.getCurrentBlockList()
         objFocus = currentSession?.objFocus
-        updateCounterValue()
         handleTimer()
     }
 }
@@ -54,7 +53,6 @@ extension FocusTimerManager {
     }
 
     func updateTimerStatus() {
-        updateCounterValue()
         handleTimer()
     }
 
@@ -162,6 +160,7 @@ extension FocusTimerManager {
 
 extension FocusTimerManager {
     func performValueUpdate(counter: Int, usedValue: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
+        updateSessionData()
         let conterTime = counter.secondsToTime()
 
         print("*** FOCUS *** performValueUpdate remaininTimeInSeconds ::: \(counter) == \(conterTime)")
@@ -181,7 +180,29 @@ extension FocusTimerManager {
                 return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
             }
         default:
+            print("*** FOCUS ***  Count Down Value ::::: \(conterTime) *** FOCUS ***  ")
             return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
         }
+    }
+
+    func updateSessionData() {
+        guard let arrSession = objFocus.focuses?.allObjects as? [Focus_List], arrSession.count >= 2 else {
+            return
+        }
+        arrSession.forEach({
+            print("*** FOCUS ***  $0.session_end_time ::::: \($0.session_end_time) current date : \(Date())")
+            let session_end_date = $0.session_end_time ?? Date()
+
+            print("*** FOCUS ***  $0.session_end_time Equal Date \(session_end_date.isEqualTo(Date()))")
+            print("*** FOCUS ***  $0.session_end_time Greater Date \(session_end_date.isGreaterThan(Date()))")
+            print("*** FOCUS ***  $0.session_end_time Lessthan Date \(session_end_date.isSmallerThan(Date()))")
+
+            if session_end_date.isEqualTo(Date()) || session_end_date.isSmallerThan(Date()) {
+                self.stopTimer()
+//                DBManager.shared.updateRunningSession(focus: $0)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.update_current_session_ui.rawValue), object: nil)
+                self.updateTimerStatus()
+            }
+        })
     }
 }

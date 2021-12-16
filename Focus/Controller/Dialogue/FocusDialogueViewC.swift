@@ -64,7 +64,8 @@ extension FocusDialogueViewC: BasicSetupType {
         lblTitle.stringValue = dialogueType.title
 //        }
 
-        lblDesc.stringValue = dialogueType.description
+        let block_list_name = (dialogueType == .schedule_reminded_with_blocklist_alert) ? viewModel.reminderSchedule?.block_list_name ?? "" : ""
+        lblDesc.stringValue = dialogueType.description + block_list_name
         lblSubDesc.stringValue = dialogueType.sub_description
 
         lblSubTitle.stringValue = dialogueType.extented_title
@@ -72,7 +73,7 @@ extension FocusDialogueViewC: BasicSetupType {
 
         btnStop.title = buttonsValue.first ?? "-"
         if dialogueType == .long_break_alert {
-            let timeC = Int(viewModel.currentSession?.objFocus?.combine_break_lenght_time ?? 100).secondsToTime() // TODO: Need to check this value
+            let timeC = Int(viewModel.currentSession?.objFocus?.combine_break_lenght_time ?? 100).secondsToFullTime() // TODO: Need to check this value
             var time = ""
             if timeC.timeInHours != 0 {
                 time = "\(timeC.timeInHours) hrs \(timeC.timeInMinutes) minute"

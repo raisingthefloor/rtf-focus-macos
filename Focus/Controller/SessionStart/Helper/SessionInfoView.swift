@@ -95,7 +95,7 @@ extension SessionInfoView: BasicSetupType {
 
         let objFocus = DBManager.shared.getCurrentSession()
         let objB = DBManager.shared.getBlockListBy(id: obj?.block_list_id)
-        let focus_length = Int(obj?.used_time ?? 100).secondsToTime()
+        let focus_length = Int(obj?.used_time ?? 100).secondsToFullTime()
 
         var time = ""
         if focus_length.timeInHours != 0 {
@@ -112,7 +112,7 @@ extension SessionInfoView: BasicSetupType {
 
         lblBlockV.stringValue = (obj?.is_block_programe_select ?? false) ? list_name : "-"
 
-        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (obj?.session_end_time ?? Date()).convertToTime()
-        lblEndV.stringValue = endValue
+        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (obj?.session_end_time ?? Date()).currentTime().strDate?.uppercased()
+        lblEndV.stringValue = endValue ?? "-"
     }
 }

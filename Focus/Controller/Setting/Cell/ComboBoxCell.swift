@@ -75,7 +75,6 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
 
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
-        comboTime.tag = 1
         if objFSchedule?.block_list_name != nil {
             comboTime.selectItem(withObjectValue: obj?.start_time)
         } else {
@@ -92,7 +91,6 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
 
         comboTime.removeAllItems()
         comboTime.addItems(withObjectValues: arrTimes)
-        comboTime.tag = 2
         if objFSchedule?.block_list_name != nil {
             comboTime.selectItem(withObjectValue: obj?.end_time)
         } else {
@@ -169,9 +167,9 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 if comboBox.tag == 2 { comboTime.stringValue = "" }
                 configEndCell(obj: objFSchedule, arrTimes: arrTimes)
                 referesh = false
-                displayError()
+                displayError(errorType: .validation_error)
 
-            } else if DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+            } else if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
                 if comboBox.tag == 2 {
                     comboTime.stringValue = ""
                     objFSchedule?.end_time = ""
@@ -187,7 +185,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 }
 
                 referesh = false
-                displayError()
+                displayError(errorType: .schedule_error)
             } else {
                 objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
             }
@@ -197,10 +195,10 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         refreshTable?(referesh)
     }
 
-    func displayError() {
+    func displayError(errorType: ErrorDialogue) {
         let presentingCtrl = WindowsManager.getPresentingController()
         let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-        errorDialog.errorType = .validation_error
+        errorDialog.errorType = errorType
 //        errorDialog.objBl = DBManager.shared.getCurrentBlockList().arrObjBl.last as? Block_List
         presentingCtrl?.presentAsSheet(errorDialog)
     }

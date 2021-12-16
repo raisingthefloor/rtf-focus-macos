@@ -124,8 +124,12 @@ extension MenuViewModel {
         obj.focus_schedule_id = (objFocusSchedule != nil) ? objFocusSchedule?.id : UUID()
         obj.focus_length_time = time.value
         obj.session_start_time = Date()
-        let endTime = Int(time.value).secondsToTime()
-        obj.session_end_time = Date().adding(hour: endTime.timeInHours, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
+
+        updateEndSessionTime(obj: obj, time: time)
+
+//        let endTime = Int(time.value).secondsToTime()
+//        obj.session_end_time = Date().adding(hour: endTime.timeInHours, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
+
         obj.focus_type = Int16(ScheduleType.none.rawValue)
         obj.is_stop_constraint = is_stop_constraint
         arrFocus.append(obj)
@@ -148,6 +152,7 @@ extension MenuViewModel {
         let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
         let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
         let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
+        
         let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
         let is_block_programe_select = focuslist.compactMap({ $0.is_block_programe_select }).filter({ $0 }).first ?? false
 
@@ -158,9 +163,25 @@ extension MenuViewModel {
         focusObj?.is_dnd_mode = is_dnd_mode
         focusObj?.is_block_programe_select = is_block_programe_select
 
-        print("Remaining Time : \(total_focus_length - (focusObj?.used_focus_time ?? 0))")
+        print("Remaining Focus Time : \(total_focus_length - (focusObj?.used_focus_time ?? 0))")
+        print("Remaining Break Time : \(total_break_focus - (focusObj?.used_focus_time ?? 0))")
 
         focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? (total_focus_length - (focusObj?.used_focus_time ?? 0)) : time.value
         focusObj?.remaining_break_time = (viewCntrl != .main_menu) ? total_break_focus : total_break_focus
+    }
+
+    func updateEndSessionTime(obj: Focus_List, time: Focus.StopTime) {
+        let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
+        var firstmin_val: Int = 0
+        var break_length: Int = 0
+        if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
+            firstmin_val = 1 * 60 // one min
+        }
+        if obj.is_block_programe_select {
+            break_length = Int(obj.break_length_time)
+        }
+
+        let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
+        obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
     }
 }

@@ -189,7 +189,6 @@ extension DBManager {
         var focusObj: Current_Focus?
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Focus.entity_name)
         fetchRequest.predicate = NSPredicate(format: "is_focusing = true")
-
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             if results.count > 0 {
@@ -499,6 +498,34 @@ extension DBManager {
         }
         return nil
     }
+
+    func updateRunningSession(focus: Focus_List) {
+        guard let objFocus = getCurrentSession(), let s_time = focus.session_start_time else { return }
+
+        let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
+        print("spent_time ::: \(spent_time)")
+
+        let pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
+        print("pnding_time ::: \(pnding_time)")
+
+        print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
+        objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
+        print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
+
+        print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")
+        objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
+        print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
+
+        print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
+        objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - focus.break_length_time
+        print("After combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
+
+        print("Before combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
+        objFocus.combine_stop_focus_after_time = objFocus.combine_stop_focus_after_time - focus.focus_stop_after_length
+        print("After combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
+        managedContext.delete(focus)
+        saveContext()
+    }
 }
 
 // Customize Focus Schedule
@@ -553,6 +580,7 @@ extension DBManager {
     }
 }
 
+// Schedule Session and Reminder
 extension DBManager {
     func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
 //        let timeV = time.replacingOccurrences(of: ":00", with: "")
@@ -649,9 +677,12 @@ extension DBManager {
     }
 
     func validateScheduleSessionSlotsExsits(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool {
+        if day.isEmpty {
+            return true
+        }
         let predicate = NSPredicate(format: "(end_time_ == %@)", s_time as CVarArg)
         if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate) {
-            let predicate_start = NSPredicate(format: "(start_time_ = %@)", s_time as CVarArg)
+            let predicate_start = NSPredicate(format: "(start_time_ == %@)", s_time as CVarArg)
             if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_start, checkTwoData: true) {
                 return true
             }
@@ -671,7 +702,7 @@ extension DBManager {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             var count = results.count
             if checkTwoData {
-                count = results.count >= 2 ? results.count : 0
+                count = results.count > 2 ? results.count : 0
             }
             if count == 0 {
                 return true

@@ -149,7 +149,7 @@
 "Alert.extend_break_title" = "Or, extend my break by...";
 "Alert.one_min" = "1 min";
 "Alert.sixty_min" = "60 min";
-"Alert.schedule_reminded_with_blocklist_alert_desc" = "You scheduled a focus session \nfor this time using the blocklist: \nMorning Meditation";
+"Alert.schedule_reminded_with_blocklist_alert_desc" = "You scheduled a focus session \nfor this time using the blocklist: \n";
 "Alert.schedule_reminded_with_blocklist_alert_title" = "No, instead start session:";
 "Alert.schedule_reminded_without_blocklist_alert_desc" = "You asked to be reminded to focus at this time.";
 "Alert.schedule_reminded_without_blocklist_alert" = "Remind me again in:";
