@@ -123,6 +123,7 @@ extension FocusTimerManager {
         }
 
         if remaininFocusTime > 0 {
+            remaininFocusTime -= 1
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
             if countdownerDetails.popup == .none {
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
@@ -133,7 +134,6 @@ extension FocusTimerManager {
                 updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
-            remaininFocusTime -= 1
             used_focus_time += 1
             usedTime += 1
         } else {
