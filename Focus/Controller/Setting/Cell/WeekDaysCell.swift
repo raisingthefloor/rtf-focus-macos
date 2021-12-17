@@ -96,6 +96,12 @@ extension WeekDaysCell: BasicSetupType {
     }
 
     @objc func toggleDay(_ sender: CustomButton) {
+        if isRunning(objFS: objFSchedule) {
+            let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+            displayError(errorType: .focus_schedule_error, objBl: objBl)
+            return
+        }
+
         var arrDay = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
         let tag = sender.tag
         var isSelected = false
@@ -122,23 +128,31 @@ extension WeekDaysCell: BasicSetupType {
         refreshTable?(true)
     }
 
+    func isRunning(objFS: Focus_Schedule?) -> Bool {
+        guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.block_list_id, let focus_schedule_id = objFS?.id else { return false }
+        let isSame = focuslist.compactMap({ $0.block_list_id == id && $0.focus_schedule_id == focus_schedule_id }).filter({ $0 }).first ?? false
+        return isSame
+    }
+
     func warningToAddThirdSession(day: Int) -> Bool {
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
             let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
 
             if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
-                let objBL = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
-                let presentingCtrl = WindowsManager.getPresentingController()
-                let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
-                errorDialog.errorType = .schedule_error
-                errorDialog.objBl = objBL
-                presentingCtrl?.presentAsSheet(errorDialog)
-
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                displayError(errorType: .schedule_error, objBl: objBl)
                 return true
             }
-
             return false
         }
         return false
+    }
+
+    func displayError(errorType: ErrorDialogue, objBl: Block_List?) {
+        let presentingCtrl = WindowsManager.getPresentingController()
+        let errorDialog = ErrorDialogueViewC(nibName: "ErrorDialogueViewC", bundle: nil)
+        errorDialog.errorType = errorType
+        errorDialog.objBl = objBl
+        presentingCtrl?.presentAsSheet(errorDialog)
     }
 }

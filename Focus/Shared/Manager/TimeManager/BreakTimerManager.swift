@@ -42,14 +42,14 @@ protocol TimerModelType {
     var input: TimerModelIntput { get }
     var output: TimerModelOutput { get }
     var currentSession: (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface])? { get set }
-    var updateUI: ((_ dialogueType: FocusDialogue, _ hours: Int, _ minutes: Int, _ seconds: Int) -> Void)? { get set }
+    var updateUI: ((_ dialogueType: FocusDialogue, _ hours: Int, _ minutes: Int, _ seconds: Int, _ focuses: [Focus_List]) -> Void)? { get set }
     var usedTime: Int { get set }
 }
 
 class BreakTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
     var usedTime: Int = 0
 
-    var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
+    var updateUI: ((FocusDialogue, Int, Int, Int, [Focus_List]) -> Void)?
 
     var currentSession: (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
@@ -100,10 +100,10 @@ extension BreakTimerManager {
     }
 
     func updateCounterValue() { // It it used for updating the  UI
-        guard let obj = currentSession?.objFocus, obj.is_focusing, obj.is_break_time else { return }
+        guard let obj = currentSession?.objFocus, obj.is_focusing, obj.is_break_time, let arrSession = obj.focuses?.allObjects as? [Focus_List] else { return }
         remaininTimeInSeconds = Int(obj.remaining_break_time)
         let countdownerDetails = remaininTimeInSeconds.secondsToTime()
-        updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds) // Need to Update the Lables of floating Button
+        updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds, arrSession: arrSession) // Need to Update the Lables of floating Button
     }
 
     func startTimer() {
@@ -134,9 +134,9 @@ extension BreakTimerManager {
     }
 
     @objc func update() {
-        guard let obj = currentSession?.objFocus, obj.is_break_time else {
+        guard let obj = currentSession?.objFocus, obj.is_break_time, let arrSession = obj.focuses?.allObjects as? [Focus_List] else {
             stopTimer()
-            updateUI?(.unknown, 0, 0, 0)
+            updateUI?(.unknown, 0, 0, 0, [])
             return
         }
 
@@ -147,13 +147,13 @@ extension BreakTimerManager {
             remaininTimeInSeconds -= 1
             let countdownerDetails = performValueUpdate(counter: remaininTimeInSeconds)
             if countdownerDetails.popup == .none {
-                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
+                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds, arrSession: arrSession)
                 updateRemaingTimeInDB(seconds: remaininTimeInSeconds)
             } else {
                 pauseTimer()
                 WindowsManager.dismissErrorController()
                 isBreaktimerOn = false
-                updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
+                updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds, arrSession)
             }
         } else {
             pauseTimer()
@@ -161,8 +161,8 @@ extension BreakTimerManager {
         }
     }
 
-    func updateTimeInfo(hours: Int, minutes: Int, seconds: Int) {
-        updateUI?(.none, hours, minutes, seconds)
+    func updateTimeInfo(hours: Int, minutes: Int, seconds: Int, arrSession: [Focus_List]) {
+        updateUI?(.none, hours, minutes, seconds, arrSession)
     }
 
     func updateRemaingTimeInDB(seconds: Int) {

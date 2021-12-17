@@ -160,7 +160,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
 
             if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 if let cellTime = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "timeId"), owner: nil) as? LabelCell {
-                    cellTime.setupTime(value: obj.time ?? "-")
+                    cellTime.setupTime(value: obj.time)
                     return cellTime
                 }
             } else {
@@ -187,6 +187,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         if checkSessionRunning(objFS: objFSchedule) {
             let objBl = DBManager.shared.getBlockListBy(id: objFSchedule.block_list_id)
             openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+            tblSchedule.reloadData()
             return
         }
 

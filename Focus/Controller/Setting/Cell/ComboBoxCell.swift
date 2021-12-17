@@ -118,6 +118,11 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
     }
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
+        if isRunning(objFS: objFSchedule) {
+            displayError(errorType: .focus_schedule_error)
+            return
+        }
+
         let comboBox: NSComboBox = (notification.object as? NSComboBox)!
         updateTimeValue(comboBox, time: comboBox.objectValueOfSelectedItem as? String)
     }
@@ -187,7 +192,7 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 referesh = false
                 displayError(errorType: .schedule_error)
             } else {
-                objFSchedule?.time_interval =  s_time.findDateDiff(time2: e_time)  //findDateDiff(time1: s_time, time2: e_time)
+                objFSchedule?.time_interval = s_time.findDateDiff(time2: e_time) // findDateDiff(time1: s_time, time2: e_time)
             }
         }
 
@@ -242,6 +247,11 @@ extension ComboBoxCell {
 
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
+        if isRunning(objFS: objFSchedule) {
+            displayError(errorType: .focus_schedule_error)
+            return
+        }
+
         let index = popBlocklist.selectedTag()
         if index == -1 {
             objFSchedule?.block_list_name = ViewCntrl.schedule_session.combolast_option_title
@@ -266,5 +276,11 @@ extension ComboBoxCell {
         objFSchedule?.is_active = true
         DBManager.shared.saveContext()
         refreshTable?(true)
+    }
+
+    func isRunning(objFS: Focus_Schedule?) -> Bool {
+        guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.block_list_id, let focus_schedule_id = objFS?.id else { return false }
+        let isSame = focuslist.compactMap({ $0.block_list_id == id && $0.focus_schedule_id == focus_schedule_id }).filter({ $0 }).first ?? false
+        return isSame
     }
 }

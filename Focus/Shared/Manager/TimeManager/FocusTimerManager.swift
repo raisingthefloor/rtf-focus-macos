@@ -27,7 +27,7 @@ import Cocoa
 import Foundation
 
 class FocusTimerManager: TimerModelIntput, TimerModelOutput, TimerModelType {
-    var updateUI: ((FocusDialogue, Int, Int, Int) -> Void)?
+    var updateUI: ((FocusDialogue, Int, Int, Int, [Focus_List]) -> Void)?
     var currentSession: (objFocus: Current_Focus?, arrObjBl: [Block_List], apps: [Block_Interface], webs: [Block_Interface])?
     var input: TimerModelIntput { return self }
     var output: TimerModelOutput { return self }
@@ -67,15 +67,15 @@ extension FocusTimerManager {
     }
 
     func updateCounterValue() { // It it used for updating the  UI
-        guard let obj = currentSession?.objFocus, obj.is_focusing, !obj.is_break_time else {
+        guard let obj = currentSession?.objFocus, obj.is_focusing, !obj.is_break_time, let arrSession = obj.focuses?.allObjects as? [Focus_List] else {
             stopTimer()
-            updateUI?(.unknown, 0, 0, 0)
+            updateUI?(.unknown, 0, 0, 0, [])
             return
         }
         remaininFocusTime = Int(obj.remaining_focus_time)
         used_focus_time = Int(obj.used_focus_time)
         let countdownerDetails = remaininFocusTime.secondsToTime()
-        updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds)
+        updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds, arrSession: arrSession)
     }
 
     func startTimer() {
@@ -106,9 +106,9 @@ extension FocusTimerManager {
     }
 
     @objc func update() {
-        guard let obj = currentSession?.objFocus, obj.is_focusing,!obj.is_break_time else {
+        guard let obj = currentSession?.objFocus, obj.is_focusing,!obj.is_break_time, let arrSession = obj.focuses?.allObjects as? [Focus_List] else {
             stopTimer()
-            updateUI?(.unknown, 0, 0, 0)
+            updateUI?(.unknown, 0, 0, 0, [])
             return
         }
 
@@ -118,7 +118,7 @@ extension FocusTimerManager {
 
         if remaininFocusTime <= 0 {
             stopTimer()
-            updateUI?(.seession_completed_alert, 0, 0, 0)
+            updateUI?(.seession_completed_alert, 0, 0, 0, arrSession)
             return
         }
 
@@ -127,11 +127,11 @@ extension FocusTimerManager {
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
             if countdownerDetails.popup == .none {
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
-                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds)
+                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds, arrSession: arrSession)
             } else {
                 stopTimer()
                 WindowsManager.dismissErrorController()
-                updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds)
+                updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds, arrSession)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
             used_focus_time += 1
@@ -141,8 +141,8 @@ extension FocusTimerManager {
         }
     }
 
-    func updateTimeInfo(hours: Int, minutes: Int, seconds: Int) {
-        updateUI?(.none, hours, minutes, seconds)
+    func updateTimeInfo(hours: Int, minutes: Int, seconds: Int, arrSession: [Focus_List]) {
+        updateUI?(.none, hours, minutes, seconds, arrSession)
     }
 
     func updateRemaingTimeInDB(seconds: Int, usedTime: Int) {
@@ -163,10 +163,10 @@ extension FocusTimerManager {
         updateSessionData()
         let conterTime = counter.secondsToTime()
 
-        print("*** FOCUS *** performValueUpdate remaininTimeInSeconds ::: \(counter) == \(conterTime)")
-        print("*** FOCUS *** performValueUpdate usedTimeSeconds ::: \(usedValue) =======  \(objFocus.combine_stop_focus_after_time)")
-        print("*** FOCUS *** performValueUpdate used_focus_time ::: \(used_focus_time) =======  \(objFocus.combine_stop_focus_after_time)")
-        print("*** FOCUS *** performValueUpdate decrease_break_time :::=======  Descrease time \(Int(objFocus.decrease_break_time))")
+//        print("*** FOCUS *** performValueUpdate remaininTimeInSeconds ::: \(counter) == \(conterTime)")
+//        print("*** FOCUS *** performValueUpdate usedTimeSeconds ::: \(usedValue) =======  \(objFocus.combine_stop_focus_after_time)")
+//        print("*** FOCUS *** performValueUpdate used_focus_time ::: \(used_focus_time) =======  \(objFocus.combine_stop_focus_after_time)")
+//        print("*** FOCUS *** performValueUpdate decrease_break_time :::=======  Descrease time \(Int(objFocus.decrease_break_time))")
 
         switch Double(usedValue) {
         case objFocus.combine_stop_focus_after_time:
@@ -180,28 +180,30 @@ extension FocusTimerManager {
                 return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
             }
         default:
-            print("*** FOCUS ***  Count Down Value ::::: \(conterTime) *** FOCUS ***  ")
+//            print("*** FOCUS ***  Count Down Value ::::: \(conterTime) *** FOCUS ***  ")
             return (popup: .none, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
         }
     }
 
     func updateSessionData() {
-        guard let arrSession = objFocus.focuses?.allObjects as? [Focus_List], arrSession.count >= 2 else {
+        guard var arrSession = objFocus.focuses?.allObjects as? [Focus_List], arrSession.count >= 2 else {
             return
         }
+        arrSession = arrSession.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() })
         arrSession.forEach({
-            print("*** FOCUS ***  $0.session_end_time ::::: \($0.session_end_time) current date : \(Date())")
+//            print("*** FOCUS ***  $0.session_end_time ::::: \($0.session_end_time) current date : \(Date())")
             let session_end_date = $0.session_end_time ?? Date()
 
-            print("*** FOCUS ***  $0.session_end_time Equal Date \(session_end_date.isEqualTo(Date()))")
-            print("*** FOCUS ***  $0.session_end_time Greater Date \(session_end_date.isGreaterThan(Date()))")
-            print("*** FOCUS ***  $0.session_end_time Lessthan Date \(session_end_date.isSmallerThan(Date()))")
+//            print("*** FOCUS ***  $0.session_end_time Equal Date \(session_end_date.isEqualTo(Date()))")
+//            print("*** FOCUS ***  $0.session_end_time Greater Date \(session_end_date.isGreaterThan(Date()))")
+//            print("*** FOCUS ***  $0.session_end_time Lessthan Date \(session_end_date.isSmallerThan(Date()))")
 
             if session_end_date.isEqualTo(Date()) || session_end_date.isSmallerThan(Date()) {
+                print("*** FOCUS Second Session End ***")
                 self.stopTimer()
-//                DBManager.shared.updateRunningSession(focus: $0)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.update_current_session_ui.rawValue), object: nil)
+                DBManager.shared.updateRunningSession(focus: $0)
                 self.updateTimerStatus()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.update_current_session_ui.rawValue), object: nil)
             }
         })
     }

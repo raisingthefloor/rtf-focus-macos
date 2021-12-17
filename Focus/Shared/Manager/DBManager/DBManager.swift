@@ -397,7 +397,13 @@ extension DBManager {
             for (key, value) in data {
                 category.setValue(value, forKeyPath: key)
             }
+
+            (category as? Block_Category)?.sub_data?.allObjects.forEach({
+                managedContext.delete($0 as! NSManagedObject)
+            })
+
             storeCategoryWebApp(type: type, cat: cat, category: category as? Block_Category)
+
             if type == .general {
                 let setting_data: [String: Any?] = ["warning_before_schedule_session_start": false, "provide_short_break_schedule_session": false, "block_screen_first_min_each_break": false, "show_count_down_for_break_start_end": false, "break_time": Focus.BreakTime.five.valueInSeconds, "for_every_time": Focus.FocusTime.fifteen.valueInSeconds]
 
@@ -422,7 +428,6 @@ extension DBManager {
     func storeCategoryWebApp(type: CategoryType, cat: Categories, category: Block_Category?) {
         if type != .general || cat != .notification {
             var arrSD: [Block_Category_App_Web] = []
-
             let file_name_site = cat.rawValue + "_site"
             var sub_data = CSVParser.shared.getDataInDictionary(fileName: file_name_site, fileType: "csv")
 
@@ -517,7 +522,7 @@ extension DBManager {
         print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
 
         print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
-        objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - focus.break_length_time
+        objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - objFocus.decrease_break_time
         print("After combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
 
         print("Before combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
@@ -635,7 +640,7 @@ extension DBManager {
 
         fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [start_end_predict, day_predict])
 
-        print("Predicate Compound  :::: \(fetchRequest.predicate)")
+//        print("Predicate Compound  :::: \(fetchRequest.predicate)")
 
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
@@ -696,7 +701,7 @@ extension DBManager {
         let day_predict = NSPredicate(format: "ANY days_.day IN %@", day)
 
         fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [start_end_predict, day_predict])
-        print("Predicate Compound  :::: \(fetchRequest.predicate)")
+//        print("Predicate Compound  :::: \(fetchRequest.predicate)")
 
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)

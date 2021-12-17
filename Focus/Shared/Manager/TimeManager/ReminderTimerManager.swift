@@ -43,7 +43,6 @@ protocol ReminderModelType {
 
 class ReminderTimerManager: ReminderModelIntput, ReminderModelOutput, ReminderModelType {
     var input: ReminderModelIntput { return self }
-
     var output: ReminderModelOutput { return self }
 
     var showDialogue: ((FocusDialogue) -> Void)?
@@ -118,6 +117,7 @@ extension ReminderTimerManager {
         DispatchQueue.main.async {
             let presentCtrl = WindowsManager.getPresentingController()
             guard let obj = DBManager.shared.getScheduleFocus(id: scheduleId), let objEx = obj.extend_info else { return }
+            Config.start_date_time = Date()
             if objEx.is_extend_long, objEx.is_extend_mid, objEx.is_extend_short, objEx.is_extend_very_short {
                 self.resetExtendFlags(objEx: objEx)
                 self.redirectToMainMenu(obj: obj)
@@ -141,18 +141,21 @@ extension ReminderTimerManager {
                 obj.extend_min_time = Int64(value)
                 obj.is_schedule_session_extend = (dialogueType == .schedule_reminded_with_blocklist_alert) ? true : false
                 updateExtendedObject(dialogueType: dialogueType, valueType: valueType, obj: obj)
-                print(" Extend Time Valuse :  \(obj.reminder_date?.adding(hour: 0, min: value, sec: 0)) ::::::::::   value: \(value)")
+//                print(" Extend Time Valuse :  \(obj.reminder_date?.adding(hour: 0, min: value, sec: 0)) ::::::::::   value: \(value)")
                 obj.reminder_date = obj.reminder_date?.adding(hour: 0, min: value, sec: 0)
+                MenuViewModel.updateRunningSessionEndTime()
                 DBManager.shared.saveContext()
             } else {
                 createFocus(objFS: obj)
             }
         case .skip_session:
-            break
+            MenuViewModel.updateRunningSessionEndTime()
+            DBManager.shared.saveContext()
         case .normal_ok:
             if dialogueType == .schedule_reminded_with_blocklist_alert {
                 obj.is_schedule_session_extend = true
                 obj.reminder_date = obj.start_time_
+                MenuViewModel.updateRunningSessionEndTime()
                 DBManager.shared.saveContext()
             } else {
                 redirectToMainMenu(obj: obj)
@@ -227,7 +230,7 @@ extension ReminderTimerManager {
         let is_untill_stop = objSchedule.time_interval > (3600 * 60)
 
         var arrFocus: [Focus_List] = objFocus.focuses?.allObjects as? [Focus_List] ?? []
-
+        MenuViewModel.updateRunningSessionEndTime() // If existing session and waiting time greater then update end time
         let obj = Focus_List(context: DBManager.shared.managedContext)
         obj.focus_stop_after_length = focus_stop_length
         obj.break_length_time = break_length
@@ -248,8 +251,8 @@ extension ReminderTimerManager {
         let endTime = Int(objSchedule.time_interval).secondsToTime()
         print("End TIME ::::: \(endTime)")
 //        obj.session_end_time = Date().adding(hour: 0, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
-        
-        updateEndSessionTime(obj: obj, time: Int(objSchedule.time_interval))
+
+        updateSingleEndSessionTime(obj: obj, time: Int(objSchedule.time_interval))
 
         obj.focus_type = Int16(ScheduleType.schedule_focus.rawValue)
         arrFocus.append(obj)
@@ -273,9 +276,6 @@ extension ReminderTimerManager {
         updateParallelFocusSession(objSchedule: objSchedule, focuslist: arrFocus, objFocus: objFocus)
 
         DBManager.shared.saveContext()
-        DispatchQueue.main.async {
-            WindowsManager.dismissController()
-        }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
     }
 
@@ -301,7 +301,7 @@ extension ReminderTimerManager {
         objFocus.remaining_break_time = isFocusExsist ? total_break_focus : total_break_focus
     }
 
-    func updateEndSessionTime(obj: Focus_List, time: Int) {
+    func updateSingleEndSessionTime(obj: Focus_List, time: Int) {
         let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
         var firstmin_val: Int = 0
         var break_length: Int = 0
@@ -315,4 +315,12 @@ extension ReminderTimerManager {
         let extend_time = (break_length + firstmin_val + time).secondsToTime()
         obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
     }
+
+//    func updateRunningSessionEndTime() {
+//        if let obj = DBManager.shared.getCurrentSession() {
+//            let waiting_time = Config.start_date_time?.findDateDiff(time2: Date()) ?? 0
+//            print("***** Reminder WAITING TIME *****   \(waiting_time)")
+//            MenuViewModel.updateExtendEndSessionTime(obj: obj, time: Int(waiting_time))
+//        }
+//    }
 }

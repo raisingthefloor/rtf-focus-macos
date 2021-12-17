@@ -78,7 +78,7 @@ extension Focus {
             case .two_hr:
                 return 120 * 60
             case .untill_press_stop:
-                return 16 * 60 * 60
+                return 32 * 60 * 60
             case .stop_focus:
                 return 0
             }
@@ -252,7 +252,6 @@ extension Focus {
         }
 
         var isOn: NSControl.StateValue {
-            let obj = DBManager.shared.getFoucsObject()
             switch self {
             case .dnd:
                 return .off

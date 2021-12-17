@@ -257,6 +257,7 @@ extension SchedulerViewC {
         if checkSessionRunning(objFS: objFSchedule) {
             let objBl = DBManager.shared.getBlockListBy(id: objFSchedule.block_list_id)
             openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+            tblSchedule.reloadData()
             return
         }
 
@@ -332,6 +333,7 @@ extension SchedulerViewC {
     @objc func checkBoxEventHandler(_ sender: NSButton) {
         if checkSessionRunning(objFS: nil) {
             openErrorDialogue(errorType: .focus_schedule_error, objBL: nil)
+            tblSchedule.reloadData()
             return
         }
 

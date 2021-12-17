@@ -159,7 +159,6 @@ extension BlockAppDialogueViewC: BasicSetupType {
             dismiss(nil)
             return
         }
-
         if objBl.stop_focus_session_anytime {
             updateView?(.stop_session)
             dismiss(nil)

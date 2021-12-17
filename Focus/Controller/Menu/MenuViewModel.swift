@@ -118,6 +118,8 @@ extension MenuViewModel {
 
     func createFocus(time: Focus.StopTime) {
         var arrFocus: [Focus_List] = focusObj?.focuses?.allObjects as? [Focus_List] ?? []
+        MenuViewModel.updateRunningSessionEndTime()
+
         guard let obj = DBManager.shared.createFocus(data: focusDict) else { return }
         obj.created_date = Date()
         obj.focus_id = UUID()
@@ -152,7 +154,7 @@ extension MenuViewModel {
         let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
         let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
         let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
-        
+
         let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
         let is_block_programe_select = focuslist.compactMap({ $0.is_block_programe_select }).filter({ $0 }).first ?? false
 
@@ -183,5 +185,26 @@ extension MenuViewModel {
 
         let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
         obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
+    }
+}
+
+extension MenuViewModel {
+    static func updateExtendEndSessionTime(obj: Current_Focus, time: Int) {
+        let arrSessions = obj.focuses?.allObjects as? [Focus_List]
+        let currentExtendTime = Int(time).secondsToTime()
+        print("Extend time value ::::::: \(currentExtendTime)")
+        arrSessions?.forEach({
+            // print(" End time Value : \($0.session_end_time)")
+            $0.session_end_time = $0.session_end_time?.adding(hour: currentExtendTime.timeInHours, min: currentExtendTime.timeInMinutes, sec: currentExtendTime.timeInSeconds)
+        })
+        Config.start_date_time = nil
+    }
+
+    static func updateRunningSessionEndTime() {
+        if let obj = DBManager.shared.getCurrentSession() {
+            let waiting_time = Config.start_date_time?.findDateDiff(time2: Date()) ?? 0
+            print("***** Reminder WAITING TIME *****   \(waiting_time)")
+            MenuViewModel.updateExtendEndSessionTime(obj: obj, time: Int(waiting_time))
+        }
     }
 }
