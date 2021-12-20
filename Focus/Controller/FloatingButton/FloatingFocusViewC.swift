@@ -513,21 +513,23 @@ extension FloatingFocusViewC {
     }
 
     func updateTimeInfo(hours: Int, minutes: Int, seconds: Int) {
-        let objFocus = viewModel.input.focusObj
-        var remaing_break_time = Int(objFocus?.combine_stop_focus_after_time ?? 100)
-        remaing_break_time = (objFocus?.is_break_time ?? false) ? Int(objFocus?.remaining_break_time ?? 100) : (remaing_break_time - Int(objFocus?.decrease_break_time ?? 0))
-
-        let break_time = (objFocus?.is_break_time ?? false) ? remaing_break_time.secondsToTime() : remaing_break_time.secondsToTime()
-
+//        guard let objFocus = viewModel.input.focusObj else { return }
         var time = ""
-        if break_time.timeInHours != 0 {
-            time = String(describing: "\(String(format: "%02d", break_time.timeInHours)):\(String(format: "%02d", break_time.timeInMinutes))")
-        } else {
-            time = String(describing: "\(String(format: "%02d", break_time.timeInMinutes)):\(String(format: "%02d", break_time.timeInSeconds))")
-        }
-
+//        if objFocus.is_provided_short_break {
+//            var remaing_break_time = Int(objFocus.combine_stop_focus_after_time)
+//            remaing_break_time = objFocus.is_break_time ? Int(objFocus.remaining_break_time) : (remaing_break_time - Int(objFocus.decrease_break_time))
+//
+//            let break_time = objFocus.is_break_time ? remaing_break_time.secondsToTime() : remaing_break_time.secondsToTime()
+//
+//            if break_time.timeInHours != 0 {
+//                time = String(describing: "\(String(format: "%02d", break_time.timeInHours)):\(String(format: "%02d", break_time.timeInMinutes))")
+//            } else {
+//                time = String(describing: "\(String(format: "%02d", break_time.timeInMinutes)):\(String(format: "%02d", break_time.timeInSeconds))")
+//            }
+//        } else {
+            time = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+//        }
         DispatchQueue.main.async {
-//            let timeVal = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
             self.udateButtonSting(timeVal: time)
         }
     }

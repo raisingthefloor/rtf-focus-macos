@@ -41,13 +41,12 @@ class SlotViewCell: NSTableCellView {
         rightV.border_color = .clear
 
         if let tblIdentifier = tableColumn?.identifier {
+            bgColor = TableIdentifier(rawValue: tblIdentifier.rawValue)?.color
+
             if let scheduleDay = session.days.filter({ NSUserInterfaceItemIdentifier(rawValue: $0.day.identifier.rawValue) == tblIdentifier }).compactMap({ $0 }).first {
-                bgColor = TableIdentifier(rawValue: tblIdentifier.rawValue)?.color
                 setupSesionData(session: session, scheduleDay: scheduleDay)
             } else {
                 if isTodaySchedule {
-                    let identifier = tblIdentifier.rawValue
-                    bgColor = TableIdentifier(rawValue: identifier)?.color
                     if let scheduleDay = session.days.first {
                         setupSesionData(session: session, scheduleDay: scheduleDay)
                     }

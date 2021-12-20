@@ -509,8 +509,13 @@ extension DBManager {
 
         let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
         print("spent_time ::: \(spent_time)")
+        var pnding_time: Double = 0
+        if focus.focus_length_time < spent_time {
+            pnding_time = (spent_time - focus.focus_length_time).rounded(.up)
+        } else {
+            pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
+        }
 
-        let pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
         print("pnding_time ::: \(pnding_time)")
 
         print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")

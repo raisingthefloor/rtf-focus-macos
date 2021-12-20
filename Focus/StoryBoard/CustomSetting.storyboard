@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -2219,7 +2220,7 @@
                                             <rect key="frame" x="-100" y="-100" width="512" height="11"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.10304287690179803" controlSize="mini" horizontal="NO" id="VCg-DX-KSD">
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" controlSize="mini" horizontal="NO" id="VCg-DX-KSD">
                                             <rect key="frame" x="518" y="0.0" width="11" height="1000"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -2386,7 +2387,7 @@
                                                                     </constraints>
                                                                 </customView>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEk-ah-8aI" userLabel="ScheduleV">
-                                                                    <rect key="frame" x="0.0" y="587" width="706" height="264"/>
+                                                                    <rect key="frame" x="-177" y="587" width="706" height="264"/>
                                                                     <subviews>
                                                                         <scrollView borderType="none" horizontalLineScroll="24" horizontalPageScroll="0.0" verticalLineScroll="24" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" minMagnification="0.0001" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR7-jl-4QY">
                                                                             <rect key="frame" x="0.0" y="0.0" width="706" height="260"/>
@@ -2874,7 +2875,7 @@
                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <tableViewGridLines key="gridStyleMask" vertical="YES" horizontal="YES"/>
-                                                                                                <color key="gridColor" red="0.92156862750000001" green="0.94901960780000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                                <color key="gridColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                 <tableColumns>
                                                                                                     <tableColumn identifier="timeIdentifier" width="45" minWidth="45" maxWidth="45" id="eLu-JQ-AWJ">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
@@ -2905,16 +2906,16 @@
                                                                                                                     <constraint firstItem="Y2k-lY-Hng" firstAttribute="centerY" secondItem="2de-j5-e36" secondAttribute="centerY" id="Sof-fW-AKA"/>
                                                                                                                     <constraint firstItem="Y2k-lY-Hng" firstAttribute="centerX" secondItem="2de-j5-e36" secondAttribute="centerX" id="fBo-5B-qr1"/>
                                                                                                                 </constraints>
+                                                                                                                <userDefinedRuntimeAttributes>
+                                                                                                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                                                                                        <color key="value" name="controlAccentColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    </userDefinedRuntimeAttribute>
+                                                                                                                </userDefinedRuntimeAttributes>
                                                                                                                 <connections>
                                                                                                                     <outlet property="lblTitle" destination="Y2k-lY-Hng" id="OFd-Z7-XIV"/>
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.96078431369999995" green="0.97647058819999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="sunIdentifier" width="67" minWidth="67" maxWidth="67" id="6PA-dL-Yh6">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="SUN">
@@ -2972,11 +2973,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.92156862750000001" green="0.94901960780000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="monIdentifier" width="67" minWidth="67" maxWidth="67" id="i6e-Vx-ejq">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="MON">
@@ -3034,11 +3030,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.96078431369999995" green="0.97647058819999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="tueIdentifier" width="67" minWidth="67" maxWidth="67" id="Xcp-CZ-OlN">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TUE">
@@ -3096,11 +3087,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.92156862750000001" green="0.94901960780000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="wedIdentifier" width="67" minWidth="67" maxWidth="67" id="Bcm-RM-rhZ">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="WED">
@@ -3158,11 +3144,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.96078431369999995" green="0.97647058819999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="thuIdentifier" width="67" minWidth="67" maxWidth="67" id="ZcU-NC-BQ6">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="THU">
@@ -3220,11 +3201,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.92156862750000001" green="0.94901960780000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="friIdentifier" width="67" minWidth="67" maxWidth="67" id="17F-3s-15B">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="FRI">
@@ -3282,11 +3258,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.96078431369999995" green="0.97647058819999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                     <tableColumn identifier="satIdentifier" width="67" minWidth="67" maxWidth="67" id="fyZ-tq-sc9">
                                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="SAT">
@@ -3344,11 +3315,6 @@
                                                                                                                 </connections>
                                                                                                             </tableCellView>
                                                                                                         </prototypeCellViews>
-                                                                                                        <userDefinedRuntimeAttributes>
-                                                                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                                                                                                <color key="value" red="0.92156862750000001" green="0.94901960780000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                            </userDefinedRuntimeAttribute>
-                                                                                                        </userDefinedRuntimeAttributes>
                                                                                                     </tableColumn>
                                                                                                 </tableColumns>
                                                                                             </tableView>

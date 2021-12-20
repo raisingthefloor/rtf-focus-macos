@@ -64,7 +64,6 @@ class SessionInfoView: NSView, NibView {
 
 extension SessionInfoView: BasicSetupType {
     func setUpText() {
-        
         lblHours.stringValue = NSLocalizedString("Session.focus_session_has_run", comment: "Focus session has run for:")
         lblBlock.stringValue = NSLocalizedString("Session.using_block", comment: "Using blocklist:")
         lblEnd.stringValue = NSLocalizedString("Session.focus_session_end_at", comment: "Focus session ends at:")
@@ -112,7 +111,7 @@ extension SessionInfoView: BasicSetupType {
 
         lblBlockV.stringValue = (obj?.is_block_programe_select ?? false) ? list_name : "-"
 
-        let endValue = (objFocus?.focus_untill_stop ?? false) ? "-" : (obj?.session_end_time ?? Date()).currentTime().strDate?.uppercased()
+        let endValue = (obj?.focus_untill_stop ?? false) ? "-" : (obj?.session_end_time ?? Date()).currentTime().strDate?.uppercased()
         lblEndV.stringValue = endValue ?? "-"
     }
 }

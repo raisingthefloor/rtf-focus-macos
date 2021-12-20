@@ -48,6 +48,7 @@ script BrowserBridge
                         try
                             set theWindows to windows
                             repeat with theWindow in theWindows
+                                try
                                 set theTabs to tabs of theWindow
 --                            log("theTabs :::::::  " & theTabs)
                                 repeat with t_info in theTabs
@@ -61,13 +62,18 @@ script BrowserBridge
                                     set AppleScript's text item delimiters to {""} --> restore delimiters to default value
                                     set domainName to split_item's item 3
 --                                log("domainName :::::::  " & domainName)
+                                    try
                                     repeat with b_url in urls
                                         if domainName contains b_url then
                                             set (URL of every tab of every window where URL contains (url_name)) to block_url
                                             exit repeat
                                         end if
                                     end repeat
+                                    on error number -1719
+                                    end try
                                 end repeat
+                                on error number -1728
+                                end try
                             end repeat
                         on error number -609
                         end try
@@ -78,8 +84,10 @@ script BrowserBridge
                     tell application "Google Chrome"
                         try
                             set theWindows to windows
+                            
                             repeat with theWindow in theWindows
                                 set theTabs to tabs of theWindow
+                                try
                                 repeat with t_info in theTabs
                                     set url_name to URL of t_info
                                     set AppleScript's text item delimiters to "/"
@@ -93,6 +101,8 @@ script BrowserBridge
                                         end if
                                     end repeat
                                 end repeat
+                                on error number -1728
+                                end try
                             end repeat
                         on error number -609
                         end try
@@ -105,6 +115,7 @@ script BrowserBridge
                             set theWindows to windows
                             repeat with theWindow in theWindows
                                 set theTabs to tabs of theWindow
+                                try
                                 repeat with t_info in theTabs
                                     set url_name to URL of t_info
                                     set AppleScript's text item delimiters to "/"
@@ -118,6 +129,8 @@ script BrowserBridge
                                         end if
                                     end repeat
                                 end repeat
+                                on error number -1728
+                                end try
                             end repeat
                         on error number -609
                         end try
@@ -128,8 +141,10 @@ script BrowserBridge
                     tell application "Brave Browser"
                         try
                             set theWindows to windows
+                            
                             repeat with theWindow in theWindows
                                 set theTabs to tabs of theWindow
+                                try
                                 repeat with t_info in theTabs
                                     set url_name to URL of t_info
                                     set AppleScript's text item delimiters to "/"
@@ -143,6 +158,8 @@ script BrowserBridge
                                         end if
                                     end repeat
                                 end repeat
+                                on error number -1728
+                                end try
                             end repeat
                         on error number -609
                         end try
@@ -153,8 +170,10 @@ script BrowserBridge
                     tell application "Vivaldi"
                         try
                             set theWindows to windows
+                            
                             repeat with theWindow in theWindows
                                 set theTabs to tabs of theWindow
+                                try
                                 repeat with t_info in theTabs
                                     set url_name to URL of t_info
                                     set AppleScript's text item delimiters to "/"
@@ -168,6 +187,8 @@ script BrowserBridge
                                         end if
                                     end repeat
                                 end repeat
+                                on error number -1728
+                                end try
                             end repeat
                         on error number -609
                         end try

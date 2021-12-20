@@ -142,6 +142,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         var i = 0
+
         tblSchedule.tableColumns.forEach { column in
             column.headerCell.backgroundColor = Color.tbl_header_color
             let paragraph = NSMutableParagraphStyle()
@@ -153,7 +154,6 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
 
         tblSession.tableColumns.forEach { column in
             column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
-            i = i + 1
         }
     }
 
