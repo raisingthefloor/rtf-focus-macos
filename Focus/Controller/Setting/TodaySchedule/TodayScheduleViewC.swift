@@ -92,12 +92,12 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
             if column.identifier != NSUserInterfaceItemIdentifier(rawValue: "timeIdentifier") {
                 let paragraph = NSMutableParagraphStyle()
                 paragraph.alignment = .center
-
+                column.headerCell.drawsBackground = true
+                column.headerCell.backgroundColor = Color.tbl_header_color
                 column.headerCell.attributedStringValue = NSAttributedString(string: Date.getDayName().uppercased()
                                                                              , attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
             }
         }
-
         tblSchedule.reloadData()
         tblSchedule.layoutSubtreeIfNeeded()
 

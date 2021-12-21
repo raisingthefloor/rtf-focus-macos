@@ -152,8 +152,16 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
             i = i + 1
         }
 
+        i = 0
+
         tblSession.tableColumns.forEach { column in
+
+            column.headerCell.drawsBackground = true
+            column.headerCell.backgroundColor = (i % 2 == 0) ? Color.time_slot_color : Color.tbl_header_color
+            column.headerCell.backgroundStyle = .emphasized
+
             column.headerCell.attributedStringValue = NSAttributedString(string: column.title, attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.paragraphStyle: paragraph])
+            i = i + 1
         }
     }
 

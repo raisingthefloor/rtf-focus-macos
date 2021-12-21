@@ -23,15 +23,10 @@
  * Consumer Electronics Association Foundation
  */
 
+import AppKit
 import Cocoa
 
 class CustomTableHeaderCell: NSTableHeaderCell {
-    override init(textCell: String) {
-        super.init(textCell: textCell)
-        font = NSFont.systemFont(ofSize: 10, weight: .semibold)
-        backgroundColor = Color.tbl_header_color
-    }
-
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -44,5 +39,24 @@ class CustomTableHeaderCell: NSTableHeaderCell {
     override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
         let titleRect = self.titleRect(forBounds: cellFrame)
         attributedStringValue.draw(in: titleRect)
+    }
+}
+
+class TodayScheduleHeaderCell: NSTableHeaderCell {
+    // Customize background tint for header cell
+    override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
+        super.draw(withFrame: cellFrame, in: controlView)
+        Color.tbl_header_color.set()
+        cellFrame.fill()
+    }
+
+    // Customize text style/positioning for header cell
+    override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+
+        attributedStringValue = NSAttributedString(string: Date.getDayName().uppercased(), attributes: [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 10, weight: .semibold), NSAttributedString.Key.foregroundColor: Color.black_color, NSAttributedString.Key.paragraphStyle: paragraph])
+        let offsetFrame = NSOffsetRect(drawingRect(forBounds: cellFrame), 4, 0)
+        super.drawInterior(withFrame: offsetFrame, in: controlView)
     }
 }

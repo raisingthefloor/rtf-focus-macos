@@ -511,7 +511,7 @@ extension DBManager {
         print("spent_time ::: \(spent_time)")
         var pnding_time: Double = 0
         if focus.focus_length_time < spent_time {
-            pnding_time = (spent_time - focus.focus_length_time).rounded(.up)
+            // pnding_time = (spent_time - focus.focus_length_time).rounded(.up)
         } else {
             pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
         }
@@ -519,15 +519,24 @@ extension DBManager {
         print("pnding_time ::: \(pnding_time)")
 
         print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
-        objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
-        print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
-
         print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")
-        objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
+        if pnding_time == 0 {
+            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - focus.focus_length_time)
+            objFocus.remaining_focus_time = (spent_time > objFocus.remaining_focus_time) ? (spent_time - objFocus.remaining_focus_time) : (objFocus.remaining_focus_time - spent_time)
+        } else {
+            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
+            objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
+        }
+        print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
         print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
 
         print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
-        objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - objFocus.decrease_break_time
+        
+        if objFocus.decrease_break_time > objFocus.combine_break_lenght_time {
+            objFocus.combine_break_lenght_time = objFocus.decrease_break_time - objFocus.combine_break_lenght_time
+        } else {
+            objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - objFocus.decrease_break_time
+        }
         print("After combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
 
         print("Before combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")

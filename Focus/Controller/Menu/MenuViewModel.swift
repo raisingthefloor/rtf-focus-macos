@@ -185,6 +185,14 @@ extension MenuViewModel {
 
         let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
         obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
+
+        // If any exsist previously
+        if let arrSessions = focusObj?.focuses?.allObjects as? [Focus_List] {
+            arrSessions.forEach({
+                let extend_time = (firstmin_val + break_length).secondsToTime()
+                $0.session_end_time = $0.session_end_time?.adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
+            })
+        }
     }
 }
 

@@ -65,3 +65,11 @@ class ScheduleRowView: NSTableRowView {
         dirtyRect.fill()
     }
 }
+
+class SlotRowView: NSTableRowView {
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        Color.tbl_header_color.set()
+        dirtyRect.fill()
+    }
+}

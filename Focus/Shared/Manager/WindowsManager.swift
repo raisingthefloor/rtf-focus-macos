@@ -100,7 +100,7 @@ struct WindowsManager {
         }
     }
 
-    static func setDialogueInCenter() {
+    static func setDialogueInCenter() {        
         NSApp.windows.forEach({
             if $0.contentViewController is FloatingFocusViewC {
             } else {
@@ -108,7 +108,7 @@ struct WindowsManager {
             }
         })
     }
-
+    
     static func isBlockAppDialogueVCOpen() -> Bool {
         if let controller = NSApplication.shared.windows.last?.contentViewController {
             if controller is BlockAppDialogueViewC {
