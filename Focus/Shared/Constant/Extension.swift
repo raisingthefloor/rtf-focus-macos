@@ -54,14 +54,10 @@ extension String {
         return String((0 ..< length).map { _ in letters.randomElement()! })
     }
 
-//    var isValidUrl: Bool {
-//        let urlRegEx = "((?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
-//        return NSPredicate(format: "SELF MATCHES %@", urlRegEx).evaluate(with: self)
-//    }
-
     var isValidUrl: Bool {
 //        let urlRegEx = "((\\w|-)+)(([.]|[/])((\\w|-)+))+"
-        let urlRegEx = "((?:http|https)://)?(?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
+//        let urlRegEx = "((?:http|https)://)?(?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
+        let urlRegEx = "((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+"
         let predicate = NSPredicate(format: "SELF MATCHES %@", urlRegEx)
         let result = predicate.evaluate(with: self)
         return result

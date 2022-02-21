@@ -62,10 +62,10 @@ enum InputDialogue: Int {
         case .add_block_list_name:
             return NSLocalizedString("Input.add_block_list_name.error", comment: "Blocklist name is missing")
         case .add_website:
-            return NSLocalizedString("Input.add_website.error", comment: "URL is missing")
+            return UrlError.empty.error
         }
     }
-    
+
     /*
      Invalid URL message: “This link does not appear to work.”
      Missing URL message: “Website link is missing.”
@@ -77,6 +77,20 @@ enum InputDialogue: Int {
             return false
         default:
             return true
+        }
+    }
+}
+
+enum UrlError: Int {
+    case empty
+    case invalid_url
+
+    var error: String {
+        switch self {
+        case .empty:
+            return NSLocalizedString("Input.add_website.error", comment: "URL is missing")
+        case .invalid_url:
+            return NSLocalizedString("Error.invalid_url", comment: "This is not a valid URL")
         }
     }
 }

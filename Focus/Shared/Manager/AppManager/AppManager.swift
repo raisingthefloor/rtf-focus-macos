@@ -151,6 +151,8 @@ extension AppManager {
             return
         }
 
+        let appBundleID = Bundle.main.bundleIdentifier
+//        print("App Name ::: \(appBundleID)")
         var i = 1
         for result in query.results {
             guard let item = result as? NSMetadataItem else {
@@ -158,9 +160,10 @@ extension AppManager {
             }
 //            print("APP Result :::\(item.value(forAttribute: kMDItemDisplayName as String)) \n")
             if let name = item.value(forAttribute: kMDItemDisplayName as String) as? String {
-                if let bundleName = Bundle.bundleIDFor(appNamed: name) {
+                if let bundleName = Bundle.bundleIDFor(appNamed: name), bundleName != appBundleID {
 //                    print("APP bundleName :::\(bundleName)) \n")
                     if let path = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleName) {
+//                        print("APP bundleName path :::\(path)) \n")
                         if !DBManager.shared.checkAppsIsPresent(bundle_id: bundleName) {
                             let data: [String: Any] = ["name": name, "bundle_id": bundleName, "path": path, "created_at": Date(), "index": i]
                             DBManager.shared.saveApplicationlist(data: data)

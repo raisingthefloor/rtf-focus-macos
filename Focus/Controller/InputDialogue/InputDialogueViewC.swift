@@ -119,7 +119,7 @@ extension InputDialogueViewC: BasicSetupType {
             } else {
                 if !txtField.stringValue.isValidUrl {
                     lblError.isHidden = false
-                    lblError.stringValue = inputType.error_message
+                    lblError.stringValue = UrlError.invalid_url.error
                     return
                 }
                 lblError.isHidden = true
@@ -157,7 +157,6 @@ extension InputDialogueViewC: BasicSetupType {
                 hideshowError(isError: true)
                 return
             }
-            
             if !NSWorkspace.shared.open(urlV) {
                 hideshowError(isError: true)
             }
@@ -168,6 +167,6 @@ extension InputDialogueViewC: BasicSetupType {
 
     func hideshowError(isError: Bool) {
         lblError.isHidden = !isError
-        lblError.stringValue = NSLocalizedString("Error.invalid_url", comment: "This is not a valid URL.")
+        lblError.stringValue = UrlError.invalid_url.error
     }
 }
