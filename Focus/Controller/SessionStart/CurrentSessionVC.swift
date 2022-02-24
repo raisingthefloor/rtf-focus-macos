@@ -243,8 +243,12 @@ extension CurrentSessionVC {
         let objSession = arrSession[sender.tag]
 
         guard let bl_id = objSession.block_list_id else {
-            updateView?(true, .stop_session)
-            dismiss(nil)
+            if arrSession.count > 1 {
+                updateSesionAfterStop(focus: objSession)
+            } else {
+                updateView?(true, .stop_session)
+                dismiss(nil)
+            }
             return
         }
 

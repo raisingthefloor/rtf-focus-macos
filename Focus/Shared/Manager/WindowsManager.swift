@@ -55,21 +55,26 @@ struct WindowsManager {
 
     static func getPresentingController() -> NSViewController? {
         if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+            print(" present first IF")
             return presetFromCtrl
         } else if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
+            print(" present second IF")
             return presetFromCtrl
         } else {
+            print(" present else part")
             let presetFromCtrl = Config.delegate.windowController?.contentViewController
             return presetFromCtrl
         }
     }
 
     static func dismissController() {
-        if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
-            presetFromCtrl.dismiss(nil)
-        }
-        if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
-            presetFromCtrl.dismiss(nil)
+        DispatchQueue.main.async {
+            if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+                presetFromCtrl.dismiss(nil)
+            }
+            if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
+                presetFromCtrl.dismiss(nil)
+            }
         }
     }
 
@@ -100,7 +105,7 @@ struct WindowsManager {
         }
     }
 
-    static func setDialogueInCenter() {        
+    static func setDialogueInCenter() {
         NSApp.windows.forEach({
             if $0.contentViewController is FloatingFocusViewC {
             } else {
@@ -108,7 +113,7 @@ struct WindowsManager {
             }
         })
     }
-    
+
     static func isBlockAppDialogueVCOpen() -> Bool {
         if let controller = NSApplication.shared.windows.last?.contentViewController {
             if controller is BlockAppDialogueViewC {

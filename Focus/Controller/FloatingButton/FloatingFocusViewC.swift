@@ -87,17 +87,19 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func udateButtonSting(timeVal: String) {
-        var time = ""
-        if let obj = viewModel.input.focusObj, obj.is_focusing {
-            if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
-                time = (obj.focus_untill_stop && !obj.is_provided_short_break) ? "" : ("\n" + timeVal)
+        DispatchQueue.main.async {
+            var time = ""
+            if let obj = self.viewModel.input.focusObj, obj.is_focusing {
+                if let isCountDownOn = self.objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
+                    time = (obj.focus_untill_stop && !obj.is_provided_short_break) ? "" : ("\n" + timeVal)
+                }
+                self.btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
+                if obj.is_focusing && obj.is_break_time {
+                    self.btnFocus.title = NSLocalizedString("Button.Break", comment: "Break") + time
+                }
+            } else {
+                self.btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
             }
-            btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
-            if obj.is_focusing && obj.is_break_time {
-                btnFocus.title = NSLocalizedString("Button.Break", comment: "Break") + time
-            }
-        } else {
-            btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
         }
     }
 
@@ -527,7 +529,7 @@ extension FloatingFocusViewC {
 //                time = String(describing: "\(String(format: "%02d", break_time.timeInMinutes)):\(String(format: "%02d", break_time.timeInSeconds))")
 //            }
 //        } else {
-            time = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
+        time = String(describing: "\(String(format: "%02d", minutes)):\(String(format: "%02d", seconds))")
 //        }
         DispatchQueue.main.async {
             self.udateButtonSting(timeVal: time)

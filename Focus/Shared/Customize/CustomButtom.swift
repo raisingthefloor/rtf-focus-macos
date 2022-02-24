@@ -42,7 +42,7 @@ internal extension CALayer {
 
 // unused for now
 internal extension NSColor {
-     func tintedColor() -> NSColor {
+    func tintedColor() -> NSColor {
         var h = CGFloat(), s = CGFloat(), b = CGFloat(), a = CGFloat()
         let rgbColor = usingColorSpace(NSColorSpace.genericRGB)
         rgbColor?.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
@@ -313,33 +313,35 @@ open class CustomButton: NSButton, CALayerDelegate {
     }
 
     public func animateColor(_ isOn: Bool) {
-        removeAnimations()
-        let duration = isOn ? onAnimationDuration : offAnimationDuration
-        let bgColor = isOn ? activeButtonColor : buttonColor
-        let titleColor = isOn ? activeTextColor : textColor
-        let imageColor = isOn ? activeIconColor : iconColor
-        let borderColor = isOn ? activeBorderColor : self.borderColor
-        layer?.animate(color: bgColor.cgColor, keyPath: "backgroundColor", duration: duration)
-        layer?.animate(color: borderColor.cgColor, keyPath: "borderColor", duration: duration)
+        DispatchQueue.main.async {
+            self.removeAnimations()
+            let duration = isOn ? self.onAnimationDuration : self.offAnimationDuration
+            let bgColor = isOn ? self.activeButtonColor : self.buttonColor
+            let titleColor = isOn ? self.activeTextColor : self.textColor
+            let imageColor = isOn ? self.activeIconColor : self.iconColor
+            let borderColor = isOn ? self.activeBorderColor : self.borderColor
+            self.layer?.animate(color: bgColor.cgColor, keyPath: "backgroundColor", duration: duration)
+            self.layer?.animate(color: borderColor.cgColor, keyPath: "borderColor", duration: duration)
 
-        /*  I started seeing high (~5%) background CPU usage in apps using
-         FlatButton, and was able to track it down to background CATextLayer animation calls
-         happening constantly, originating from the call below. It could be a CATextLayer bug.
-         For now I'm going with setting the color instantly as it fixes this issue. */
-        // titleLayer.animate(color: titleColor.cgColor, keyPath: "foregroundColor", duration: duration)
-        titleLayer.foregroundColor = titleColor.cgColor
+            /*  I started seeing high (~5%) background CPU usage in apps using
+             FlatButton, and was able to track it down to background CATextLayer animation calls
+             happening constantly, originating from the call below. It could be a CATextLayer bug.
+             For now I'm going with setting the color instantly as it fixes this issue. */
+            // titleLayer.animate(color: titleColor.cgColor, keyPath: "foregroundColor", duration: duration)
+            self.titleLayer.foregroundColor = titleColor.cgColor
 
-        if alternateImage == nil {
-            iconLayer.animate(color: imageColor.cgColor, keyPath: "backgroundColor", duration: duration)
-        } else {
-            iconLayer.animate(color: isOn ? NSColor.clear.cgColor : iconColor.cgColor, keyPath: "backgroundColor", duration: duration)
-            alternateIconLayer.animate(color: isOn ? activeIconColor.cgColor : NSColor.clear.cgColor, keyPath: "backgroundColor", duration: duration)
-        }
+            if self.alternateImage == nil {
+                self.iconLayer.animate(color: imageColor.cgColor, keyPath: "backgroundColor", duration: duration)
+            } else {
+                self.iconLayer.animate(color: isOn ? NSColor.clear.cgColor : self.iconColor.cgColor, keyPath: "backgroundColor", duration: duration)
+                self.alternateIconLayer.animate(color: isOn ? self.activeIconColor.cgColor : NSColor.clear.cgColor, keyPath: "backgroundColor", duration: duration)
+            }
 
-        // Shadows
+            // Shadows
 
-        if glowRadius > 0, glowOpacity > 0 {
-            containerLayer.animate(color: isOn ? activeIconColor.cgColor : NSColor.clear.cgColor, keyPath: "shadowColor", duration: duration)
+            if self.glowRadius > 0, self.glowOpacity > 0 {
+                self.containerLayer.animate(color: isOn ? self.activeIconColor.cgColor : NSColor.clear.cgColor, keyPath: "shadowColor", duration: duration)
+            }
         }
     }
 
