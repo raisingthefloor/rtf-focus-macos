@@ -115,7 +115,7 @@ extension WeekDaysCell: BasicSetupType {
                 DBManager.shared.saveContext()
             }
         } else {
-            if !warningToAddThirdSession(day: tag) {
+            if !warningToAddThirdSession(day: tag) && !startEndTimeSchecduleValidation(day: tag) {
                 let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
                 objDay.day = Int16(tag)
                 arrDay.append(objDay)
@@ -132,6 +132,19 @@ extension WeekDaysCell: BasicSetupType {
         guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.block_list_id, let focus_schedule_id = objFS?.id else { return false }
         let isSame = focuslist.compactMap({ $0.block_list_id == id && $0.focus_schedule_id == focus_schedule_id }).filter({ $0 }).first ?? false
         return isSame
+    }
+
+    func startEndTimeSchecduleValidation(day: Int) -> Bool {
+        if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_ {
+            let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
+
+            if !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV) {
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                displayError(errorType: .schedule_error, objBl: objBl)
+                return true
+            }
+        }
+        return false
     }
 
     func warningToAddThirdSession(day: Int) -> Bool {

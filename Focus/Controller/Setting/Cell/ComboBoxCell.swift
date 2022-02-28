@@ -174,24 +174,29 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 referesh = false
                 displayError(errorType: .validation_error)
 
-            } else if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
-                if comboBox.tag == 2 {
-                    comboTime.stringValue = ""
-                    objFSchedule?.end_time = ""
-                    objFSchedule?.end_time_ = nil
+            } else {
+                if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) && !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV) {
+                    if comboBox.tag == 2 {
+                        comboTime.stringValue = ""
+                        objFSchedule?.end_time = ""
+                        objFSchedule?.end_time_ = nil
 
-                    configEndCell(obj: objFSchedule, arrTimes: arrTimes)
-                } else {
-                    comboTime.stringValue = ""
-                    objFSchedule?.start_time = ""
-                    objFSchedule?.start_time_ = nil
-                    objFSchedule?.reminder_date = nil
-                    configStartCell(obj: objFSchedule, arrTimes: arrTimes)
+                        configEndCell(obj: objFSchedule, arrTimes: arrTimes)
+                    } else {
+                        comboTime.stringValue = ""
+                        objFSchedule?.start_time = ""
+                        objFSchedule?.start_time_ = nil
+                        objFSchedule?.reminder_date = nil
+                        configStartCell(obj: objFSchedule, arrTimes: arrTimes)
+                    }
+
+                    referesh = false
+                    displayError(errorType: .schedule_error)
+                    DBManager.shared.saveContext()
+                    refreshTable?(referesh)
+                    return
                 }
 
-                referesh = false
-                displayError(errorType: .schedule_error)
-            } else {
                 objFSchedule?.time_interval = s_time.findDateDiff(time2: e_time) // findDateDiff(time1: s_time, time2: e_time)
             }
         }

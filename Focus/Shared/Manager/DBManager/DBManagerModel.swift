@@ -61,6 +61,7 @@ protocol DBMangerLogic {
     func getScheduleFocus(time: String, day: Int?) -> [Focus_Schedule]
     func checkScheduleSession(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool
     func validateScheduleSessionSlotsExsits(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool
+    func checkSETimeSlotForScheduleSession(s_time: Date, e_time: Date, day: [Int]) -> Bool
 
     func truncateTable(name: String)
     func deleteObject(name: String, predicate: NSPredicate?)

@@ -520,18 +520,24 @@ extension DBManager {
 
         print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
         print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")
-        if pnding_time == 0 {
-            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - focus.focus_length_time)
-            objFocus.remaining_focus_time = (spent_time > objFocus.remaining_focus_time) ? (spent_time - objFocus.remaining_focus_time) : (objFocus.remaining_focus_time - spent_time)
-        } else {
-            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
-            objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
-        }
+//        if pnding_time == 0 {
+//            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - focus.focus_length_time)
+//            objFocus.remaining_focus_time = (spent_time > objFocus.remaining_focus_time) ? (spent_time - objFocus.remaining_focus_time) : (objFocus.remaining_focus_time - spent_time)
+//        } else {
+//            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
+//            objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
+//        }
+        
+        objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - spent_time)
+        objFocus.remaining_focus_time = (objFocus.remaining_focus_time - spent_time)
+
+        
+        
         print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
         print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
 
         print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
-        
+
         if objFocus.decrease_break_time > objFocus.combine_break_lenght_time {
             objFocus.combine_break_lenght_time = objFocus.decrease_break_time - objFocus.combine_break_lenght_time
         } else {
@@ -724,6 +730,31 @@ extension DBManager {
                 count = results.count > 2 ? results.count : 0
             }
             if count == 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch let error {
+            print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    func checkSETimeSlotForScheduleSession(s_time: Date, e_time: Date, day: [Int]) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
+
+        let start_end_predict = NSPredicate(format: "(end_time_ < %@)", s_time as CVarArg)
+        let day_predict = NSPredicate(format: "ANY days_.day IN %@", day)
+
+        fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [start_end_predict, day_predict])
+
+        print("Predicate Compound  :::: \(fetchRequest.predicate)")
+
+        do {
+            let results = try DBManager.shared.managedContext.fetch(fetchRequest)
+            if (results.count >= 0) && (results as? [Focus_Schedule])?.first?.days_ == nil {
+                return true
+            } else if (results.count > 0) && (results as? [Focus_Schedule])?.first?.days_ != nil {
                 return true
             } else {
                 return false

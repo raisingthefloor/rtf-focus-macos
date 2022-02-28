@@ -284,7 +284,10 @@ extension ReminderTimerManager {
         let isFocusExsist = focuslist.count > 1
         let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
         let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
-        let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
+//        let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
+        
+        let total_focus_length = focuslist.map({ $0.focus_length_time }).max() ?? 0
+
         let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
         let is_block_programe_select = focuslist.compactMap({ $0.is_block_programe_select }).filter({ $0 }).first ?? false
 
@@ -292,12 +295,12 @@ extension ReminderTimerManager {
         objFocus.combine_stop_focus_after_time = total_stop_focus
         objFocus.combine_break_lenght_time = total_break_focus
 
-        print("Remaining Time : \(total_focus_length - objFocus.used_focus_time)")
+        print("Remaining Time : \(total_focus_length)")
         objFocus.is_dnd_mode = is_dnd_mode
         objFocus.is_block_programe_select = is_block_programe_select
         objFocus.is_focusing = true
 
-        objFocus.remaining_focus_time = isFocusExsist ? (total_focus_length - objFocus.used_focus_time) : total_focus_length
+        objFocus.remaining_focus_time = isFocusExsist ? (total_focus_length) : total_focus_length
         objFocus.remaining_break_time = isFocusExsist ? total_break_focus : total_break_focus
     }
 
@@ -305,10 +308,11 @@ extension ReminderTimerManager {
         let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
         var firstmin_val: Int = 0
         var break_length: Int = 0
-        if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
-            firstmin_val = 1 * 60 // one min
-        }
+
         if obj.is_block_programe_select {
+            if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
+                firstmin_val = 1 * 60 // one min
+            }
             break_length = Int(obj.break_length_time)
         }
 

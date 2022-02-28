@@ -227,7 +227,6 @@ extension CurrentSessionVC {
     }
 
     @objc func okAction(_ sender: NSButton) {
-        // Action perform for OK
         stopTimer()
         dismiss(nil)
     }

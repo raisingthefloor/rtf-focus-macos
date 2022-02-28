@@ -59,21 +59,21 @@ class SlotViewCell: NSTableCellView {
         let color: [NSColor] = scheduleDay.colors
         if scheduleDay.isActive == true && scheduleDay.noOfsession != 0 {
             if scheduleDay.noOfsession == 2 {
+                leftV.background_color = ((scheduleDay.color_type.last == .hollow) ? Color.list_bg_color : color.last)
+                leftV.border_color = ((scheduleDay.color_type.last == .hollow) ? color.last : .clear)
+                leftV.border_width = 2.5
+
                 rightV.background_color = ((scheduleDay.color_type.first == .hollow) ? Color.list_bg_color : color.first)
                 rightV.border_color = ((scheduleDay.color_type.first == .hollow) ? color.first : .clear)
+                rightV.border_width = 2.5
+            } else {
+                rightV.background_color = .clear
+                rightV.border_color = .clear
                 rightV.border_width = 2.5
 
                 leftV.background_color = ((scheduleDay.color_type.last == .hollow) ? Color.list_bg_color : color.last)
                 leftV.border_color = ((scheduleDay.color_type.last == .hollow) ? color.last : .clear)
                 leftV.border_width = 2.5
-            } else {
-                leftV.background_color = .clear
-                leftV.border_color = .clear
-                leftV.border_width = 2.5
-
-                rightV.background_color = ((scheduleDay.color_type.last == .hollow) ? Color.list_bg_color : color.last)
-                rightV.border_color = ((scheduleDay.color_type.last == .hollow) ? color.last : .clear)
-                rightV.border_width = 2.5
             }
         } else {
             leftV.background_color = .clear

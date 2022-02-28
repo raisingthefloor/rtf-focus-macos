@@ -66,6 +66,7 @@ extension ScheduleViewModel {
 
     func generateCalendarSession(day: Int?) -> [ScheduleSession] {
         var arrScheduleS: [ScheduleSession] = []
+        var arrUDIDs: [UUID] = []
 
         for i in 0 ..< arrTimes.count {
             let arrInnerFS = DBManager.shared.getScheduleFocus(time: arrTimes[i], day: day)
@@ -78,8 +79,9 @@ extension ScheduleViewModel {
                 }
                 continue
             }
+
             for obj in arrInnerFS {
-                if let days = obj.days_?.allObjects as? [Focus_Schedule_Days], !days.isEmpty {
+                if let days = obj.days_?.allObjects as? [Focus_Schedule_Days], !days.isEmpty, let fs_id = obj.id {
                     let color = NSColor(obj.session_color ?? "#DCEFE6") ?? .red
                     let color_type: ColorType = ColorType(rawValue: Int(obj.color_type)) ?? .solid
 
@@ -104,10 +106,13 @@ extension ScheduleViewModel {
 //                                print("IF Condition  Schedule Day ::   \(sDay)")
 
                                 if sDay.noOfsession == 1 {
-                                    sDay.colors.append(color)
-                                    sDay.color_type.append(color_type)
-                                    sDay.ids.append(obj.id)
+                                    sDay.colors.insert(color, at: 0)
+                                    sDay.color_type.insert(color_type, at: 0)
+                                    sDay.ids.insert(fs_id, at: 0)
                                 }
+
+//                                print(" Value :::::: \(s_days.compactMap({ ($0.ids.compactMap({ $0 == fs_id }).first != nil) ? $0 : nil }))")
+
                                 sDay.noOfsession = 2
                                 sDay.time = time
                                 if let index = s_days.firstIndex(where: { $0.day == day_e && $0.time == time }) {
@@ -115,7 +120,9 @@ extension ScheduleViewModel {
                                 }
                                 objMutableSS.days = s_days
                             } else {
-                                let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [obj.id])
+                                let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [fs_id])
+
+//                                print(" Value :::::: \(arrScheduleDays.compactMap({ ($0.ids.compactMap({ $0 == fs_id }).first != nil) ? $0 : nil }))")
 
 //                                print("ELSE Condition NEW Data :::::::::::: \(scheduleDay)  ::::::::: \(objMutableSS.time) ::::::: \(day_e)")
                                 arrScheduleDays.append(scheduleDay)
@@ -123,6 +130,8 @@ extension ScheduleViewModel {
                         }
 
                         objMutableSS.days = arrScheduleDays + objMutableSS.days
+
+                        arrUDIDs = objMutableSS.days.filter({ $0.noOfsession == 2 }).compactMap({ $0.ids.filter({ $0 == fs_id }).first })
 
                         if !isExist {
                             arrScheduleS.append(objMutableSS)
@@ -134,6 +143,9 @@ extension ScheduleViewModel {
                     }
                 }
             }
+
+            //arrUDIDs Update the noSession 1 to 2 if ids match
+            // objMutableSS.days.compactMap({ ($0.ids.compactMap({ $0 == fs_id }).first != nil) ? $0 : nil })
         }
         return arrScheduleS
     }
@@ -151,7 +163,7 @@ struct ScheduleDay {
     var day: Days
     var color_type: [ColorType]
     var time: String
-    var ids: [UUID?]
+    var ids: [UUID]
 }
 
 enum ScheduleType: Int {
