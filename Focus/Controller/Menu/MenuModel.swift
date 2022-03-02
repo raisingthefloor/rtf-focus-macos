@@ -78,7 +78,7 @@ extension Focus {
             case .two_hr:
                 return 120 * 60
             case .untill_press_stop:
-                return 32 * 60 * 60
+                return 84 * 60 * 60 // 7 days set for until i stop
             case .stop_focus:
                 return 0
             }
@@ -111,12 +111,13 @@ extension Focus {
             case .three:
                 return 3
             case .five:
-                return 5
+                return 3 // TODO: 5 as requested change for Temp replace after testing
             case .ten:
-                return 10
+                return 5 // TODO: 10 as requected change for Temp replace after testing
             }
         }
 
+        // TODO: 5/10 as requected change for Temp replace after testing
         var valueInSeconds: Double {
             switch self {
             case .one:
@@ -124,9 +125,9 @@ extension Focus {
             case .three:
                 return 3 * 60
             case .five:
-                return 5 * 60
+                return 3 * 60
             case .ten:
-                return 10 * 60
+                return 5 * 60
             }
         }
 
@@ -146,6 +147,7 @@ extension Focus {
         }
     }
 
+    // TODO: as requected change for Temp replace after testing
     enum FocusTime: Int, CaseIterable {
         case fifteen
         case twenty
@@ -157,34 +159,34 @@ extension Focus {
         var value: Int {
             switch self {
             case .fifteen:
-                return 15
+                return 8 // 15
             case .twenty:
-                return 20
+                return 10 // 20
             case .twentyfive:
-                return 25
+                return 13 // 25
             case .thirty:
-                return 30
+                return 15 // 30
             case .fourtyfive:
-                return 45
+                return 20 // 45
             case .sixty:
-                return 60
+                return 30 // 60
             }
         }
 
         var valueInSeconds: Double {
             switch self {
             case .fifteen:
-                return 15 * 60
+                return 8 * 60
             case .twenty:
-                return 20 * 60
+                return 10 * 60
             case .twentyfive:
-                return 25 * 60
+                return 13 * 60
             case .thirty:
-                return 30 * 60
+                return 15 * 60
             case .fourtyfive:
-                return 45 * 60
+                return 20 * 60
             case .sixty:
-                return 60 * 60
+                return 30 * 60
             }
         }
 
@@ -200,7 +202,7 @@ extension Focus {
         }
 
         static var long_focus_stop_lenght: Double {
-            return 120 * 60
+            return 60 * 60 // 120 * 60
         }
 
         static var key_name: String {

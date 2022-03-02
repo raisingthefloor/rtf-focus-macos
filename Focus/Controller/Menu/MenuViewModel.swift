@@ -169,7 +169,7 @@ extension MenuViewModel {
         print("Remaining Focus Time : \(total_focus_length)")
         print("Remaining Break Time : \(total_break_focus - (focusObj?.used_focus_time ?? 0))")
 
-        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? (total_focus_length) : time.value
+        focusObj?.remaining_focus_time = (viewCntrl != .main_menu) ? total_focus_length : time.value
         focusObj?.remaining_break_time = (viewCntrl != .main_menu) ? total_break_focus : total_break_focus
     }
 
@@ -177,10 +177,11 @@ extension MenuViewModel {
         let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
         var firstmin_val: Int = 0
         var break_length: Int = 0
-        if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
-            firstmin_val = 1 * 60 // one min
-        }
-        if obj.is_block_programe_select {
+
+        if obj.is_provided_short_break {
+            if let isFirstMin = objGCategoey?.general_setting?.block_screen_first_min_each_break, isFirstMin {
+                firstmin_val = 1 * 60 // one min
+            }
             break_length = Int(obj.break_length_time)
         }
 

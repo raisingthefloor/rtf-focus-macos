@@ -509,45 +509,47 @@ extension DBManager {
 
         let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
         print("spent_time ::: \(spent_time)")
-        var pnding_time: Double = 0
-        if focus.focus_length_time < spent_time {
-            // pnding_time = (spent_time - focus.focus_length_time).rounded(.up)
-        } else {
-            pnding_time = (focus.focus_length_time - spent_time).rounded(.up)
-        }
-
+        let pnding_time: Double = focus.focus_length_time - focus.used_time
         print("pnding_time ::: \(pnding_time)")
+
+        let objSFocus = (objFocus.focuses?.allObjects as! [Focus_List]).filter({ $0.focus_id != focus.focus_id }).compactMap({ $0 }).first
 
         print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
         print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")
-//        if pnding_time == 0 {
-//            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - focus.focus_length_time)
-//            objFocus.remaining_focus_time = (spent_time > objFocus.remaining_focus_time) ? (spent_time - objFocus.remaining_focus_time) : (objFocus.remaining_focus_time - spent_time)
-//        } else {
-//            objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - pnding_time)
-//            objFocus.remaining_focus_time = (objFocus.remaining_focus_time - pnding_time)
-//        }
-        
-        objFocus.combine_focus_length_time = (objFocus.combine_focus_length_time - spent_time)
-        objFocus.remaining_focus_time = (objFocus.remaining_focus_time - spent_time)
 
-        
-        
+        let current_time_lenght = (objFocus.combine_focus_length_time - focus.focus_length_time)
+        print("current_time_lenght ::: \(current_time_lenght)")
+
+        let final_time_length = (objSFocus?.focus_length_time ?? 0.0 + current_time_lenght) - (objSFocus?.used_time ?? 0.0)
+        print("final_time_length ::: \(final_time_length)")
+
+        objFocus.combine_focus_length_time = final_time_length
+        objFocus.remaining_focus_time = final_time_length
+
         print("After combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
         print("After remaining_focus_time ::: \(objFocus.remaining_focus_time)")
 
         print("Before combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
+        let current_break_time_lenght = (objFocus.combine_break_lenght_time - focus.break_length_time)
+        print("current_break_time_lenght ::: \(current_break_time_lenght)")
 
-        if objFocus.decrease_break_time > objFocus.combine_break_lenght_time {
-            objFocus.combine_break_lenght_time = objFocus.decrease_break_time - objFocus.combine_break_lenght_time
-        } else {
-            objFocus.combine_break_lenght_time = objFocus.combine_break_lenght_time - objFocus.decrease_break_time
-        }
+        let final_break_time_length = (objSFocus?.break_length_time ?? 0.0 + current_break_time_lenght) - objFocus.decrease_break_time
+        print("final_break_time_length ::: \(final_break_time_length)")
+
+        objFocus.combine_break_lenght_time = (final_break_time_length < 0) ? 0.0 : final_break_time_length
         print("After combine_break_lenght_time ::: \(objFocus.combine_break_lenght_time)")
 
         print("Before combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
-        objFocus.combine_stop_focus_after_time = objFocus.combine_stop_focus_after_time - focus.focus_stop_after_length
+
+        let current_stop_time_lenght = (objFocus.combine_stop_focus_after_time - focus.focus_stop_after_length)
+        print("current_stop_time_lenght ::: \(current_stop_time_lenght)")
+
+        let final_stop_time_length = (objSFocus?.focus_stop_after_length ?? 0.0 + current_stop_time_lenght)
+        print("final_stop_time_length ::: \(final_stop_time_length)")
+
+        objFocus.combine_stop_focus_after_time = (final_stop_time_length < 0) ? 0.0 : final_stop_time_length
         print("After combine_stop_focus_after_time ::: \(objFocus.combine_stop_focus_after_time)")
+
         managedContext.delete(focus)
         saveContext()
     }
@@ -740,10 +742,10 @@ extension DBManager {
         }
     }
 
-    func checkSETimeSlotForScheduleSession(s_time: Date, e_time: Date, day: [Int]) -> Bool {
+    func checkSETimeSlotForScheduleSession(s_time: Date, e_time: Date, day: [Int], isCheckSE: Bool) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
 
-        let start_end_predict = NSPredicate(format: "(end_time_ < %@)", s_time as CVarArg)
+        let start_end_predict = isCheckSE ? NSPredicate(format: "(end_time_ < %@)", s_time as CVarArg) : NSPredicate(format: "(start_time_ > %@)", e_time as CVarArg)
         let day_predict = NSPredicate(format: "ANY days_.day IN %@", day)
 
         fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [start_end_predict, day_predict])

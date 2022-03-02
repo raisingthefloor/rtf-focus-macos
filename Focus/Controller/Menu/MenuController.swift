@@ -234,7 +234,7 @@ extension MenuController: BasicSetupType {
             if error == nil {
                 switch focusOption {
                 case .block_program_website:
-                    self.blockStackV.isHidden = ((state as? NSControl.StateValue) == .on) ? false : true
+                    self.blockStackV.isHidden = ((state as? NSControl.StateValue) == .on) ? false : true                
                 default:
                     break
                 }
@@ -277,21 +277,6 @@ extension MenuController: BasicSetupType {
 }
 
 extension MenuController {
-//    func preDataSetup() {
-//        guard let obj = viewModel.input.focusObj else { return }
-//        obj.original_break_lenght_time = Focus.BreakTime.three.valueInSeconds
-//        obj.remaining_break_time = Focus.BreakTime.three.valueInSeconds
-//        obj.stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
-//        obj.original_stop_focus_after_time = Focus.FocusTime.fifteen.valueInSeconds
-//        blockStackV.isHidden = !obj.is_block_programe_select
-//        let arrBlock = viewModel.model.input.getBlockList(cntrl: .main_menu).blists
-//        if !arrBlock.isEmpty {
-//            if obj.is_block_programe_select {
-//                obj.block_list_id = arrBlock[0].id
-//            }
-//        }
-//        DBManager.shared.saveContext()
-//    }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueSetting" {

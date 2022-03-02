@@ -115,23 +115,26 @@ extension ScheduleViewModel {
 
                                 sDay.noOfsession = 2
                                 sDay.time = time
+
                                 if let index = s_days.firstIndex(where: { $0.day == day_e && $0.time == time }) {
                                     s_days[index] = sDay
                                 }
+                                print(" 1 -> 2 sDay === \(sDay) \n\n")
                                 objMutableSS.days = s_days
                             } else {
                                 let scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [fs_id])
-
+                                print(" 1 -> 1 sDay === \(scheduleDay) \n\n")
 //                                print(" Value :::::: \(arrScheduleDays.compactMap({ ($0.ids.compactMap({ $0 == fs_id }).first != nil) ? $0 : nil }))")
-
 //                                print("ELSE Condition NEW Data :::::::::::: \(scheduleDay)  ::::::::: \(objMutableSS.time) ::::::: \(day_e)")
                                 arrScheduleDays.append(scheduleDay)
                             }
                         }
 
                         objMutableSS.days = arrScheduleDays + objMutableSS.days
+                        
 
-                        arrUDIDs = objMutableSS.days.filter({ $0.noOfsession == 2 }).compactMap({ $0.ids.filter({ $0 == fs_id }).first })
+                        print(" No of Session 2 Ids \(objMutableSS.days.filter({ $0.noOfsession == 2 }).compactMap({ $0.ids.map({ $0 }) }).unique().first)")
+                        print("\n\n No of Session 1 Ids \(objMutableSS.days.filter({ $0.noOfsession == 1 }).compactMap({ $0.ids.map({ $0 }) }).unique().first)")
 
                         if !isExist {
                             arrScheduleS.append(objMutableSS)
@@ -140,11 +143,15 @@ extension ScheduleViewModel {
                                 arrScheduleS[index] = objMutableSS
                             }
                         }
+
+                        // arrUDIDs Update the noSession 1 to 2 if ids match
+//                        for fs_id in arrUDIDs {
+//                            arrScheduleS.forEach({ $0.ids.filter({ $0 == fs_id }).first  })
+//                        }
                     }
                 }
             }
 
-            //arrUDIDs Update the noSession 1 to 2 if ids match
             // objMutableSS.days.compactMap({ ($0.ids.compactMap({ $0 == fs_id }).first != nil) ? $0 : nil })
         }
         return arrScheduleS
