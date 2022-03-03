@@ -138,7 +138,7 @@ extension WeekDaysCell: BasicSetupType {
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_ {
             let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
 
-            if !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV, isCheckSE: true) && !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV, isCheckSE: false) {
+            if !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV, isCheckSE: true)  {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 displayError(errorType: .validation_error_day_time, objBl: objBl)
                 return true

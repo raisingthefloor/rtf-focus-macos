@@ -253,6 +253,8 @@ extension FloatingFocusViewC {
     }
 
     func openBreakDialouge(dialogueType: FocusDialogue) {
+        guard let obj = viewModel.input.focusObj else { return }
+
         DispatchQueue.main.async {
             Config.start_date_time = Date()
             let presentingCtrl = WindowsManager.getPresentingController()
@@ -260,7 +262,14 @@ extension FloatingFocusViewC {
             controller.dialogueType = dialogueType
             controller.viewModel.currentSession = DBManager.shared.getCurrentBlockList()
             controller.breakAction = { action, value, valueType in
+
                 if action == .normal_ok && (dialogueType == .short_break_alert || dialogueType == .long_break_alert) {
+                    // Set Config.start_date_time nil and get the waiting time
+                    let waiting_time = Config.start_date_time?.findDateDiff(time2: Date()) ?? 0
+                    Config.start_date_time = nil
+                    print("***** Start Break Dailogue WAITING TIME *****   \(waiting_time)")
+                    MenuViewModel.updateExtendEndSessionTime(obj: obj, time: Int(waiting_time))
+
                     self.showBreakDialogue(dialogueType: dialogueType) { isDismiss in
                         if isDismiss {
                             self.updateViewnData(dialogueType: dialogueType, action: action, value: value, valueType: valueType)

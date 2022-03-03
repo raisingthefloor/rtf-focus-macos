@@ -98,7 +98,7 @@ extension SessionInfoView: BasicSetupType {
 
         var time = ""
         if focus_length.timeInHours != 0 {
-            time = "\(focus_length.timeInHours) hrs \(focus_length.timeInMinutes) minutes"
+            time = "\(focus_length.timeInHours) hrs \(focus_length.timeInMinutes) min \(focus_length.timeInSeconds) sec"
         } else {
             time = "\(focus_length.timeInMinutes) minutes \(focus_length.timeInSeconds) sec"
         }

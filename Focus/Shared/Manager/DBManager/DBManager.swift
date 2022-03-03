@@ -507,12 +507,19 @@ extension DBManager {
     func updateRunningSession(focus: Focus_List) {
         guard let objFocus = getCurrentSession(), let s_time = focus.session_start_time else { return }
 
+        print("Stop Session Started time ::: \(s_time)")
+        print("Stop Session End time ::: \(focus.session_end_time)")
+
         let spent_time = Date().timeIntervalSince(s_time).rounded(.up)
         print("spent_time ::: \(spent_time)")
         let pnding_time: Double = focus.focus_length_time - focus.used_time
         print("pnding_time ::: \(pnding_time)")
 
         let objSFocus = (objFocus.focuses?.allObjects as! [Focus_List]).filter({ $0.focus_id != focus.focus_id }).compactMap({ $0 }).first
+        objFocus.focus_untill_stop = objSFocus?.focus_untill_stop ?? false
+
+        print("Second Session Started time ::: \(objSFocus?.session_start_time)")
+        print("Second Session End time ::: \(objSFocus?.session_end_time)")
 
         print("Before combine_focus_length_time ::: \(objFocus.combine_focus_length_time)")
         print("Before remaining_focus_time ::: \(objFocus.remaining_focus_time)")

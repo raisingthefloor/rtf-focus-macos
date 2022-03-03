@@ -62,15 +62,17 @@ class MenuViewModel: MenuViewModelIntput, MenuViewModelOutput, MenuViewModelType
 extension MenuViewModel {
     func updateFocusStop(time: Focus.StopTime, callback: @escaping ((Any?, Error?) -> Void)) {
         // update focus time value
-        focusObj?.focus_untill_stop = false
-
+        let is_focus_untill_stop_exsist = focusObj?.focus_untill_stop ?? false
         switch time {
         case .half_past:
             focusObj?.is_focusing = true // Need to check what to do.
+            focusObj?.focus_untill_stop = is_focus_untill_stop_exsist
         case .one_hr:
             focusObj?.is_focusing = true
+            focusObj?.focus_untill_stop = is_focus_untill_stop_exsist
         case .two_hr:
             focusObj?.is_focusing = true
+            focusObj?.focus_untill_stop = is_focus_untill_stop_exsist
         case .untill_press_stop:
             focusObj?.is_focusing = true
             if !(focusDict[Focus.Options.focus_break.key_name] as? Bool ?? false) {
@@ -151,8 +153,8 @@ extension MenuViewModel {
 
     func updateParallelFocusSession(time: Focus.StopTime, focuslist: [Focus_List]) {
         print("Count focuslist :: \(focuslist.count)")
-        let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
-        let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
+        let total_stop_focus =  focuslist.map({ $0.focus_stop_after_length }).max() ?? 0.0 //focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
+        let total_break_focus = focuslist.map({ $0.break_length_time }).max() ?? 0.0 //focuslist.reduce(0) { $0 + $1.break_length_time }
 //         let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
         let total_focus_length = focuslist.map({ $0.focus_length_time }).max() ?? time.value
 
@@ -185,16 +187,19 @@ extension MenuViewModel {
             break_length = Int(obj.break_length_time)
         }
 
-        let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
+//        let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
+
+        let extend_time = (Int(time.value)).secondsToTime()
+
         obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
 
-        // If any exsist previously
-        if let arrSessions = focusObj?.focuses?.allObjects as? [Focus_List] {
-            arrSessions.forEach({
-                let extend_time = (firstmin_val + break_length).secondsToTime()
-                $0.session_end_time = $0.session_end_time?.adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
-            })
-        }
+//        // If any exsist previously
+//        if let arrSessions = focusObj?.focuses?.allObjects as? [Focus_List] {
+//            arrSessions.forEach({
+//                let extend_time = (firstmin_val + break_length).secondsToTime()
+//                $0.session_end_time = $0.session_end_time?.adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
+//            })
+//        }
     }
 }
 
