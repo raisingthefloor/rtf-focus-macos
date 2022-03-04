@@ -301,7 +301,7 @@ extension SchedulerViewC {
         for obj in arrFSD {
             DBManager.shared.managedContext.delete(obj)
         }
-        objFSchedule.time_range = NSSet(array: [])
+        
         objFSchedule.extend_info?.is_extend_mid = false
         objFSchedule.extend_info?.is_extend_long = false
         objFSchedule.extend_info?.is_extend_short = false

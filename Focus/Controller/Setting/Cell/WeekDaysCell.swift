@@ -115,9 +115,21 @@ extension WeekDaysCell: BasicSetupType {
                 DBManager.shared.saveContext()
             }
         } else {
+            //TODO: Delete all timeslot before insert
             if !warningToAddThirdSession(day: tag) && !startEndTimeSchecduleValidation(day: tag) {
                 let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
                 objDay.day = Int16(tag)
+                if let start_time = objFSchedule?.start_time,!start_time.isEmpty, let end_time = objFSchedule?.end_time, !end_time.isEmpty {
+                    let arrTSlot: [String] = start_time.getTimeSlots(endTime: end_time)
+                    
+                    var arrSTR: [Focus_Schedule_Time_Range] = []
+                    for time in arrTSlot {
+                        let objTime = Focus_Schedule_Time_Range(context: DBManager.shared.managedContext)
+                        objTime.time = time
+                        arrSTR.append(objTime)
+                    }
+                    objDay.time_slot = NSSet(array: arrSTR)
+                }
                 arrDay.append(objDay)
                 objFSchedule?.days_ = NSSet(array: arrDay)
             }
@@ -138,7 +150,7 @@ extension WeekDaysCell: BasicSetupType {
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_ {
             let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
 
-            if !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV, isCheckSE: true)  {
+            if !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV, isCheckSE: true) {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 displayError(errorType: .validation_error_day_time, objBl: objBl)
                 return true

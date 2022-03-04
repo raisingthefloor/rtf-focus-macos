@@ -93,7 +93,7 @@ extension CurrentSessionVC: BasicSetupType {
 
         var time = ""
         if break_time.timeInHours != 0 {
-            time = "\(break_time.timeInHours) hrs \(break_time.timeInMinutes) minutes"
+            time = "\(break_time.timeInHours) hrs \(break_time.timeInMinutes) min \(break_time.timeInSeconds) sec"            
         } else {
             time = "\(break_time.timeInMinutes) minutes \(break_time.timeInSeconds) sec"
         }

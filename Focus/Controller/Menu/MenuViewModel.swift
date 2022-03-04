@@ -187,9 +187,9 @@ extension MenuViewModel {
             break_length = Int(obj.break_length_time)
         }
 
-//        let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
+        let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
 
-        let extend_time = (Int(time.value)).secondsToTime()
+//        let extend_time = (Int(time.value)).secondsToTime()
 
         obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
 

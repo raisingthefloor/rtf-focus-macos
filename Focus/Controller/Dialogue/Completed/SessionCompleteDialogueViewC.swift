@@ -47,15 +47,17 @@ class SessionCompleteDialogueViewC: NSViewController {
 
 extension SessionCompleteDialogueViewC: BasicSetupType {
     func setUpText() {
-        let objFocus = DBManager.shared.getCurrentSession()
+        guard let objFocus = DBManager.shared.getCurrentSession(), var focuslist = objFocus.focuses?.allObjects as? [Focus_List] else { return }
+        focuslist = focuslist.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() })
 
+        let objSession = focuslist.last
         title = dialogueType.title
         lblTitle.stringValue = dialogueType.title
 
         var time = ""
-        let comp = Int(objFocus?.used_focus_time ?? 100).secondsToFullTime()
+        let comp = Int(objSession?.used_time ?? 100).secondsToFullTime()
         if comp.timeInHours != 0 {
-            time = "\(comp.timeInHours) Hours \(comp.timeInMinutes) minutes"
+            time = "\(comp.timeInHours) hrs \(comp.timeInMinutes) min \(comp.timeInSeconds) sec"
         } else {
             time = "\(comp.timeInMinutes) minutes"
         }

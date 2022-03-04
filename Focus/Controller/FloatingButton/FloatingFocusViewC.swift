@@ -89,9 +89,13 @@ extension FloatingFocusViewC: BasicSetupType {
     func udateButtonSting(timeVal: String) {
         DispatchQueue.main.async {
             var time = ""
-            if let obj = self.viewModel.input.focusObj, obj.is_focusing {
+            if let obj = self.viewModel.input.focusObj, obj.is_focusing, let arrSession = obj.focuses?.allObjects {
                 if let isCountDownOn = self.objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
-                    time = (obj.focus_untill_stop && !obj.is_provided_short_break) ? "" : ("\n" + timeVal)
+                    if arrSession.count >= 2 {
+                        time = obj.focus_untill_stop ? "" : ("\n" + timeVal)
+                    } else {
+                        time = (obj.focus_untill_stop && !obj.is_provided_short_break) ? "" : ("\n" + timeVal)
+                    }
                 }
                 self.btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
                 if obj.is_focusing && obj.is_break_time {
@@ -412,13 +416,12 @@ extension FloatingFocusViewC {
 
     func updateDataAsPerDialogue(dialogueType: FocusDialogue, obj: Current_Focus, objBl: Block_List?, value: Int, valueType: ButtonValueType) {
         let isRestart = objBl?.restart_computer ?? false
-
         switch dialogueType {
         case .end_break_alert:
             // Break End Here
             let focuslist = obj.focuses?.allObjects as? [Focus_List]
-            let total_stop_focus = focuslist?.reduce(0) { $0 + $1.focus_stop_after_length } ?? 0
-            let total_break_focus = focuslist?.reduce(0) { $0 + $1.break_length_time } ?? 0
+            let total_stop_focus = focuslist?.map({ $0.focus_stop_after_length }).max() ?? 0.0
+            let total_break_focus = focuslist?.map({ $0.break_length_time }).max() ?? 0.0
 
             obj.is_break_time = false
             obj.remaining_break_time = total_break_focus
@@ -558,7 +561,10 @@ extension FloatingFocusViewC {
         let arrSessions = obj?.focuses?.allObjects as? [Focus_List]
 
         arrSessions?.forEach({
-            let extend_time = (Int($0.break_length_time) + firstmin_val + Int(waiting_time)).secondsToTime()
+            var extend_time = 0.secondsToTime()
+            if Int(obj?.remaining_focus_time ?? 0.0) > Int($0.focus_stop_after_length) {
+                extend_time = (Int($0.break_length_time) + firstmin_val + Int(waiting_time)).secondsToTime()
+            }
             $0.session_end_time = $0.session_end_time?.adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
         })
         Config.start_date_time = nil
