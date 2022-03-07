@@ -33,6 +33,7 @@ enum ErrorDialogue: Int {
     case general_setting_error
     case validation_error
     case validation_error_day_time
+    case validation_error_end_start_time
 
     var title: String {
         switch self {
@@ -47,6 +48,8 @@ enum ErrorDialogue: Int {
         case .validation_error:
             return NSLocalizedString("Error.validation_error", comment: "ERROR")
         case .validation_error_day_time:
+            return NSLocalizedString("Error.validation_error", comment: "ERROR")
+        case .validation_error_end_start_time:
             return NSLocalizedString("Error.validation_error", comment: "ERROR")
             
         }
@@ -66,6 +69,8 @@ enum ErrorDialogue: Int {
             return NSLocalizedString("Error.validation_error_desc", comment: "End time should be greater than start time")
         case .validation_error_day_time:
             return NSLocalizedString("Error.validation_error_add_session", comment: "The slot is not available for the time on that day")
+        case .validation_error_end_start_time:
+            return NSLocalizedString("Error.validation_error_end_start_time", comment: "The start time should not be the same as the end times of other sessions.")
 
         }
     }

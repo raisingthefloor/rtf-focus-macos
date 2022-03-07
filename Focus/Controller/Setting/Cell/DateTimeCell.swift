@@ -116,27 +116,30 @@ extension DateTimeCell {
                 referesh = false
                 displayError(errorType: .validation_error)
 
-            } else if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
-                if datetimePicker.tag == 2 {
-                    datetimePicker.dateValue = Date()
-                    objFSchedule?.end_time = ""
-                    objFSchedule?.end_time_ = nil
-                } else {
-                    datetimePicker.dateValue = Date()
-                    objFSchedule?.start_time = ""
-                    objFSchedule?.start_time_ = nil
-                    objFSchedule?.reminder_date = nil
-                }
-
-                referesh = false
-                displayError(errorType: .schedule_error)
             } else {
-                objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
-            }
-        }
+                let result = DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id)
+                if !result.isValid {
+                    if datetimePicker.tag == 2 {
+                        datetimePicker.dateValue = Date()
+                        objFSchedule?.end_time = ""
+                        objFSchedule?.end_time_ = nil
+                    } else {
+                        datetimePicker.dateValue = Date()
+                        objFSchedule?.start_time = ""
+                        objFSchedule?.start_time_ = nil
+                        objFSchedule?.reminder_date = nil
+                    }
 
-        DBManager.shared.saveContext()
-        refreshTable?(referesh)
+                    referesh = false
+                    displayError(errorType: result.errTpe)
+                } else {
+                    objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
+                }
+            }
+
+            DBManager.shared.saveContext()
+            refreshTable?(referesh)
+        }
     }
 
     func displayError(errorType: ErrorDialogue) {

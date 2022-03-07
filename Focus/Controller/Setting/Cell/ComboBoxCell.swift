@@ -34,7 +34,6 @@ class ComboBoxCell: NSTableCellView {
     @IBOutlet var statusV: NSView!
 
     var modelV: DataModelType = DataModel()
-    var arrTimes: [String] = []
     var objFSchedule: Focus_Schedule?
     var refreshTable: ((Bool) -> Void)?
     var controller: NSViewController?
@@ -68,54 +67,56 @@ extension ComboBoxCell: BasicSetupType {
 
 // Date time  Data Setup
 extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCellDataSource {
-    func configStartCell(obj: Focus_Schedule?, arrTimes: [String]) {
-        self.arrTimes = arrTimes
+    func configStartCell(obj: Focus_Schedule?, arrTimes: [String], isRefresh: Bool = false) {
         objFSchedule = obj
         let is_active = objFSchedule?.is_active ?? false
-
-        comboTime.removeAllItems()
-        comboTime.addItems(withObjectValues: arrTimes)
-        if objFSchedule?.block_list_name != nil {
-            comboTime.selectItem(withObjectValue: obj?.start_time)
-        } else {
-            comboTime.stringValue = ""
-        }
-        comboTime.delegate = self
-        comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
-    }
-
-    func configEndCell(obj: Focus_Schedule?, arrTimes: [String]) {
-        self.arrTimes = arrTimes
-        objFSchedule = obj
-        let is_active = objFSchedule?.is_active ?? false
-
-        comboTime.removeAllItems()
-        comboTime.addItems(withObjectValues: arrTimes)
-        if objFSchedule?.block_list_name != nil {
-            comboTime.selectItem(withObjectValue: obj?.end_time)
-        } else {
-            comboTime.stringValue = ""
-        }
-        comboTime.delegate = self
-        comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
-    }
-
-    func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
-        print(" Combobox ::::  \(string)")
-        for time in arrTimes {
-            // substring must have less characters then stings to search
-            if string.count < arrTimes.count {
-                // only use first part of the strings in the list with length of the search string
-                let statePartialStr = time.lowercased()[time.lowercased().startIndex ..< time.lowercased().index(time.lowercased().startIndex, offsetBy: string.count)]
-                if statePartialStr.range(of: string.lowercased()) != nil {
-                    print("NSComboBox, completedString string")
-                    updateTimeValue(comboBox, time: time)
-                    return time
+        if !isRefresh {
+            comboTime.removeAllItems()
+            comboTime.addItems(withObjectValues: arrTimes)
+            if objFSchedule?.block_list_name != nil {
+                if let st = obj?.start_time, !st.isEmpty {
+                    comboTime.selectItem(withObjectValue: st)
                 }
+            } else {
+                comboTime.stringValue = ""
             }
+            comboTime.delegate = self
+            comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
         }
-        return ""
     }
+
+    func configEndCell(obj: Focus_Schedule?, arrTimes: [String], isRefresh: Bool = false) {
+        objFSchedule = obj
+        let is_active = objFSchedule?.is_active ?? false
+        if !isRefresh {
+            comboTime.removeAllItems()
+            comboTime.addItems(withObjectValues: arrTimes)
+            if objFSchedule?.block_list_name != nil {
+                comboTime.selectItem(withObjectValue: obj?.end_time)
+            } else {
+                comboTime.stringValue = ""
+            }
+            comboTime.delegate = self
+            comboTime.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
+        }
+    }
+
+//    func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
+//        print(" Combobox ::::  \(string)")
+//        for time in ScheduleViewModel.arrTimes {
+//            // substring must have less characters then stings to search
+//            if string.count < ScheduleViewModel.arrTimes.count {
+//                // only use first part of the strings in the list with length of the search string
+//                let statePartialStr = time.lowercased()[time.lowercased().startIndex ..< time.lowercased().index(time.lowercased().startIndex, offsetBy: string.count)]
+//                if statePartialStr.range(of: string.lowercased()) != nil {
+//                    print("NSComboBox, completedString string")
+//                    updateTimeValue(comboBox, time: time)
+//                    return time
+//                }
+//            }
+//        }
+//        return ""
+//    }
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
         if isRunning(objFS: objFSchedule) {
@@ -124,7 +125,11 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         }
 
         let comboBox: NSComboBox = (notification.object as? NSComboBox)!
-        updateTimeValue(comboBox, time: comboBox.objectValueOfSelectedItem as? String)
+        if !comboBox.objectValues.isEmpty {
+            if comboBox.objectValueOfSelectedItem != nil {
+                updateTimeValue(comboBox, time: comboBox.objectValueOfSelectedItem as? String)
+            }
+        }
     }
 
     func updateTimeValue(_ comboBox: NSComboBox, time: String?) {
@@ -170,28 +175,28 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
                 objFSchedule?.end_time = ""
                 objFSchedule?.end_time_ = nil
                 if comboBox.tag == 2 { comboTime.stringValue = "" }
-                configEndCell(obj: objFSchedule, arrTimes: arrTimes)
+                configEndCell(obj: objFSchedule, arrTimes: ScheduleViewModel.arrTimes)
                 referesh = false
                 displayError(errorType: .validation_error)
 
             } else {
-                if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) && !DBManager.shared.checkSETimeSlotForScheduleSession(s_time: s_time, e_time: e_time, day: daysV, isCheckSE: true) {
+                let result = DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id)
+                if !result.isValid {
                     if comboBox.tag == 2 {
                         comboTime.stringValue = ""
                         objFSchedule?.end_time = ""
                         objFSchedule?.end_time_ = nil
-
-                        configEndCell(obj: objFSchedule, arrTimes: arrTimes)
+                        configEndCell(obj: objFSchedule, arrTimes: ScheduleViewModel.arrTimes, isRefresh: true)
                     } else {
                         comboTime.stringValue = ""
                         objFSchedule?.start_time = ""
                         objFSchedule?.start_time_ = nil
                         objFSchedule?.reminder_date = nil
-                        configStartCell(obj: objFSchedule, arrTimes: arrTimes)
+                        configStartCell(obj: objFSchedule, arrTimes: ScheduleViewModel.arrTimes, isRefresh: true)
                     }
 
                     referesh = false
-                    displayError(errorType: .validation_error_day_time)
+                    displayError(errorType: result.errTpe)
                     DBManager.shared.saveContext()
                     refreshTable?(referesh)
                     return

@@ -710,19 +710,22 @@ extension DBManager {
 //        }
     }
 
-    func validateScheduleSessionSlotsExsits(s_time: Date, e_time: Date, day: [Int], id: UUID) -> Bool {
+    func validateScheduleSessionSlotsExsits(s_time: Date, e_time: Date, day: [Int], id: UUID) -> (isValid: Bool, errTpe: ErrorDialogue) {
         if day.isEmpty {
-            return true
+            return (true, .validation_error)
         }
+        //        let predicate = NSPredicate(format: "(end_time_ == %@) OR (start_time_ == %@)", s_time as CVarArg, e_time as CVarArg)
+
         let predicate = NSPredicate(format: "(end_time_ == %@)", s_time as CVarArg)
         if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate) {
             let predicate_start = NSPredicate(format: "(start_time_ == %@)", s_time as CVarArg)
             if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_start, checkTwoData: true) {
-                return true
+                return (true, .schedule_error)
             }
+            return (false, .validation_error_day_time)
         }
 
-        return false
+        return (false, .validation_error_end_start_time)
     }
 
     func isSlotAvailable(s_time: Date, e_time: Date, day: [Int], start_end_predict: NSPredicate, checkTwoData: Bool = false) -> Bool {

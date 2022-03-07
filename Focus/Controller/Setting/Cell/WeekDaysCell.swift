@@ -115,13 +115,13 @@ extension WeekDaysCell: BasicSetupType {
                 DBManager.shared.saveContext()
             }
         } else {
-            //TODO: Delete all timeslot before insert
-            if !warningToAddThirdSession(day: tag) && !startEndTimeSchecduleValidation(day: tag) {
+            // TODO: Delete all timeslot before insert
+            if !warningToAddThirdSession(day: tag) {
                 let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
                 objDay.day = Int16(tag)
                 if let start_time = objFSchedule?.start_time,!start_time.isEmpty, let end_time = objFSchedule?.end_time, !end_time.isEmpty {
                     let arrTSlot: [String] = start_time.getTimeSlots(endTime: end_time)
-                    
+
                     var arrSTR: [Focus_Schedule_Time_Range] = []
                     for time in arrTSlot {
                         let objTime = Focus_Schedule_Time_Range(context: DBManager.shared.managedContext)
@@ -162,10 +162,11 @@ extension WeekDaysCell: BasicSetupType {
     func warningToAddThirdSession(day: Int) -> Bool {
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
             let daysV = [day] // arrFSD.compactMap({ Int($0.day) })
+            let result = DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id)
 
-            if !DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id) {
+            if !result.isValid {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
-                displayError(errorType: .schedule_error, objBl: objBl)
+                displayError(errorType: result.errTpe, objBl: objBl)
                 return true
             }
             return false

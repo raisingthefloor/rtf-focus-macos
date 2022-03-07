@@ -128,7 +128,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? ComboBoxCell {
                     cell.comboTime.tag = 1
-                    cell.configStartCell(obj: obj, arrTimes: viewModel.arrTimes)
+                    cell.configStartCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.reloadSession()
@@ -140,7 +140,7 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
                 if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? ComboBoxCell {
                     cell.comboTime.tag = 2
-                    cell.configEndCell(obj: obj, arrTimes: viewModel.arrTimes)
+                    cell.configEndCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.reloadSession()

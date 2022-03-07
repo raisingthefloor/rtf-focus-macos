@@ -57,22 +57,38 @@ class SlotViewCell: NSTableCellView {
 
     func setupSesionData(session: ScheduleSession, scheduleDay: ScheduleDay) {
         let color: [NSColor] = scheduleDay.colors
+
         if scheduleDay.isActive == true && scheduleDay.noOfsession != 0 {
             if scheduleDay.noOfsession == 2 {
-                leftV.background_color = ((scheduleDay.color_type.last == .hollow) ? Color.list_bg_color : color.last)
-                leftV.border_color = ((scheduleDay.color_type.last == .hollow) ? color.last : .clear)
-                leftV.border_width = 2.5
+                print("scheduleDay.noOfsession ::::::::: \(scheduleDay.noOfsession)")
+                print("color.count ::::::::: \(color.count)")
+                print("color.count ::::::::: \(color)")
+                let leftColor = color.first
+                let left_color_type = scheduleDay.color_type.first
 
-                rightV.background_color = ((scheduleDay.color_type.first == .hollow) ? Color.list_bg_color : color.first)
-                rightV.border_color = ((scheduleDay.color_type.first == .hollow) ? color.first : .clear)
+                leftV.background_color = ((left_color_type == .hollow) ? Color.list_bg_color : leftColor)
+                leftV.border_color = ((left_color_type == .hollow) ? leftColor : .clear)
+                leftV.border_width = 2.5
+                let rightColor = color.last
+                let right_color_type = scheduleDay.color_type.last
+
+                rightV.background_color = ((right_color_type == .hollow) ? Color.list_bg_color : rightColor)
+                rightV.border_color = ((right_color_type == .hollow) ? rightColor : .clear)
                 rightV.border_width = 2.5
+
             } else {
+                print("Else color.count ::::::::: \(color.count)")
+                print("Else color.count ::::::::: \(color)")
+
                 rightV.background_color = .clear
                 rightV.border_color = .clear
                 rightV.border_width = 2.5
 
-                leftV.background_color = ((scheduleDay.color_type.last == .hollow) ? Color.list_bg_color : color.last)
-                leftV.border_color = ((scheduleDay.color_type.last == .hollow) ? color.last : .clear)
+                let leftColor = color.last
+                let left_color_type = scheduleDay.color_type.last
+
+                leftV.background_color = ((left_color_type == .hollow) ? Color.list_bg_color : leftColor)
+                leftV.border_color = ((left_color_type == .hollow) ? leftColor : .clear)
                 leftV.border_width = 2.5
             }
         } else {
