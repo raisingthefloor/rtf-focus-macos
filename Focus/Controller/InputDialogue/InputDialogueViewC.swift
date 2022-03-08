@@ -143,7 +143,7 @@ extension InputDialogueViewC: BasicSetupType {
             return
         }
 
-        if url.isValidUrl {
+//        if url.isValidUrl { //as per client request remove validation
             lblError.isHidden = true
             if !url.hasPrefix("http://") {
                 url = "http://" + url
@@ -160,9 +160,9 @@ extension InputDialogueViewC: BasicSetupType {
             if !NSWorkspace.shared.open(urlV) {
                 hideshowError(isError: true)
             }
-        } else {
-            hideshowError(isError: true)
-        }
+//        } else {
+//            hideshowError(isError: true)
+//        }
     }
 
     func hideshowError(isError: Bool) {
