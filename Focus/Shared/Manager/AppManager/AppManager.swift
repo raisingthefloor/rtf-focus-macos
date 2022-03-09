@@ -270,6 +270,6 @@ extension AppManager {
     func stopScriptObserver() {
         WindowsManager.stopBlockWebSite()
         removeObserver()
-        WindowsManager.runDndCommand(cmd: "off")
+        WindowsManager.runDndCommand(cmd: "Off")
     }
 }

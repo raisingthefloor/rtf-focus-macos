@@ -184,7 +184,7 @@ extension DisincentiveViewC: NSTextFieldDelegate {
         }
 
         if obj.is_dnd_mode {
-            WindowsManager.runDndCommand(cmd: "on")
+            WindowsManager.runDndCommand(cmd: "On")
         }
     }
 }

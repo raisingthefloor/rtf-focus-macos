@@ -36,6 +36,7 @@ import Foundation
     func logoutAlert()
     func launchMyApp()
     func quiteApp()
+    func setDoNoDisturbTo(_: String)
 }
 
 class BrowserScript {

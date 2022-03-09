@@ -155,7 +155,7 @@ extension FloatingFocusViewC {
                             }
 
                             if objCurrent.is_dnd_mode {
-                                WindowsManager.runDndCommand(cmd: "on")
+                                WindowsManager.runDndCommand(cmd: "On")
                             }
 
                             if objCurrent.is_break_time {
@@ -189,7 +189,7 @@ extension FloatingFocusViewC {
         }
 
         if obj.is_dnd_mode {
-            WindowsManager.runDndCommand(cmd: "on")
+            WindowsManager.runDndCommand(cmd: "On")
         }
     }
 

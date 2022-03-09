@@ -360,5 +360,40 @@ script BrowserBridge
 --        tell application "Focus" to quit
         tell application "Focus" to launch
     end launchMyApp
+        
+        
+        on setDoNoDisturbTo(OnOff)
+            set checkDNDstatusCMD to ¬
+                {"defaults -currentHost read", space, ¬
+                    "~/Library/Preferences/ByHost/", ¬
+                    "com.apple.notificationcenterui", ¬
+                    space, "doNotDisturb"} as string
+            log (checkDNDstatusCMD)
+            
+            set statusOfDND to ¬
+                (do shell script checkDNDstatusCMD) ¬
+                    as number as boolean
+            
+            if statusOfDND is false and OnOff is "On" then
+                set OnOff to true
+            else if statusOfDND is true and OnOff is "Off" then
+                set OnOff to false
+            else
+                return
+            end if
+            
+            set changeDNDstatusCMD to ¬
+                {"defaults -currentHost write", space, ¬
+                    "~/Library/Preferences/ByHost/", ¬
+                    "com.apple.notificationcenterui", ¬
+                    space, "doNotDisturb -boolean", space, OnOff, ¬
+                    space, "&& killall NotificationCenter"} as string
+            
+            log (checkDNDstatusCMD)
+            
+            do shell script changeDNDstatusCMD
+            
+        end setDoNoDisturbTo
+
     
 end script

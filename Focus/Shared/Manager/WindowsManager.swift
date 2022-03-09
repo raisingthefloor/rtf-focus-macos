@@ -163,12 +163,13 @@ extension WindowsManager {
 
 extension WindowsManager {
     static func runDndCommand(cmd: String) {
-        let pipe = Pipe()
-        let process = Process()
-        let scriptPath = Bundle.main.path(forResource: "dnd", ofType: ".sh") ?? ""
-        process.launchPath = "/bin/sh"
-        process.arguments = [scriptPath, String(format: "%@", cmd)]
-        process.standardOutput = pipe
-        process.launch()
+        AppManager.shared.browserBridge?.setDoNoDisturbTo(cmd)
+//        let pipe = Pipe()
+//        let process = Process()
+//        let scriptPath = Bundle.main.path(forResource: "dnd", ofType: ".sh") ?? ""
+//        process.launchPath = "/bin/sh"
+//        process.arguments = [scriptPath, String(format: "%@", cmd)]
+//        process.standardOutput = pipe
+//        process.launch()
     }
 }
