@@ -101,25 +101,8 @@ extension ComboBoxCell: NSComboBoxDataSource, NSComboBoxDelegate, NSComboBoxCell
         }
     }
 
-//    func comboBox(_ comboBox: NSComboBox, completedString string: String) -> String? {
-//        print(" Combobox ::::  \(string)")
-//        for time in ScheduleViewModel.arrTimes {
-//            // substring must have less characters then stings to search
-//            if string.count < ScheduleViewModel.arrTimes.count {
-//                // only use first part of the strings in the list with length of the search string
-//                let statePartialStr = time.lowercased()[time.lowercased().startIndex ..< time.lowercased().index(time.lowercased().startIndex, offsetBy: string.count)]
-//                if statePartialStr.range(of: string.lowercased()) != nil {
-//                    print("NSComboBox, completedString string")
-//                    updateTimeValue(comboBox, time: time)
-//                    return time
-//                }
-//            }
-//        }
-//        return ""
-//    }
-
     func comboBoxSelectionDidChange(_ notification: Notification) {
-        if isRunning(objFS: objFSchedule) {
+        if ScheduleViewModel.isRunning(objFS: objFSchedule) {
             displayError(errorType: .focus_schedule_error)
             return
         }
@@ -257,7 +240,7 @@ extension ComboBoxCell {
 
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
-        if isRunning(objFS: objFSchedule) {
+        if ScheduleViewModel.isRunning(objFS: objFSchedule) {
             displayError(errorType: .focus_schedule_error)
             return
         }
@@ -286,11 +269,5 @@ extension ComboBoxCell {
         objFSchedule?.is_active = true
         DBManager.shared.saveContext()
         refreshTable?(true)
-    }
-
-    func isRunning(objFS: Focus_Schedule?) -> Bool {
-        guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.block_list_id, let focus_schedule_id = objFS?.id else { return false }
-        let isSame = focuslist.compactMap({ $0.block_list_id == id && $0.focus_schedule_id == focus_schedule_id }).filter({ $0 }).first ?? false
-        return isSame
     }
 }

@@ -56,6 +56,12 @@ class ScheduleViewModel: ScheduleViewModelIntput, ScheduleViewModelOutput, Sched
         arrFocusSchedule = DBManager.shared.getFocusSchedule()
         objGCategory = DBManager.shared.getGeneralCategoryData().gCat
     }
+
+    static func isRunning(objFS: Focus_Schedule?) -> Bool {
+        guard let objF = DBManager.shared.getCurrentSession(), let focuslist = objF.focuses?.allObjects as? [Focus_List], let id = objFS?.block_list_id, let focus_schedule_id = objFS?.id else { return false }
+        let isSame = focuslist.compactMap({ $0.block_list_id == id && $0.focus_schedule_id == focus_schedule_id }).filter({ $0 }).first ?? false
+        return isSame
+    }
 }
 
 // Methods for Displaying the data on Calendar view.

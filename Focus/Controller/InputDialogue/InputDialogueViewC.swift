@@ -25,7 +25,7 @@
 
 import Cocoa
 
-class InputDialogueViewC: NSViewController {
+class InputDialogueViewC: BaseViewController {
     @IBOutlet var lblTitle: NSTextField!
     @IBOutlet var txtField: NSTextField!
     @IBOutlet var lblError: NSTextField!
@@ -111,6 +111,11 @@ extension InputDialogueViewC: BasicSetupType {
         lblError.isHidden = !txtField.stringValue.isEmpty
         if txtField.stringValue.isEmpty {
             lblError.stringValue = inputType.error_message
+            if inputType != .add_block_list_name {
+                lblError.isHidden = true
+                systemAlert(title: NSLocalizedString("Error.validation_error", comment: "Error"), description: inputType.error_message, btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
+            }
+
         } else {
             if inputType == .add_block_list_name {
                 dataModel.input.storeBlocklist(data: ["name": txtField.stringValue, "id": UUID(), "created_at": Date()])
@@ -118,8 +123,9 @@ extension InputDialogueViewC: BasicSetupType {
                 dismiss(sender)
             } else {
                 if !txtField.stringValue.isValidUrl {
-                    lblError.isHidden = false
+                    lblError.isHidden = true
                     lblError.stringValue = UrlError.invalid_url.error
+                    systemAlert(title: NSLocalizedString("Error.validation_error", comment: "Error"), description: UrlError.invalid_url.error, btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
                     return
                 }
                 lblError.isHidden = true
@@ -136,37 +142,42 @@ extension InputDialogueViewC: BasicSetupType {
     }
 
     @objc func testUrlAction(_ sender: NSButton) {
-        lblError.isHidden = !txtField.stringValue.isEmpty
+//        lblError.isHidden = !txtField.stringValue.isEmpty
+        lblError.isHidden = true
         var url = txtField.stringValue
         guard !url.isEmpty else {
-            lblError.stringValue = inputType.error_message
+            // lblError.stringValue = inputType.error_message
+            systemAlert(title: NSLocalizedString("Error.validation_error", comment: "Error"), description: inputType.error_message, btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
+
             return
         }
 
 //        if url.isValidUrl { //as per client request remove validation
-            lblError.isHidden = true
-            if !url.hasPrefix("http://") {
-                url = "http://" + url
-            }
+        lblError.isHidden = true
+        if !url.hasPrefix("http://") {
+            url = "http://" + url
+        }
 
-            if !url.hasSuffix(".com") {
-                url = url + ".com"
-            }
-
-            guard let urlV = URL(string: url) else {
-                hideshowError(isError: true)
-                return
-            }
-            if !NSWorkspace.shared.open(urlV) {
-                hideshowError(isError: true)
-            }
+//        if !url.hasSuffix(".com") {
+//            url = url + ".com"
+//        }
+        
+        txtField.stringValue = url
+        guard let urlV = URL(string: url) else {
+            hideshowError(isError: true)
+            return
+        }
+        if !NSWorkspace.shared.open(urlV) {
+            hideshowError(isError: true)
+        }
 //        } else {
 //            hideshowError(isError: true)
 //        }
     }
 
     func hideshowError(isError: Bool) {
-        lblError.isHidden = !isError
+        lblError.isHidden = isError
         lblError.stringValue = UrlError.invalid_url.error
+        systemAlert(title: NSLocalizedString("Error.validation_error", comment: "Error"), description: UrlError.invalid_url.error, btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
     }
 }

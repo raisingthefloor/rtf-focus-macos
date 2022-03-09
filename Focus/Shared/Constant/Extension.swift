@@ -320,7 +320,7 @@ extension Date {
     func convertToScheduleFormateTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h a"
-        let strDate = dateFormatter.string(from: self).capitalized
+        let strDate = dateFormatter.string(from: self).uppercased()
         return strDate
     }
 

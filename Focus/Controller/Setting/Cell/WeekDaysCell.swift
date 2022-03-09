@@ -62,7 +62,7 @@ extension WeekDaysCell: BasicSetupType {
         var isSelected: Bool = false
         var i = 1
         let isActive = !(objFSchedule?.is_active ?? false)
-        let isSetBlock = (obj?.block_list_id != nil)
+        let isSetBlock = (obj?.block_list_name != nil)
 
         stackView.removeSubviews()
         for day in Calendar.current.veryShortWeekdaySymbols {
@@ -87,7 +87,7 @@ extension WeekDaysCell: BasicSetupType {
             btn.textColor = (isActive && isSetBlock) ? (isSelected ? .white : .black) : (isSelected ? .white : .black)
             btn.borderWidth = 0.5
             btn.borderColor = .black
-            btn.isEnabled = (isActive && isSetBlock) ? false : true
+            btn.isEnabled = (isSetBlock) ? ((!isActive && isSetBlock) ? true : false) : false
             view.addSubview(btn)
 
             stackView.addArrangedSubview(view)

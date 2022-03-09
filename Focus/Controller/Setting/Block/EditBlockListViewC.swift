@@ -468,7 +468,8 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             }
             presentAsSheet(controller)
         } else {
-            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
+            
+            systemAlert(title: NSLocalizedString("APP.Name", comment: "Focus"), description: NSLocalizedString("Alert.add_web_app.message", comment: "Please, first create the block list then add the apps/Web inside it."), btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
         }
     }
 
@@ -496,7 +497,8 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             }
             presentAsSheet(inputDialogueCntrl)
         } else {
-            systemAlert(title: "Focus", description: "Please, first create the block list then add the apps/Web inside it.", btnOk: "OK")
+            systemAlert(title: NSLocalizedString("APP.Name", comment: "Focus"), description: NSLocalizedString("Alert.add_web_app.message", comment: "Please, first create the block list then add the apps/Web inside it."), btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
+
         }
     }
 

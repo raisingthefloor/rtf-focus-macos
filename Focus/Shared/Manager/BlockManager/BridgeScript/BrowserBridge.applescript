@@ -362,7 +362,8 @@ script BrowserBridge
     end launchMyApp
         
         
-        on setDoNoDisturbTo(OnOff)
+        on setDoNoDisturbTo(onoff)
+            set OnOff to onoff
             set checkDNDstatusCMD to ¬
                 {"defaults -currentHost read", space, ¬
                     "~/Library/Preferences/ByHost/", ¬

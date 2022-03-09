@@ -44,7 +44,8 @@ class DateTimeCell: NSTableCellView {
 extension DateTimeCell: NSDatePickerCellDelegate {
     func configTimeCell(obj: Focus_Schedule?, isStartTime: Bool = true) {
         objFSchedule = obj
-        let is_active = objFSchedule?.is_active ?? false
+        let isActive = objFSchedule?.is_active ?? false
+        let isSetBlock = (objFSchedule?.block_list_name != nil)
 
         datetimePicker.tag = isStartTime ? 1 : 2
 
@@ -55,7 +56,7 @@ extension DateTimeCell: NSDatePickerCellDelegate {
             datetimePicker.dateValue = Date()
         }
         datetimePicker.delegate = self
-        datetimePicker.isEnabled = (objFSchedule?.block_list_name != nil) ? is_active : true
+        datetimePicker.isEnabled = (isSetBlock) ? ((isActive && isSetBlock) ? true : false) : false
         datetimePicker.target = self
         datetimePicker.action = #selector(dateSelected)
 
@@ -65,6 +66,10 @@ extension DateTimeCell: NSDatePickerCellDelegate {
 
     @objc func dateSelected() {
         print("Selected Date : \(datetimePicker.dateValue)")
+        if ScheduleViewModel.isRunning(objFS: objFSchedule) {
+            displayError(errorType: .focus_schedule_error)
+            return
+        }
         updateTimeValue(datetimePicker, time: datetimePicker.dateValue)
     }
 }
@@ -87,6 +92,7 @@ extension DateTimeCell {
 
         let type = Int(objFSchedule?.type ?? 1)
         let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
+        
 
         if datetimePicker.tag == 1 {
             objFSchedule?.start_time = time.convertToScheduleFormateTime()
@@ -101,11 +107,11 @@ extension DateTimeCell {
         } else {
             objFSchedule?.end_time = time.convertToScheduleFormateTime()
             objFSchedule?.end_time_ = time
-        }
+        }        
 
         let arrFSD = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
         let daysV = arrFSD.compactMap({ Int($0.day) })
-        var referesh: Bool = true
+        var referesh: Bool = true    
 
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
             if s_time > e_time {
@@ -129,15 +135,15 @@ extension DateTimeCell {
                         objFSchedule?.start_time_ = nil
                         objFSchedule?.reminder_date = nil
                     }
-
+                    DBManager.shared.saveContext()
                     referesh = false
                     displayError(errorType: result.errTpe)
                 } else {
                     objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
+                    DBManager.shared.saveContext()
                 }
             }
 
-            DBManager.shared.saveContext()
             refreshTable?(referesh)
         }
     }

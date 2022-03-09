@@ -191,9 +191,9 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     return cellCombo
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "startAtId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? ComboBoxCell {
-                    cell.comboTime.tag = 1
-                    cell.configStartCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "startId"), owner: nil) as? DateTimeCell {
+                    cell.configTimeCell(obj: obj, isStartTime: true)
+//                    cell.configStartCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
@@ -203,9 +203,9 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
                     return cell
                 }
             } else if tableColumn?.identifier == NSUserInterfaceItemIdentifier(rawValue: "endAtId") {
-                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? ComboBoxCell {
-                    cell.comboTime.tag = 2
-                    cell.configEndCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
+                if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "endId"), owner: nil) as? DateTimeCell {
+                    cell.configTimeCell(obj: obj, isStartTime: false)
+//                    cell.configEndCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
                     cell.refreshTable = { isChange in
                         if isChange {
                             self.processReminderActiveInactive(objFSchedule: obj)
@@ -301,7 +301,7 @@ extension SchedulerViewC {
         for obj in arrFSD {
             DBManager.shared.managedContext.delete(obj)
         }
-        
+
         objFSchedule.extend_info?.is_extend_mid = false
         objFSchedule.extend_info?.is_extend_long = false
         objFSchedule.extend_info?.is_extend_short = false

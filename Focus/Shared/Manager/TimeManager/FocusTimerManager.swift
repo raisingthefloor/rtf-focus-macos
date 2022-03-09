@@ -74,6 +74,7 @@ extension FocusTimerManager {
         }
         remaininFocusTime = Int(obj.remaining_focus_time)
         used_focus_time = Int(obj.used_focus_time)
+        usedTime = Int(obj.decrease_break_time) // When app resume then it start from that left time
         let countdownerDetails = remaininFocusTime.secondsToTime()
         updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds, arrSession: arrSession)
     }
@@ -125,13 +126,17 @@ extension FocusTimerManager {
         if remaininFocusTime > 0 {
             remaininFocusTime -= 1
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
+            var remaing_break_time = Int(objFocus.combine_stop_focus_after_time)
+            remaing_break_time = remaing_break_time - usedTime
+            let remaing_time = remaing_break_time.secondsToTime()
+
             if countdownerDetails.popup == .none {
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
-                updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds, arrSession: arrSession)
+                updateTimeInfo(hours: remaing_time.timeInHours, minutes: remaing_time.timeInMinutes, seconds: remaing_time.timeInSeconds, arrSession: arrSession)
             } else {
                 stopTimer()
                 WindowsManager.dismissErrorController()
-                updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds, arrSession)
+                updateUI?(countdownerDetails.popup, remaing_time.timeInHours, remaing_time.timeInMinutes, remaing_time.timeInSeconds, arrSession)
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
             used_focus_time += 1
@@ -162,7 +167,6 @@ extension FocusTimerManager {
     func performValueUpdate(counter: Int, usedValue: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
         updateSessionData()
         let conterTime = counter.secondsToTime()
-
 //        print("*** FOCUS *** performValueUpdate remaininTimeInSeconds ::: \(counter) == \(conterTime)")
 //        print("*** FOCUS *** performValueUpdate usedTimeSeconds ::: \(usedValue) =======  \(objFocus.combine_stop_focus_after_time)")
 //        print("*** FOCUS *** performValueUpdate used_focus_time ::: \(used_focus_time) =======  \(objFocus.combine_stop_focus_after_time)")
@@ -186,7 +190,7 @@ extension FocusTimerManager {
     }
 
     func updateSessionData() {
-        guard var arrSession = objFocus.focuses?.allObjects as? [Focus_List], arrSession.count >= 2 else {
+        guard var arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else {
             return
         }
         arrSession = arrSession.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() })
@@ -198,7 +202,7 @@ extension FocusTimerManager {
 //            print("*** FOCUS ***  $0.session_end_time Greater Date \(session_end_date.isGreaterThan(Date()))")
 //            print("*** FOCUS ***  $0.session_end_time Lessthan Date \(session_end_date.isSmallerThan(Date()))")
 
-            if session_end_date.isEqualTo(Date()) || session_end_date.isSmallerThan(Date()) {
+            if session_end_date.isEqualTo(Date()) {
                 print("*** FOCUS Second Session End ***")
                 self.stopTimer()
                 DBManager.shared.updateRunningSession(focus: $0)

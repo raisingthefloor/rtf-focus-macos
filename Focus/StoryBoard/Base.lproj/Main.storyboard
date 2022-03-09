@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -36,17 +36,17 @@
             <objects>
                 <customObject id="lIg-Ol-K4P" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sidFloatingFocusViewC" id="gd4-5w-QdD" customClass="FloatingFocusViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="GD9-Vd-ojM">
-                        <rect key="frame" x="0.0" y="0.0" width="124" height="73"/>
+                    <view key="view" misplaced="YES" id="GD9-Vd-ojM">
+                        <rect key="frame" x="0.0" y="0.0" width="144" height="73"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YOJ-zR-xiF">
-                                <rect key="frame" x="17" y="17" width="90" height="39"/>
+                                <rect key="frame" x="17" y="17" width="110" height="39"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ItA-5g-JJc" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                        <rect key="frame" x="-3" y="-4" width="96" height="46"/>
+                                        <rect key="frame" x="-3" y="-4" width="116" height="46"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="90" id="6ap-bD-jh4"/>
+                                            <constraint firstAttribute="width" constant="110" id="6ap-bD-jh4"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="39" id="K6q-sc-fhD"/>
                                         </constraints>
                                         <buttonCell key="cell" type="bevel" title="Focus" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpO-18-yD9">
@@ -84,7 +84,7 @@
                                         </connections>
                                     </button>
                                     <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cin-g2-IFK">
-                                        <rect key="frame" x="-2" y="23" width="94" height="16"/>
+                                        <rect key="frame" x="-2" y="23" width="114" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="00:00" id="1Rp-uX-lIf">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -109,6 +109,7 @@
                             <constraint firstItem="YOJ-zR-xiF" firstAttribute="top" secondItem="GD9-Vd-ojM" secondAttribute="top" constant="17" id="0Ec-zb-vK0"/>
                             <constraint firstAttribute="bottom" secondItem="YOJ-zR-xiF" secondAttribute="bottom" constant="17" id="fd9-eH-jrm"/>
                             <constraint firstItem="YOJ-zR-xiF" firstAttribute="leading" secondItem="GD9-Vd-ojM" secondAttribute="leading" constant="17" id="tip-7I-XZd"/>
+                            <constraint firstItem="YOJ-zR-xiF" firstAttribute="centerY" secondItem="GD9-Vd-ojM" secondAttribute="centerY" id="vD8-Xp-9HS"/>
                             <constraint firstAttribute="trailing" secondItem="YOJ-zR-xiF" secondAttribute="trailing" constant="17" id="vZc-t6-fHn"/>
                         </constraints>
                     </view>
@@ -395,7 +396,7 @@
                                                                         </buttonCell>
                                                                     </button>
                                                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Tu-6L-z8G">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="272" height="20"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="304" height="20"/>
                                                                         <subviews>
                                                                             <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liH-U3-c4W">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="272" height="20"/>

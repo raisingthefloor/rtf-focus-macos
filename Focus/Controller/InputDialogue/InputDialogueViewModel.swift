@@ -66,6 +66,15 @@ enum InputDialogue: Int {
         }
     }
 
+    var placeholder: String {
+        switch self {
+        case .add_block_list_name:
+            return ""
+        case .add_website:
+            return "google.com"
+        }
+    }
+
     /*
      Invalid URL message: “This link does not appear to work.”
      Missing URL message: “Website link is missing.”

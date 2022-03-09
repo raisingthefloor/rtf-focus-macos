@@ -73,7 +73,7 @@ extension ReminderTimerManager {
         let datetime = result.date ?? Date()
         let day = Date().currentDateComponent().weekday ?? 1
 
-        print("Time: \(time) ===== Day: \(day)")
+        print("Time: \(time) ===== Day: \(day) ======= DateTime: \(datetime)")
 
         let isMultipleSession = DBManager.shared.getCurrentSession()?.focuses?.allObjects.count > 1
 
@@ -282,10 +282,12 @@ extension ReminderTimerManager {
     func updateParallelFocusSession(objSchedule: Focus_Schedule, focuslist: [Focus_List], objFocus: Current_Focus) {
         print("Count focuslist :: \(focuslist.count)")
         let isFocusExsist = focuslist.count > 1
-        let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
-        let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
+//        let total_stop_focus = focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
+//        let total_break_focus = focuslist.reduce(0) { $0 + $1.break_length_time }
 //        let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
-        
+
+        let total_stop_focus = focuslist.map({ $0.focus_stop_after_length }).max() ?? 0
+        let total_break_focus = focuslist.map({ $0.break_length_time }).max() ?? 0
         let total_focus_length = focuslist.map({ $0.focus_length_time }).max() ?? 0
 
         let is_dnd_mode = focuslist.compactMap({ $0.is_dnd_mode || $0.is_block_list_dnd }).filter({ $0 }).first ?? false
@@ -300,7 +302,7 @@ extension ReminderTimerManager {
         objFocus.is_block_programe_select = is_block_programe_select
         objFocus.is_focusing = true
 
-        objFocus.remaining_focus_time = isFocusExsist ? (total_focus_length) : total_focus_length
+        objFocus.remaining_focus_time = isFocusExsist ? total_focus_length : total_focus_length
         objFocus.remaining_break_time = isFocusExsist ? total_break_focus : total_break_focus
     }
 

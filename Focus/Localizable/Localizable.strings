@@ -23,7 +23,7 @@
  * Consumer Electronics Association Foundation
  */
 
-"APP.Name" = "Focus";
+"APP.Name" = "Morphic Focus";
 
 "Button.edit" = "Edit";
 "Button.next" = "Next";
@@ -52,6 +52,7 @@
 "Button.start_focus" = "Start focus session";
 "Button.start_in" = "start in %d min";
 "Button.Break" = "Break";
+"Button.Focus_til" = "Focus Til Stop";
 
 "Home.title" = "Start a Focus Session";
 "Home.half_last" = "30 min";
@@ -218,3 +219,5 @@
 "Lock.title" = "Screen is blocked";
 "Lock.dec" = "You set the computer to be locked for one minute at the start of \neach break to encourage you to stand and stretch.";
 "List.title_sub" = "Only apps on this computer are listed.";
+
+"Alert.add_web_app.message" = "Please, first create the block list then add the apps/Web inside it.";

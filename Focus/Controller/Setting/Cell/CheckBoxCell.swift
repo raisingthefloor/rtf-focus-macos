@@ -46,6 +46,7 @@ extension CheckBoxCell {
         checkBox.action = action
         let is_active = obj?.is_active ?? false
         checkBox.state = is_active ? .on : .off
+        checkBox.isEnabled = (obj?.block_list_id != nil) ? true : false
 
         let image = (obj?.block_list_name != nil) ? NSImage(named: "ic_delete") : NSImage(named: "ic_grey_delete")
 

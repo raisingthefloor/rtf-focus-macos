@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1212,7 +1212,7 @@
                                                                                                                                                                     </buttonCell>
                                                                                                                                                                 </button>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cqo-6a-Vkw" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="110" y="-8" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="110" y="-4" width="109" height="32"/>
                                                                                                                                                                     <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U5T-ws-hd6">
                                                                                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                         <font key="font" metaFont="system"/>
@@ -1486,7 +1486,7 @@
                                                                                                                                                             <rect key="frame" x="8" y="10" width="216" height="21"/>
                                                                                                                                                             <subviews>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WqO-Lm-fFP" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="-3" y="-4" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="-3" y="-8" width="109" height="32"/>
                                                                                                                                                                     <constraints>
                                                                                                                                                                         <constraint firstAttribute="height" constant="25" id="1mH-Nd-uW1"/>
                                                                                                                                                                     </constraints>
@@ -1496,7 +1496,7 @@
                                                                                                                                                                     </buttonCell>
                                                                                                                                                                 </button>
                                                                                                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IPP-vN-OPI" customClass="CustomButton" customModule="Focus" customModuleProvider="target">
-                                                                                                                                                                    <rect key="frame" x="110" y="-4" width="109" height="32"/>
+                                                                                                                                                                    <rect key="frame" x="110" y="-8" width="109" height="32"/>
                                                                                                                                                                     <buttonCell key="cell" type="bevel" title="Add Website" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SK7-2x-Xh2">
                                                                                                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                                                                                         <font key="font" metaFont="system"/>
@@ -2387,7 +2387,7 @@
                                                                     </constraints>
                                                                 </customView>
                                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="kEk-ah-8aI" userLabel="ScheduleV">
-                                                                    <rect key="frame" x="-177" y="587" width="706" height="264"/>
+                                                                    <rect key="frame" x="0.0" y="587" width="706" height="264"/>
                                                                     <subviews>
                                                                         <scrollView borderType="none" horizontalLineScroll="24" horizontalPageScroll="0.0" verticalLineScroll="24" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" minMagnification="0.0001" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XR7-jl-4QY">
                                                                             <rect key="frame" x="0.0" y="0.0" width="706" height="260"/>
@@ -2482,11 +2482,26 @@
                                                                                                 </textFieldCell>
                                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                                                 <prototypeCellViews>
-                                                                                                    <tableCellView identifier="startId" id="LcP-ul-d9i" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
+                                                                                                    <tableCellView identifier="startId" id="LcP-ul-d9i" customClass="DateTimeCell" customModule="Focus" customModuleProvider="target">
                                                                                                         <rect key="frame" x="152" y="0.0" width="60" height="24"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sfy-mm-dVK">
+                                                                                                            <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EeQ-pn-GSS">
+                                                                                                                <rect key="frame" x="1" y="-6" width="59" height="25"/>
+                                                                                                                <constraints>
+                                                                                                                    <constraint firstAttribute="height" constant="25" id="Dno-WQ-IOR"/>
+                                                                                                                </constraints>
+                                                                                                                <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="3qM-Vv-95J">
+                                                                                                                    <font key="font" metaFont="system" size="11"/>
+                                                                                                                    <date key="date" timeIntervalSinceReferenceDate="668503004.33138001">
+                                                                                                                        <!--2022-03-09 07:16:44 +0000-->
+                                                                                                                    </date>
+                                                                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    <datePickerElements key="datePickerElements" hour="YES" minute="YES"/>
+                                                                                                                </datePickerCell>
+                                                                                                            </datePicker>
+                                                                                                            <comboBox hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sfy-mm-dVK">
                                                                                                                 <rect key="frame" x="0.0" y="-3" width="63" height="29"/>
                                                                                                                 <constraints>
                                                                                                                     <constraint firstAttribute="height" constant="23" id="BLs-ew-VsM"/>
@@ -2503,14 +2518,17 @@
                                                                                                         </subviews>
                                                                                                         <constraints>
                                                                                                             <constraint firstAttribute="trailing" secondItem="Sfy-mm-dVK" secondAttribute="trailing" id="3Cv-RU-LdB"/>
+                                                                                                            <constraint firstItem="EeQ-pn-GSS" firstAttribute="top" secondItem="LcP-ul-d9i" secondAttribute="top" constant="5" id="8kt-Fk-uJR"/>
                                                                                                             <constraint firstItem="Sfy-mm-dVK" firstAttribute="leading" secondItem="LcP-ul-d9i" secondAttribute="leading" id="Dgu-Go-2sg"/>
                                                                                                             <constraint firstItem="Sfy-mm-dVK" firstAttribute="leading" secondItem="LcP-ul-d9i" secondAttribute="leading" id="DrC-Ya-TCM"/>
+                                                                                                            <constraint firstItem="EeQ-pn-GSS" firstAttribute="leading" secondItem="LcP-ul-d9i" secondAttribute="leading" constant="1" id="PSC-r5-uzE"/>
+                                                                                                            <constraint firstAttribute="trailing" secondItem="EeQ-pn-GSS" secondAttribute="trailing" id="Wqg-wy-d6n"/>
                                                                                                             <constraint firstAttribute="trailing" secondItem="Sfy-mm-dVK" secondAttribute="trailing" id="cVr-7e-lP4"/>
                                                                                                             <constraint firstItem="Sfy-mm-dVK" firstAttribute="centerY" secondItem="LcP-ul-d9i" secondAttribute="centerY" id="olx-Ot-HfP"/>
                                                                                                             <constraint firstItem="Sfy-mm-dVK" firstAttribute="centerX" secondItem="LcP-ul-d9i" secondAttribute="centerX" id="sFN-uf-trK"/>
                                                                                                         </constraints>
                                                                                                         <connections>
-                                                                                                            <outlet property="comboTime" destination="Sfy-mm-dVK" id="KNn-hL-nEd"/>
+                                                                                                            <outlet property="datetimePicker" destination="EeQ-pn-GSS" id="LHd-Lf-u7r"/>
                                                                                                         </connections>
                                                                                                     </tableCellView>
                                                                                                 </prototypeCellViews>
@@ -2527,11 +2545,26 @@
                                                                                                 </textFieldCell>
                                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                                                 <prototypeCellViews>
-                                                                                                    <tableCellView identifier="endId" id="iUK-IG-tCf" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
+                                                                                                    <tableCellView identifier="endId" id="iUK-IG-tCf" customClass="DateTimeCell" customModule="Focus" customModuleProvider="target">
                                                                                                         <rect key="frame" x="222" y="0.0" width="60" height="24"/>
                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                         <subviews>
-                                                                                                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sxb-Fu-ANe">
+                                                                                                            <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F4r-QN-eHa">
+                                                                                                                <rect key="frame" x="1" y="-6" width="59" height="25"/>
+                                                                                                                <constraints>
+                                                                                                                    <constraint firstAttribute="height" constant="25" id="7aV-HI-Q6W"/>
+                                                                                                                </constraints>
+                                                                                                                <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="5FW-IR-DoA">
+                                                                                                                    <font key="font" metaFont="system" size="11"/>
+                                                                                                                    <date key="date" timeIntervalSinceReferenceDate="668503196.43552899">
+                                                                                                                        <!--2022-03-09 07:19:56 +0000-->
+                                                                                                                    </date>
+                                                                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                    <datePickerElements key="datePickerElements" hour="YES" minute="YES"/>
+                                                                                                                </datePickerCell>
+                                                                                                            </datePicker>
+                                                                                                            <comboBox hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sxb-Fu-ANe">
                                                                                                                 <rect key="frame" x="0.0" y="-3" width="63" height="29"/>
                                                                                                                 <constraints>
                                                                                                                     <constraint firstAttribute="height" constant="23" id="0gj-az-nXm"/>
@@ -2547,13 +2580,16 @@
                                                                                                             </comboBox>
                                                                                                         </subviews>
                                                                                                         <constraints>
+                                                                                                            <constraint firstAttribute="trailing" secondItem="F4r-QN-eHa" secondAttribute="trailing" id="1Rj-5j-Edn"/>
+                                                                                                            <constraint firstItem="F4r-QN-eHa" firstAttribute="top" secondItem="iUK-IG-tCf" secondAttribute="top" constant="5" id="P28-wM-cDS"/>
                                                                                                             <constraint firstAttribute="trailing" secondItem="Sxb-Fu-ANe" secondAttribute="trailing" id="V8f-77-nBM"/>
                                                                                                             <constraint firstItem="Sxb-Fu-ANe" firstAttribute="centerX" secondItem="iUK-IG-tCf" secondAttribute="centerX" id="Wp2-X4-4iU"/>
                                                                                                             <constraint firstItem="Sxb-Fu-ANe" firstAttribute="leading" secondItem="iUK-IG-tCf" secondAttribute="leading" id="X6b-tc-Ddz"/>
+                                                                                                            <constraint firstItem="F4r-QN-eHa" firstAttribute="leading" secondItem="iUK-IG-tCf" secondAttribute="leading" constant="1" id="prF-hq-XT8"/>
                                                                                                             <constraint firstItem="Sxb-Fu-ANe" firstAttribute="centerY" secondItem="iUK-IG-tCf" secondAttribute="centerY" id="qRg-39-mIl"/>
                                                                                                         </constraints>
                                                                                                         <connections>
-                                                                                                            <outlet property="comboTime" destination="Sxb-Fu-ANe" id="55F-0r-pUt"/>
+                                                                                                            <outlet property="datetimePicker" destination="F4r-QN-eHa" id="q32-x0-hPM"/>
                                                                                                         </connections>
                                                                                                     </tableCellView>
                                                                                                 </prototypeCellViews>
@@ -3398,7 +3434,7 @@
                                             <rect key="frame" x="0.0" y="789" width="518" height="11"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.81967213114754101" controlSize="mini" horizontal="NO" id="CjB-Wo-fzA">
+                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="CjB-Wo-fzA">
                                             <rect key="frame" x="518" y="0.0" width="11" height="789"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -3738,42 +3774,57 @@
                                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                             </tableHeaderCell>
-                                                                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="USX-gX-Cow">
-                                                                                                <font key="font" metaFont="system"/>
+                                                                                            <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="USX-gX-Cow">
+                                                                                                <font key="font" metaFont="smallSystem"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                             </textFieldCell>
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                                             <prototypeCellViews>
-                                                                                                <tableCellView identifier="startId" id="Bqe-kx-fl3" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
+                                                                                                <tableCellView identifier="startId" id="Bqe-kx-fl3" customClass="DateTimeCell" customModule="Focus" customModuleProvider="target">
                                                                                                     <rect key="frame" x="144" y="5" width="59" height="24"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
-                                                                                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="29A-Nt-NBX">
-                                                                                                            <rect key="frame" x="0.0" y="-3" width="62" height="29"/>
+                                                                                                        <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rdc-TN-8ZY">
+                                                                                                            <rect key="frame" x="1" y="1" width="58" height="23"/>
+                                                                                                            <constraints>
+                                                                                                                <constraint firstAttribute="height" constant="23" id="92o-eK-3BH"/>
+                                                                                                            </constraints>
+                                                                                                            <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="kJ8-kK-NLu">
+                                                                                                                <font key="font" metaFont="system" size="11"/>
+                                                                                                                <date key="date" timeIntervalSinceReferenceDate="668509161.43532503">
+                                                                                                                    <!--2022-03-09 08:59:21 +0000-->
+                                                                                                                </date>
+                                                                                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                <datePickerElements key="datePickerElements" hour="YES" minute="YES"/>
+                                                                                                            </datePickerCell>
+                                                                                                        </datePicker>
+                                                                                                        <comboBox hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="29A-Nt-NBX">
+                                                                                                            <rect key="frame" x="0.0" y="-3" width="62" height="28"/>
                                                                                                             <constraints>
                                                                                                                 <constraint firstAttribute="height" constant="23" id="G5n-6j-PrG"/>
                                                                                                             </constraints>
-                                                                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="Dff-kX-MVk">
-                                                                                                                <font key="font" metaFont="system"/>
+                                                                                                            <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="Dff-kX-MVk">
+                                                                                                                <font key="font" metaFont="smallSystem"/>
                                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                                                                <objectValues>
-                                                                                                                    <string>Item</string>
-                                                                                                                </objectValues>
                                                                                                             </comboBoxCell>
                                                                                                         </comboBox>
                                                                                                     </subviews>
                                                                                                     <constraints>
                                                                                                         <constraint firstItem="29A-Nt-NBX" firstAttribute="leading" secondItem="Bqe-kx-fl3" secondAttribute="leading" id="Fql-JP-d6R"/>
                                                                                                         <constraint firstItem="29A-Nt-NBX" firstAttribute="centerX" secondItem="Bqe-kx-fl3" secondAttribute="centerX" id="Ngu-L2-0K8"/>
+                                                                                                        <constraint firstAttribute="trailing" secondItem="rdc-TN-8ZY" secondAttribute="trailing" id="h9c-j5-F3b"/>
                                                                                                         <constraint firstAttribute="trailing" secondItem="29A-Nt-NBX" secondAttribute="trailing" id="lBv-zl-YQW"/>
                                                                                                         <constraint firstItem="29A-Nt-NBX" firstAttribute="leading" secondItem="Bqe-kx-fl3" secondAttribute="leading" id="p8o-5d-49S"/>
+                                                                                                        <constraint firstItem="rdc-TN-8ZY" firstAttribute="leading" secondItem="Bqe-kx-fl3" secondAttribute="leading" constant="1" id="rR5-6W-bI4"/>
                                                                                                         <constraint firstAttribute="trailing" secondItem="29A-Nt-NBX" secondAttribute="trailing" id="ssX-C2-JqQ"/>
                                                                                                         <constraint firstItem="29A-Nt-NBX" firstAttribute="centerY" secondItem="Bqe-kx-fl3" secondAttribute="centerY" id="tvP-aG-2xM"/>
+                                                                                                        <constraint firstItem="rdc-TN-8ZY" firstAttribute="top" secondItem="Bqe-kx-fl3" secondAttribute="top" id="uvR-7y-95d"/>
                                                                                                     </constraints>
                                                                                                     <connections>
-                                                                                                        <outlet property="comboTime" destination="29A-Nt-NBX" id="qq4-LW-8u4"/>
+                                                                                                        <outlet property="datetimePicker" destination="rdc-TN-8ZY" id="zs5-nm-05f"/>
                                                                                                     </connections>
                                                                                                 </tableCellView>
                                                                                             </prototypeCellViews>
@@ -3783,24 +3834,39 @@
                                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                                             </tableHeaderCell>
-                                                                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="YW3-ys-v4U">
-                                                                                                <font key="font" metaFont="system"/>
+                                                                                            <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="YW3-ys-v4U">
+                                                                                                <font key="font" metaFont="smallSystem"/>
                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                             </textFieldCell>
                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                                                             <prototypeCellViews>
-                                                                                                <tableCellView identifier="endId" id="dyf-ie-UmV" customClass="ComboBoxCell" customModule="Focus" customModuleProvider="target">
+                                                                                                <tableCellView identifier="endId" id="dyf-ie-UmV" customClass="DateTimeCell" customModule="Focus" customModuleProvider="target">
                                                                                                     <rect key="frame" x="211" y="5" width="59" height="24"/>
                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                     <subviews>
-                                                                                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6jE-fN-2dy">
-                                                                                                            <rect key="frame" x="0.0" y="-3" width="62" height="29"/>
+                                                                                                        <datePicker verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="g4T-1N-X1a">
+                                                                                                            <rect key="frame" x="1" y="1" width="58" height="23"/>
+                                                                                                            <constraints>
+                                                                                                                <constraint firstAttribute="height" constant="23" id="sF0-Dz-jPP"/>
+                                                                                                            </constraints>
+                                                                                                            <datePickerCell key="cell" controlSize="small" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="oIF-CW-c4s">
+                                                                                                                <font key="font" metaFont="system" size="11"/>
+                                                                                                                <date key="date" timeIntervalSinceReferenceDate="668508086.51822197">
+                                                                                                                    <!--2022-03-09 08:41:26 +0000-->
+                                                                                                                </date>
+                                                                                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                                                <datePickerElements key="datePickerElements" hour="YES" minute="YES"/>
+                                                                                                            </datePickerCell>
+                                                                                                        </datePicker>
+                                                                                                        <comboBox hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6jE-fN-2dy">
+                                                                                                            <rect key="frame" x="0.0" y="-3" width="62" height="28"/>
                                                                                                             <constraints>
                                                                                                                 <constraint firstAttribute="height" constant="23" id="bri-4m-y8r"/>
                                                                                                             </constraints>
-                                                                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="ZZ7-Pb-myo">
-                                                                                                                <font key="font" metaFont="system"/>
+                                                                                                            <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" numberOfVisibleItems="5" id="ZZ7-Pb-myo">
+                                                                                                                <font key="font" metaFont="smallSystem"/>
                                                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 <objectValues>
@@ -3810,13 +3876,16 @@
                                                                                                         </comboBox>
                                                                                                     </subviews>
                                                                                                     <constraints>
+                                                                                                        <constraint firstAttribute="trailing" secondItem="g4T-1N-X1a" secondAttribute="trailing" id="ObL-Ie-wHQ"/>
                                                                                                         <constraint firstItem="6jE-fN-2dy" firstAttribute="centerX" secondItem="dyf-ie-UmV" secondAttribute="centerX" id="bXv-1R-Mrb"/>
+                                                                                                        <constraint firstItem="g4T-1N-X1a" firstAttribute="top" secondItem="dyf-ie-UmV" secondAttribute="top" id="fB0-28-thv"/>
                                                                                                         <constraint firstItem="6jE-fN-2dy" firstAttribute="leading" secondItem="dyf-ie-UmV" secondAttribute="leading" id="irL-fp-Ecf"/>
                                                                                                         <constraint firstItem="6jE-fN-2dy" firstAttribute="centerY" secondItem="dyf-ie-UmV" secondAttribute="centerY" id="kMH-o8-d8A"/>
+                                                                                                        <constraint firstItem="g4T-1N-X1a" firstAttribute="leading" secondItem="dyf-ie-UmV" secondAttribute="leading" constant="1" id="mJ8-VH-Tdq"/>
                                                                                                         <constraint firstAttribute="trailing" secondItem="6jE-fN-2dy" secondAttribute="trailing" id="tbW-mj-QVg"/>
                                                                                                     </constraints>
                                                                                                     <connections>
-                                                                                                        <outlet property="comboTime" destination="6jE-fN-2dy" id="4Ea-a1-Yxb"/>
+                                                                                                        <outlet property="datetimePicker" destination="g4T-1N-X1a" id="adi-1J-PjD"/>
                                                                                                     </connections>
                                                                                                 </tableCellView>
                                                                                             </prototypeCellViews>
@@ -3863,12 +3932,12 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="100" id="lRz-q1-qfO"/>
                                                                         </constraints>
-                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="DhE-ll-bpO">
-                                                                            <rect key="frame" x="-100" y="-100" width="358" height="15"/>
+                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="YES" id="DhE-ll-bpO">
+                                                                            <rect key="frame" x="-100" y="-100" width="358" height="11"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
-                                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="uDc-bi-JGY">
-                                                                            <rect key="frame" x="-100" y="-100" width="15" height="102"/>
+                                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="mini" horizontal="NO" id="uDc-bi-JGY">
+                                                                            <rect key="frame" x="-100" y="-100" width="11" height="102"/>
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </scroller>
                                                                         <tableHeaderView key="headerView" wantsLayer="YES" id="gxF-jz-SvI" customClass="TableHeaderView" customModule="Focus" customModuleProvider="target">
