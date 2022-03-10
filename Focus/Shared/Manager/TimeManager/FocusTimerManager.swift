@@ -72,10 +72,15 @@ extension FocusTimerManager {
             updateUI?(.unknown, 0, 0, 0, [])
             return
         }
+        print("updateCounterValue ********************** remaining_focus_time :::::: \(obj.remaining_focus_time)")
         remaininFocusTime = Int(obj.remaining_focus_time)
+        print("updateCounterValue ********************** decrease_break_time/usedTime :::::: \(obj.decrease_break_time)")
         used_focus_time = Int(obj.used_focus_time)
+        print("updateCounterValue ********************** used_focus_time :::::: \(obj.used_focus_time)")
         usedTime = Int(obj.decrease_break_time) // When app resume then it start from that left time
         let countdownerDetails = remaininFocusTime.secondsToTime()
+        print("updateCounterValue ********************** remaininFocusTime{countdownerDetails} :::::: \(countdownerDetails)")
+
         updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds, arrSession: arrSession)
     }
 
@@ -113,9 +118,9 @@ extension FocusTimerManager {
             return
         }
 
-        print("*** FOCUS *** remaininTimeInSeconds ::: \(remaininFocusTime) ======== \(Int(obj.combine_stop_focus_after_time))")
-        print("*** FOCUS *** Before usedTimeSeconds ::: \(usedTime) ======= \(Int(obj.combine_stop_focus_after_time))")
-        print("*** FOCUS *** Before used_focus_time ::: \(used_focus_time) =======  Descrease time \(Int(obj.decrease_break_time))")
+        print("*** FOCUS *** Total Focus Time : \(Int(obj.combine_focus_length_time)) *** remaininTimeInSeconds ::: \(remaininFocusTime)")
+        print("*** FOCUS *** Total Focus Length Time : \(Int(obj.combine_stop_focus_after_time)) *** usedTime ::: \(usedTime)")
+        print("*** FOCUS *** Before used_focus_time ::: \(used_focus_time) \n =======  Descrease time \(Int(obj.decrease_break_time))")
 
         if remaininFocusTime <= 0 {
             stopTimer()
@@ -175,6 +180,7 @@ extension FocusTimerManager {
         switch Double(usedValue) {
         case objFocus.combine_stop_focus_after_time:
             objFocus.decrease_break_time = 0
+            
             if objFocus.is_provided_short_break {
                 let popup: FocusDialogue = (objFocus.focus_untill_stop && !objFocus.is_provided_short_break) ? .long_break_alert : .short_break_alert
                 return (popup: popup, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
@@ -190,12 +196,12 @@ extension FocusTimerManager {
     }
 
     func updateSessionData() {
-        guard var arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else {
+        guard var arrSession = objFocus.focuses?.allObjects as? [Focus_List], arrSession.count >= 2 else {
             return
         }
         arrSession = arrSession.sorted(by: { $0.created_date ?? Date() < $1.created_date ?? Date() })
         arrSession.forEach({
-//            print("*** FOCUS ***  $0.session_end_time ::::: \($0.session_end_time) current date : \(Date())")
+            print("*** FOCUS ***  $0.session_end_time ::::: \($0.session_end_time) current date : \(Date())")
             let session_end_date = $0.session_end_time ?? Date()
 
 //            print("*** FOCUS ***  $0.session_end_time Equal Date \(session_end_date.isEqualTo(Date()))")

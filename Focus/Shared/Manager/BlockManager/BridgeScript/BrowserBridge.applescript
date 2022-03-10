@@ -50,7 +50,7 @@ script BrowserBridge
         
         log("-- before repeat running script")
         repeat until isFocusing is false
-            log("-- running script")
+--            log("-- running script")
 --            log("urls :::::::  " & urls)
 --            log("isFocusing :::::::  " & isFocusing)
             if application "Safari" is running then
