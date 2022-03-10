@@ -632,6 +632,7 @@ extension FloatingFocusViewC {
             print("Inner used_time :::: \($0.used_time)")
 
         })
+        obj?.extended_break_time = 0
         Config.start_date_time = nil
         DBManager.shared.saveContext()
     }
