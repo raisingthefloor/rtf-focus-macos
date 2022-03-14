@@ -140,8 +140,8 @@ extension BreakTimerManager {
             return
         }
 
-        print("BREAK remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
-        print("BREAK Stop after This Min ::: \(Int(obj.remaining_break_time))")
+//        print("BREAK remaininTimeInSeconds ::: \(remaininTimeInSeconds)")
+//        print("BREAK Stop after This Min ::: \(Int(obj.remaining_break_time))")
 
         if remaininTimeInSeconds > 0 {
             remaininTimeInSeconds -= 1

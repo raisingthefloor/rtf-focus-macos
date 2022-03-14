@@ -73,13 +73,13 @@ extension ReminderTimerManager {
         let datetime = result.date ?? Date()
         let day = Date().currentDateComponent().weekday ?? 1
 
-        print("Time: \(time) ===== Day: \(day) ======= DateTime: \(datetime)")
+        print("Time: \(time) ===== Day: \(day) ======= DateTime: \(datetime.adding(hour: 0, min: 0, sec: 0))")
 
         let isMultipleSession = DBManager.shared.getCurrentSession()?.focuses?.allObjects.count > 1
 
         if !isMultipleSession {
             // Check Schedule Reminder
-            let reminderData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime, type: .reminder)
+            let reminderData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime.adding(hour: 0, min: 0, sec: 0), type: .reminder)
             if reminderData.isPresent {
                 if let obj = reminderData.objFS, let id = obj.id {
                     displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_without_blocklist_alert)
@@ -87,7 +87,7 @@ extension ReminderTimerManager {
             }
 
             // Check Schedule Session
-            let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime, type: .schedule_focus)
+            let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime.adding(hour: 0, min: 0, sec: 0), type: .schedule_focus)
             if reminderSData.isPresent && reminderSData.objFS?.is_schedule_session_extend == false {
                 let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
                 if let obj = reminderSData.objFS, let id = obj.id, !(objGCategory?.warning_before_schedule_session_start ?? true) {

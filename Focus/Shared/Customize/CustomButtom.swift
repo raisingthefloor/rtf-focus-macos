@@ -80,13 +80,17 @@ open class CustomButton: NSButton, CALayerDelegate {
 
     @IBInspectable public var cornerRadius: CGFloat = 4 {
         didSet {
-            layer?.cornerRadius = cornerRadius
+            DispatchQueue.main.async {
+                self.layer?.cornerRadius = self.cornerRadius
+            }
         }
     }
 
     @IBInspectable public var borderWidth: CGFloat = 1 {
         didSet {
-            layer?.borderWidth = borderWidth
+            DispatchQueue.main.async {
+                self.layer?.borderWidth = self.borderWidth
+            }
         }
     }
 

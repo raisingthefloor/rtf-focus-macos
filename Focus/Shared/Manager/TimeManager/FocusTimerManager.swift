@@ -131,17 +131,26 @@ extension FocusTimerManager {
         if remaininFocusTime > 0 {
             remaininFocusTime -= 1
             let countdownerDetails = performValueUpdate(counter: remaininFocusTime, usedValue: usedTime)
+
             var remaing_break_time = Int(objFocus.combine_stop_focus_after_time)
             remaing_break_time = remaing_break_time - usedTime
             let remaing_time = remaing_break_time.secondsToTime()
 
             if countdownerDetails.popup == .none {
                 updateRemaingTimeInDB(seconds: remaininFocusTime, usedTime: usedTime)
-                updateTimeInfo(hours: remaing_time.timeInHours, minutes: remaing_time.timeInMinutes, seconds: remaing_time.timeInSeconds, arrSession: arrSession)
+                if obj.is_provided_short_break {
+                    updateTimeInfo(hours: remaing_time.timeInHours, minutes: remaing_time.timeInMinutes, seconds: remaing_time.timeInSeconds, arrSession: arrSession)
+                } else {
+                    updateTimeInfo(hours: countdownerDetails.hours, minutes: countdownerDetails.minutes, seconds: countdownerDetails.seconds, arrSession: arrSession)
+                }
             } else {
                 stopTimer()
                 WindowsManager.dismissErrorController()
-                updateUI?(countdownerDetails.popup, remaing_time.timeInHours, remaing_time.timeInMinutes, remaing_time.timeInSeconds, arrSession)
+                if obj.is_provided_short_break {
+                    updateUI?(countdownerDetails.popup, remaing_time.timeInHours, remaing_time.timeInMinutes, remaing_time.timeInSeconds, arrSession)
+                } else {
+                    updateUI?(countdownerDetails.popup, countdownerDetails.hours, countdownerDetails.minutes, countdownerDetails.seconds, arrSession)
+                }
 //                showBreakDialogue(dialogueType: countdownerDetails.popup) // Display Break Dialogue
             }
             used_focus_time += 1
@@ -180,7 +189,7 @@ extension FocusTimerManager {
         switch Double(usedValue) {
         case objFocus.combine_stop_focus_after_time:
             objFocus.decrease_break_time = 0
-            
+
             if objFocus.is_provided_short_break {
                 let popup: FocusDialogue = (objFocus.focus_untill_stop && !objFocus.is_provided_short_break) ? .long_break_alert : .short_break_alert
                 return (popup: popup, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
@@ -204,11 +213,11 @@ extension FocusTimerManager {
             print("*** FOCUS ***  $0.session_end_time ::::: \($0.session_end_time) current date : \(Date())")
             let session_end_date = $0.session_end_time ?? Date()
 
-//            print("*** FOCUS ***  $0.session_end_time Equal Date \(session_end_date.isEqualTo(Date()))")
+            print("*** FOCUS ***  $0.session_end_time Equal Date \(session_end_date.isEqualTo(Date()))")
 //            print("*** FOCUS ***  $0.session_end_time Greater Date \(session_end_date.isGreaterThan(Date()))")
-//            print("*** FOCUS ***  $0.session_end_time Lessthan Date \(session_end_date.isSmallerThan(Date()))")
+            print("*** FOCUS ***  $0.session_end_time Lessthan Date \(session_end_date.isSmallerThan(Date()))")
 
-            if session_end_date.isEqualTo(Date()) {
+            if session_end_date.isEqualTo(Date()) || session_end_date.isSmallerThan(Date()) {
                 print("*** FOCUS Second Session End ***")
                 self.stopTimer()
                 DBManager.shared.updateRunningSession(focus: $0)

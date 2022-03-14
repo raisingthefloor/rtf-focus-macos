@@ -36,7 +36,7 @@
             <objects>
                 <customObject id="lIg-Ol-K4P" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="sidFloatingFocusViewC" id="gd4-5w-QdD" customClass="FloatingFocusViewC" customModule="Focus" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="GD9-Vd-ojM">
+                    <view key="view" id="GD9-Vd-ojM">
                         <rect key="frame" x="0.0" y="0.0" width="144" height="73"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -132,6 +132,16 @@
                         <items>
                             <menuItem title="Focus" id="H8h-7b-M4v">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" id="Nwd-MC-heE">
+                                    <items>
+                                        <menuItem title="Abour Morphic Focus" id="QiH-ic-Dgy">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="yTd-Ef-naV"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
                             </menuItem>
                         </items>
                     </menu>

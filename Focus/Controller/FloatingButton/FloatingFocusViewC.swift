@@ -328,6 +328,11 @@ extension FloatingFocusViewC {
             // Focus Extend Here
             obj.extended_focus_time = Double(value)
             obj.combine_stop_focus_after_time = Double(value) // Whatever value set after that min break alert will comes
+            
+            if Double(value) > obj.remaining_focus_time {
+                let val = Double(value)
+                obj.remaining_focus_time = val
+            }
             /*
              // As per Programmer gide $March timer  this below line is not come
                          let val = obj.remaining_focus_time + Double(value)
@@ -349,6 +354,13 @@ extension FloatingFocusViewC {
             AppManager.shared.focusTimerModel.input.updateTimerStatus()
         case .extent_break:
             AppManager.shared.focusTimerModel.usedTime = 0
+
+            let waiting_time = Config.start_date_time?.findDateDiff(time2: Date()) ?? 0
+            print("***** Extend Berak WAITING TIME *****   \(waiting_time)")
+
+            let extend_time = (obj.extended_break_time != 0) ? (Int(obj.extended_break_time) + Int(waiting_time)) : Int(waiting_time)
+            MenuViewModel.updateExtendEndSessionTime(obj: obj, time: extend_time)
+
             // Break Extend Here
             obj.extended_break_time = Double(value)
             let val = obj.remaining_break_time + Double(value)
@@ -358,16 +370,13 @@ extension FloatingFocusViewC {
 //            obj.remaining_focus_time = rval
 //            obj.used_focus_time = obj.used_focus_time + Double(value)
 
-            let waiting_time = Config.start_date_time?.findDateDiff(time2: Date()) ?? 0
-            print("***** Extend Berak WAITING TIME *****   \(waiting_time)")
-            let total_extend_time = Int(value) + Int(waiting_time)
             /*
                 // As per Programmer gide $March timer  this below line is not come
+                //let total_extend_time = Int(value) + Int(waiting_time)
 
              //            MenuViewModel.updateExtendEndSessionTime(obj: obj, time: Int(waiting_time)) // TODO: Update End Time
              //            MenuViewModel.updateBreakExtendEndSessionTime(obj: obj, time: Int(value))
              */
-            MenuViewModel.updateExtendEndSessionTime(obj: obj, time: Int(waiting_time))
 
             // MenuViewModel.updateExtendEndSessionTime(obj: obj, time: total_extend_time)
 
@@ -410,18 +419,17 @@ extension FloatingFocusViewC {
         case .end_break_alert:
             switch valueType {
             case .small:
-                objEx.is_long_break = true
-                if !objEx.is_long_break {
-                    objEx.is_long_break = true
-                } else {
+                if objEx.is_long_break {
                     objEx.is_small_break = true
+                } else {
+                    objEx.is_long_break = true
                 }
 
             case .mid:
-                if !objEx.is_long_break {
-                    objEx.is_long_break = true
-                } else {
+                if objEx.is_long_break {
                     objEx.is_mid_break = true
+                } else {
+                    objEx.is_long_break = true
                 }
             case .long:
                 objEx.is_long_break = true
@@ -430,17 +438,17 @@ extension FloatingFocusViewC {
         case .short_break_alert, .long_break_alert:
             switch valueType {
             case .small:
-                objEx.is_long_focus = true
-                if !objEx.is_long_focus {
-                    objEx.is_long_focus = true
-                } else {
+
+                if objEx.is_long_focus {
                     objEx.is_small_focus = true
+                } else {
+                    objEx.is_long_focus = true
                 }
             case .mid:
-                if !objEx.is_long_focus {
-                    objEx.is_long_focus = true
-                } else {
+                if objEx.is_long_focus {
                     objEx.is_mid_focus = true
+                } else {
+                    objEx.is_long_focus = true
                 }
             case .long:
                 objEx.is_long_focus = true
@@ -615,8 +623,9 @@ extension FloatingFocusViewC {
         let total_deduction_used = Double(break_length + firstmin_val + Int(waiting_time) + ext_break_length)
 
         print("\nBefore Deduct remaining_focus_time :::: \(obj?.remaining_focus_time)")
-        obj?.remaining_focus_time = (obj?.remaining_focus_time ?? 0) - total_deduction_used
-        print("After Deduct remaining_focus_time :::: \(obj?.remaining_focus_time)")
+        let deducted_remaing_focus_time = (obj?.remaining_focus_time ?? 0) - total_deduction_used
+        obj?.remaining_focus_time = (deducted_remaing_focus_time <= 0) ? 0 : deducted_remaing_focus_time
+        print("After Deduct remaining_focus_time :::: \(deducted_remaing_focus_time) :::::::   \(obj?.remaining_focus_time)")
 
         print("\nBefore Add used_focus_time :::: \(obj?.used_focus_time)")
         obj?.used_focus_time = (obj?.used_focus_time ?? 0) + total_deduction_used

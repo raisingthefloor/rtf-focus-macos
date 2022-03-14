@@ -46,6 +46,7 @@ extension DateTimeCell: NSDatePickerCellDelegate {
         objFSchedule = obj
         let isActive = objFSchedule?.is_active ?? false
         let isSetBlock = (objFSchedule?.block_list_name != nil)
+        let type = Int(objFSchedule?.type ?? 1)
 
         datetimePicker.tag = isStartTime ? 1 : 2
 
@@ -56,12 +57,16 @@ extension DateTimeCell: NSDatePickerCellDelegate {
             datetimePicker.dateValue = Date()
         }
         datetimePicker.delegate = self
-        datetimePicker.isEnabled = (isSetBlock) ? ((isActive && isSetBlock) ? true : false) : false
+        datetimePicker.isEnabled = isSetBlock ? ((isActive && isSetBlock) ? true : false) : false
         datetimePicker.target = self
         datetimePicker.action = #selector(dateSelected)
 
         let action = NSEvent.EventTypeMask.mouseExited
         datetimePicker.sendAction(on: action)
+
+        if !isStartTime && ScheduleType(rawValue: type) == .reminder {
+            datetimePicker.isEnabled = false
+        }
     }
 
     @objc func dateSelected() {
@@ -70,7 +75,9 @@ extension DateTimeCell: NSDatePickerCellDelegate {
             displayError(errorType: .focus_schedule_error)
             return
         }
-        updateTimeValue(datetimePicker, time: datetimePicker.dateValue)
+        let datetime = datetimePicker.dateValue.currentTime().date ?? datetimePicker.dateValue
+
+        updateTimeValue(datetimePicker, time: datetime)
     }
 }
 
@@ -92,26 +99,31 @@ extension DateTimeCell {
 
         let type = Int(objFSchedule?.type ?? 1)
         let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
-        
 
         if datetimePicker.tag == 1 {
             objFSchedule?.start_time = time.convertToScheduleFormateTime()
-            objFSchedule?.start_time_ = time
+            objFSchedule?.start_time_ = time.adding(hour: 0, min: 0, sec: 0)
 
-            if ScheduleType(rawValue: type) == .schedule_focus && !(objGCategory?.warning_before_schedule_session_start ?? false) {
+            if ScheduleType(rawValue: type) == .schedule_focus && (objGCategory?.warning_before_schedule_session_start ?? false) {
                 objFSchedule?.reminder_date = time.adding(hour: 0, min: -5, sec: 0)
             } else {
-                objFSchedule?.reminder_date = time
+                objFSchedule?.reminder_date = time.adding(hour: 0, min: 0, sec: 0)
             }
 
+            if ScheduleType(rawValue: type) == .reminder {
+                objFSchedule?.end_time = time.convertToScheduleFormateTime()
+                objFSchedule?.end_time_ = time.adding(hour: 0, min: 0, sec: 1)
+            }
+
+            print(" time Value :::: \(time.adding(hour: 0, min: 0, sec: 0))")
         } else {
             objFSchedule?.end_time = time.convertToScheduleFormateTime()
-            objFSchedule?.end_time_ = time
-        }        
+            objFSchedule?.end_time_ = time.adding(hour: 0, min: 0, sec: 0)
+        }
 
         let arrFSD = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
         let daysV = arrFSD.compactMap({ Int($0.day) })
-        var referesh: Bool = true    
+        var referesh: Bool = true
 
         if let s_time = objFSchedule?.start_time_, let e_time = objFSchedule?.end_time_, let id = objFSchedule?.id {
             if s_time > e_time {
