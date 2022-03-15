@@ -135,21 +135,14 @@ extension DateTimeCell {
                 displayError(errorType: .validation_error)
 
             } else {
+                if objFSchedule?.end_time == objFSchedule?.start_time && ScheduleType(rawValue: type) == .schedule_focus {
+                    resetDateData(errTpe: .validation_error_end_start_time)
+                    refreshTable?(true)
+                    return
+                }
                 let result = DBManager.shared.validateScheduleSessionSlotsExsits(s_time: s_time, e_time: e_time, day: daysV, id: id)
                 if !result.isValid {
-                    if datetimePicker.tag == 2 {
-                        datetimePicker.dateValue = Date()
-                        objFSchedule?.end_time = ""
-                        objFSchedule?.end_time_ = nil
-                    } else {
-                        datetimePicker.dateValue = Date()
-                        objFSchedule?.start_time = ""
-                        objFSchedule?.start_time_ = nil
-                        objFSchedule?.reminder_date = nil
-                    }
-                    DBManager.shared.saveContext()
-                    referesh = false
-                    displayError(errorType: result.errTpe)
+                    resetDateData(errTpe: result.errTpe)
                 } else {
                     objFSchedule?.time_interval = findDateDiff(time1: s_time, time2: e_time)
                     DBManager.shared.saveContext()
@@ -158,6 +151,25 @@ extension DateTimeCell {
 
             refreshTable?(referesh)
         }
+    }
+
+    func resetDateData(errTpe: ErrorDialogue) {
+        if datetimePicker.tag == 2 {
+            datetimePicker.dateValue = Date()
+            objFSchedule?.end_time = ""
+            objFSchedule?.end_time_ = nil
+        } else {
+            datetimePicker.dateValue = Date()
+            objFSchedule?.start_time = ""
+            objFSchedule?.start_time_ = nil
+            objFSchedule?.reminder_date = nil
+        }
+        let arrFSD = objFSchedule?.days_?.allObjects as! [Focus_Schedule_Days]
+        for obj in arrFSD {
+            DBManager.shared.managedContext.delete(obj)
+        }
+        DBManager.shared.saveContext()
+        displayError(errorType: errTpe)
     }
 
     func displayError(errorType: ErrorDialogue) {

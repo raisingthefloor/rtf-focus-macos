@@ -116,6 +116,13 @@ extension WeekDaysCell: BasicSetupType {
             }
         } else {
             // TODO: Delete all timeslot before insert
+            let type = Int(objFSchedule?.type ?? 1)
+            if objFSchedule?.end_time == objFSchedule?.start_time && ScheduleType(rawValue: type) == .schedule_focus {
+                let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
+                displayError(errorType: .validation_error_end_start_time, objBl: objBl)
+                return
+            }
+            
             if !warningToAddThirdSession(day: tag) {
                 let objDay = Focus_Schedule_Days(context: DBManager.shared.managedContext)
                 objDay.day = Int16(tag)

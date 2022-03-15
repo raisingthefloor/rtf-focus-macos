@@ -110,11 +110,13 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func defaultUI() {
-        lblTimeVal.isHidden = true
-        btnFocus.buttonColor = Color.green_color
-        btnFocus.activeButtonColor = Color.green_color
-        btnFocus.textColor = .white
-        udateButtonSting(timeVal: "")
+        DispatchQueue.main.async {
+            self.lblTimeVal.isHidden = true
+            self.btnFocus.buttonColor = Color.green_color
+            self.btnFocus.activeButtonColor = Color.green_color
+            self.btnFocus.textColor = .white
+            self.udateButtonSting(timeVal: "")
+        }
     }
 
     @objc func reminderObserver() {
@@ -328,7 +330,7 @@ extension FloatingFocusViewC {
             // Focus Extend Here
             obj.extended_focus_time = Double(value)
             obj.combine_stop_focus_after_time = Double(value) // Whatever value set after that min break alert will comes
-            
+
             if Double(value) > obj.remaining_focus_time {
                 let val = Double(value)
                 obj.remaining_focus_time = val

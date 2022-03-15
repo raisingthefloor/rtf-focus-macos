@@ -619,7 +619,7 @@ extension DBManager {
     func checkAvailablReminder(day: Int, time: String, date: Date, type: ScheduleType) -> (isPresent: Bool, objFS: Focus_Schedule?) {
 //        let timeV = time.replacingOccurrences(of: ":00", with: "")
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
-        print(" Predicate Schedule : \(NSPredicate(format: "ANY days_.day = %d && reminder_date = %@ && type = %d && is_active = true", day, date as CVarArg, type.rawValue))")
+//        print(" Predicate Schedule : \(NSPredicate(format: "ANY days_.day = %d && reminder_date = %@ && type = %d && is_active = true", day, date as CVarArg, type.rawValue))")
         fetchRequest.predicate = NSPredicate(format: "ANY days_.day = %d && reminder_date = %@ && type = %d && is_active = true", day, date as CVarArg, type.rawValue)
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
@@ -717,15 +717,25 @@ extension DBManager {
         }
         //        let predicate = NSPredicate(format: "(end_time_ == %@) OR (start_time_ == %@)", s_time as CVarArg, e_time as CVarArg)
 
-        let predicate = NSPredicate(format: "(end_time_ == %@)", s_time as CVarArg)
-        if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate) {
-            let predicate_start = NSPredicate(format: "(start_time_ == %@)", s_time as CVarArg)
+        let ss_time = s_time.convertToScheduleFormateTime()
+        let ee_time = e_time.convertToScheduleFormateTime()
+
+        let predicate = NSPredicate(format: "(end_time == %@ && type != %d)", ss_time as CVarArg, ScheduleType.reminder.rawValue)
+        if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate, checkTwoData: true) {
+            let predicate_start = NSPredicate(format: "(start_time == %@)", ss_time as CVarArg)
             if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_start, checkTwoData: true) {
-                return (true, .schedule_error)
+                let predicate_end = NSPredicate(format: "(start_time == %@)", ee_time as CVarArg)
+                if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_end, checkTwoData: true) {
+//                    let predicate_end_s = NSPredicate(format: "(end_time_ >= %@)", s_time as CVarArg) //TODO: Need to check this case like 12 to 10 and 12 to 11 then 5 to onewards not allow to that day. allow only from 11 to on wards.
+//                    if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_end_s, checkTwoData: true) {
+//                        return (true, .schedule_error)
+//                    }
+                    return (true, .schedule_error)
+                }
+                return (false, .validation_error_end_start_time)
             }
             return (false, .validation_error_day_time)
         }
-
         return (false, .validation_error_end_start_time)
     }
 
@@ -740,7 +750,7 @@ extension DBManager {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest)
             var count = results.count
             if checkTwoData {
-                count = results.count > 2 ? results.count : 0
+                count = results.count >= 2 ? results.count : 0
             }
             if count == 0 {
                 return true

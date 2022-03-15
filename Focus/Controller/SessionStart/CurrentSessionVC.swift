@@ -93,7 +93,7 @@ extension CurrentSessionVC: BasicSetupType {
 
         var time = ""
         if break_time.timeInHours != 0 {
-            time = "\(break_time.timeInHours) hrs \(break_time.timeInMinutes) min \(break_time.timeInSeconds) sec"            
+            time = "\(break_time.timeInHours) hrs \(break_time.timeInMinutes) min \(break_time.timeInSeconds) sec"
         } else {
             time = "\(break_time.timeInMinutes) minutes \(break_time.timeInSeconds) sec"
         }
@@ -164,7 +164,7 @@ extension CurrentSessionVC: BasicSetupType {
     }
 
     @objc func setFocusSessionView() {
-        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List] else { return }
+        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else { return }
         DispatchQueue.main.async {
             self.lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
             self.lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true

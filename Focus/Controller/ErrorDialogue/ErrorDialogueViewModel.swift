@@ -70,7 +70,7 @@ enum ErrorDialogue: Int {
         case .validation_error_day_time:
             return NSLocalizedString("Error.validation_error_add_session", comment: "The slot is not available for the time on that day")
         case .validation_error_end_start_time:
-            return NSLocalizedString("Error.validation_error_end_start_time", comment: "The start time should not be the same as the end times of other sessions.")
+            return NSLocalizedString("Error.validation_error_end_start_time", comment: "The start time should not be the same as the end time of other sessions and vice versa.")
 
         }
     }

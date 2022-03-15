@@ -60,9 +60,9 @@ class SlotViewCell: NSTableCellView {
 
         if scheduleDay.isActive == true && scheduleDay.noOfsession != 0 {
             if scheduleDay.noOfsession == 2 {
-                print("scheduleDay.noOfsession ::::::::: \(scheduleDay.noOfsession)")
-                print("color.count ::::::::: \(color.count)")
-                print("color.count ::::::::: \(color)")
+//                print("scheduleDay.noOfsession ::::::::: \(scheduleDay.noOfsession)")
+//                print("color.count ::::::::: \(color.count)")
+//                print("color.count ::::::::: \(color)")
                 let leftColor = color.first
                 let left_color_type = scheduleDay.color_type.first
 
@@ -77,8 +77,8 @@ class SlotViewCell: NSTableCellView {
                 rightV.border_width = 2.5
 
             } else {
-                print("Else color.count ::::::::: \(color.count)")
-                print("Else color.count ::::::::: \(color)")
+//                print("Else color.count ::::::::: \(color.count)")
+//                print("Else color.count ::::::::: \(color)")
 
                 rightV.background_color = .clear
                 rightV.border_color = .clear

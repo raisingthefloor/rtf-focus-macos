@@ -29,6 +29,11 @@ import Foundation
     var app_list: [String] { get set }
     var isFocusing: Bool { get set }
     var app_names: [String] { get set }
+    var isCB: Bool { get set }
+    var isOpera: Bool { get set }
+    var isBB: Bool { get set }
+    var isViv: Bool { get set }
+
     func runBlockBrowser()
     func stopScript()
     func runUnblockBrowser()
@@ -37,6 +42,7 @@ import Foundation
     func launchMyApp()
     func quiteApp()
     func setDoNoDisturbTo(_: String)
+//    func doesBrowserExist(appName: String) -> Bool
 }
 
 class BrowserScript {

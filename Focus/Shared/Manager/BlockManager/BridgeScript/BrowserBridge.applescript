@@ -43,14 +43,14 @@ script BrowserBridge
         log (urls)
         set isFocusing to true
         set doesExist to false
-        set isCB to false
-        set isOpera to false
-        set isBB to false
-        set isViv to false
-        
+        set isCB to my doesBrowserExist("Google Chrome")
+        set isOpera to my doesBrowserExist("Opera")
+        set isBB to my doesBrowserExist("Brave Browser")
+        set isViv to my doesBrowserExist("Vivaldi")
+                
         log("-- before repeat running script")
         repeat until isFocusing is false
---            log("-- running script")
+            log("-- running script")
 --            log("urls :::::::  " & urls)
 --            log("isFocusing :::::::  " & isFocusing)
             if application "Safari" is running then
@@ -94,17 +94,10 @@ script BrowserBridge
                     end try
                 end if
 --                log("Out Side IFFF isFocusing :::::::  " & isFocusing)
-        if isCB then
-            set isCB to false
-            try
-                do shell script "osascript -e 'exists application \"Google Chrome\"'"
-                set doesExist to true
-            end try
-        end if
 
-        if doesExist then
-            set doesExist to false
+        if isCB then
                 if application "Google Chrome" is running then
+                    try
                     tell application "Google Chrome"
                         try
                             set theWindows to windows
@@ -118,12 +111,15 @@ script BrowserBridge
                                     set split_item to url_name's text items
                                     set AppleScript's text item delimiters to {""} --> restore delimiters to default value
                                     set domainName to split_item's item 3
+                                    try
                                     repeat with b_url in urls
                                         if domainName contains b_url then
                                             set (URL of every tab of every window where URL contains (url_name)) to block_url
                                             exit repeat
                                         end if
                                     end repeat
+                                    on error number -1719
+                                    end try
                                 end repeat
                                 on error number -1728
                                 end try
@@ -131,19 +127,14 @@ script BrowserBridge
                         on error number -609
                         end try
                     end tell
+                    on error number -600
+                    end try
                 end if
             end if
         
             if isOpera then
-                set isOpera to false
-                try
-                    do shell script "osascript -e 'exists application \"Opera\"'"
-                    set doesExist to true
-                end try
-            end if
-            if doesExist then
-                set doesExist to false
                 if application "Opera" is running then
+                    try
                     tell application "Opera"
                         try
                             set theWindows to windows
@@ -156,12 +147,15 @@ script BrowserBridge
                                     set split_item to url_name's text items
                                     set AppleScript's text item delimiters to {""} --> restore delimiters to default value
                                     set domainName to split_item's item 3
+                                    try
                                     repeat with b_url in urls
                                         if domainName contains b_url then
                                             set (URL of every tab of every window where URL contains (url_name)) to block_url
                                             exit repeat
                                         end if
                                     end repeat
+                                    on error number -1719
+                                    end try
                                 end repeat
                                 on error number -1728
                                 end try
@@ -169,20 +163,14 @@ script BrowserBridge
                         on error number -609
                         end try
                     end tell
+                    on error number -600
+                    end try
                 end if
             end if
             
             if isBB then
-                set isBB to false
-                try
-                    do shell script "osascript -e 'exists application \"Brave Browser\"'"
-                    set doesExist to true
-                end try
-            end if
-            
-            if doesExist then
-                set doesExist to false
                 if application "Brave Browser" is running then
+                    try
                     tell application "Brave Browser"
                         try
                             set theWindows to windows
@@ -196,12 +184,15 @@ script BrowserBridge
                                     set split_item to url_name's text items
                                     set AppleScript's text item delimiters to {""} --> restore delimiters to default value
                                     set domainName to split_item's item 3
+                                    try
                                     repeat with b_url in urls
                                         if domainName contains b_url then
                                             set (URL of every tab of every window where URL contains (url_name)) to block_url
                                             exit repeat
                                         end if
                                     end repeat
+                                    on error number -1719
+                                    end try
                                 end repeat
                                 on error number -1728
                                 end try
@@ -209,21 +200,14 @@ script BrowserBridge
                         on error number -609
                         end try
                     end tell
+                    on error number -600
+                    end try
                 end if
             end if
-            
+                             
             if isViv then
-                set isViv to false
-                    try
-                        do shell script "osascript -e 'exists application \"Vivaldi\"'"
-                        set doesExist to true
-                    end try
-            end if
-                
-                 
-            if doesExist then
-                set doesExist to false
                     if application "Vivaldi" is running then
+                        try
                         tell application "Vivaldi"
                             try
                                 set theWindows to windows
@@ -237,12 +221,15 @@ script BrowserBridge
                                             set split_item to url_name's text items
                                             set AppleScript's text item delimiters to {""} --> restore delimiters to default value
                                             set domainName to split_item's item 3
+                                            try
                                             repeat with b_url in urls
                                                 if domainName contains b_url then
---                                                set (URL of every tab of every window where URL contains (url_name)) to block_url
-                                                exit repeat
+--                                                    set (URL of every tab of every window where URL contains (url_name)) to block_url
+                                                    exit repeat
                                                 end if
                                             end repeat
+                                            on error number -1719
+                                            end try
                                         end repeat
                                         on error number -1728
                                     end try
@@ -250,6 +237,8 @@ script BrowserBridge
                                 on error number -609
                             end try
                         end tell
+                        on error number -600
+                        end try
                     end if
             end if
 --                if application "Firefox" is running then
@@ -318,13 +307,15 @@ script BrowserBridge
     end split
     
     -- Method to Check Application Exsist OR Not
-    on doesExist(appName)
+    on doesBrowserExist(appName)
+        set doesExist to false
         try
-            do shell script "osascript -e 'exists application appName'"
-            return true
+            do shell script "osascript -e 'exists application \""& appName & "\"'"
+            set doesExist to true
         end try
-        return false
-    end doesExist
+        log("doesBrowserExist doesExist ::: " &doesExist & " app name :::: " &appName)
+        return doesExist
+    end doesBrowserExist
 
     
     -- Method to stop block script

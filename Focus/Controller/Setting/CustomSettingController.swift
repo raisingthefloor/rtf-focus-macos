@@ -32,6 +32,7 @@ class CustomSettingController: NSViewController, NSWindowDelegate {
     @IBOutlet var lblTitle: NSTextField!
 
     @IBOutlet var righView: NSView!
+    var rightVC: BaseViewController?
 
     var selectOption: SettingOptions = .general_setting
     var updateView: ((Bool) -> Void)?
@@ -48,11 +49,18 @@ class CustomSettingController: NSViewController, NSWindowDelegate {
         updateView?(true)
         return true
     }
+
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        if rightVC != nil {
+            rightVC?.view.frame = righView.bounds
+        }
+    }
 }
 
 extension CustomSettingController: BasicSetupType {
     func setUpText() {
-        title = "" //NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
+        title = "" // NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
         lblTitle.stringValue = NSLocalizedString("Home.customize_focus", comment: "Customize Focus")
     }
 
@@ -64,6 +72,7 @@ extension CustomSettingController: BasicSetupType {
         let button = view.window?.standardWindowButton(.zoomButton)
         button?.isEnabled = false
 
+        righView.background_color = .blue
         topView.background_color = Color.top_title_green_color
         tblMenu.backgroundColor = Color.green_color
         leftView.background_color = Color.green_color
@@ -121,6 +130,7 @@ extension CustomSettingController: NSTableViewDataSource, NSTableViewDelegate {
                 let option = SettingOptions.setting_options[selectedRow]
                 righView.removeSubviews()
                 if let vc = WindowsManager.getVC(withIdentifier: option.identifier, ofType: option.type, storyboard: "CustomSetting") as? BaseViewController {
+                    rightVC = vc
                     vc.view.frame = righView.bounds
                     addChild(vc)
                     righView.addSubview(vc.view)

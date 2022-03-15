@@ -199,7 +199,7 @@
 "Error.validation_error_desc" = "The end time must come later than the start time.";
 "Error.validation_error" = "ERROR";
 "Error.validation_error_add_session" = "The slot is not available for the time on that day";
-"Error.validation_error_end_start_time" = "The start time should not be the same as the end time of other sessions.";
+"Error.validation_error_end_start_time" = "The start time should not be the same as the end time of other sessions and vice versa.";
 
 "ID.test_url" = "Test URL";
 

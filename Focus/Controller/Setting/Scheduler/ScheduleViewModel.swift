@@ -109,32 +109,35 @@ extension ScheduleViewModel {
                             let no_session = 1
 
                             if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).last {
-                                print("********************** Session Two ********************** :::: Time \(time)  Day :::\(day_e.identifier)")
-                                if sDay.noOfsession == 1 {
-                                    print(" Session one convert to Two")
-                                    sDay.colors.append(color)
-                                    sDay.color_type.append(color_type)
-                                    sDay.ids.append(fs_id)
-                                } else {
-                                    sDay.colors[0] = color
-                                    sDay.color_type[0] = color_type
+                                print("ids ::::: \(sDay.ids)  ===== fs_id \(fs_id)")
+                                if !(sDay.ids.compactMap({ $0 == fs_id }).last ?? false) {
+                                    print("********************** Session Two ********************** :::: Time \(time)  Day :::\(day_e.identifier)")
+                                    if sDay.noOfsession == 1 {
+                                        print(" Session one convert to Two")
+                                        sDay.colors.append(color)
+                                        sDay.color_type.append(color_type)
+                                        sDay.ids.append(fs_id)
+                                    } else {
+                                        sDay.colors[0] = color
+                                        sDay.color_type[0] = color_type
 //                                    sDay.ids[0] = fs_id
-                                    for indexJ in 0 ..< sDay.ids.count where sDay.ids[indexJ] == fs_id {
-                                        if sDay.colors.count <= 2 {
-                                            sDay.colors.insert(color, at: indexJ)
-                                            sDay.color_type.insert(color_type, at: indexJ)
+                                        for indexJ in 0 ..< sDay.ids.count where sDay.ids[indexJ] == fs_id {
+                                            if sDay.colors.count <= 2 {
+                                                sDay.colors.insert(color, at: indexJ)
+                                                sDay.color_type.insert(color_type, at: indexJ)
 //                                            scheduleDay.color_type.removeLast()
 //                                            scheduleDay.colors.removeLast()
+                                            }
                                         }
                                     }
-                                }
-                                sDay.noOfsession = 2
-                                sDay.time = time
+                                    sDay.noOfsession = 2
+                                    sDay.time = time
 
-                                if let index = s_days.firstIndex(where: { $0.day == day_e && $0.time == time }) {
-                                    s_days[index] = sDay
+                                    if let index = s_days.firstIndex(where: { $0.day == day_e && $0.time == time }) {
+                                        s_days[index] = sDay
+                                    }
+                                    objMutableSS.days = s_days
                                 }
-                                objMutableSS.days = s_days
                             } else {
                                 print("********************** Session One ********************** :::: Time \(time) Day :::\(day_e.identifier)")
                                 var scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [fs_id])
@@ -144,7 +147,7 @@ extension ScheduleViewModel {
                                 let arrUDIDs = arrIds.flatMap({ $0 }).unique()
 
                                 for indexJ in 0 ..< arrUDIDs.count where arrUDIDs[indexJ] == fs_id {
-                                    print("********************** Hase SessionTwo ********************** :::: Time \(time)  Day :::\(day_e.identifier)")
+                                    print("********************** Has SessionTwo ********************** :::: Time \(time) Day :::\(day_e.identifier)")
                                     scheduleDay.noOfsession = 2
                                     scheduleDay.colors = [.clear, color]
                                     scheduleDay.color_type = [color_type, color_type]
@@ -154,7 +157,7 @@ extension ScheduleViewModel {
 
                                         for indexJ in 0 ..< ids.count where ids[indexJ] == fs_id {
                                             if scheduleDay.colors.count <= 2 && scheduleDay.ids.count == 2 {
-                                                print("********************** Hase SessionTwo ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
+                                                print("********************** Has SessionTwo ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
                                                 scheduleDay.noOfsession = 2
                                                 scheduleDay.colors.insert(color, at: indexJ)
                                                 scheduleDay.color_type.insert(color_type, at: indexJ)
