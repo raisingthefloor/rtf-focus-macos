@@ -63,12 +63,11 @@ extension FloatingFocusViewC: BasicSetupType {
 
         NotificationCenter.default.addObserver(self, selector: #selector(reminderObserver), name: NSNotification.Name(ObserverName.reminder_schedule.rawValue), object: nil)
 
-        guard let obj = viewModel.input.focusObj else { return }
-        if obj.is_focusing {
-            setupCountDown()
-        } else {
-            defaultUI()
+        guard let obj = viewModel.input.focusObj, let arrSession = obj.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty, obj.is_focusing else {
+            resetFocusSession(isRestart: false, dType: .none)
+            return
         }
+        setupCountDown()
     }
 
     func bindData() {
@@ -89,7 +88,7 @@ extension FloatingFocusViewC: BasicSetupType {
     func udateButtonSting(timeVal: String) {
         DispatchQueue.main.async {
             var time = ""
-            if let obj = self.viewModel.input.focusObj, obj.is_focusing, let arrSession = obj.focuses?.allObjects {
+            if let obj = self.viewModel.input.focusObj, obj.is_focusing, let arrSession = obj.focuses?.allObjects, !arrSession.isEmpty {
                 if let isCountDownOn = self.objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
                     if arrSession.count >= 2 {
                         time = obj.focus_untill_stop ? "" : ("\n" + timeVal)
@@ -306,10 +305,7 @@ extension FloatingFocusViewC {
     func updateViewnData(dialogueType: FocusDialogue, action: ButtonAction, value: Int, valueType: ButtonValueType) {
         guard let obj = viewModel.input.focusObj, let arrSessions = obj.focuses?.allObjects as? [Focus_List], !arrSessions.isEmpty else {
             AppManager.shared.focusTimerModel.usedTime = 0
-            AppManager.shared.resetFocusSession()
-            stopBlockingAppsWeb(isRestart: false, dialogueType: dialogueType)
-            WindowsManager.dismissController()
-            defaultUI()
+            resetFocusSession(isRestart: false, dType: dialogueType)
             return
         }
 
@@ -388,10 +384,7 @@ extension FloatingFocusViewC {
 
         case .stop_session:
             AppManager.shared.focusTimerModel.usedTime = 0
-            AppManager.shared.resetFocusSession()
-            stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
-            WindowsManager.dismissController()
-            defaultUI()
+            resetFocusSession(isRestart: isRestart, dType: dialogueType)
         case .normal_ok:
             if dialogueType == .long_break_alert || dialogueType == .short_break_alert {
                 AppManager.shared.focusTimerModel.usedTime = 0
@@ -519,14 +512,18 @@ extension FloatingFocusViewC {
 
         case .seession_completed_alert:
             // Session Complete Heres
-            AppManager.shared.resetFocusSession()
-            stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dialogueType)
-            WindowsManager.dismissController()
-            defaultUI()
+            resetFocusSession(isRestart: isRestart, dType: dialogueType)
         default:
             setUpText()
             AppManager.shared.focusTimerModel.input.updateTimerStatus()
         }
+    }
+
+    func resetFocusSession(isRestart: Bool, dType: FocusDialogue) {
+        AppManager.shared.resetFocusSession()
+        stopBlockingAppsWeb(isRestart: isRestart, dialogueType: dType)
+        WindowsManager.dismissController()
+        defaultUI()
     }
 }
 
@@ -540,10 +537,7 @@ extension FloatingFocusViewC {
             if dType == .end_break_alert {
                 self.openBreakDialouge(dialogueType: dType)
             } else if dType == .unknown {
-                AppManager.shared.resetFocusSession()
-                self.stopBlockingAppsWeb(isRestart: true, dialogueType: dType)
-                WindowsManager.dismissController()
-                self.defaultUI()
+                self.resetFocusSession(isRestart: true, dType: dType)
                 return
             }
             self.updateTimeInfo(hours: h, minutes: m, seconds: s)
@@ -565,10 +559,7 @@ extension FloatingFocusViewC {
         AppManager.shared.focusTimerModel.updateUI = { dType, h, m, s, _ in
             switch dType {
             case .unknown:
-                AppManager.shared.resetFocusSession()
-                self.stopBlockingAppsWeb(isRestart: true, dialogueType: dType)
-                WindowsManager.dismissController()
-                self.defaultUI()
+                self.resetFocusSession(isRestart: true, dType: dType)
             case .seession_completed_alert:
                 obj?.is_provided_short_break = false
                 DBManager.shared.saveContext()

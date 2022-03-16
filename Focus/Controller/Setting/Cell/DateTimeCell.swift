@@ -60,6 +60,7 @@ extension DateTimeCell: NSDatePickerCellDelegate {
         datetimePicker.isEnabled = isSetBlock ? ((isActive && isSetBlock) ? true : false) : false
         datetimePicker.target = self
         datetimePicker.action = #selector(dateSelected)
+        datetimePicker.font = NSFont.systemFont(ofSize: 10, weight: .regular)
 
         let action = NSEvent.EventTypeMask.mouseExited
         datetimePicker.sendAction(on: action)
@@ -168,6 +169,7 @@ extension DateTimeCell {
         for obj in arrFSD {
             DBManager.shared.managedContext.delete(obj)
         }
+        refreshTable?(true)
         DBManager.shared.saveContext()
         displayError(errorType: errTpe)
     }

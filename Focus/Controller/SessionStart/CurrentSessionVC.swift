@@ -164,7 +164,11 @@ extension CurrentSessionVC: BasicSetupType {
     }
 
     @objc func setFocusSessionView() {
-        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else { return }
+        guard let objFocus = viewModel?.input.focusObj, let arrSession = objFocus.focuses?.allObjects as? [Focus_List], !arrSession.isEmpty else {
+            updateView?(true, .stop_session)
+            dismiss(nil)
+            return
+        }
         DispatchQueue.main.async {
             self.lblSubTitle.isHidden = objFocus.focus_untill_stop ? true : false
             self.lblSubTitle.isHidden = objFocus.is_provided_short_break ? false : true

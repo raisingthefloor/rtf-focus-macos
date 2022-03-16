@@ -69,6 +69,7 @@ struct WindowsManager {
 
     static func dismissController() {
         DispatchQueue.main.async {
+            print("Controller windows shared last contentviewController \(NSApplication.shared.windows.last?.contentViewController) ")
             if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
                 presetFromCtrl.dismiss(nil)
             }
