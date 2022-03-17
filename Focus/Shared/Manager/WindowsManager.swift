@@ -71,9 +71,15 @@ struct WindowsManager {
         DispatchQueue.main.async {
             print("Controller windows shared last contentviewController \(NSApplication.shared.windows.last?.contentViewController) ")
             if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
+                if presetFromCtrl is FloatingFocusViewC {
+                    return
+                }
                 presetFromCtrl.dismiss(nil)
             }
             if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
+                if presetFromCtrl is FloatingFocusViewC {
+                    return
+                }
                 presetFromCtrl.dismiss(nil)
             }
         }

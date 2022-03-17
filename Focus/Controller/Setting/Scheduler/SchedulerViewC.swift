@@ -196,6 +196,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
 //                    cell.configStartCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
                     cell.refreshTable = { isChange in
                         if isChange {
+                            self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
                             self.processReminderActiveInactive(objFSchedule: obj)
                         }
                     }
@@ -208,6 +209,7 @@ extension SchedulerViewC: NSTableViewDataSource, NSTableViewDelegate {
 //                    cell.configEndCell(obj: obj, arrTimes: ScheduleViewModel.arrTimes)
                     cell.refreshTable = { isChange in
                         if isChange {
+                            self.tblSchedule.reloadData(forRowIndexes: IndexSet(integer: row), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3, 4))
                             self.processReminderActiveInactive(objFSchedule: obj)
                         }
                     }

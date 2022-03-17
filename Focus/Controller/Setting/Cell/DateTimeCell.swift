@@ -88,12 +88,14 @@ extension DateTimeCell {
             if (controller as! SchedulerViewC).checkSessionRunning(objFS: objFSchedule) {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 (controller as! SchedulerViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+                refreshTable?(true)
                 return
             }
         } else if controller is TodayScheduleViewC {
             if (controller as! TodayScheduleViewC).checkSessionRunning(objFS: objFSchedule) {
                 let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
                 (controller as! TodayScheduleViewC).openErrorDialogue(errorType: .focus_schedule_error, objBL: objBl)
+                refreshTable?(true)
                 return
             }
         }
@@ -169,8 +171,8 @@ extension DateTimeCell {
         for obj in arrFSD {
             DBManager.shared.managedContext.delete(obj)
         }
-        refreshTable?(true)
         DBManager.shared.saveContext()
+        refreshTable?(true)
         displayError(errorType: errTpe)
     }
 

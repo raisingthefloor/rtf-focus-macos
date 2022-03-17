@@ -99,6 +99,7 @@ extension WeekDaysCell: BasicSetupType {
         if isRunning(objFS: objFSchedule) {
             let objBl = DBManager.shared.getBlockListBy(id: objFSchedule?.block_list_id)
             displayError(errorType: .focus_schedule_error, objBl: objBl)
+            refreshTable?(true)
             return
         }
 

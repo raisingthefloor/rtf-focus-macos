@@ -163,6 +163,8 @@ extension ScheduleViewModel {
                                                 scheduleDay.color_type.insert(color_type, at: indexJ)
                                                 scheduleDay.color_type.removeLast()
                                                 scheduleDay.colors.removeLast()
+                                            }else{
+                                                print("********************** Defect left ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
                                             }
                                         }
                                     }

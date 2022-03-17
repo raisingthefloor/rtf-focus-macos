@@ -726,14 +726,14 @@ extension DBManager {
             if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_start, checkTwoData: true) {
                 let predicate_end = NSPredicate(format: "(start_time == %@)", ee_time as CVarArg)
                 if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_end, checkTwoData: true) {
-//                    if isTimeSlotAvailable(s_time: ss_time, e_time: ee_time, day: day) {
-//                        return (true, .schedule_error)
-//                    }
+                    if isTimeSlotAvailable(s_time: ss_time, e_time: ee_time, day: day, checkTwoData: true) {
+                        return (true, .schedule_error)
+                    }
 //                    let predicate_end_s = NSPredicate(format: "(end_time_ >= %@)", s_time as CVarArg) //TODO: Need to check this case like 12 to 10 and 12 to 11 then 5 to onewards not allow to that day. allow only from 11 to on wards.
 //                    if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_end_s, checkTwoData: true) {
 //                        return (true, .schedule_error)
 //                    }
-                    return (true, .schedule_error)
+                    return (false, .validation_error_day_time)
                 }
                 return (false, .validation_error_end_start_time)
             }
@@ -770,31 +770,35 @@ extension DBManager {
         let arrTSlot: [String] = s_time.getTimeSlots(endTime: e_time)
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Focus_Schedule")
-//        let day_predict = NSPredicate(format: "ANY days_.day IN %@", day)
         let time_predict = NSPredicate(format: "SUBQUERY(days_, $x, SUBQUERY($x.time_slot, $y, $y.time IN %@).@count > 0).@count > 0", arrTSlot)
-
         fetchRequest.predicate = time_predict // NSCompoundPredicate(type: .and, subpredicates: [time_predict])
-        print("Predicate Compound  :::: \(fetchRequest.predicate)")
 
+        var count = 0
         do {
             let results = try DBManager.shared.managedContext.fetch(fetchRequest) as! [Focus_Schedule]
-
-            print("isTimeSlotAvailable  ::: \(results.count)")
-            print("Focus_Schedule  ::: \(results)")
-            print("days_  ::: \(results.map({ $0.days_?.allObjects }))")
-            print("time_slot  ::: \(results.map({ ($0.days_?.allObjects).map({ ($0 as? Focus_Schedule_Days)?.time_slot?.allObjects }) }))")
-
-            let timeslots = results.map({ ($0.days_?.allObjects).map({ ($0 as? Focus_Schedule_Days)?.time_slot?.allObjects }) }) as? [Focus_Schedule_Time_Range]
-
-            var count = timeslots?.count ?? 0
-            if checkTwoData {
-                count = results.count >= 2 ? results.count : 0
+            let days = results.compactMap({ $0.days_?.allObjects }).compactMap({ $0 }).flatMap({ $0 }) as! [Focus_Schedule_Days]
+            for dd in day {
+                for indexJ in 0 ..< days.count where days[indexJ].day == dd {
+                    let times = days[indexJ].time_slot?.allObjects as! [Focus_Schedule_Time_Range]
+                    for index in 0 ..< times.count where times[index].time == arrTSlot.first || times[index].time == arrTSlot.last {
+                        count = count + 1
+                    }
+//                    print("Saved Day :::: \(dd)   time slot :::: \(times.compactMap({ $0 }).flatMap({ $0.time }))  ")
+//                    print("Check time slot :::: \(arrTSlot)  ")
+//                    print("Count :::::: \(count)")
+                }
             }
+
+            if checkTwoData {
+                count = count > 1 ? count : 0
+            }
+
             if count == 0 {
                 return true
             } else {
                 return false
             }
+
         } catch let error {
             print("Could not Check data. Focus_Schedule \(error), \(error.localizedDescription)")
             return false

@@ -44,10 +44,12 @@ class FloatingFocusViewC: NSViewController {
 
 extension FloatingFocusViewC: BasicSetupType {
     func setUpText() {
-        btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
-        if let obj = viewModel.input.focusObj {
-            if obj.is_focusing && obj.is_break_time {
-                btnFocus.title = NSLocalizedString("Button.Break", comment: "Break")
+        DispatchQueue.main.async {
+            self.btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
+            if let obj = self.viewModel.input.focusObj {
+                if obj.is_focusing && obj.is_break_time {
+                    self.btnFocus.title = NSLocalizedString("Button.Break", comment: "Break")
+                }
             }
         }
     }
@@ -77,35 +79,37 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     func updateFocusButton() {
-        btnFocus.buttonColor = Color.very_light_grey
-        btnFocus.activeButtonColor = Color.very_light_grey
-        btnFocus.textColor = Color.black_color
-        btnFocus.borderColor = Color.dark_grey_border
-        btnFocus.borderWidth = 0.6
-        udateButtonSting(timeVal: "")
+        DispatchQueue.main.async {
+            self.btnFocus.buttonColor = Color.very_light_grey
+            self.btnFocus.activeButtonColor = Color.very_light_grey
+            self.btnFocus.textColor = Color.black_color
+            self.btnFocus.borderColor = Color.dark_grey_border
+            self.btnFocus.borderWidth = 0.6
+            self.udateButtonSting(timeVal: "")
+        }
     }
 
     func udateButtonSting(timeVal: String) {
-        DispatchQueue.main.async {
-            var time = ""
-            if let obj = self.viewModel.input.focusObj, obj.is_focusing, let arrSession = obj.focuses?.allObjects, !arrSession.isEmpty {
-                if let isCountDownOn = self.objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
-                    if arrSession.count >= 2 {
-                        time = obj.focus_untill_stop ? "" : ("\n" + timeVal)
-                    } else {
-                        time = (obj.focus_untill_stop && !obj.is_provided_short_break) ? "" : ("\n" + timeVal)
-                    }
+//        DispatchQueue.main.async {
+        var time = ""
+        if let obj = viewModel.input.focusObj, obj.is_focusing, let arrSession = obj.focuses?.allObjects, !arrSession.isEmpty {
+            if let isCountDownOn = objGCategoey?.general_setting?.show_count_down_for_break_start_end, isCountDownOn {
+                if arrSession.count >= 2 {
+                    time = obj.focus_untill_stop ? "" : ("\n" + timeVal)
+                } else {
+                    time = (obj.focus_untill_stop && !obj.is_provided_short_break && !obj.is_schedule_focus) ? "" : ("\n" + timeVal)
                 }
-                self.btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
-                if obj.is_focusing && obj.is_break_time {
-                    self.btnFocus.title = NSLocalizedString("Button.Break", comment: "Break") + time
-                } else if obj.is_focusing && obj.focus_untill_stop {
-                    self.btnFocus.title = NSLocalizedString("Button.Focus_til", comment: "Focus til stop") + time
-                }
-            } else {
-                self.btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
             }
+            btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus") + time
+            if obj.is_focusing && obj.is_break_time {
+                btnFocus.title = NSLocalizedString("Button.Break", comment: "Break") + time
+            } else if obj.is_focusing && obj.focus_untill_stop && !obj.is_schedule_focus {
+                btnFocus.title = NSLocalizedString("Button.Focus_til", comment: "Focus til stop") + time
+            }
+        } else {
+            btnFocus.title = NSLocalizedString("Button.Focus", comment: "Focus")
         }
+//        }
     }
 
     func defaultUI() {

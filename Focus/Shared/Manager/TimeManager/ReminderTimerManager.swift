@@ -90,7 +90,7 @@ extension ReminderTimerManager {
             let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime.adding(hour: 0, min: 0, sec: 0), type: .schedule_focus)
             if reminderSData.isPresent && reminderSData.objFS?.is_schedule_session_extend == false {
                 let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
-                if let obj = reminderSData.objFS, let id = obj.id, !(objGCategory?.warning_before_schedule_session_start ?? true) {
+                if let obj = reminderSData.objFS, let id = obj.id, (objGCategory?.warning_before_schedule_session_start ?? false) {
                     displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_with_blocklist_alert)
                 } else {
                     createFocus(objFS: reminderSData.objFS)
@@ -224,15 +224,17 @@ extension ReminderTimerManager {
         let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
         let is_short_break_provide = objGCategory?.provide_short_break_schedule_session ?? false
         let break_length = objGCategory?.break_time ?? Focus.BreakTime.five.valueInSeconds
-        let focus_stop_length = objGCategory?.for_every_time ?? Focus.FocusTime.fifteen.valueInSeconds
+        
         let objBl = DBManager.shared.getBlockListBy(id: objSchedule.id)
 
-        let is_untill_stop = objSchedule.time_interval > (3600 * 60)
+        let is_untill_stop = objSchedule.time_interval > (180 * 60)
+        let two_hour_focus_stop_length = is_untill_stop ? (120 * 60) : 0
+        let focus_stop_length = (is_short_break_provide) ? Int((objGCategory?.for_every_time ?? Focus.FocusTime.fifteen.valueInSeconds)) : two_hour_focus_stop_length
 
         var arrFocus: [Focus_List] = objFocus.focuses?.allObjects as? [Focus_List] ?? []
         MenuViewModel.updateRunningSessionEndTime() // If existing session and waiting time greater then update end time
         let obj = Focus_List(context: DBManager.shared.managedContext)
-        obj.focus_stop_after_length = focus_stop_length
+        obj.focus_stop_after_length = Double(focus_stop_length)
         obj.break_length_time = break_length
         obj.block_list_id = objSchedule.block_list_id
         obj.is_block_list_dnd = objBl?.is_dnd_category_on ?? false
@@ -259,6 +261,9 @@ extension ReminderTimerManager {
 
         objFocus.created_date = Date()
         objFocus.focuses = NSSet(array: arrFocus)
+        objFocus.focus_untill_stop = is_untill_stop
+        objFocus.is_schedule_focus = true
+
 
         if objFocus.extended_value == nil {
             let objExVal = Focuses_Extended_Value(context: DBManager.shared.managedContext)

@@ -71,6 +71,7 @@
         <attribute name="is_dnd_mode" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_focusing" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_provided_short_break" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_schedule_focus" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="remaining_break_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="remaining_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="used_focus_time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -177,7 +178,7 @@
         <element name="Block_Interface" positionX="-36" positionY="63" width="128" height="134"/>
         <element name="Block_List" positionX="-18" positionY="72" width="128" height="209"/>
         <element name="Block_List_Category" positionX="-36" positionY="90" width="128" height="89"/>
-        <element name="Current_Focus" positionX="-63" positionY="-18" width="128" height="314"/>
+        <element name="Current_Focus" positionX="-63" positionY="-18" width="128" height="329"/>
         <element name="Exception_App_Web" positionX="-27" positionY="99" width="128" height="59"/>
         <element name="Focus_List" positionX="-27" positionY="144" width="128" height="314"/>
         <element name="Focus_Schedule" positionX="-27" positionY="144" width="128" height="314"/>

@@ -78,7 +78,7 @@ extension FocusTimerManager {
         used_focus_time = Int(obj.used_focus_time)
         print("updateCounterValue ********************** used_focus_time :::::: \(obj.used_focus_time)")
         usedTime = Int(obj.decrease_break_time) // When app resume then it start from that left time
-        let countdownerDetails = remaininFocusTime.secondsToTime()
+        let countdownerDetails = remaininFocusTime.secondsToFullTime()
         print("updateCounterValue ********************** remaininFocusTime{countdownerDetails} :::::: \(countdownerDetails)")
 
         updateTimeInfo(hours: countdownerDetails.timeInHours, minutes: countdownerDetails.timeInMinutes, seconds: countdownerDetails.timeInSeconds, arrSession: arrSession)
@@ -180,7 +180,7 @@ extension FocusTimerManager {
 extension FocusTimerManager {
     func performValueUpdate(counter: Int, usedValue: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
         updateSessionData()
-        let conterTime = counter.secondsToTime()
+        let conterTime = counter.secondsToFullTime()
 //        print("*** FOCUS *** performValueUpdate remaininTimeInSeconds ::: \(counter) == \(conterTime)")
 //        print("*** FOCUS *** performValueUpdate usedTimeSeconds ::: \(usedValue) =======  \(objFocus.combine_stop_focus_after_time)")
 //        print("*** FOCUS *** performValueUpdate used_focus_time ::: \(used_focus_time) =======  \(objFocus.combine_stop_focus_after_time)")
@@ -189,10 +189,17 @@ extension FocusTimerManager {
         switch Double(usedValue) {
         case objFocus.combine_stop_focus_after_time:
             objFocus.decrease_break_time = 0
-
-            if objFocus.is_provided_short_break {
-                let popup: FocusDialogue = (objFocus.focus_untill_stop && !objFocus.is_provided_short_break) ? .long_break_alert : .short_break_alert
+            
+            if objFocus.focus_untill_stop && objFocus.is_provided_short_break {
+                let popup: FocusDialogue = .short_break_alert
                 return (popup: popup, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
+            } else if objFocus.is_provided_short_break {
+                let popup: FocusDialogue = .short_break_alert
+                return (popup: popup, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
+            } else if objFocus.focus_untill_stop && !objFocus.is_provided_short_break {
+                let popup: FocusDialogue = .long_break_alert
+                return (popup: popup, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
+
             } else if objFocus.focus_untill_stop {
                 return (popup: .long_break_alert, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)
             } else {
