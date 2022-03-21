@@ -66,7 +66,7 @@ extension TodayScheduleViewC: BasicSetupType {
 
     func bindData() {
         arrFocusS = viewModel.input.getSessionList(day: Date().currentDateComponent().weekday)
-        arrSession = viewModel.input.generateCalendarSession(day: Date().currentDateComponent().weekday)
+        arrSession = viewModel.input.generateTodaysSlot(day: Date().currentDateComponent().weekday)
     }
 }
 
@@ -196,10 +196,11 @@ extension TodayScheduleViewC: NSTableViewDataSource, NSTableViewDelegate {
         objFSchedule.color_type = objFSchedule.is_active ? Int64(ColorType.solid.rawValue) : Int64(ColorType.hollow.rawValue)
         DBManager.shared.saveContext()
         tblSchedule.reloadData(forRowIndexes: IndexSet(integer: sender.tag), columnIndexes: IndexSet(arrayLiteral: 0, 1, 2, 3))
+        reloadSession()
     }
 
     func reloadSession() {
-        arrSession = viewModel.input.generateCalendarSession(day: Date().currentDateComponent().weekday)
+        arrSession = viewModel.input.generateTodaysSlot(day: Date().currentDateComponent().weekday)
         tblSession.reloadData()
     }
 

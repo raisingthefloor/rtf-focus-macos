@@ -74,6 +74,7 @@ extension DateTimeCell: NSDatePickerCellDelegate {
         print("Selected Date : \(datetimePicker.dateValue)")
         if ScheduleViewModel.isRunning(objFS: objFSchedule) {
             displayError(errorType: .focus_schedule_error)
+            refreshTable?(true)
             return
         }
         let datetime = datetimePicker.dateValue.currentTime().date ?? datetimePicker.dateValue

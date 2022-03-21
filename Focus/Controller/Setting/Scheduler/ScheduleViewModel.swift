@@ -29,6 +29,7 @@ import Foundation
 protocol ScheduleViewModelIntput {
     func getSessionList(day: Int?) -> [Focus_Schedule]
     func generateCalendarSession(day: Int?) -> [ScheduleSession]
+    func generateTodaysSlot(day: Int?) -> [ScheduleSession]
 //    func generateCalendarSession() -> [ScheduleSession]
 }
 
@@ -118,6 +119,7 @@ extension ScheduleViewModel {
                                         sDay.color_type.append(color_type)
                                         sDay.ids.append(fs_id)
                                     } else {
+                                        print(" Session one convert to Two Else Part")
                                         sDay.colors[0] = color
                                         sDay.color_type[0] = color_type
 //                                    sDay.ids[0] = fs_id
@@ -139,12 +141,15 @@ extension ScheduleViewModel {
                                     objMutableSS.days = s_days
                                 }
                             } else {
-                                print("********************** Session One ********************** :::: Time \(time) Day :::\(day_e.identifier)")
+                                print("********************** Session One ********************** :::: Time \(time) Day :::\(day_e.identifier) :::: id \(fs_id)")
                                 var scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [fs_id])
 
                                 let arrIds = arrScheduleS.compactMap({ $0.days.filter({ $0.noOfsession == 2 }).compactMap({ $0.ids.map({ $0 }) }).unique().first }).unique()
 
+                                print("arrIds \(arrIds):::: Time \(time) Day :::\(day_e.identifier)")
+
                                 let arrUDIDs = arrIds.flatMap({ $0 }).unique()
+                                print("arrUDIDs \(arrUDIDs):::: Time \(time) Day :::\(day_e.identifier)")
 
                                 for indexJ in 0 ..< arrUDIDs.count where arrUDIDs[indexJ] == fs_id {
                                     print("********************** Has SessionTwo ********************** :::: Time \(time) Day :::\(day_e.identifier)")
@@ -156,6 +161,8 @@ extension ScheduleViewModel {
 //                                        print("********************** Hase SessionTwo ********************** :::: arrIds \(arrIds)")
 
                                         for indexJ in 0 ..< ids.count where ids[indexJ] == fs_id {
+                                            print("********************** ST \(scheduleDay.noOfsession) ********************** :::: Time \(time) CCount: \(scheduleDay.colors.count) :::::: color_typeCount : \(scheduleDay.color_type) Day :::\(day_e.identifier) ::::: Ids :::: \(scheduleDay.ids)")
+
                                             if scheduleDay.colors.count <= 2 && scheduleDay.ids.count == 2 {
                                                 print("********************** Has SessionTwo ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
                                                 scheduleDay.noOfsession = 2
@@ -163,7 +170,7 @@ extension ScheduleViewModel {
                                                 scheduleDay.color_type.insert(color_type, at: indexJ)
                                                 scheduleDay.color_type.removeLast()
                                                 scheduleDay.colors.removeLast()
-                                            }else{
+                                            } else {
                                                 print("********************** Defect left ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
                                             }
                                         }
@@ -172,6 +179,131 @@ extension ScheduleViewModel {
 
                                 arrScheduleDays.append(scheduleDay)
                             }
+                        }
+
+                        objMutableSS.days = arrScheduleDays + objMutableSS.days
+
+                        if !isExist {
+                            arrScheduleS.append(objMutableSS)
+                        } else {
+                            if let index = arrScheduleS.firstIndex(where: { $0.time == objMutableSS.time }) {
+                                arrScheduleS[index] = objMutableSS
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return arrScheduleS
+    }
+
+    // TODO: Implement the Method common for All days and Single Day
+    func generateTodaysSlot(day: Int?) -> [ScheduleSession] {
+        var arrScheduleS: [ScheduleSession] = []
+        let arrTimes = ScheduleViewModel.arrTimes
+
+        for i in 0 ..< arrTimes.count {
+            let arrInnerFS = DBManager.shared.getScheduleFocus(time: arrTimes[i], day: day)
+
+            if arrInnerFS.isEmpty {
+                let isExist = arrScheduleS.compactMap({ $0.time == arrTimes[i] }).filter({ $0 }).first ?? false
+                if !isExist {
+                    let objNewSS = ScheduleSession(time: arrTimes[i], days: [])
+                    arrScheduleS.append(objNewSS)
+                }
+                continue
+            }
+
+            for obj in arrInnerFS {
+                if let day = day, let fs_id = obj.id {
+                    let color = NSColor(obj.session_color ?? "#DCEFE6") ?? .red
+                    let color_type: ColorType = ColorType(rawValue: Int(obj.color_type)) ?? .solid
+
+                    guard let start_time = obj.start_time,!start_time.isEmpty, let end_time = obj.end_time, !end_time.isEmpty else { continue }
+                    let arrTSlot: [String] = start_time.getTimeSlots(endTime: end_time)
+//                    print("****** Time Slots ****** \(arrTSlot)")
+
+                    for time in arrTSlot {
+                        let isExist = arrScheduleS.compactMap({ $0.time == time }).filter({ $0 }).first ?? false
+                        let objNewSS = ScheduleSession(time: time, days: [])
+                        let objSS = arrScheduleS.filter({ $0.time == time }).compactMap({ $0 }).first ?? objNewSS
+                        var objMutableSS = isExist ? objSS : objNewSS
+                        var arrScheduleDays: [ScheduleDay] = []
+
+                        let day_e = Days(rawValue: Int(day)) ?? .sun
+                        var s_days = objMutableSS.days
+                        let no_session = 1
+
+                        if var sDay = s_days.filter({ $0.day == day_e && $0.time == time }).compactMap({ $0 }).last {
+                            print("ids ::::: \(sDay.ids)  ===== fs_id \(fs_id)")
+                            if !(sDay.ids.compactMap({ $0 == fs_id }).last ?? false) {
+                                print("********************** Session Two ********************** :::: Time \(time)  Day :::\(day_e.identifier)")
+                                if sDay.noOfsession == 1 {
+                                    print(" Session one convert to Two")
+                                    sDay.colors.append(color)
+                                    sDay.color_type.append(color_type)
+                                    sDay.ids.append(fs_id)
+                                } else {
+                                    print(" Session one convert to Two Else Part")
+                                    sDay.colors[0] = color
+                                    sDay.color_type[0] = color_type
+//                                    sDay.ids[0] = fs_id
+                                    for indexJ in 0 ..< sDay.ids.count where sDay.ids[indexJ] == fs_id {
+                                        if sDay.colors.count <= 2 {
+                                            print(" Session one convert sDay.colors.count <= 2")
+                                            sDay.colors.insert(color, at: indexJ)
+                                            sDay.color_type.insert(color_type, at: indexJ)
+//                                            scheduleDay.color_type.removeLast()
+//                                            scheduleDay.colors.removeLast()
+                                        }
+                                    }
+                                }
+                                sDay.noOfsession = 2
+                                sDay.time = time
+
+                                if let index = s_days.firstIndex(where: { $0.day == day_e && $0.time == time }) {
+                                    s_days[index] = sDay
+                                }
+                                objMutableSS.days = s_days
+                            }
+                        } else {
+                            print("********************** Session One ********************** :::: Time \(time) Day :::\(day_e.identifier) id :::: \(fs_id)")
+                            var scheduleDay = ScheduleDay(isActive: true, noOfsession: no_session, colors: [color], day: day_e, color_type: [color_type], time: time, ids: [fs_id])
+
+                            let arrIds = arrScheduleS.compactMap({ $0.days.filter({ $0.noOfsession == 2 }).compactMap({ $0.ids.map({ $0 }) }).unique().first }).unique()
+
+                            print("arrIds \(arrIds):::: Time \(time) Day :::\(day_e.identifier)")
+
+                            let arrUDIDs = arrIds.flatMap({ $0 }).unique()
+                            print("arrUDIDs \(arrUDIDs):::: Time \(time) Day :::\(day_e.identifier)")
+
+                            for indexJ in 0 ..< arrUDIDs.count where arrUDIDs[indexJ] == fs_id {
+                                print("********************** Has SessionTwo ********************** :::: Time \(time) Day :::\(day_e.identifier)")
+                                scheduleDay.noOfsession = 2
+                                scheduleDay.colors = [.clear, color]
+                                scheduleDay.color_type = [color_type, color_type]
+
+                                for ids in arrIds {
+//                                        print("********************** Hase SessionTwo ********************** :::: arrIds \(arrIds)")
+
+                                    for indexJ in 0 ..< ids.count where ids[indexJ] == fs_id {
+                                        print("********************** ST \(scheduleDay.noOfsession) ********************** :::: Time \(time) CCount: \(scheduleDay.colors.count) :::::: color_typeCount : \(scheduleDay.color_type) Day :::\(day_e.identifier) ::::: Ids :::: \(scheduleDay.ids)")
+
+                                        if scheduleDay.colors.count <= 2 && scheduleDay.ids.count == 2 {
+                                            print("********************** Has SessionTwo ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
+                                            scheduleDay.noOfsession = 2
+                                            scheduleDay.colors.insert(color, at: indexJ)
+                                            scheduleDay.color_type.insert(color_type, at: indexJ)
+                                            scheduleDay.color_type.removeLast()
+                                            scheduleDay.colors.removeLast()
+                                        } else {
+                                            print("********************** Defect left ********************** :::: Time \(time) Count: \(scheduleDay.colors.count) :::::: index : \(indexJ) Day :::\(day_e.identifier)")
+                                        }
+                                    }
+                                }
+                            }
+
+                            arrScheduleDays.append(scheduleDay)
                         }
 
                         objMutableSS.days = arrScheduleDays + objMutableSS.days

@@ -726,14 +726,18 @@ extension DBManager {
             if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_start, checkTwoData: true) {
                 let predicate_end = NSPredicate(format: "(start_time == %@)", ee_time as CVarArg)
                 if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_end, checkTwoData: true) {
-                    if isTimeSlotAvailable(s_time: ss_time, e_time: ee_time, day: day, checkTwoData: true) {
+                    if day.count == 1 { //TODO: Need to check the Multiple days
+                        if isTimeSlotAvailable(s_time: ss_time, e_time: ee_time, day: day, checkTwoData: true) {
+                            return (true, .schedule_error)
+                        }
+                        return (false, .validation_error_day_time)
+                    }else{
                         return (true, .schedule_error)
                     }
 //                    let predicate_end_s = NSPredicate(format: "(end_time_ >= %@)", s_time as CVarArg) //TODO: Need to check this case like 12 to 10 and 12 to 11 then 5 to onewards not allow to that day. allow only from 11 to on wards.
 //                    if isSlotAvailable(s_time: s_time, e_time: e_time, day: day, start_end_predict: predicate_end_s, checkTwoData: true) {
 //                        return (true, .schedule_error)
 //                    }
-                    return (false, .validation_error_day_time)
                 }
                 return (false, .validation_error_end_start_time)
             }
@@ -790,7 +794,7 @@ extension DBManager {
             }
 
             if checkTwoData {
-                count = count > 1 ? count : 0
+                count = count > 2 ? count : 0
             }
 
             if count == 0 {

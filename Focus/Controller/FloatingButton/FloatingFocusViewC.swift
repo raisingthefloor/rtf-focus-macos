@@ -123,6 +123,7 @@ extension FloatingFocusViewC: BasicSetupType {
     }
 
     @objc func reminderObserver() {
+        WindowsManager.dismissController()
         guard let obj = viewModel.input.focusObj else { return }
         if !obj.is_focusing {
             setupCountDown()

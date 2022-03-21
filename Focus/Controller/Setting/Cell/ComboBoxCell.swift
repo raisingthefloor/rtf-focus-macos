@@ -241,6 +241,7 @@ extension ComboBoxCell {
     @objc func handleBlockSelection(_ sender: Any) {
         guard sender is NSPopUpButton else { return }
         if ScheduleViewModel.isRunning(objFS: objFSchedule) {
+            refreshTable?(true)
             displayError(errorType: .focus_schedule_error)
             return
         }

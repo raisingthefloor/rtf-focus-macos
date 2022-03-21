@@ -69,18 +69,22 @@ struct WindowsManager {
 
     static func dismissController() {
         DispatchQueue.main.async {
-            print("Controller windows shared last contentviewController \(NSApplication.shared.windows.last?.contentViewController) ")
+            print("Controller windows shared last contentviewController \(Config.delegate.windowController?.contentViewController) ")
+            let parentCtrl = Config.delegate.windowController?.contentViewController
+            print("1 Presendted Conroller :::: \(Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers)")
             if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last?.presentedViewControllers?.last {
                 if presetFromCtrl is FloatingFocusViewC {
                     return
                 }
-                presetFromCtrl.dismiss(nil)
+                parentCtrl?.dismiss(presetFromCtrl)
             }
+            print("2 Presendted Conroller :::: \(Config.delegate.windowController?.contentViewController?.presentedViewControllers)")
+
             if let presetFromCtrl = Config.delegate.windowController?.contentViewController?.presentedViewControllers?.last {
                 if presetFromCtrl is FloatingFocusViewC {
                     return
                 }
-                presetFromCtrl.dismiss(nil)
+                parentCtrl?.dismiss(presetFromCtrl)
             }
         }
     }

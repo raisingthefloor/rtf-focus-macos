@@ -90,7 +90,7 @@ extension ReminderTimerManager {
             let reminderSData = DBManager.shared.checkAvailablReminder(day: day, time: time, date: datetime.adding(hour: 0, min: 0, sec: 0), type: .schedule_focus)
             if reminderSData.isPresent && reminderSData.objFS?.is_schedule_session_extend == false {
                 let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
-                if let obj = reminderSData.objFS, let id = obj.id, (objGCategory?.warning_before_schedule_session_start ?? false) {
+                if let obj = reminderSData.objFS, let id = obj.id, objGCategory?.warning_before_schedule_session_start ?? false {
                     displayScheduleReminder(scheduleId: id, dialogueType: .schedule_reminded_with_blocklist_alert)
                 } else {
                     createFocus(objFS: reminderSData.objFS)
@@ -186,16 +186,16 @@ extension ReminderTimerManager {
             if let controller = WindowsManager.getVC(withIdentifier: "sidMenuController", ofType: MenuController.self) {
                 controller.viewModel.viewCntrl = .schedule_session
                 controller.viewModel.objFocusSchedule = obj
-                WindowsManager.dismissController()
+//                WindowsManager.dismissController()
                 let presentCtrl = WindowsManager.getPresentingController()
-                if presentCtrl is MenuController {
-                    return
-                }
                 AppManager.shared.stopBothTimer()
                 controller.focusStart = { isStarted in
                     if isStarted {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
                     }
+                }
+                if presentCtrl is MenuController {
+                    return
                 }
                 presentCtrl?.presentAsModalWindow(controller)
             }
@@ -220,68 +220,68 @@ extension ReminderTimerManager {
     func createFocus(objFS: Focus_Schedule?) {
         guard let objFocus = DBManager.shared.getFoucsObject(), let objSchedule = objFS else { return }
         AppManager.shared.stopBothTimer()
+//        DispatchQueue.main.async { [self] in
+            let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
+            let is_short_break_provide = objGCategory?.provide_short_break_schedule_session ?? false
+            let break_length = objGCategory?.break_time ?? Focus.BreakTime.five.valueInSeconds
 
-        let objGCategory = DBManager.shared.getGeneralCategoryData().gCat?.general_setting
-        let is_short_break_provide = objGCategory?.provide_short_break_schedule_session ?? false
-        let break_length = objGCategory?.break_time ?? Focus.BreakTime.five.valueInSeconds
-        
-        let objBl = DBManager.shared.getBlockListBy(id: objSchedule.id)
+            let objBl = DBManager.shared.getBlockListBy(id: objSchedule.id)
 
-        let is_untill_stop = objSchedule.time_interval > (180 * 60)
-        let two_hour_focus_stop_length = is_untill_stop ? (120 * 60) : 0
-        let focus_stop_length = (is_short_break_provide) ? Int((objGCategory?.for_every_time ?? Focus.FocusTime.fifteen.valueInSeconds)) : two_hour_focus_stop_length
+            let is_untill_stop = objSchedule.time_interval > (180 * 60)
+            let two_hour_focus_stop_length = is_untill_stop ? (120 * 60) : 0
+            let focus_stop_length = is_short_break_provide ? Int(objGCategory?.for_every_time ?? Focus.FocusTime.fifteen.valueInSeconds) : two_hour_focus_stop_length
 
-        var arrFocus: [Focus_List] = objFocus.focuses?.allObjects as? [Focus_List] ?? []
-        MenuViewModel.updateRunningSessionEndTime() // If existing session and waiting time greater then update end time
-        let obj = Focus_List(context: DBManager.shared.managedContext)
-        obj.focus_stop_after_length = Double(focus_stop_length)
-        obj.break_length_time = break_length
-        obj.block_list_id = objSchedule.block_list_id
-        obj.is_block_list_dnd = objBl?.is_dnd_category_on ?? false
-        obj.is_dnd_mode = obj.is_block_list_dnd
-        obj.is_provided_short_break = is_short_break_provide
-        obj.is_block_programe_select = true
-        obj.focus_untill_stop = is_untill_stop
-        obj.is_stop_constraint = objFS?.has_block_list_stop ?? false
+            var arrFocus: [Focus_List] = objFocus.focuses?.allObjects as? [Focus_List] ?? []
+            MenuViewModel.updateRunningSessionEndTime() // If existing session and waiting time greater then update end time
+            let obj = Focus_List(context: DBManager.shared.managedContext)
+            obj.focus_stop_after_length = Double(focus_stop_length)
+            obj.break_length_time = break_length
+            obj.block_list_id = objSchedule.block_list_id
+            obj.is_block_list_dnd = objBl?.is_dnd_category_on ?? false
+            obj.is_dnd_mode = obj.is_block_list_dnd
+            obj.is_provided_short_break = is_short_break_provide
+            obj.is_block_programe_select = true
+            obj.focus_untill_stop = is_untill_stop
+            obj.is_stop_constraint = objFS?.has_block_list_stop ?? false
 
-        obj.created_date = Date()
-        obj.focus_id = UUID()
-        obj.focus_schedule_id = objFS?.id
-        obj.focus_length_time = objSchedule.time_interval
-        obj.session_start_time = Date()
+            obj.created_date = Date()
+            obj.focus_id = UUID()
+            obj.focus_schedule_id = objFS?.id
+            obj.focus_length_time = objSchedule.time_interval
+            obj.session_start_time = Date()
 
-        let endTime = Int(objSchedule.time_interval).secondsToTime()
-        print("End TIME ::::: \(endTime)")
+            let endTime = Int(objSchedule.time_interval).secondsToTime()
+            print("End TIME ::::: \(endTime)")
 //        obj.session_end_time = Date().adding(hour: 0, min: endTime.timeInMinutes, sec: endTime.timeInSeconds)
 
-        updateSingleEndSessionTime(obj: obj, time: Int(objSchedule.time_interval))
+            updateSingleEndSessionTime(obj: obj, time: Int(objSchedule.time_interval))
 
-        obj.focus_type = Int16(ScheduleType.schedule_focus.rawValue)
-        arrFocus.append(obj)
+            obj.focus_type = Int16(ScheduleType.schedule_focus.rawValue)
+            arrFocus.append(obj)
 
-        objFocus.created_date = Date()
-        objFocus.focuses = NSSet(array: arrFocus)
-        objFocus.focus_untill_stop = is_untill_stop
-        objFocus.is_schedule_focus = true
+            objFocus.created_date = Date()
+            objFocus.focuses = NSSet(array: arrFocus)
+            objFocus.focus_untill_stop = is_untill_stop
+            objFocus.is_schedule_focus = true
 
+            if objFocus.extended_value == nil {
+                let objExVal = Focuses_Extended_Value(context: DBManager.shared.managedContext)
+                objFocus.extended_value = objExVal
+            }
+            objSchedule.is_schedule_session_extend = false
+            objSchedule.extend_min_time = 0
 
-        if objFocus.extended_value == nil {
-            let objExVal = Focuses_Extended_Value(context: DBManager.shared.managedContext)
-            objFocus.extended_value = objExVal
-        }
-        objSchedule.is_schedule_session_extend = false
-        objSchedule.extend_min_time = 0
+            if !(objGCategory?.warning_before_schedule_session_start ?? true) && objSchedule.type == ScheduleType.schedule_focus.rawValue {
+                objSchedule.reminder_date = objSchedule.start_time_?.adding(hour: 0, min: -5, sec: 0)
+            } else {
+                objSchedule.reminder_date = objSchedule.start_time_
+            }
 
-        if !(objGCategory?.warning_before_schedule_session_start ?? true) && objSchedule.type == ScheduleType.schedule_focus.rawValue {
-            objSchedule.reminder_date = objSchedule.start_time_?.adding(hour: 0, min: -5, sec: 0)
-        } else {
-            objSchedule.reminder_date = objSchedule.start_time_
-        }
+            updateParallelFocusSession(objSchedule: objSchedule, focuslist: arrFocus, objFocus: objFocus)
 
-        updateParallelFocusSession(objSchedule: objSchedule, focuslist: arrFocus, objFocus: objFocus)
-
-        DBManager.shared.saveContext()
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
+            DBManager.shared.saveContext()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: ObserverName.reminder_schedule.rawValue), object: nil)
+//        }
     }
 
     func updateParallelFocusSession(objSchedule: Focus_Schedule, focuslist: [Focus_List], objFocus: Current_Focus) {
