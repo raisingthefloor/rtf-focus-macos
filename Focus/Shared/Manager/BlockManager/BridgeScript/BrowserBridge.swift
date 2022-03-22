@@ -42,6 +42,7 @@ import Foundation
     func launchMyApp()
     func quiteApp()
     func setDoNoDisturbTo(_: String)
+    func quitActivityMonitor()
 //    func doesBrowserExist(appName: String) -> Bool
 }
 

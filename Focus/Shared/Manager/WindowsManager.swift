@@ -151,10 +151,6 @@ extension WindowsManager {
 //            FocusFirewall.shared.startFilter()
             DispatchQueue.global(qos: .userInteractive).async {
                 AppManager.shared.browserBridge?.b_list = arrWeb.compactMap({ $0.url })
-//                AppManager.shared.browserBridge?.isBB = AppManager.shared.browserBridge?.doesBrowserExist("Brave Browser") ?? false
-//                AppManager.shared.browserBridge?.isCB = AppManager.shared.browserBridge?.doesBrowserExist("Google Chrome") ?? false
-//                AppManager.shared.browserBridge?.isViv = AppManager.shared.browserBridge?.doesBrowserExist("Vivaldi") ?? false
-//                AppManager.shared.browserBridge?.isOpera = AppManager.shared.browserBridge?.doesBrowserExist("Opera") ?? false
                 AppManager.shared.browserBridge?.runBlockBrowser()
             }
         }

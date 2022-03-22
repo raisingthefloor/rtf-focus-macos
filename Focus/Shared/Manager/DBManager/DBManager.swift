@@ -517,6 +517,7 @@ extension DBManager {
 
         let objSFocus = (objFocus.focuses?.allObjects as! [Focus_List]).filter({ $0.focus_id != focus.focus_id }).compactMap({ $0 }).first
         objFocus.focus_untill_stop = objSFocus?.focus_untill_stop ?? false
+        objFocus.is_provided_short_break = objSFocus?.is_provided_short_break ?? false
 
         print("Second Session Started time ::: \(objSFocus?.session_start_time)")
         print("Second Session End time ::: \(objSFocus?.session_end_time)")

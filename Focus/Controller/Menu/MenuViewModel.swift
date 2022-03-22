@@ -153,8 +153,8 @@ extension MenuViewModel {
 
     func updateParallelFocusSession(time: Focus.StopTime, focuslist: [Focus_List]) {
         print("Count focuslist :: \(focuslist.count)")
-        let total_stop_focus =  focuslist.map({ $0.focus_stop_after_length }).max() ?? 0.0 //focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
-        let total_break_focus = focuslist.map({ $0.break_length_time }).max() ?? 0.0 //focuslist.reduce(0) { $0 + $1.break_length_time }
+        let total_stop_focus = focuslist.map({ $0.focus_stop_after_length }).max() ?? 0.0 // focuslist.reduce(0) { $0 + $1.focus_stop_after_length }
+        let total_break_focus = focuslist.map({ $0.break_length_time }).max() ?? 0.0 // focuslist.reduce(0) { $0 + $1.break_length_time }
 //         let total_focus_length = focuslist.reduce(0) { $0 + $1.focus_length_time }
         let total_focus_length = focuslist.map({ $0.focus_length_time }).max() ?? time.value
 
@@ -168,6 +168,11 @@ extension MenuViewModel {
         focusObj?.is_dnd_mode = is_dnd_mode
         focusObj?.is_block_programe_select = is_block_programe_select
 
+        if AppManager.shared.focusTimerModel.usedTime >= Int(total_stop_focus) && focuslist.count >= 2 {
+            AppManager.shared.focusTimerModel.usedTime = 0 // cause if second session added and
+            focusObj?.decrease_break_time = 0
+        }
+
         print("Remaining Focus Time : \(total_focus_length)")
         print("Remaining Break Time : \(total_break_focus - (focusObj?.used_focus_time ?? 0))")
 
@@ -176,7 +181,7 @@ extension MenuViewModel {
     }
 
     func updateEndSessionTime(obj: Focus_List, time: Focus.StopTime) {
-// For Updating the End Time, Now added the time in focus used.
+        // For Updating the End Time, Now added the time in focus used.
 //        let objGCategoey = DBManager.shared.getGeneralCategoryData().gCat
 //        var firstmin_val: Int = 0
 //        var break_length: Int = 0
@@ -190,7 +195,7 @@ extension MenuViewModel {
 //
 //        let extend_time = (break_length + firstmin_val + Int(time.value)).secondsToTime()
 
-        let extend_time = (Int(time.value)).secondsToTime()
+        let extend_time = Int(time.value).secondsToTime()
         obj.session_end_time = Date().adding(hour: extend_time.timeInHours, min: extend_time.timeInMinutes, sec: extend_time.timeInSeconds)
     }
 }
@@ -200,7 +205,7 @@ extension MenuViewModel {
         let arrSessions = obj.focuses?.allObjects as? [Focus_List]
         let currentExtendTime = Int(time).secondsToTime()
         print("Extend time value ::::::: \(currentExtendTime)")
-        
+
         obj.remaining_focus_time = obj.remaining_focus_time - Double(time)
         obj.used_focus_time = obj.used_focus_time + Double(time)
 
@@ -211,18 +216,17 @@ extension MenuViewModel {
         })
         Config.start_date_time = nil
     }
-    
+
     static func updateBreakExtendEndSessionTime(obj: Current_Focus, time: Int) {
         let arrSessions = obj.focuses?.allObjects as? [Focus_List]
         let currentExtendTime = Int(time).secondsToTime()
         print("Extend time value ::::::: \(currentExtendTime)")
         arrSessions?.forEach({
-             print(" End time Value : \($0.session_end_time)")
+            print(" End time Value : \($0.session_end_time)")
             $0.session_end_time = $0.session_end_time?.adding(hour: currentExtendTime.timeInHours, min: currentExtendTime.timeInMinutes, sec: currentExtendTime.timeInSeconds)
         })
         Config.start_date_time = nil
     }
-
 
     static func updateRunningSessionEndTime() {
         if let obj = DBManager.shared.getCurrentSession() {

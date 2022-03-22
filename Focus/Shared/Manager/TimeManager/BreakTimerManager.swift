@@ -71,6 +71,9 @@ extension BreakTimerManager {
 
     func performValueUpdate(counter: Int) -> (popup: FocusDialogue, hours: Int, minutes: Int, seconds: Int) {
         let conterTime = counter.secondsToTime()
+        DispatchQueue.global(qos: .userInteractive).async {
+            AppManager.shared.browserBridge?.quitActivityMonitor()
+        }
         switch Double(counter) {
         case 0:
             return (popup: .end_break_alert, hours: conterTime.timeInHours, minutes: conterTime.timeInMinutes, seconds: conterTime.timeInSeconds)

@@ -42,12 +42,17 @@ class OnlyIntegerValueFormatter: NumberFormatter {
         if partialString.isEmpty {
             return true
         }
-
-        if partialString.count > 3 {
+        
+        if partialString == "0" {
             return false
         }
 
-        // Actual check
-        return Int(partialString) != nil
+
+        let size = partialString.count
+        if size > 2 {
+            return false
+        } else {
+            return true
+        }
     }
 }

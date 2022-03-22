@@ -155,6 +155,9 @@ extension FocusTimerManager {
             }
             used_focus_time += 1
             usedTime += 1
+            DispatchQueue.global(qos: .userInteractive).async {
+                AppManager.shared.browserBridge?.quitActivityMonitor()
+            }
         } else {
             stopTimer()
         }

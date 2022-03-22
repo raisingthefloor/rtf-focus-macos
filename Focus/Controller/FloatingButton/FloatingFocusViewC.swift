@@ -30,8 +30,6 @@ class FloatingFocusViewC: NSViewController {
     @IBOutlet var lblTimeVal: NSTextField!
 
     let viewModel: MenuViewModelType = MenuViewModel() // TODO: Need to update
-//    var breakTimerModel: TimerModelType = BreakTimerManager()
-//    var focusTimerModel: TimerModelType = FocusTimerManager()
     var objGCategoey: Block_Category?
 
     override func viewDidLoad() {
