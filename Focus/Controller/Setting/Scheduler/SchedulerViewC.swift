@@ -53,6 +53,18 @@ class SchedulerViewC: BaseViewController {
         bindData()
         tableViewSetup()
     }
+    
+    override func scrollWheel(with event: NSEvent) {
+        if !event.momentumPhase.isEmpty || !event.phase.isEmpty {
+            // magic trackpad or magic mouse
+            super.scrollWheel(with: event)
+        } else if event.modifierFlags.contains(.option) {
+            // traditional mouse
+            scrollView.nextResponder?.scrollWheel(with: event)
+            nextResponder?.scrollWheel(with: event)
+        }
+    }
+
 }
 
 extension SchedulerViewC: BasicSetupType {

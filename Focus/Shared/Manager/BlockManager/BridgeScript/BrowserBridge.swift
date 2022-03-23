@@ -64,6 +64,7 @@ enum BrowserApp: String {
     case firefox
     case opera
     case other
+    case vivaldi
 
     var name: String {
         switch self {
@@ -75,6 +76,8 @@ enum BrowserApp: String {
             return "Firefox"
         case .opera:
             return "Opera"
+        case .vivaldi:
+            return "Vivaldi"
         case .other:
             return "Google Chrome"
         }

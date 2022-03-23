@@ -40,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
-//        FocusFirewall.shared.stopFilter()
+        FocusFirewall.shared.stopFilter()
         guard let obj = DBManager.shared.getCurrentSession(),!obj.is_focusing, let arrFocus = obj.focuses?.allObjects, arrFocus.isEmpty else {
             return
         }

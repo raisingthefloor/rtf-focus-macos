@@ -147,8 +147,8 @@ extension WindowsManager {
     static func blockWebSite() {
         let arrWeb = DBManager.shared.getCurrentBlockList().webs
         if !arrWeb.isEmpty {
-//            FocusFirewall.shared.block_sites = arrWeb.compactMap({ $0.url })
-//            FocusFirewall.shared.startFilter()
+            FocusFirewall.shared.block_sites = arrWeb.compactMap({ $0.url })
+            FocusFirewall.shared.startFilter()
             DispatchQueue.global(qos: .userInteractive).async {
                 AppManager.shared.browserBridge?.b_list = arrWeb.compactMap({ $0.url })
                 AppManager.shared.browserBridge?.runBlockBrowser()
@@ -157,7 +157,7 @@ extension WindowsManager {
     }
 
     static func stopBlockWebSite() {
-//        FocusFirewall.shared.stopFilter()
+        FocusFirewall.shared.stopFilter()
         DispatchQueue.global(qos: .userInteractive).async {
             AppManager.shared.browserBridge?.stopScript()
         }

@@ -225,7 +225,7 @@ script BrowserBridge
                                             try
                                             repeat with b_url in urls
                                                 if domainName contains b_url then
---                                                    set (URL of every tab of every window where URL contains (url_name)) to block_url
+                                                    set (URL of every tab of every window where URL contains (url_name)) to block_url
                                                     exit repeat
                                                 end if
                                             end repeat

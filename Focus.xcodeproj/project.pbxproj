@@ -106,6 +106,7 @@
 		3FD0CA5B2681FAC800C9D82D /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */; };
 		3FD0CA5E2681FB6500C9D82D /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */; };
 		3FD0CA612682083200C9D82D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0CA602682083200C9D82D /* BaseViewController.swift */; };
+		3FDBDEA327EAEA6700656D60 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDBDEA227EAEA6700656D60 /* CustomScrollView.swift */; };
 		3FDC9130269EB78F0021D3E3 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC912F269EB78F0021D3E3 /* DataController.swift */; };
 		3FDC9132269EC5700021D3E3 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC9131269EC5700021D3E3 /* MenuModel.swift */; };
 		3FDC9134269F1C330021D3E3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDC9133269F1C330021D3E3 /* Extension.swift */; };
@@ -258,6 +259,7 @@
 		3FD0CA5A2681FAC800C9D82D /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		3FD0CA5D2681FB6500C9D82D /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3FD0CA602682083200C9D82D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		3FDBDEA227EAEA6700656D60 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		3FDC912F269EB78F0021D3E3 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		3FDC9131269EC5700021D3E3 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		3FDC9133269F1C330021D3E3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -800,6 +802,7 @@
 			children = (
 				3FFC1E5F2680C13D0014216C /* CustomButtom.swift */,
 				3F9111F0268DBD0D00706B51 /* HKNibView.swift */,
+				3FDBDEA227EAEA6700656D60 /* CustomScrollView.swift */,
 			);
 			path = Customize;
 			sourceTree = "<group>";
@@ -1000,6 +1003,7 @@
 				3F7872CF26B803970076FA83 /* AppManager.swift in Sources */,
 				3FE3EB91275E5D5400CDF3B3 /* IPCConnection.swift in Sources */,
 				3F92BC1B26F1DE7800AC7C64 /* DateTimeCell.swift in Sources */,
+				3FDBDEA327EAEA6700656D60 /* CustomScrollView.swift in Sources */,
 				3F8A231926D757D100D575F7 /* ExAttributedString.swift in Sources */,
 				3F27BC3526FC93C300A827D4 /* DataModel.swift in Sources */,
 				3F3C5FFE26A1919C0022C43F /* BlockModel.swift in Sources */,
@@ -1228,8 +1232,8 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = FocusFirewallExtention/FocusFirewallExtention.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1247,7 +1251,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.plenartech.Focus.FocusFirewallExtention;
 				PRODUCT_NAME = "$(inherited)";
-				PROVISIONING_PROFILE_SPECIFIER = "Developer Id Focus Extension";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1259,8 +1263,8 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = FocusFirewallExtention/FocusFirewallExtention.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 46ZJ3E5843;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1278,7 +1282,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.plenartech.Focus.FocusFirewallExtention;
 				PRODUCT_NAME = "$(inherited)";
-				PROVISIONING_PROFILE_SPECIFIER = "Developer Id Focus Extension";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

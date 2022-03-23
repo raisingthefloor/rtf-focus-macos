@@ -95,7 +95,12 @@ class EditBlockListViewC: BaseViewController {
         } else if event.modifierFlags.contains(.option) {
             // traditional mouse
             scrollView.nextResponder?.scrollWheel(with: event)
+            nextResponder?.scrollWheel(with: event)
         }
+    }
+    
+    override func wantsForwardedScrollEvents(for axis: NSEvent.GestureAxis) -> Bool {
+        return true
     }
 }
 
@@ -223,9 +228,10 @@ extension EditBlockListViewC: BasicSetupType {
         lblNote1.textColor = Color.note_color
         lblNote2.textColor = Color.note_color
 
-        if scrollView.hasVerticalScroller {
-            scrollView.verticalScroller?.floatValue = 0
-        }
+//        if scrollView.hasVerticalScroller {
+//            scrollView.verticalScroller?.floatValue = 0
+//        }
+//        scrollView.isEnabled = true
 
         comboBlock.alignment = .left
     }
@@ -468,7 +474,6 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             }
             presentAsSheet(controller)
         } else {
-            
             systemAlert(title: NSLocalizedString("APP.Name", comment: "Focus"), description: NSLocalizedString("Alert.add_web_app.message", comment: "Please, first create the block list then add the apps/Web inside it."), btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
         }
     }
@@ -498,7 +503,6 @@ extension EditBlockListViewC: NSTextFieldDelegate {
             presentAsSheet(inputDialogueCntrl)
         } else {
             systemAlert(title: NSLocalizedString("APP.Name", comment: "Focus"), description: NSLocalizedString("Alert.add_web_app.message", comment: "Please, first create the block list then add the apps/Web inside it."), btnOk: NSLocalizedString("Button.ok", comment: "Ok"))
-
         }
     }
 
